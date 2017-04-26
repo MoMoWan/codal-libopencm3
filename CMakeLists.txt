@@ -1,4 +1,4 @@
-project(MBED_CLASSIC)
+project(codal-mbed)
 
 include(../../utils/cmake/util.cmake)
 
@@ -7,12 +7,12 @@ RECURSIVE_FIND_FILE(SOURCE_FILES "source" "*.c??")
 
 include_directories("${INCLUDE_DIRS}")
 
-add_library(MBED_CLASSIC "${SOURCE_FILES}")
+add_library(codal-mbed "${SOURCE_FILES}")
 
 target_link_libraries(
-    MBED_CLASSIC
-    mbed-classic
+    codal-mbed
     codal
+    mbed-classic
 )
 
-target_include_directories(MBED_CLASSIC PUBLIC ${INCLUDE_DIRS})
+target_include_directories(codal-mbed PUBLIC ${INCLUDE_DIRS})
