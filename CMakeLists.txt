@@ -1,6 +1,6 @@
 project(codal-mbed)
 
-include(../../utils/cmake/util.cmake)
+include("${CODAL_UTILS_LOCATION}")
 
 RECURSIVE_FIND_DIR(INCLUDE_DIRS "inc" "*.h")
 RECURSIVE_FIND_FILE(SOURCE_FILES "source" "*.c??")
@@ -11,7 +11,7 @@ add_library(codal-mbed "${SOURCE_FILES}" )
 
 target_link_libraries(
     codal-mbed
-    codal
+    codal-core
     mbed-classic
 )
 
