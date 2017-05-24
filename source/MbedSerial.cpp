@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.
 #include "MbedSerial.h"
 #include "ErrorNo.h"
 #include "CodalComponent.h"
-#include "DeviceFiber.h"
+#include "CodalFiber.h"
 #include "NotifyEvents.h"
 
 namespace codal
