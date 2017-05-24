@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 #define TIMED_INTERRUPT_H
 
 #include "mbed.h"
-#include "DeviceConfig.h"
+#include "CodalConfig.h"
 
 class TimedInterruptIn : public InterruptIn
 {

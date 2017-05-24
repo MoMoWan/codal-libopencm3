@@ -23,7 +23,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
-#include "DeviceConfig.h"
+#include "CodalConfig.h"
 #include "MbedI2C.h"
 #include "ErrorNo.h"
 

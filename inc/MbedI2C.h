@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 #define CODAL_MBED_I2C_H
 
 #include "mbed.h"
-#include "DeviceConfig.h"
+#include "CodalConfig.h"
 #include "I2C.h"
 
 namespace mb=mbed;
