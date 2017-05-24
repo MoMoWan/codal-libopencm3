@@ -1,5 +1,5 @@
 #include "MbedTimer.h"
-#include "DeviceEvent.h"
+#include "Event.h"
 #include "CodalCompat.h"
 #include "Timer.h"
 
@@ -31,7 +31,7 @@ namespace codal
                   break;
 
                // fire our event and process the next event
-               DeviceEvent(tmp->id, tmp->value);
+               Event(tmp->id, tmp->value);
 
                // remove from the event list
                list_del(iter);

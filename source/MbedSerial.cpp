@@ -105,7 +105,7 @@ namespace codal
             {
                 //fire an event if there is to block any waiting fibers
                 if(this->delimeters.charAt(delimeterOffset) == c)
-                    DeviceEvent(DEVICE_ID_SERIAL, CODAL_SERIAL_EVT_DELIM_MATCH);
+                    Event(DEVICE_ID_SERIAL, CODAL_SERIAL_EVT_DELIM_MATCH);
 
                 delimeterOffset++;
             }
@@ -124,12 +124,12 @@ namespace codal
                     if(rxBuffHead == rxBuffHeadMatch)
                     {
                         rxBuffHeadMatch = -1;
-                        DeviceEvent(DEVICE_ID_SERIAL, CODAL_SERIAL_EVT_HEAD_MATCH);
+                        Event(DEVICE_ID_SERIAL, CODAL_SERIAL_EVT_HEAD_MATCH);
                     }
             }
             else
                 //otherwise, our buffer is full, send an event to the user...
-                DeviceEvent(DEVICE_ID_SERIAL, CODAL_SERIAL_EVT_RX_FULL);
+                Event(DEVICE_ID_SERIAL, CODAL_SERIAL_EVT_RX_FULL);
         }
 
         /**
@@ -151,7 +151,7 @@ namespace codal
             //unblock any waiting fibers that are waiting for transmission to finish.
             if(nextTail == txBuffHead)
             {
-                DeviceEvent(DEVICE_ID_NOTIFY, CODAL_SERIAL_EVT_TX_EMPTY);
+                Event(DEVICE_ID_NOTIFY, CODAL_SERIAL_EVT_TX_EMPTY);
                 detach(TxInterrupt);
             }
 

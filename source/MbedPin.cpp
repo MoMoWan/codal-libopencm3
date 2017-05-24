@@ -499,7 +499,7 @@ int Pin::setPull(PinMode pull)
   */
 void Pin::pulseWidthEvent(int eventValue)
 {
-    DeviceEvent evt(id, eventValue, CREATE_ONLY);
+    Event evt(id, eventValue, CREATE_ONLY);
     uint64_t now = evt.timestamp;
     uint64_t previous = ((TimedInterruptIn *)pin)->getTimestamp();
 
@@ -521,7 +521,7 @@ void Pin::onRise()
         pulseWidthEvent(DEVICE_PIN_EVT_PULSE_LO);
 
     if(status & IO_STATUS_EVENT_ON_EDGE)
-        DeviceEvent(id, DEVICE_PIN_EVT_RISE);
+        Event(id, DEVICE_PIN_EVT_RISE);
 }
 
 /**
@@ -533,7 +533,7 @@ void Pin::onFall()
         pulseWidthEvent(DEVICE_PIN_EVT_PULSE_HI);
 
     if(status & IO_STATUS_EVENT_ON_EDGE)
-        DeviceEvent(id, DEVICE_PIN_EVT_FALL);
+        Event(id, DEVICE_PIN_EVT_FALL);
 }
 
 /**
@@ -599,7 +599,7 @@ int Pin::disableEvents()
   * Pin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_BOTH);
   * P0.eventOn(DEVICE_PIN_EVENT_ON_PULSE);
   *
-  * void onPulse(DeviceEvent evt)
+  * void onPulse(Event evt)
   * {
   *     int duration = evt.timestamp;
   * }
