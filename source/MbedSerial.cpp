@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 #include "mbed.h"
 #include "MbedSerial.h"
 #include "ErrorNo.h"
-#include "DeviceComponent.h"
+#include "CodalComponent.h"
 #include "DeviceFiber.h"
 #include "NotifyEvents.h"
 
