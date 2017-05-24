@@ -29,7 +29,7 @@ DEALINGS IN THE SOFTWARE.
   * Commonly represents an I/O pin on the edge connector.
   */
 #include "MbedPin.h"
-#include "DeviceButton.h"
+#include "Button.h"
 #include "Timer.h"
 #include "MbedTimedInterruptIn.h"
 #include "DynamicPwm.h"
@@ -90,7 +90,7 @@ void Pin::disconnect()
     }
 
     if (status & IO_STATUS_TOUCH_IN)
-        delete ((DeviceButton *)pin);
+        delete ((Button *)pin);
 
     if ((status & IO_STATUS_EVENT_ON_EDGE) || (status & IO_STATUS_EVENT_PULSE_ON_EDGE))
         delete ((TimedInterruptIn *)pin);
@@ -339,7 +339,7 @@ int Pin::isAnalog()
   * Configures this IO pin as a "makey makey" style touch sensor (if necessary)
   * and tests its current debounced state.
   *
-  * Users can also subscribe to DeviceButton events generated from this pin.
+  * Users can also subscribe to Button events generated from this pin.
   *
   * @return 1 if pin is touched, 0 if not, or DEVICE_NOT_SUPPORTED if this pin does not support touch capability.
   *
@@ -365,11 +365,11 @@ int Pin::isTouched()
     // Move into a touch input state if necessary.
     if (!(status & IO_STATUS_TOUCH_IN)){
         disconnect();
-        pin = new DeviceButton(*this, id);
+        pin = new Button(*this, id);
         status |= IO_STATUS_TOUCH_IN;
     }
 
-    return ((DeviceButton *)pin)->isPressed();
+    return ((Button *)pin)->isPressed();
 }
 
 /**
@@ -588,7 +588,7 @@ int Pin::disableEvents()
   *
   * DEVICE_PIN_EVENT_ON_EDGE - Configures this pin to a digital input, and generates events whenever a rise/fall is detected on this pin. (DEVICE_PIN_EVT_RISE, DEVICE_PIN_EVT_FALL)
   * DEVICE_PIN_EVENT_ON_PULSE - Configures this pin to a digital input, and generates events where the timestamp is the duration that this pin was either HI or LO. (DEVICE_PIN_EVT_PULSE_HI, DEVICE_PIN_EVT_PULSE_LO)
-  * DEVICE_PIN_EVENT_ON_TOUCH - Configures this pin as a makey makey style touch sensor, in the form of a DeviceButton. Normal button events will be generated using the ID of this pin.
+  * DEVICE_PIN_EVENT_ON_TOUCH - Configures this pin as a makey makey style touch sensor, in the form of a Button. Normal button events will be generated using the ID of this pin.
   * DEVICE_PIN_EVENT_NONE - Disables events for this pin.
   *
   * @param eventType One of: DEVICE_PIN_EVENT_ON_EDGE, DEVICE_PIN_EVENT_ON_PULSE, DEVICE_PIN_EVENT_ON_TOUCH, DEVICE_PIN_EVENT_NONE

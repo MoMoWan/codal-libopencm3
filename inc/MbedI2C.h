@@ -67,6 +67,21 @@ namespace codal
             int write(uint32_t address, uint8_t reg, uint8_t value);
 
             /**
+              * Issues a standard, I2C command write to the specified address.
+              *
+              * Blocks the calling thread until complete.
+              *
+              * @param address The address of the device to write to.
+              *
+              * @param data The buffer to write.
+              *
+              * @param len The length of the buffer.
+              *
+              * @return DEVICE_OK on success, DEVICE_I2C_ERROR if the the write request failed.
+              */
+           int write(uint32_t address, uint8_t* data, uint32_t len, bool repeated = false);
+
+            /**
               * Issues a read command, copying data into the specified buffer.
               *
               * Blocks the calling thread until complete.

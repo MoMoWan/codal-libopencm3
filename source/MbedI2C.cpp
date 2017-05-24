@@ -60,6 +60,22 @@ namespace codal
           *
           * @return DEVICE_OK on success, DEVICE_I2C_ERROR if the the write request failed.
           */
+        int I2C::write(uint32_t address, uint8_t* data, uint32_t len, bool repeated)
+        {
+            return mb::I2C::write(address, (const char *)data, len, repeated);
+        }
+
+        /**
+          * Issues a standard, 2 byte I2C command write to the accelerometer.
+          *
+          * Blocks the calling thread until complete.
+          *
+          * @param reg The address of the register to write to.
+          *
+          * @param value The value to write.
+          *
+          * @return DEVICE_OK on success, DEVICE_I2C_ERROR if the the write request failed.
+          */
         int I2C::write(uint32_t address, uint8_t reg, uint8_t value)
         {
             uint8_t command[2];
