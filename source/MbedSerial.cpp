@@ -1130,6 +1130,7 @@ namespace codal
         int Serial::attach(SerialInterruptType interruptType, void (Serial::*fp)())
         {
             mb::RawSerial::attach(this, fp, (interruptType == RxInterrupt) ? RxIrq : TxIrq);
+            return DEVICE_OK;
         }
 
         /**
