@@ -10,49 +10,46 @@ namespace codal
         static uint64_t current_time_us = 0;
         static uint32_t overflow_period_us = 0;
 
-        static TimerEvent event_list;
+        static TimerListComparator tlc;
+        static List eventList = List(tlc);
 
         void Timer::processEvents()
         {
             START:
 
-            if(list_empty(&event_list.list))
+            if(eventList.length() == 0)
                 return;
 
             TimerEvent* tmp = NULL;
 
-            struct list_head* iter, *q;
-
-            list_for_each_safe(iter, q, &event_list.list)
+            for (int i = 0; i < eventList.length(); i++)
             {
-               tmp = list_entry(iter, TimerEvent, list);
+                tmp = (TimerEvent *)eventList.get(i).getBytes();
 
-               if(tmp->timestamp > getTimeUs())
-                  break;
+                if(tmp->timestamp > getTimeUs())
+                    break;
 
-               // fire our event and process the next event
-               Event(tmp->id, tmp->value);
+                // fire our event and process the next event
+                Event(tmp->id, tmp->value);
 
-               // remove from the event list
-               list_del(iter);
+                eventList.remove(i);
 
-               // if this event is non-repeating, delete
-               if(tmp->period == 0)
-                  delete tmp;
-               else
-               {
-                  // update our count, and readd to our event list
-                  tmp->timestamp += tmp->period;
-                  TimerEvent::addToList(tmp, &event_list.list);
-               }
+                // if this event is non-repeating, delete
+                if(tmp->period > 0)
+                {
+                    // update our count, and readd to our event list
+                    tmp->timestamp += tmp->period;
+                    eventList.insert((uint8_t *)tmp, sizeof(TimerEvent));
+                }
             }
 
+            // what about after we removed from the list? We will have zero events, therefore the following code is void.
+
             // Take the new head of the list (which may have changed)
-            // as this will be the evne that is due next.
-            tmp = list_entry(event_list.list.next, TimerEvent, list);
+            // as this will be the event that is due next.
+            tmp = (TimerEvent *)eventList.get(0).getBytes();
 
             uint64_t now = getTimeUs();
-            //uint64_t usRemaining = tmp->timestamp > now ? tmp->timestamp - now : 10;
 
             uint64_t usRemaining = tmp->timestamp - now;
 
@@ -82,8 +79,6 @@ namespace codal
         {
             if(system_timer_get_instance() == NULL)
                 system_timer_set_instance(this);
-
-            INIT_LIST_HEAD(&event_list.list);
 
             overflow_period_us = 60000000;
 
@@ -162,12 +157,13 @@ namespace codal
 
         int Timer::configureEvent(uint64_t period, uint16_t id, uint16_t value, bool repeating)
         {
-            TimerEvent* clk = new TimerEvent(getTimeUs() + period, period, id, value, &event_list.list, repeating);
+            TimerEvent t(getTimeUs() + period, period, id, value, repeating);
 
-            if(!clk)
-                return DEVICE_NO_RESOURCES;
+            __disable_irq();
+            eventList.insert((uint8_t *)&t, sizeof(TimerEvent));
+            __enable_irq();
 
-            if(event_list.list.next == &clk->list && period < overflow_period_us)
+            if (eventList.length() == 1 && period < overflow_period_us)
                 timeout.attach_us(this, &Timer::processEvents, period);
 
             return DEVICE_OK;
@@ -234,9 +230,12 @@ namespace codal
           */
         int Timer::cancel(uint16_t id, uint16_t value)
         {
+            TimerEvent t(id, value);
+
             __disable_irq();
-            TimerEvent::removeFromList(id, value, &event_list.list);
+            eventList.remove((uint8_t*) &t, sizeof(TimerEvent));
             __enable_irq();
+
             return DEVICE_OK;
         }
     }
