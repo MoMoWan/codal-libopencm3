@@ -41,7 +41,7 @@ namespace codal
           *
           * Represents an instance of RawSerial which accepts codal device specific data types.
           */
-        class Serial : public codal::Serial, mb::RawSerial
+        class Serial : public codal::Serial, public mb::RawSerial
         {
 
             /**
