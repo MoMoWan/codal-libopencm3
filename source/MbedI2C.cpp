@@ -34,7 +34,7 @@ namespace codal
         /**
           * Constructor.
           */
-        I2C::I2C(PinName sda, PinName scl) : codal::I2C(sda, scl), mb::I2C(sda,scl)
+        I2C::I2C(Pin& sda, Pin& scl) : codal::I2C(sda, scl), mb::I2C((PinName)sda.name,(PinName)scl.name)
         {
 
         }

@@ -28,6 +28,7 @@ DEALINGS IN THE SOFTWARE.
 #include "mbed.h"
 #include "CodalConfig.h"
 #include "I2C.h"
+#include "Pin.h"
 
 namespace mb=mbed;
 
@@ -45,7 +46,7 @@ namespace codal
             /**
               * Constructor.
               */
-            I2C(PinName sda, PinName scl);
+            I2C(codal::Pin& sda, codal::Pin& scl);
 
             /** Set the frequency of the I2C interface
               *
