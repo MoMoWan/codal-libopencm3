@@ -76,11 +76,6 @@ namespace codal
             this->rxBuffHeadMatch = -1;
 
             this->baud(CODAL_SERIAL_DEFAULT_BAUD_RATE);
-
-        #if CONFIG_ENABLED(DEVICE_DBG)
-            SERIAL_DEBUG = this;
-        #endif
-
         }
 
         /**
