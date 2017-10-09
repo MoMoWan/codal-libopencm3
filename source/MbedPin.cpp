@@ -36,6 +36,21 @@ DEALINGS IN THE SOFTWARE.
 #include "ErrorNo.h"
 #include "mbed.h"
 
+inline PinMode map(codal::PullMode pinMode)
+{
+    switch(pinMode)
+    {
+        case codal::PullMode::Up:
+            return PinMode::PullUp;
+        case codal::PullMode::Down:
+            return PinMode::PullDown;
+        case codal::PullMode::None:
+            return PinMode::PullNone;
+    }
+
+    return PinMode::PullNone;
+}
+
 namespace mb=mbed;
 using namespace codal::mbed;
 
@@ -54,7 +69,7 @@ using namespace codal::mbed;
   * Pin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_ALL);
   * @endcode
   */
-Pin::Pin(int id, PinName name, PinCapability capability) : codal::Pin(id, name, capability)
+Pin::Pin(int id, PinNumber name, PinCapability capability) : codal::Pin(id, name, capability)
 {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
 
@@ -125,7 +140,7 @@ int Pin::setDigitalValue(int value)
     // Move into a Digital input state if necessary.
     if (!(status & IO_STATUS_DIGITAL_OUT)){
         disconnect();
-        pin = new DigitalOut(name);
+        pin = new DigitalOut((PinName)name);
         status |= IO_STATUS_DIGITAL_OUT;
     }
 
@@ -157,7 +172,7 @@ int Pin::getDigitalValue()
     if (!(status & (IO_STATUS_DIGITAL_IN | IO_STATUS_EVENT_ON_EDGE | IO_STATUS_EVENT_PULSE_ON_EDGE)))
     {
         disconnect();
-        pin = new DigitalIn(name, (PinMode)pullMode);
+        pin = new DigitalIn((PinName)name, map(pullMode));
         status |= IO_STATUS_DIGITAL_IN;
     }
 
@@ -180,7 +195,7 @@ int Pin::getDigitalValue()
  * P0.getDigitalValue(PullUp); // P0 is either 0 or 1;
  * @endcode
  */
-int Pin::getDigitalValue(PinMode pull)
+int Pin::getDigitalValue(PullMode pull)
 {
     setPull(pull);
     return getDigitalValue();
@@ -191,7 +206,7 @@ int Pin::obtainAnalogChannel()
     // Move into an analogue input state if necessary, if we are no longer the focus of a DynamicPWM instance, allocate ourselves again!
     if (!(status & IO_STATUS_ANALOG_OUT) || !(((DynamicPwm *)pin)->getPinName() == name)){
         disconnect();
-        pin = new DynamicPwm(name);
+        pin = new DynamicPwm((PinName)name);
         status |= IO_STATUS_ANALOG_OUT;
     }
 
@@ -287,7 +302,7 @@ int Pin::getAnalogValue()
     // Move into an analogue input state if necessary.
     if (!(status & IO_STATUS_ANALOG_IN)){
         disconnect();
-        pin = new AnalogIn(name);
+        pin = new AnalogIn((PinName)name);
         status |= IO_STATUS_ANALOG_IN;
     }
 
@@ -445,7 +460,7 @@ int Pin::setAnalogPeriod(int period)
   * @return the period on success, or DEVICE_NOT_SUPPORTED if the
   *         given pin is not configured as an analog output.
   */
-int Pin::getAnalogPeriodUs()
+uint32_t Pin::getAnalogPeriodUs()
 {
     if (!(status & IO_STATUS_ANALOG_OUT))
         return DEVICE_NOT_SUPPORTED;
@@ -472,19 +487,19 @@ int Pin::getAnalogPeriod()
   * @return DEVICE_NOT_SUPPORTED if the current pin configuration is anything other
   *         than a digital input, otherwise DEVICE_OK.
   */
-int Pin::setPull(PinMode pull)
+int Pin::setPull(PullMode pull)
 {
     pullMode = pull;
 
     if ((status & IO_STATUS_DIGITAL_IN))
     {
-        ((DigitalIn *)pin)->mode(pull);
+        ((DigitalIn *)pin)->mode(map(pull));
         return DEVICE_OK;
     }
 
     if((status & IO_STATUS_EVENT_ON_EDGE) || (status & IO_STATUS_EVENT_PULSE_ON_EDGE))
     {
-        ((TimedInterruptIn *)pin)->mode(pull);
+        ((TimedInterruptIn *)pin)->mode(map(pull));
         return DEVICE_OK;
     }
 
@@ -551,9 +566,9 @@ int Pin::enableRiseFallEvents(int eventType)
     if (!(status & (IO_STATUS_EVENT_ON_EDGE | IO_STATUS_EVENT_PULSE_ON_EDGE)))
     {
         disconnect();
-        pin = new TimedInterruptIn(name);
+        pin = new TimedInterruptIn((PinName)name);
 
-        ((TimedInterruptIn *)pin)->mode((PinMode)pullMode);
+        ((TimedInterruptIn *)pin)->mode(map(pullMode));
         ((TimedInterruptIn *)pin)->rise(this, &Pin::onRise);
         ((TimedInterruptIn *)pin)->fall(this, &Pin::onFall);
     }
