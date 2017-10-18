@@ -39,7 +39,7 @@ namespace codal
         /**
           * Class definition for I2C service, derived from ARM mbed.
           */
-        class I2C : public codal::I2C, private mb::I2C
+        class I2C : private mb::I2C, public codal::I2C
         {
             public:
 
@@ -74,7 +74,7 @@ namespace codal
               *
               * @return the byte on success or DEVICE_I2C_ERROR if the read request failed.
               */
-            int read();
+            int read(AcknowledgeType ack = AcknowledgeType::ACK);
 
             /**
              * Issues a START condition on the I2C bus

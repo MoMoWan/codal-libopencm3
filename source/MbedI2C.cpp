@@ -35,7 +35,7 @@ namespace codal
         /**
           * Constructor.
           */
-        I2C::I2C(Pin& sda, Pin& scl) : codal::I2C(sda, scl), mb::I2C((PinName)sda.name,(PinName)scl.name)
+        I2C::I2C(Pin& sda, Pin& scl) : mb::I2C((PinName)sda.name,(PinName)scl.name), codal::I2C(sda, scl) 
         {
             setFrequency(100000);
         }
@@ -46,7 +46,6 @@ namespace codal
           */
         int I2C::setFrequency(uint32_t frequency)
         {
-            DMESG("FREQ: %d",frequency);
             mb::I2C::frequency(frequency);
             return DEVICE_OK;
         }
@@ -65,7 +64,6 @@ namespace codal
         int I2C::write(uint8_t data)
         {
             int ret = mb::I2C::write(data);
-            DMESG("WRITE: %d %d\r\n", data,ret);
             return (ret >= 0) ? DEVICE_OK : DEVICE_I2C_ERROR;
         }
 
@@ -76,11 +74,9 @@ namespace codal
           *
           * @return the byte on success or DEVICE_I2C_ERROR if the read request failed.
           */
-        int I2C::read()
+        int I2C::read(AcknowledgeType ack)
         {
-            int ret = mb::I2C::read(1);
-
-            DMESGF("READ: %d\r\n",ret);
+            int ret = mb::I2C::read((ack == AcknowledgeType::ACK) ? 1 : 0);
             return (ret >= 0) ? ret : DEVICE_I2C_ERROR;
         }
 
