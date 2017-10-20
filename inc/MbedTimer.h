@@ -2,7 +2,7 @@
 #define CODAL_MBED_TIMER_H
 
 #include "codal-core/inc/types/Event.h"
-#include "codal-core/inc/drivers/Timer.h"
+#include "codal-core/inc/core/Timer.h"
 #include "mbed.h"
 
 namespace mb=mbed;
