@@ -30,7 +30,7 @@ DEALINGS IN THE SOFTWARE.
 #include "I2C.h"
 #include "Pin.h"
 
-namespace mb=mbed;
+namespace mb = ::mbed;
 
 namespace codal
 {
