@@ -35,7 +35,6 @@ namespace codal
 {
     namespace mbed
     {
-
         void Timer::triggered()
         {
             timeout.attach_us(this, &Timer::triggered, this->period);
@@ -67,11 +66,11 @@ namespace codal
          */
         void Timer::syncRequest()
         {
-            target_disable_irq();
+            disableInterrupts();
             int elapsed = timer.read_us();
-            target_enable_irq();
             timer.reset();
             this->sync(elapsed);
+            enableInterrupts();
         }
     }
 }
