@@ -48,7 +48,7 @@ public:
      *
      * Default setup is 1 MHz, 8 bit, mode 0.
      */
-    SPI(Pin &mosi, Pin &miso, Pin &sclk);
+    SPI(codal::Pin &mosi, codal::Pin &miso, codal::Pin &sclk);
 
 
     /** Set the frequency of the SPI interface
