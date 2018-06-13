@@ -29,7 +29,7 @@ DEALINGS IN THE SOFTWARE.
 #include "Serial.h"
 #include "ManagedString.h"
 
-namespace mb=mbed;
+namespace mb=::mbed;
 
 namespace codal
 {
