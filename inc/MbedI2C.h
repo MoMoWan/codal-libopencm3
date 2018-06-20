@@ -39,7 +39,7 @@ namespace codal
         /**
           * Class definition for I2C service, derived from ARM mbed.
           */
-        class I2C : private mb::I2C, public codal::I2C
+        class I2C : protected mb::I2C, public codal::I2C
         {
             public:
 
