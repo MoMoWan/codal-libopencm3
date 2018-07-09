@@ -33,7 +33,7 @@ DEALINGS IN THE SOFTWARE.
 
 namespace codal
 {
-    namespace mbed
+    namespace _mbed
     {
         void Timer::triggered()
         {

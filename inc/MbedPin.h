@@ -64,7 +64,7 @@ DEALINGS IN THE SOFTWARE.
   */
 namespace codal
 {
-    namespace mbed
+    namespace _mbed
     {
         class Pin : public codal::Pin
         {

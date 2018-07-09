@@ -51,7 +51,7 @@ inline PinMode map(codal::PullMode pinMode)
 }
 
 namespace mb=mbed;
-using namespace codal::mbed;
+using namespace codal::_mbed;
 
 /**
   * Constructor.

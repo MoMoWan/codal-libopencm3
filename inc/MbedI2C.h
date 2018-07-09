@@ -34,7 +34,7 @@ namespace mb = ::mbed;
 
 namespace codal
 {
-    namespace mbed
+    namespace _mbed
     {
         /**
           * Class definition for I2C service, derived from ARM mbed.

@@ -34,7 +34,7 @@ namespace mb = ::mbed;
 
 namespace codal
 {
-namespace mbed
+namespace _mbed
 {
 
 /**

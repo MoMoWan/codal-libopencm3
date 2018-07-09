@@ -34,7 +34,7 @@ namespace codal
     uint8_t Serial::status = 0;
     int Serial::baudrate = 0;
 
-    namespace mbed
+    namespace _mbed
     {
         /**
           * Constructor.

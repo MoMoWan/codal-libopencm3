@@ -33,7 +33,7 @@ namespace mb=mbed;
 
 namespace codal
 {
-    namespace mbed
+    namespace _mbed
     {
         class Timer : public codal::Timer
         {
