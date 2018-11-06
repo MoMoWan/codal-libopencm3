@@ -4,6 +4,8 @@
 #include <logger.h>
 #include "bluepill.h"
 
+extern "C" void test_codal(); ////
+
 //  Debugging is off by default.  Developer must switch it on with enable_debug().
 static bool debugEnabled = false;
 
@@ -21,6 +23,9 @@ void platform_setup(void) {
   		debug_println("----platform_setup");
 		led_on();
 	}
+
+	////TODO
+	test_codal();
 }
 
 void enable_debug(void) {
@@ -60,4 +65,13 @@ uint8_t convert_port_to_pin(uint32_t port_id) {
 		if (port_id == allPins[pin]) { return pin; }
 	}
 	return 0;  //  Invalid port.
+}
+
+///////////////////////////////////////////////////////////////////////////////
+////TODO: Testing Codal
+
+#include <codal_target_hal.h>
+
+void test_codal() {
+	target_reset();
 }

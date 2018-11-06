@@ -19,6 +19,8 @@
 #include "gyro_sensor.h"        //  Gyroscope sensor (simulated)
 #endif  //  USE_GYRO_SENSOR
 
+#include <codal_target_hal.h>  //// TODO
+
 //  These are the functions that we will implement in this file.
 static void system_setup(void);                       //  Initialise the system.
 static void sensor_setup(uint8_t display_task_id);    //  Start the sensor tasks for each sensor to read and process sensor data.
