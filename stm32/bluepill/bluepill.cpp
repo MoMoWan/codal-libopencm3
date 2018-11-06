@@ -75,3 +75,7 @@ uint8_t convert_port_to_pin(uint32_t port_id) {
 void test_codal() {
 	target_reset();
 }
+
+void target_reset() {
+	//  Do nothing.
+}
