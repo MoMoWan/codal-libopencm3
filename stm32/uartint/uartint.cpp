@@ -1,7 +1,7 @@
 //  UART Interface for STM32 Blue Pill UART port, with interrupts. Compatible with Arduino's SoftwareSerial.
 //  Based on https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c
 #include <boost/lockfree/spsc_queue.hpp>  //  Somehow must appear before platform.h.
-#include "../../platform.h"  //  For SIMULATE_WISOL, MAX_UART_SEND_MSG_SIZE
+#include "../../src/platform.h"  //  For SIMULATE_WISOL, MAX_UART_SEND_MSG_SIZE
 #include <string.h>
 #include <bluepill.h>
 #include <logger.h>
