@@ -1,5 +1,4 @@
 send_altitude_cocoos
-src/*
 output.map
 .DS_Store
 .idea
