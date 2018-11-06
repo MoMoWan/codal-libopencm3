@@ -1,25 +1,25 @@
 /*
-The MIT License (MIT)
+    The MIT License (MIT)
 
-Copyright (c) 2017 Lancaster University.
+    Copyright (c) 2017 Lancaster University.
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
 */
 
 /**
@@ -33,6 +33,10 @@ DEALINGS IN THE SOFTWARE.
 ////#include "MbedTimedInterruptIn.h"
 #include "DynamicPwm.h"
 #include <ErrorNo.h>
+
+//  Blink code from https://github.com/Apress/Beg-STM32-Devel-FreeRTOS-libopencm3-GCC
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
 
 ////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/667d61c9177b/PinNames.h/
 enum PinMode {
@@ -59,7 +63,6 @@ inline PinMode map(codal::PullMode pinMode)
     return PinMode::PullNone;
 }
 
-/* namespace mb=mbed; */ ////
 using namespace codal::_cm;
 
 /**
@@ -139,7 +142,6 @@ void Pin::disconnect()
   */
 int Pin::setDigitalValue(int value)
 {
-#ifdef TODO
     // Check if this pin has a digital mode...
     if(!(PIN_CAPABILITY_DIGITAL & capability))
         return DEVICE_NOT_SUPPORTED;
@@ -148,6 +150,21 @@ int Pin::setDigitalValue(int value)
     if (value < 0 || value > 1)
         return DEVICE_INVALID_PARAMETER;
 
+    ////TODO: For now, setting any digital pin will affect the Blue Pill LED GPIO13.
+	//  Set up Blue Pill LED GPIO (GPIO13).
+	//  Enable GPIOC clock.
+	rcc_periph_clock_enable(RCC_GPIOC);
+	//  Set GPIO13 (in GPIO port C) to 'output push-pull'.
+	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
+    if (value) {
+        //  If value is 1, set the pin to HI.  For LED: Switches off the LED (i.e. reversed).
+        gpio_set(GPIOC, GPIO13);
+    } else {
+        //  If value is 0, set the pin to LO.  For LED: Switched on the LED (i.e. reversed).
+	    gpio_clear(GPIOC, GPIO13);
+    }
+
+#ifdef TODO
     // Move into a Digital input state if necessary.
     if (!(status & IO_STATUS_DIGITAL_OUT)){
         disconnect();
@@ -157,9 +174,9 @@ int Pin::setDigitalValue(int value)
 
     // Write the value.
     ((DigitalOut *)pin)->write(value);
+#endif  //  TODO
 
     return DEVICE_OK;
-#endif  //  TODO
 }
 
 /**

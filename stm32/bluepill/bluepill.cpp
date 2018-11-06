@@ -77,5 +77,24 @@ void test_codal() {
 }
 
 void target_reset() {
-	//  Do nothing.
+	//  TODO
+  	debug_println("----target_reset"); debug_flush();
+}
+
+void target_enable_irq() {
+	//  TODO
+  	debug_println("----target_enable_irq"); debug_flush();
+}
+
+void target_disable_irq() {
+	//  TODO
+  	debug_println("----target_disable_irq"); debug_flush();
+}
+
+void target_panic(int statusCode) {
+	//  TODO
+	debug_println("----target_panic ");
+	debug_println((int) statusCode);
+	debug_flush();
+	for (;;) {}  //  Loop forever.
 }
