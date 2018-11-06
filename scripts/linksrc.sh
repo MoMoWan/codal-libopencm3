@@ -2,11 +2,11 @@
 
 # To compile the project under PlatformIO in Visual Studio Code, 
 # the source files should be symbolically linked into the folder "src"
-mkdir lib
-mkdir src
-cd src
-ln -s ../*.ino ../*.cpp ../*.h .
-cd ..
+# mkdir lib
+# mkdir src
+# cd src
+# ln -s ../*.ino ../*.cpp ../*.h .
+# cd ..
 
 # Remove the default cocoOS config and link to our version.
 # cd lib/cocoOS_*/src
