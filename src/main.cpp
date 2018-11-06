@@ -175,9 +175,11 @@ static uint8_t display_setup(void) {
 }
 #endif  //  SENSOR_DISPLAY
 
+#ifdef NOTUSED  //  Moved to bluepill.cpp / codal_target_hal.cpp
 //  Disable exceptions for abstract classes. From https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/abstract_classes.html
 extern "C" void __cxa_pure_virtual() { while (true) {} }
 void operator delete(void *) { }
+#endif  //  NOTUSED
 
 //  Arduino-specific functions are in send_altitude_cocoos.ino.
 //  STM32-specific functions are in stm32/bluepill library.

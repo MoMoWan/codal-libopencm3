@@ -98,3 +98,22 @@ void target_panic(int statusCode) {
 	debug_flush();
 	for (;;) {}  //  Loop forever.
 }
+
+extern "C" void __cxa_pure_virtual()
+{
+    target_panic(1000);
+}
+
+//  TODO: From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
+
+extern PROCESSOR_WORD_TYPE __heap_start;
+PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)&__heap_start - ((PROCESSOR_WORD_TYPE)&__heap_start % (PROCESSOR_WORD_TYPE)sizeof(PROCESSOR_WORD_TYPE)) + (PROCESSOR_WORD_TYPE)sizeof(PROCESSOR_WORD_TYPE);
+
+// define new and delete.
+extern "C" void* operator new(size_t objsize) {
+    return malloc(objsize);
+}
+
+extern "C" void operator delete(void* obj) {
+    free(obj);
+}
