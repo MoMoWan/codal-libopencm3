@@ -93,15 +93,10 @@ void target_disable_irq() {
 
 void target_panic(int statusCode) {
 	//  TODO
-	debug_println("----target_panic ");
+	debug_println("*****target_panic ");
 	debug_println((int) statusCode);
 	debug_flush();
 	for (;;) {}  //  Loop forever.
-}
-
-extern "C" void __cxa_pure_virtual()
-{
-    target_panic(1000);
 }
 
 //  TODO: From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
@@ -109,8 +104,13 @@ extern "C" void __cxa_pure_virtual()
 extern PROCESSOR_WORD_TYPE __heap_start;
 PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)&__heap_start - ((PROCESSOR_WORD_TYPE)&__heap_start % (PROCESSOR_WORD_TYPE)sizeof(PROCESSOR_WORD_TYPE)) + (PROCESSOR_WORD_TYPE)sizeof(PROCESSOR_WORD_TYPE);
 
+extern "C" void __cxa_pure_virtual() {
+	//  Disable exceptions for abstract classes. See https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/abstract_classes.html
+    target_panic(1000);
+}
+
 // define new and delete.
-extern "C" void* operator new(size_t objsize) {
+extern "C" void *operator new(size_t objsize) {
     return malloc(objsize);
 }
 
