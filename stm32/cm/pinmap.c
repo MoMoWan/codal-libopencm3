@@ -36,6 +36,7 @@
 extern GPIO_TypeDef *Set_GPIO_Clock(uint32_t port_idx);
 
 const uint32_t ll_pin_defines[16] = {
+#ifdef TODO
     LL_GPIO_PIN_0,
     LL_GPIO_PIN_1,
     LL_GPIO_PIN_2,
@@ -52,6 +53,7 @@ const uint32_t ll_pin_defines[16] = {
     LL_GPIO_PIN_13,
     LL_GPIO_PIN_14,
     LL_GPIO_PIN_15
+#endif  //  TODO
 };
 
 typedef enum {
@@ -70,6 +72,8 @@ typedef enum {
 
 // Enable GPIO clock and return GPIO base address
 GPIO_TypeDef *Set_GPIO_Clock(uint32_t port_idx) {
+    return NULL;  ////TODO
+#ifdef TODO
     uint32_t gpio_add = 0;
     switch (port_idx) {
         case PortA:
@@ -143,6 +147,7 @@ GPIO_TypeDef *Set_GPIO_Clock(uint32_t port_idx) {
             break;
     }
     return (GPIO_TypeDef *) gpio_add;
+#endif  //  TODO
 }
 
 
@@ -152,6 +157,7 @@ GPIO_TypeDef *Set_GPIO_Clock(uint32_t port_idx) {
  */
 void pin_function(PinName pin, int data)
 {
+#ifdef TODO
     MBED_ASSERT(pin != (PinName)NC);
 
     // Get the pin informations
@@ -219,6 +225,7 @@ if (mode == STM_PIN_OUTPUT) {
     stm_pin_PullConfig(gpio, ll_pin, STM_PIN_PUPD(data));
 
     stm_pin_DisconnectDebug(pin);
+#endif  //  TODO
 }
 
 /**
@@ -226,6 +233,7 @@ if (mode == STM_PIN_OUTPUT) {
  */
 void pin_mode(PinName pin, PinMode mode)
 {
+#ifdef TODO
     MBED_ASSERT(pin != (PinName)NC);
 
     uint32_t port_index = STM_PORT(pin);
@@ -250,4 +258,5 @@ void pin_mode(PinName pin, PinMode mode)
     } else {
         stm_pin_PullConfig(gpio, ll_pin, GPIO_NOPULL);
     }
+#endif  //  TODO
 }

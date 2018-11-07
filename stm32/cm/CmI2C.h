@@ -39,7 +39,8 @@ namespace codal
   class I2C : public codal::I2C
   {
   protected:
-      I2C_HandleTypeDef i2c;
+      //// TODO
+      ////I2C_HandleTypeDef i2c;
       codal::Pin &sda, &scl;
       bool needsInit;
       void init();

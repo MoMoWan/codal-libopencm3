@@ -31,8 +31,8 @@
 #include "Event.h"
 #include "CodalFiber.h"
 
-////#include "dma.h"
-////#include "pinmap.h"
+#include "dma.h"
+#include "pinmap.h"
 #include "PeripheralPins.h"
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -44,6 +44,7 @@ namespace codal
 {
     namespace _cm
     {
+#ifdef TODO
         static const uint32_t baudprescaler[] = //
             {SPI_BAUDRATEPRESCALER_2,
             2,
@@ -63,6 +64,7 @@ namespace codal
             256,
             0,
             0};
+#endif  //  TODO
 
         static SPI *instances[4];
 
@@ -82,6 +84,7 @@ namespace codal
 
         static int enable_clock(uint32_t instance)
         {
+#ifdef TODO
             switch (instance)
             {
             case SPI1_BASE:
@@ -121,6 +124,7 @@ namespace codal
                 CODAL_ASSERT(0);
                 return 0;
             }
+#endif  //  TODO
             return 0;
         }
 
@@ -142,6 +146,7 @@ namespace codal
 
         void SPI::_complete(uint32_t instance)
         {
+#ifdef TODO
             LOG("SPI complete %p", instance);
             for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i)
             {
@@ -151,10 +156,12 @@ namespace codal
                     break;
                 }
             }
+#endif  //  TODO
         }
 
         void SPI::_irq(uint32_t instance)
         {
+#ifdef TODO
             LOG("SPI IRQ %p", instance);
             for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i)
             {
@@ -164,8 +171,10 @@ namespace codal
                     break;
                 }
             }
+#endif  //  TODO
         }
 
+#ifdef TODO
         extern "C" void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
         {
             SPI::_complete((uint32_t)hspi->Instance);
@@ -198,9 +207,11 @@ namespace codal
         #ifdef SPI6_BASE
         DEFIRQ(SPI6_IRQHandler, SPI6_BASE)
         #endif
+#endif  //  TODO
 
         void SPI::init()
         {
+#ifdef TODO
             if (!needsInit)
                 return;
 
@@ -251,10 +262,12 @@ namespace codal
 
             auto res = HAL_SPI_Init(&spi);
             CODAL_ASSERT(res == HAL_OK);
+#endif  //  TODO
         }
 
         SPI::SPI(Pin &mosi, Pin &miso, Pin &sclk) : codal::SPI()
         {
+#ifdef TODO
             this->mosi = &mosi;
             this->miso = &miso;
             this->sclk = &sclk;
@@ -273,6 +286,7 @@ namespace codal
                     break;
                 }
             }
+#endif  //  TODO
         }
 
         int SPI::setFrequency(uint32_t frequency)
@@ -284,37 +298,44 @@ namespace codal
 
         int SPI::setMode(int mode, int bits)
         {
+#ifdef TODO
             spi.Init.CLKPhase = mode & 1 ? SPI_PHASE_2EDGE : SPI_PHASE_1EDGE;
             spi.Init.CLKPolarity = mode & 2 ? SPI_POLARITY_HIGH : SPI_POLARITY_LOW;
             needsInit = true;
 
             CODAL_ASSERT(bits == 8);
-
+#endif  //  TODO
             return DEVICE_OK;
         }
 
         int SPI::write(int data)
         {
             rxCh = 0;
+#ifdef TODO
             txCh = data;
             if (transfer(&txCh, 1, &rxCh, 1) < 0)
                 return DEVICE_SPI_ERROR;
+#endif  //  TODO
             return rxCh;
         }
 
         int SPI::transfer(const uint8_t *txBuffer, uint32_t txSize, uint8_t *rxBuffer, uint32_t rxSize)
         {    
+            return 0; ////TODO
+#ifdef TODO
             fiber_wake_on_event(DEVICE_ID_NOTIFY, transferCompleteEventCode);
             auto res = startTransfer(txBuffer, txSize, rxBuffer, rxSize, NULL, NULL);
             LOG("SPI ->");
             schedule();
             LOG("SPI <-");
             return res;
+#endif  //  TODO
         }
 
         int SPI::startTransfer(const uint8_t *txBuffer, uint32_t txSize, uint8_t *rxBuffer,
                                 uint32_t rxSize, PVoidCallback doneHandler, void *arg)
         {
+#ifdef TODO
             int res;
 
             init();
@@ -343,7 +364,7 @@ namespace codal
             }
 
             CODAL_ASSERT(res == HAL_OK);
-
+#endif  //  TODO
             return 0;
         }
     }  //  namespace _cm

@@ -1,13 +1,17 @@
-#include "ZPWM.h"
+#include "CmPWM.h"
 #include "CodalDmesg.h"
 #include "dma.h"
 
 #define LOG DMESG
 
-static ZPWM *instances[4];
+using namespace codal::_cm;
+
+#ifdef TODO
+
+static PWM *instances[4];
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
-ZPWM::ZPWM(Pin &pin, DataSource &source, int sampleRate, uint16_t id) : upstream(source)
+PWM::PWM(Pin &pin, DataSource &source, int sampleRate, uint16_t id) : upstream(source)
 {
     for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i)
     {
@@ -58,7 +62,7 @@ ZPWM::ZPWM(Pin &pin, DataSource &source, int sampleRate, uint16_t id) : upstream
  * Determine the DAC playback sample rate to the given frequency.
  * @return the current sample rate.
  */
-int ZPWM::getSampleRate()
+int PWM::getSampleRate()
 {
     return sampleRate;
 }
@@ -67,7 +71,7 @@ int ZPWM::getSampleRate()
  * Determine the maximum unsigned vlaue that can be loaded into the PWM data values, for the current
  * frequency configuration.
  */
-int ZPWM::getSampleRange()
+int PWM::getSampleRange()
 {
     return tim.Init.Period - 1;
 }
@@ -83,7 +87,7 @@ static const uint32_t channels[] = {
  * Change the DAC playback sample rate to the given frequency.
  * @param frequency The new sample playback frequency.
  */
-int ZPWM::setSampleRate(int frequency)
+int PWM::setSampleRate(int frequency)
 {
     int clock_frequency = 2 * HAL_RCC_GetPCLK1Freq();
     int cyclesPerSample = clock_frequency / frequency;
@@ -141,7 +145,7 @@ extern "C" void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 /**
  * Callback provided when data is ready.
  */
-int ZPWM::pullRequest()
+int PWM::pullRequest()
 {
     dataReady++;
 
@@ -151,7 +155,7 @@ int ZPWM::pullRequest()
     return DEVICE_OK;
 }
 
-void ZPWM::fillBuffer(uint32_t *buf)
+void PWM::fillBuffer(uint32_t *buf)
 {
     auto left = bufCnt;
     auto buflen = buf++;
@@ -192,7 +196,7 @@ void ZPWM::fillBuffer(uint32_t *buf)
     *buflen = bufCnt - left;
 }
 
-void ZPWM::nextBuffer()
+void PWM::nextBuffer()
 {
     if (!buf0)
     {
@@ -240,7 +244,7 @@ void ZPWM::nextBuffer()
 /**
  * Base implementation of a DMA callback
  */
-void ZPWM::irq()
+void PWM::irq()
 {
     // once the sequence has finished playing, load up the next buffer.
     nextBuffer();
@@ -249,7 +253,7 @@ void ZPWM::irq()
 /**
  * Enable this component
  */
-void ZPWM::enable()
+void PWM::enable()
 {
     enabled = true;
     //    PWM.ENABLE = 1;
@@ -258,8 +262,10 @@ void ZPWM::enable()
 /**
  * Disable this component
  */
-void ZPWM::disable()
+void PWM::disable()
 {
     enabled = false;
     __HAL_TIM_DISABLE(&tim);
 }
+
+#endif  //  TODO

@@ -1,0 +1,68 @@
+#ifndef PLATFORM_INCLUDES_H_
+#define PLATFORM_INCLUDES_H_
+
+#include <stdint.h>  //  For uint32_t
+#include <string.h>  //  For memset()
+#include <stdarg.h>  //  For va_list
+#include <math.h>    //  For sin()
+#include "stm32.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void target_panic(int statusCode);
+void wait_us(uint32_t us);
+
+#ifdef __cplusplus
+}
+#endif
+
+#define CODAL_ASSERT(cond)                                                                         \
+    if (!(cond))                                                                                   \
+    target_panic(909)
+
+#define MBED_ASSERT CODAL_ASSERT
+#define MBED_ERROR(msg) CODAL_ASSERT(0)
+#define MBED_WEAK __attribute__((weak))
+
+////  TODO: Sync with target.json. Based on https://github.com/mmoskal/codal-generic-f103re/blob/master/target.json
+#define PROCESSOR_WORD_TYPE uint32_t
+#define CODAL_TIMESTAMP uint64_t
+#define USB_MAX_PKT_SIZE 64
+#define DEVICE_USB_ENDPOINTS 8
+#define USB_DEFAULT_PID 0x2402
+#define USB_DEFAULT_VID 0x03EB
+#define USB_EP_FLAG_NO_AUTO_ZLP 0x01
+#define DEVICE_SRAM_BASE &_data   //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+#define DEVICE_SRAM_END  &_stack  //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+//#define DEVICE_SRAM_BASE 0x20000000  //  TODO: Based on STM32F103C8. SRAM=0x20000000 to 0x20005000 (20KB)
+//#define DEVICE_SRAM_END  0x20004800  //  TODO: Based on STM32F103C8. 0x20004800 = 0x20005000 - 2048
+//  Linker def: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
+////#define DEVICE_SRAM_BASE 0x200000EC  //  TODO
+////#define DEVICE_SRAM_END  0x20010000  //  TODO
+#define DEVICE_STACK_BASE DEVICE_SRAM_END  //  TODO
+#define DEVICE_STACK_SIZE 2048  //  TODO
+#define TARGET_DEBUG_CLASS NOT_IMPLEMENTED
+#define DEVICE_HEAP_ALLOCATOR 1
+#define DEVICE_TAG 0
+#define SCHEDULER_TICK_PERIOD_US 4000
+#define EVENT_LISTENER_DEFAULT_FLAGS MESSAGE_BUS_LISTENER_QUEUE_IF_BUSY
+#define MESSAGE_BUS_LISTENER_MAX_QUEUE_DEPTH 10
+#define USE_ACCEL_LSB 0
+#define DEVICE_DEFAULT_SERIAL_MODE SYNC_SLEEP
+#define DEVICE_COMPONENT_COUNT 60
+#define DEVICE_DEFAULT_PULLMODE PullMode::None
+#define DEVICE_PANIC_HEAP_FULL 1
+#define DEVICE_DMESG 1
+#define DEVICE_DMESG_BUFFER_SIZE 1024
+#define CODAL_DEBUG CODAL_DEBUG_DISABLED
+#define DEVICE_USB 0  ////TODO: Disable flashing by USB.  Requires UF2 to be included for build.
+////#define DEVICE_USB 1
+#define BOOTLOADER_START_ADDR 0x00000000
+#define BOOTLOADER_END_ADDR 0x00002000
+
+extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
+extern PROCESSOR_WORD_TYPE _stack;  //  Start of Stack segment (grows downwards).
+
+#endif  //  PLATFORM_INCLUDES_H_

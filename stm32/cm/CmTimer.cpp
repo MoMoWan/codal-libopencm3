@@ -13,14 +13,17 @@ namespace codal
 
         Timer::Timer() : codal::Timer()
         {
+#ifdef TODO
             memset(&TimHandle, 0, sizeof(TimHandle));
             instance = this;
             this->prev = 0;
             init();
+#endif  //  TODO
         }
 
         extern "C" void TIM5_IRQHandler()
         {
+#ifdef TODO
             auto h = &Timer::instance->TimHandle;
 
             if (__HAL_TIM_GET_FLAG(h, TIM_FLAG_CC1) == SET)
@@ -32,10 +35,12 @@ namespace codal
                     ZTimer::instance->trigger();
                 }
             }
+#endif  //  TODO
         }
 
         void Timer::init()
         {
+#ifdef TODO
             TimHandle.Instance = TIM5;
 
             TimHandle.Init.Period = 0xFFFFFFFF;
@@ -51,10 +56,12 @@ namespace codal
             HAL_TIM_OC_Start(&TimHandle, TIM_CHANNEL_1);
 
             this->prev = __HAL_TIM_GET_COUNTER(&TimHandle);
+#endif  //  TODO
         }
 
         void Timer::triggerIn(CODAL_TIMESTAMP t)
         {
+#ifdef TODO
             if (t < 20)
                 t = 20;
 
@@ -66,10 +73,14 @@ namespace codal
                                 (uint32_t)(__HAL_TIM_GET_COUNTER(&TimHandle) + t));
             __HAL_TIM_ENABLE_IT(&TimHandle, TIM_IT_CC1);
             target_enable_irq();
+#endif  //  TODO
         }
+
         extern "C" uint32_t uwTick;
+
         void Timer::syncRequest()
         {
+#ifdef TODO
             target_disable_irq();
             uint32_t curr = __HAL_TIM_GET_COUNTER(&TimHandle);
             uint32_t delta = curr - this->prev;
@@ -80,6 +91,7 @@ namespace codal
             this->prev = curr;
             this->sync(delta);
             target_enable_irq();
+#endif  //  TODO
         }
 
         extern "C" void wait_us(uint32_t us)

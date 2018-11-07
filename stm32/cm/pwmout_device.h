@@ -26,11 +26,11 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************
- */
+*/
 #ifndef MBED_PWMOUT_DEVICE_H
 #define MBED_PWMOUT_DEVICE_H
 
-#include "cmsis.h"
+#include <stdint.h>  //  For uint32_t
 
 #ifdef __cplusplus
 extern "C" {

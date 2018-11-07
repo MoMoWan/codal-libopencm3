@@ -1,4 +1,8 @@
+#ifndef PWMOUT_API_H_
+#define PWMOUT_API_H_
 #pragma once 
+
+#include <stdint.h>  //  For uint32_t
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,3 +28,5 @@ void pwmout_period_us(pwmout_t* obj, int us);
 #ifdef __cplusplus
 }
 #endif
+
+#endif  //  PWMOUT_API_H_

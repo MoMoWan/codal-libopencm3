@@ -30,12 +30,13 @@
 #include "platform_includes.h"
 #include "pwmout_api.h"
 
-#include "cmsis.h"
+////#include "cmsis.h"
 #include "pinmap.h"
 #include "PeripheralPins.h"
 #include "pwmout_device.h"
 
-static TIM_HandleTypeDef TimHandle;
+////TODO
+////static TIM_HandleTypeDef TimHandle;
 
 #define error MBED_ERROR
 
@@ -165,12 +166,15 @@ void pwmout_init(pwmout_t* obj, PinName pin)
 
 void pwmout_free(pwmout_t* obj)
 {
+#ifdef TODO
     // Configure GPIO
     pin_function(obj->pin, STM_PIN_DATA(STM_MODE_INPUT, GPIO_NOPULL, 0));
+#endif  //  TODO
 }
 
 void pwmout_write(pwmout_t* obj, uint32_t pulse)
 {
+#ifdef TODO
     TIM_OC_InitTypeDef sConfig;
     int channel = 0;
 
@@ -224,10 +228,12 @@ void pwmout_write(pwmout_t* obj, uint32_t pulse)
     {
         HAL_TIM_PWM_Start(&TimHandle, channel);
     }
+#endif  //  TODO
 }
 
 void pwmout_period_us(pwmout_t* obj, int us)
 {
+#ifdef TODO
     TimHandle.Instance = (TIM_TypeDef *)(obj->pwm);
     RCC_ClkInitTypeDef RCC_ClkInitStruct;
     uint32_t PclkFreq = 0;
@@ -300,4 +306,5 @@ void pwmout_period_us(pwmout_t* obj, int us)
     pwmout_write(obj, 0);
 
     __HAL_TIM_ENABLE(&TimHandle);
+#endif  //  TODO
 }

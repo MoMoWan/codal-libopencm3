@@ -30,14 +30,10 @@
 #ifndef MBED_PIN_DEVICE_H
 #define MBED_PIN_DEVICE_H
 
-#include "cmsis.h"
+////#include "stm32f4xx_ll_gpio.h"
 
-#ifdef STM32F4
-#include "stm32f4xx_ll_gpio.h"
-#else
-// eg F1 is different, but F0 the same
-#error "TODO"
-#endif
+////TODO
+#define GPIO_TypeDef void
 
 extern const uint32_t ll_pin_defines[16];
 
@@ -49,6 +45,7 @@ static inline void stm_pin_DisconnectDebug(PinName pin)
 
 static inline void stm_pin_PullConfig(GPIO_TypeDef *gpio, uint32_t ll_pin, uint32_t pull_config)
 {
+#ifdef TODO
     switch (pull_config) {
         case GPIO_PULLUP:
             LL_GPIO_SetPinPull(gpio, ll_pin, LL_GPIO_PULL_UP);
@@ -60,6 +57,7 @@ static inline void stm_pin_PullConfig(GPIO_TypeDef *gpio, uint32_t ll_pin, uint3
             LL_GPIO_SetPinPull(gpio, ll_pin, LL_GPIO_PULL_NO);
             break;
     }
+#endif  //  TODO
 }
 
 static inline void stm_pin_SetAFPin( GPIO_TypeDef *gpio, PinName pin, uint32_t afnum)

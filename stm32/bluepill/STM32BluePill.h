@@ -41,6 +41,9 @@
 #include "STM32BluePillIO.h"
 #include "CodalFiber.h"
 #include "MessageBus.h"
+#include "CmTimer.h"
+#include "CmI2C.h"
+#include "bluepill.h"
 
 // Status flag values
 #define DEVICE_INITIALIZED                    0x01
@@ -137,7 +140,8 @@ namespace codal
      */
     inline unsigned long STM32BluePill::systemTime()
     {
-        return system_timer_current_time();
+        ////return system_timer_current_time();
+        return millis();
     }
 }
 

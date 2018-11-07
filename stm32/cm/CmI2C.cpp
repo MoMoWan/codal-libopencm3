@@ -26,7 +26,7 @@
 #include "CodalConfig.h"
 #include "CmI2C.h"
 #include "ErrorNo.h"
-//// #include "pinmap.h"
+#include "pinmap.h"
 #include "PeripheralPins.h"
 
 namespace codal
@@ -35,6 +35,7 @@ namespace codal
     {
         void I2C::init()
         {
+#ifdef TODO
             if (!needsInit)
                 return;
             needsInit = false;
@@ -65,10 +66,12 @@ namespace codal
 
             int res = HAL_I2C_Init(&i2c);
             CODAL_ASSERT(res == HAL_OK);
+#endif  //  TODO            
         }
 
         I2C::I2C(codal::Pin &sda, codal::Pin &scl) : codal::I2C(sda, scl), sda(sda), scl(scl)
         {
+#ifdef TODO            
             i2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
             i2c.Init.ClockSpeed = 100000;
             i2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -79,17 +82,22 @@ namespace codal
             i2c.Init.OwnAddress2 = 0xFE;
 
             needsInit = true;
+#endif  //  TODO            
         }
 
         int I2C::setFrequency(uint32_t frequency)
         {
+#ifdef TODO            
             i2c.Init.ClockSpeed = frequency;
             needsInit = true;
+#endif  //  TODO
             return DEVICE_OK;
         }
 
         int I2C::write(uint16_t address, uint8_t *data, int len, bool repeated)
         {
+            return DEVICE_OK;  ////TODO
+#ifdef TODO            
             if (data == NULL || len <= 0)
                 return DEVICE_INVALID_PARAMETER; // Send a start condition
 
@@ -103,10 +111,13 @@ namespace codal
                 return DEVICE_OK;
             else
                 return DEVICE_I2C_ERROR;
+#endif  //  TODO
         }
 
         int I2C::read(uint16_t address, uint8_t *data, int len, bool repeated)
         {
+            return DEVICE_OK;  ////TODO
+#ifdef TODO            
             if (data == NULL || len <= 0)
                 return DEVICE_INVALID_PARAMETER;
 
@@ -119,10 +130,13 @@ namespace codal
                 return DEVICE_OK;
             else
                 return DEVICE_I2C_ERROR;
+#endif  //  TODO
         }
 
         int I2C::readRegister(uint16_t address, uint8_t reg, uint8_t *data, int length, bool repeated)
         {
+            return DEVICE_OK; ////TODO
+#ifdef TODO            
             CODAL_ASSERT(!repeated);
 
             init();
@@ -132,6 +146,7 @@ namespace codal
                 return DEVICE_OK;
             else
                 return DEVICE_I2C_ERROR;
+#endif  //  TODO
         }
 
     }  //  namespace _cm

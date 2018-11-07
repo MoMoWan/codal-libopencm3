@@ -1,13 +1,15 @@
 #include "CodalConfig.h"
 #include "CodalDmesg.h"
-#include "ZSingleWireSerial.h"
+#include "CmSingleWireSerial.h"
 #include "Event.h"
 #include "dma.h"
 #include "pinmap.h"
 #include "PeripheralPins.h"
 #include "CodalFiber.h"
 
-using namespace codal;
+#ifdef TODO
+
+using namespace codal::_cm;
 
 #define TX_CONFIGURED       0x02
 #define RX_CONFIGURED       0x04
@@ -17,7 +19,7 @@ uint16_t buffer_head = 0;
 uint16_t buffer_tail = 0;
 uint8_t uart_status = 0;
 
-static ZSingleWireSerial *instances[4];
+static CmSingleWireSerial *instances[4];
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -52,7 +54,7 @@ static int enable_clock(uint32_t instance)
     return 0;
 }
 
-void ZSingleWireSerial::_complete(uint32_t instance, uint32_t mode)
+void CmSingleWireSerial::_complete(uint32_t instance, uint32_t mode)
 {
     for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i)
     {
@@ -90,21 +92,21 @@ void ZSingleWireSerial::_complete(uint32_t instance, uint32_t mode)
 
 extern "C" void HAL_UART_TxCpltCallback(UART_HandleTypeDef *hspi)
 {
-    ZSingleWireSerial::_complete((uint32_t)hspi->Instance, SWS_EVT_DATA_SENT);
+    CmSingleWireSerial::_complete((uint32_t)hspi->Instance, SWS_EVT_DATA_SENT);
 }
 
 extern "C" void HAL_UART_RxCpltCallback(UART_HandleTypeDef *hspi)
 {
-    ZSingleWireSerial::_complete((uint32_t)hspi->Instance, SWS_EVT_DATA_RECEIVED);
+    CmSingleWireSerial::_complete((uint32_t)hspi->Instance, SWS_EVT_DATA_RECEIVED);
 }
 
 extern "C" void HAL_UART_ErrorCallback(UART_HandleTypeDef *hspi)
 {
-    ZSingleWireSerial::_complete((uint32_t)hspi->Instance, SWS_EVT_ERROR);
+    CmSingleWireSerial::_complete((uint32_t)hspi->Instance, SWS_EVT_ERROR);
 }
 
 #define DEFIRQ(nm, id)                                                                             \
-    extern "C" void nm() { ZSingleWireSerial::_complete(id, 0); }
+    extern "C" void nm() { CmSingleWireSerial::_complete(id, 0); }
 
 DEFIRQ(USART1_IRQHandler, USART1_BASE)
 DEFIRQ(USART2_IRQHandler, USART2_BASE)
@@ -113,11 +115,11 @@ DEFIRQ(USART6_IRQHandler, USART6_BASE)
 #endif
 
 
-void ZSingleWireSerial::configureRxInterrupt(int enable)
+void CmSingleWireSerial::configureRxInterrupt(int enable)
 {
 }
 
-ZSingleWireSerial::ZSingleWireSerial(Pin& p) : DMASingleWireSerial(p)
+CmSingleWireSerial::CmSingleWireSerial(Pin& p) : DMASingleWireSerial(p)
 {
     ZERO(uart);
     ZERO(hdma_tx);
@@ -155,23 +157,23 @@ ZSingleWireSerial::ZSingleWireSerial(Pin& p) : DMASingleWireSerial(p)
     status = 0;
 }
 
-int ZSingleWireSerial::setBaud(uint32_t baud)
+int CmSingleWireSerial::setBaud(uint32_t baud)
 {
     uart.Init.BaudRate = baud;
     return DEVICE_OK;
 }
 
-uint32_t ZSingleWireSerial::getBaud()
+uint32_t CmSingleWireSerial::getBaud()
 {
     return uart.Init.BaudRate;
 }
 
-int ZSingleWireSerial::putc(char c)
+int CmSingleWireSerial::putc(char c)
 {
     return send((uint8_t*)&c, 1);
 }
 
-int ZSingleWireSerial::getc()
+int CmSingleWireSerial::getc()
 {
     char c = 0;
     int res = receive((uint8_t*)&c, 1);
@@ -182,7 +184,7 @@ int ZSingleWireSerial::getc()
     return res;
 }
 
-int ZSingleWireSerial::configureTx(int enable)
+int CmSingleWireSerial::configureTx(int enable)
 {
     if (enable && !(status & TX_CONFIGURED))
     {
@@ -202,7 +204,7 @@ int ZSingleWireSerial::configureTx(int enable)
     return DEVICE_OK;
 }
 
-int ZSingleWireSerial::configureRx(int enable)
+int CmSingleWireSerial::configureRx(int enable)
 {
     if (enable && !(status & RX_CONFIGURED))
     {
@@ -222,7 +224,7 @@ int ZSingleWireSerial::configureRx(int enable)
     return DEVICE_OK;
 }
 
-int ZSingleWireSerial::setMode(SingleWireMode sw)
+int CmSingleWireSerial::setMode(SingleWireMode sw)
 {
     if (sw == SingleWireRx)
     {
@@ -243,7 +245,7 @@ int ZSingleWireSerial::setMode(SingleWireMode sw)
     return DEVICE_OK;
 }
 
-int ZSingleWireSerial::send(uint8_t* data, int len)
+int CmSingleWireSerial::send(uint8_t* data, int len)
 {
     if (!(status & TX_CONFIGURED))
         setMode(SingleWireTx);
@@ -256,7 +258,7 @@ int ZSingleWireSerial::send(uint8_t* data, int len)
     return DEVICE_CANCELLED;
 }
 
-int ZSingleWireSerial::receive(uint8_t* data, int len)
+int CmSingleWireSerial::receive(uint8_t* data, int len)
 {
     if (!(status & RX_CONFIGURED))
         setMode(SingleWireRx);
@@ -269,7 +271,7 @@ int ZSingleWireSerial::receive(uint8_t* data, int len)
     return DEVICE_CANCELLED;
 }
 
-int ZSingleWireSerial::sendDMA(uint8_t* data, int len)
+int CmSingleWireSerial::sendDMA(uint8_t* data, int len)
 {
     if (!(status & TX_CONFIGURED))
         setMode(SingleWireTx);
@@ -284,7 +286,7 @@ int ZSingleWireSerial::sendDMA(uint8_t* data, int len)
     return DEVICE_OK;
 }
 
-int ZSingleWireSerial::receiveDMA(uint8_t* data, int len)
+int CmSingleWireSerial::receiveDMA(uint8_t* data, int len)
 {
     if (!(status & RX_CONFIGURED))
         setMode(SingleWireRx);
@@ -299,7 +301,7 @@ int ZSingleWireSerial::receiveDMA(uint8_t* data, int len)
     return DEVICE_OK;
 }
 
-int ZSingleWireSerial::abortDMA()
+int CmSingleWireSerial::abortDMA()
 {
     if (!(status & (RX_CONFIGURED | TX_CONFIGURED)))
         return DEVICE_INVALID_PARAMETER;
@@ -308,7 +310,7 @@ int ZSingleWireSerial::abortDMA()
     return DEVICE_OK;
 }
 
-int ZSingleWireSerial::sendBreak()
+int CmSingleWireSerial::sendBreak()
 {
     if (!(status & TX_CONFIGURED))
         return DEVICE_INVALID_PARAMETER;
@@ -316,3 +318,5 @@ int ZSingleWireSerial::sendBreak()
     HAL_LIN_SendBreak(&uart);
     return DEVICE_OK;
 }
+
+#endif  //  TODO

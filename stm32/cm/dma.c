@@ -9,10 +9,12 @@
 
 typedef struct
 {
-    DMA_Stream_TypeDef *instance;
+    ////TODO
+    ////DMA_Stream_TypeDef *instance;
     uint8_t irqn;
 } DmaStream;
 
+#ifdef TODO
 const DmaStream streams[] = //
     {{DMA1_Stream0, DMA1_Stream0_IRQn},
      {DMA1_Stream1, DMA1_Stream1_IRQn},
@@ -31,18 +33,20 @@ const DmaStream streams[] = //
      {DMA2_Stream6, DMA2_Stream6_IRQn},
      {DMA2_Stream7, DMA2_Stream7_IRQn},
      {0, 0}};
+#endif  //  TODO
 
 const uint32_t channels[] = {
+#ifdef TODO
     DMA_CHANNEL_0, DMA_CHANNEL_1, DMA_CHANNEL_2, DMA_CHANNEL_3,
     DMA_CHANNEL_4, DMA_CHANNEL_5, DMA_CHANNEL_6, DMA_CHANNEL_7,
+#endif  //  TODO
 };
 
-#if !defined(STM32F4)
-#error "check the DMA mapping table below"
-#endif
+////#error "check the DMA mapping table below"
 
 MBED_WEAK const DmaMap TheDmaMap[] = //
     {
+#ifdef TODO
         // SPI1
         {SPI1_BASE, DMA_RX, 2, 0, 3},
         {SPI1_BASE, DMA_RX, 2, 2, 3},
@@ -102,17 +106,21 @@ MBED_WEAK const DmaMap TheDmaMap[] = //
         {USART6_BASE, DMA_RX, 2, 2, 5},
         {USART6_BASE, DMA_TX, 2, 6, 5},
         {USART6_BASE, DMA_TX, 2, 7, 5},
+#endif  //  TODO
 
         // The end
         {0, 0, 0, 0, 0}};
 
-static DMA_HandleTypeDef *handles[NUM_STREAMS * NUM_DMA];
+////TODO
+////static DMA_HandleTypeDef *handles[NUM_STREAMS * NUM_DMA];
 
 static void irq_callback(int id)
 {
-    LOG("DMA irq %d", id);
+#ifdef TODO
+    LOG("DMA irq %d", id);    
     if (handles[id])
         HAL_DMA_IRQHandler(handles[id]);
+#endif  //  TODO
 }
 
 #define DEFIRQ(nm, id)                                                                             \
@@ -137,6 +145,7 @@ DEFIRQ(DMA2_Stream7_IRQHandler, NUM_STREAMS + 7)
 
 int dma_init(uint32_t peripheral, uint8_t rxdx, DMA_HandleTypeDef *obj, int flags)
 {
+#ifdef TODO
     memset(obj, 0, sizeof(*obj));
 
     int id;
@@ -195,6 +204,6 @@ int dma_init(uint32_t peripheral, uint8_t rxdx, DMA_HandleTypeDef *obj, int flag
         map->stream);
 
     NVIC_EnableIRQ(streams[id].irqn);
-
+#endif  //  TODO
     return 0;
 }

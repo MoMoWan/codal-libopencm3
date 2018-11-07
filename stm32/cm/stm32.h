@@ -2,11 +2,8 @@
 #define CODAL_STM32_H
 
 #define USE_HAL_DRIVER 1
-#if defined(STM32F4)
-#include "stm32f4xx.h"
-#else
-#error "TODO: add the rest"
-#endif
+////#include "stm32f4xx.h"
+////#error "TODO: add the rest"
 
 #define PA_0 0x00
 #define PA_1 0x01
