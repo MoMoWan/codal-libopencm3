@@ -2,27 +2,68 @@
 #include "codal_target_hal.h"
 #include "CodalDmesg.h"
 #include "CodalCompat.h"
+#include <logger.h>
 
-#ifdef TODO
+extern "C" void test_codal(); ////
+
+//  TODO: From https://github.com/mmoskal/codal-generic-f103re/blob/master/source/codal_target_hal.cpp
+
+//  Blue Pill Memory Layout: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
+//  RAM Layout: [Start of RAM] [Data] [BSS] [Codal Heap] grows--> (empty) <--grows [Stack] [End of RAM]
+
+extern PROCESSOR_WORD_TYPE _ebss;  //  End of BSS.
+PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)(&_ebss);
+
+//  TODO: From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
+
+extern "C" void __cxa_pure_virtual() {
+	//  Disable exceptions for abstract classes. See https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/abstract_classes.html
+    target_panic(1000);
+}
+
+// define new and delete.
+extern "C" void *operator new(size_t objsize) {
+    return malloc(objsize);
+}
+
+extern "C" void operator delete(void* obj) {
+    free(obj);
+}
+
+void test_codal() {
+	PROCESSOR_WORD_TYPE start = (PROCESSOR_WORD_TYPE)(codal_heap_start); 
+	PROCESSOR_WORD_TYPE end = (PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - (PROCESSOR_WORD_TYPE)(DEVICE_STACK_SIZE);
+	PROCESSOR_WORD_TYPE size = end - start;
+	debug_print("heap start: "); debug_println((size_t) start);
+	debug_print("heap end: "); debug_println((size_t) end);
+	debug_print("heap size: "); debug_println((size_t) size);
+	target_reset();
+}
 
 void target_enable_irq()
 {
-    __enable_irq();
+	//  TODO
+  	debug_println("----target_enable_irq"); debug_flush();
+    ////__enable_irq();
 }
 
 void target_disable_irq()
 {
-    __disable_irq();
+	//  TODO
+  	debug_println("----target_disable_irq"); debug_flush();
+    ////__disable_irq();
 }
 
 void target_wait_for_event()
 {
-    __WFE();
+    //  TODO
+    ////__WFE();
 }
 
 void target_wait(uint32_t milliseconds)
 {
-    HAL_Delay(milliseconds);
+    //  TODO
+    ////HAL_Delay(milliseconds);
 }
 
 extern void wait_us(uint32_t);
@@ -33,12 +74,16 @@ void target_wait_us(unsigned long us)
 
 int target_seed_random(uint32_t rand)
 {
-    return codal::seed_random(rand);
+    //  TODO
+    return 0;  ////  TODO
+    ////return codal::seed_random(rand);
 }
 
 int target_random(int max)
 {
-    return codal::random(max);
+    //  TODO
+    return 0;  ////  TODO
+    ////return codal::random(max);
 }
 
 /*
@@ -59,10 +104,14 @@ uint32_t target_get_serial()
 
 void target_reset()
 {
+	//  TODO
+  	debug_println("----target_reset"); debug_flush();
+#ifdef TODO
     PWR->CR |= PWR_CR_DBP;
     RCC->BDCR |= RCC_BDCR_RTCEN;
     RTC->BKP0R = 0x24a22d12; // skip bootloader
     NVIC_SystemReset();
+#endif  //  TODO
 }
 
 extern "C" void assert_failed(uint8_t* file, uint32_t line)
@@ -73,18 +122,21 @@ extern "C" void assert_failed(uint8_t* file, uint32_t line)
 __attribute__((weak))
 void target_panic(int statusCode)
 {
+	//  TODO
     target_disable_irq();
-
-    DMESG("*** CODAL PANIC : [%d]", statusCode);
-    while (1)
-    {
-    }
+	debug_println("*****target_panic ");
+	debug_println((int) statusCode);
+	debug_flush();
+    ////DMESG("*** CODAL PANIC : [%d]", statusCode);
+	for (;;) {}  //  Loop forever.
 }
 
 extern "C" void init_irqs();
+
 void target_init()
 {
-    HAL_Init();
+    //  TODO
+    ////HAL_Init();
     init_irqs();
 }
 
@@ -118,7 +170,7 @@ PROCESSOR_WORD_TYPE fiber_initial_stack_base()
 {
     uint32_t mbed_stack_base;
 
-    mbed_stack_base = DEVICE_STACK_BASE;
+    mbed_stack_base = (PROCESSOR_WORD_TYPE) DEVICE_STACK_BASE;
 
     return mbed_stack_base;
 }
@@ -183,5 +235,3 @@ void tcb_configure_args(void *tcb, PROCESSOR_WORD_TYPE ep, PROCESSOR_WORD_TYPE c
     tcbPointer->R1 = (uint32_t)cp;
     tcbPointer->R2 = (uint32_t)pm;
 }
-
-#endif  //  TODO
