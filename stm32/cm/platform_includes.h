@@ -27,6 +27,13 @@ void wait_us(uint32_t us);
 #define MBED_WEAK __attribute__((weak))
 
 ////  TODO: Sync with target.json. Based on https://github.com/mmoskal/codal-generic-f103re/blob/master/target.json
+
+//  Sync with linker def: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
+#define DEVICE_SRAM_BASE &_data   //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+#define DEVICE_SRAM_END  &_stack  //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+#define DEVICE_STACK_BASE DEVICE_SRAM_END
+#define DEVICE_STACK_SIZE 2048
+
 #define PROCESSOR_WORD_TYPE uint32_t
 #define CODAL_TIMESTAMP uint64_t
 #define USB_MAX_PKT_SIZE 64
@@ -34,15 +41,6 @@ void wait_us(uint32_t us);
 #define USB_DEFAULT_PID 0x2402
 #define USB_DEFAULT_VID 0x03EB
 #define USB_EP_FLAG_NO_AUTO_ZLP 0x01
-#define DEVICE_SRAM_BASE &_data   //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
-#define DEVICE_SRAM_END  &_stack  //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
-//#define DEVICE_SRAM_BASE 0x20000000  //  TODO: Based on STM32F103C8. SRAM=0x20000000 to 0x20005000 (20KB)
-//#define DEVICE_SRAM_END  0x20004800  //  TODO: Based on STM32F103C8. 0x20004800 = 0x20005000 - 2048
-//  Linker def: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
-////#define DEVICE_SRAM_BASE 0x200000EC  //  TODO
-////#define DEVICE_SRAM_END  0x20010000  //  TODO
-#define DEVICE_STACK_BASE DEVICE_SRAM_END  //  TODO
-#define DEVICE_STACK_SIZE 2048  //  TODO
 #define TARGET_DEBUG_CLASS NOT_IMPLEMENTED
 #define DEVICE_HEAP_ALLOCATOR 1
 #define DEVICE_TAG 0
