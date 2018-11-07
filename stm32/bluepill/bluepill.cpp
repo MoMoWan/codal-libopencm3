@@ -99,13 +99,15 @@ void target_panic(int statusCode) {
 	for (;;) {}  //  Loop forever.
 }
 
-//  TODO: From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
+//  TODO: From https://github.com/mmoskal/codal-generic-f103re/blob/master/source/codal_target_hal.cpp
 
-extern PROCESSOR_WORD_TYPE __heap_start;
-PROCESSOR_WORD_TYPE codal_heap_start = 
-	(PROCESSOR_WORD_TYPE)&__heap_start 
-	- ((PROCESSOR_WORD_TYPE)&__heap_start % (PROCESSOR_WORD_TYPE)sizeof(PROCESSOR_WORD_TYPE)) 
-	+ (PROCESSOR_WORD_TYPE)sizeof(PROCESSOR_WORD_TYPE);
+//  Blue Pill Memory Layout: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
+//  RAM Layout: [Start of RAM] [Data] [BSS] [Codal Heap] grows--> (empty) <--grows [Stack] [End of RAM]
+
+extern PROCESSOR_WORD_TYPE _ebss;  //  End of BSS.
+PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)(&_ebss);
+
+//  TODO: From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
 
 extern "C" void __cxa_pure_virtual() {
 	//  Disable exceptions for abstract classes. See https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/abstract_classes.html
