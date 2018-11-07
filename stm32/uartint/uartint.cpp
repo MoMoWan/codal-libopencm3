@@ -127,7 +127,7 @@ void UARTInterface::write(uint8_t ch) {
 //  (which is determined by the type of AT command).  When we receive the request downlink command,
 //  we will wait 1 minute before returning the response, to simulate the delay for an actual Sigfox downlink.
 
-#include "../../sigfox.h"  //  For COMMAND_TIMEOUT, UPLINK_TIMEOUT, DOWNLINK_TIMEOUT
+#include "../../src/sigfox.h"  //  For COMMAND_TIMEOUT, UPLINK_TIMEOUT, DOWNLINK_TIMEOUT
 
 //  Wisol AT Commands from https://github.com/lupyuen/send_altitude_cocoos/blob/master/wisol.cpp
 
