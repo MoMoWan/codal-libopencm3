@@ -1,34 +1,34 @@
 /*
-The MIT License (MIT)
+    The MIT License (MIT)
 
-Copyright (c) 2016 Lancaster University, UK.
+    Copyright (c) 2016 Lancaster University, UK.
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
 */
 
 
-#include "F103RE.h"
+#include "STM32BluePill.h"
 #include "Timer.h"
 
 using namespace codal;
 
-static F103RE *device_instance = NULL;
+static STM32BluePill *device_instance = NULL;
 
 /**
   * Constructor.
@@ -36,7 +36,7 @@ static F103RE *device_instance = NULL;
   * Create a representation of a GenuinoZero device, which includes member variables
   * that represent various device drivers used to control aspects of the micro:bit.
   */
-F103RE::F103RE() :
+STM32BluePill::STM32BluePill() :
     timer(),
     messageBus(),
     io(),
@@ -63,7 +63,7 @@ F103RE::F103RE() :
   * @note This method must be called before user code utilises any functionality
   *       contained within the GenuinoZero class.
   */
-int F103RE::init()
+int STM32BluePill::init()
 {
     if (status & DEVICE_INITIALIZED)
         return DEVICE_NOT_SUPPORTED;
@@ -82,7 +82,7 @@ int F103RE::init()
     // Seed our random number generator
     //seedRandom();
 
-    codal_dmesg_set_flush_fn(f103re_dmesg_flush);
+    codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);
     status |= DEVICE_COMPONENT_STATUS_IDLE_TICK;
 
     return DEVICE_OK;
@@ -93,12 +93,12 @@ int F103RE::init()
   * We use this for any low priority, backgrounf housekeeping.
   *
   */
-void F103RE::idleCallback()
+void STM32BluePill::idleCallback()
 {
     codal_dmesg_flush();
 }
 
-void f103re_dmesg_flush()
+void stm32bluepill_dmesg_flush()
 {
 #if CONFIG_ENABLED(DMESG_SERIAL_DEBUG)
 #if DEVICE_DMESG_BUFFER_SIZE > 0

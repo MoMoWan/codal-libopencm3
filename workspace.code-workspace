@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "/private/tmp/codal-generic-f103re"
+		},
+		{
+			"path": "/private/tmp/codal-stm32"
 		}
 	],
 	"settings": {

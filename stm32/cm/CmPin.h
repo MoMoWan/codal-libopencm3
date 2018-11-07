@@ -1,25 +1,25 @@
 /*
-The MIT License (MIT)
+  The MIT License (MIT)
 
-Copyright (c) 2017 Lancaster University.
+  Copyright (c) 2017 Lancaster University.
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation
+  the rights to use, copy, modify, merge, publish, distribute, sublicense,
+  and/or sell copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  DEALINGS IN THE SOFTWARE.
 */
 
 #ifndef CODAL_CM_PIN_H
@@ -36,6 +36,7 @@ DEALINGS IN THE SOFTWARE.
 #define IO_STATUS_EVENT_ON_EDGE             0x20        // Pin will generate events on pin change
 #define IO_STATUS_EVENT_PULSE_ON_EDGE       0x40        // Pin will generate events on pin change
 
+//  TODO: Remove this.
 //#defines for each edge connector pin
 #define DEVICE_PIN_P0                     P0_3        //P0 is the left most pad (ANALOG/DIGITAL) used to be P0_3 on green board
 #define DEVICE_PIN_P1                     P0_2        //P1 is the middle pad (ANALOG/DIGITAL)
@@ -56,6 +57,62 @@ DEALINGS IN THE SOFTWARE.
 #define DEVICE_PIN_P16                    P0_16       //PIN 16
 #define DEVICE_PIN_P19                    P0_0        //SCL
 #define DEVICE_PIN_P20                    P0_30       //SDA
+
+//  STM32 pins from https://github.com/lancaster-university/codal-stm32/blob/master/inc/stm32.h
+#define PA_0 0x00
+#define PA_1 0x01
+#define PA_2 0x02
+#define PA_3 0x03
+#define PA_4 0x04
+#define PA_5 0x05
+#define PA_6 0x06
+#define PA_7 0x07
+#define PA_8 0x08
+#define PA_9 0x09
+#define PA_10 0x0A
+#define PA_11 0x0B
+#define PA_12 0x0C
+#define PA_13 0x0D
+#define PA_14 0x0E
+#define PA_15 0x0F
+#define PB_0 0x10
+#define PB_1 0x11
+#define PB_2 0x12
+#define PB_3 0x13
+#define PB_4 0x14
+#define PB_5 0x15
+#define PB_6 0x16
+#define PB_7 0x17
+#define PB_8 0x18
+#define PB_9 0x19
+#define PB_10 0x1A
+#define PB_12 0x1C
+#define PB_13 0x1D
+#define PB_14 0x1E
+#define PB_15 0x1F
+#define PC_0 0x20
+#define PC_1 0x21
+#define PC_2 0x22
+#define PC_3 0x23
+#define PC_4 0x24
+#define PC_5 0x25
+#define PC_6 0x26
+#define PC_7 0x27
+#define PC_8 0x28
+#define PC_9 0x29
+#define PC_10 0x2A
+#define PC_11 0x2B
+#define PC_12 0x2C
+#define PC_13 0x2D
+#define PC_14 0x2E
+#define PC_15 0x2F
+#define PD_2 0x32
+#define PH_0 0x70
+#define PH_1 0x71
+
+#define ADC_TEMP 0xF0
+#define ADC_VREF 0xF1
+#define ADC_VBAT 0xF2
 
 /**
   * Class definition for Pin.

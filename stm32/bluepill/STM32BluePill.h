@@ -1,37 +1,34 @@
 /*
-The MIT License (MIT)
+    The MIT License (MIT)
 
-Copyright (c) 2016 Lancaster University, UK.
+    Copyright (c) 2016 Lancaster University, UK.
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef MICROBIT_H
-#define MICROBIT_H
-
-#include "mbed.h"
+#ifndef STM32BLUEPILL_H
+#define STM32BLUEPILL_H
 
 #include "CodalHeapAllocator.h"
-#include "codal-core/inc/types/Event.h"
+#include "Event.h"
 #include "CodalDevice.h"
 #include "ErrorNo.h"
-#include "MbedTimer.h"
 #include "CodalCompat.h"
 #include "CodalComponent.h"
 #include "CodalDmesg.h"
@@ -41,9 +38,7 @@ DEALINGS IN THE SOFTWARE.
 
 #include "Button.h"
 #include "MultiButton.h"
-#include "MbedI2C.h"
-#include "MbedSerial.h"
-#include "F103REIO.h"
+#include "STM32BluePillIO.h"
 #include "CodalFiber.h"
 #include "MessageBus.h"
 
@@ -51,25 +46,25 @@ DEALINGS IN THE SOFTWARE.
 #define DEVICE_INITIALIZED                    0x01
 
 /**
- * Class definition for a MicroBit device.
+ * Class definition for a STM32BluePill device.
  *
  * Represents the device as a whole, and includes member variables that represent various device drivers
  * used to control aspects of the micro:bit.
  */
 namespace codal
 {
-    class F103RE : public CodalComponent
+    class STM32BluePill : public CodalComponent
     {
         public:
-            codal::_mbed::Timer         timer;
+            codal::_cm::Timer         timer;
             MessageBus                  messageBus;
-            F103REIO                  io;
-            codal::_mbed::I2C           i2c;
+            STM32BluePillIO                  io;
+            codal::_cm::I2C           i2c;
 
             /**
              * Constructor.
              */
-            F103RE();
+            STM32BluePill();
 
             /**
              * Post constructor initialisation method.
@@ -100,7 +95,7 @@ namespace codal
             virtual void idleCallback();
 
             /**
-             * Determine the time since this MicroBit was last reset.
+             * Determine the time since this STM32BLUEPILL was last reset.
              *
              * @return The time since the last reset, in milliseconds.
              *
@@ -125,28 +120,28 @@ namespace codal
      *
      * @param milliseconds the amount of time, in ms, to wait for. This number cannot be negative.
      *
-     * @return MICROBIT_OK on success, MICROBIT_INVALID_PARAMETER milliseconds is less than zero.
+     * @return STM32BLUEPILL_OK on success, STM32BLUEPILL_INVALID_PARAMETER milliseconds is less than zero.
      *
      */
-    inline void F103RE::sleep(uint32_t milliseconds)
+    inline void STM32BluePill::sleep(uint32_t milliseconds)
     {
         fiber_sleep(milliseconds);
     }
 
     /**
-     * Determine the time since this MicroBit was last reset.
+     * Determine the time since this STM32BLUEPILL was last reset.
      *
      * @return The time since the last reset, in milliseconds.
      *
      * @note This will value overflow after 1.6 months.
      */
-    inline unsigned long F103RE::systemTime()
+    inline unsigned long STM32BluePill::systemTime()
     {
         return system_timer_current_time();
     }
 }
 
-void f103re_dmesg_flush();
+void stm32bluepill_dmesg_flush();
 
 using namespace codal;
 
