@@ -1,23 +1,33 @@
-project(codal-mbed)
+project(codal-generic-f103re)
 
 include("${CODAL_UTILS_LOCATION}")
 
-RECURSIVE_FIND_DIR(INCLUDE_DIRS "inc" "*.h")
-RECURSIVE_FIND_FILE(SOURCE_FILES "source" "*.c??")
+# find sources and headers
+RECURSIVE_FIND_DIR(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/inc" "*.h")
+RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/source" "*.c??")
 
-include_directories("${INCLUDE_DIRS}")
+LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 
-add_library(codal-mbed "${SOURCE_FILES}" )
+RECURSIVE_FIND_DIR(MODEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/model" "*.h")
+RECURSIVE_FIND_FILE(MODEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/model" "*.c??")
+
+string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
+
+set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f1.ld\"" PARENT_SCOPE)
+set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f1.ld\"" PARENT_SCOPE)
+set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
+
+# add them
+include_directories(${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${MODEL_INCLUDE_DIRS})
+
+# create our target
+add_library(codal-generic-f103re ${TOP_LEVEL_SOURCE_FILES} ${MODEL_SOURCE_FILES})
 
 target_link_libraries(
-    codal-mbed
+    codal-generic-f103re
     codal-core
-    mbed-classic
+    codal-mbedos
 )
 
-target_include_directories(codal-mbed PUBLIC ${INCLUDE_DIRS})
-
-if(CODAL_HEADER_EXTRACTION)
-    RECURSIVE_FIND_FILE(INCLUDE_FILES "inc" "*.h")
-    file(COPY ${INCLUDE_FILES} DESTINATION "../../build/codal-mbed/includes")
-endif()
+# expose it to parent cmake.
+target_include_directories(codal-generic-f103re PUBLIC ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
