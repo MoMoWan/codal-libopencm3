@@ -19,7 +19,8 @@
 #include "gyro_sensor.h"        //  Gyroscope sensor (simulated)
 #endif  //  USE_GYRO_SENSOR
 
-#include <codal_target_hal.h>  //// TODO
+#include <codal_target_hal.h>  //// TODO: Force codal-core to be loaded.
+#include <CmPin.h>  //// TODO: Force CM library to be loaded.
 
 //  These are the functions that we will implement in this file.
 static void system_setup(void);                       //  Initialise the system.
