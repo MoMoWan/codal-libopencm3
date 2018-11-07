@@ -72,10 +72,6 @@ uint8_t convert_port_to_pin(uint32_t port_id) {
 
 #include <codal_target_hal.h>
 
-void test_codal() {
-	target_reset();
-}
-
 void target_reset() {
 	//  TODO
   	debug_println("----target_reset"); debug_flush();
@@ -121,4 +117,16 @@ extern "C" void *operator new(size_t objsize) {
 
 extern "C" void operator delete(void* obj) {
     free(obj);
+}
+
+#include <stdio.h>
+
+void test_codal() {
+	PROCESSOR_WORD_TYPE start = (PROCESSOR_WORD_TYPE)(codal_heap_start); 
+	PROCESSOR_WORD_TYPE end = (PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - (PROCESSOR_WORD_TYPE)(DEVICE_STACK_SIZE);
+	PROCESSOR_WORD_TYPE size = end - start;
+	debug_print("heap start: "); debug_println((size_t) start);
+	debug_print("heap end: "); debug_println((size_t) end);
+	debug_print("heap size: "); debug_println((size_t) size);
+	target_reset();
 }
