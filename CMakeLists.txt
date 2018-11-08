@@ -57,10 +57,10 @@ set(BOOST_INC
     "${LIB_DIR}/boost_static_assert/src" 
     "${LIB_DIR}/boost_preprocessor/src"
 )
-RECURSIVE_FIND_FILE(BOOST_SRC "${BOOST_DIR}*/src" "*.hpp")
+RECURSIVE_FIND_FILE(BOOST_SRC "${BOOST_DIR}*/src" "*.cpp")
 
-# create boost library.
-add_library(boost ${BOOST_SRC})
+# no need to create boost library since all files are headers.
+# add_library(boost ${BOOST_SRC})
 
 ###############################################################################
 # stm32
@@ -124,8 +124,11 @@ set(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src")
 RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.cpp")
 LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 
-# create our codal-libopencm3 target
+# create our codal-libopencm3 target.
 add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES})
+
+###############################################################################
+# global settings
 
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
@@ -150,7 +153,6 @@ target_link_libraries(
     codal-core
     cocoos
     bme280
-    boost
     stm32
     libopencm3
 )
