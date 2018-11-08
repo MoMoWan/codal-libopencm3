@@ -2,23 +2,21 @@ project(codal-libopencm3)
 
 include("${CODAL_UTILS_LOCATION}")
 
-# clone libopencm3 into codal/build/libraries/codal-libopencm3/libopencm3
-execute_process(WORKING_DIRECTORY "./libraries/codal-libopencm3" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
+# CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
+# clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
+execute_process(WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR/lib}" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
 
-# find sources and headers. CMAKE_CURRENT_SOURCE_DIR is codal/build/libraries/codal-libopencm3
+# find sources and headers.
 RECURSIVE_FIND_DIR(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.h")
 RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.c??")
 
-# LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
+LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 
 RECURSIVE_FIND_DIR(LIB_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/lib" "*.h")
 RECURSIVE_FIND_FILE(LIB_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/lib" "*.c??")
 
 RECURSIVE_FIND_DIR(STM32_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/stm32" "*.h")
 RECURSIVE_FIND_FILE(STM32_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/stm32" "*.c??")
-
-RECURSIVE_FIND_DIR(LIBOPENCM3_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/libopencm3" "*.h")
-RECURSIVE_FIND_FILE(LIBOPENCM3_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libopencm3" "*.c??")
 
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
@@ -27,10 +25,10 @@ set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIS
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # add them
-include_directories(${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} ${LIBOPENCM3_INCLUDE_DIRS})
+include_directories(${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS})
 
 # create our target
-add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES} ${LIB_SOURCE_FILES} ${STM32_SOURCE_FILES} ${LIBOPENCM3_SOURCE_FILES})
+add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES} ${LIB_SOURCE_FILES} ${STM32_SOURCE_FILES})
 
 target_link_libraries(
     codal-libopencm3
@@ -38,4 +36,4 @@ target_link_libraries(
 )
 
 # expose it to parent cmake.
-target_include_directories(codal-libopencm3 PUBLIC ${LIBOPENCM3_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
+target_include_directories(codal-libopencm3 PUBLIC ${STM32_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
