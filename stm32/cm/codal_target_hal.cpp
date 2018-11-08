@@ -2,6 +2,7 @@
 #include "codal_target_hal.h"
 #include "CodalDmesg.h"
 #include "CodalCompat.h"
+#include "CodalHeapAllocator.h"
 #include <logger.h>
 
 extern "C" void test_codal(); ////
@@ -13,32 +14,6 @@ extern "C" void test_codal(); ////
 
 extern PROCESSOR_WORD_TYPE _ebss;  //  End of BSS.
 PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)(&_ebss);
-
-//  TODO: From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
-
-extern "C" void __cxa_pure_virtual() {
-	//  Disable exceptions for abstract classes. See https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/abstract_classes.html
-    target_panic(1000);
-}
-
-// define new and delete.
-extern "C" void *operator new(size_t objsize) {
-    return malloc(objsize);
-}
-
-extern "C" void operator delete(void* obj) {
-    free(obj);
-}
-
-void test_codal() {
-	PROCESSOR_WORD_TYPE start = (PROCESSOR_WORD_TYPE)(codal_heap_start); 
-	PROCESSOR_WORD_TYPE end = (PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - (PROCESSOR_WORD_TYPE)(DEVICE_STACK_SIZE);
-	PROCESSOR_WORD_TYPE size = end - start;
-	debug_print("heap start: "); debug_println((size_t) start);
-	debug_print("heap end: "); debug_println((size_t) end);
-	debug_print("heap size: "); debug_println((size_t) size);
-	target_reset();
-}
 
 void target_enable_irq()
 {
@@ -216,9 +191,12 @@ PROCESSOR_WORD_TYPE tcb_get_stack_base(void *tcb)
     return tcbPointer->stack_base;
 }
 
+register unsigned int _sp __asm("sp");
+
 PROCESSOR_WORD_TYPE get_current_sp()
 {
-    return __get_MSP();
+    return _sp;
+    ////return __get_MSP();
 }
 
 PROCESSOR_WORD_TYPE tcb_get_sp(void *tcb)
@@ -234,4 +212,16 @@ void tcb_configure_args(void *tcb, PROCESSOR_WORD_TYPE ep, PROCESSOR_WORD_TYPE c
     tcbPointer->R0 = (uint32_t)ep;
     tcbPointer->R1 = (uint32_t)cp;
     tcbPointer->R2 = (uint32_t)pm;
+}
+
+void test_codal() {
+	PROCESSOR_WORD_TYPE start = (PROCESSOR_WORD_TYPE)(codal_heap_start); 
+	PROCESSOR_WORD_TYPE end = (PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - (PROCESSOR_WORD_TYPE)(DEVICE_STACK_SIZE);
+	PROCESSOR_WORD_TYPE size = end - start;
+	debug_print("heap start: "); debug_print((size_t) start);
+	debug_print(", end: "); debug_print((size_t) end);
+	debug_print(", size: "); debug_print((size_t) size);
+	debug_print(", stack used: "); debug_println((size_t) 
+        ((PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - get_current_sp()));
+	target_reset();
 }

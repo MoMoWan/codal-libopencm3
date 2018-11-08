@@ -5,6 +5,7 @@
 #include "bluepill.h"
 
 extern "C" void test_codal(); ////
+extern "C" void target_panic(int statusCode); ////
 
 //  Debugging is off by default.  Developer must switch it on with enable_debug().
 static bool debugEnabled = false;
@@ -65,4 +66,21 @@ uint8_t convert_port_to_pin(uint32_t port_id) {
 		if (port_id == allPins[pin]) { return pin; }
 	}
 	return 0;  //  Invalid port.
+}
+
+//  These functions must be located here or the compiler will pull in the standard C library versions.
+//  From https://github.com/lancaster-university/codal-arduino-uno/blob/master/source/codal_target_hal.cpp
+
+extern "C" void __cxa_pure_virtual() {
+	//  Disable exceptions for abstract classes. See https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/abstract_classes.html
+    target_panic(1000);
+}
+
+// define new and delete.
+extern "C" void *operator new(size_t objsize) {
+    return malloc(objsize);
+}
+
+extern "C" void operator delete(void* obj) {
+    free(obj);
 }
