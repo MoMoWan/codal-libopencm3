@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cocoos.h>
-#include "display.h"            //  For Display Task and debug functions
+#include "sensor_display.h"            //  For Display Task and debug functions
 #include "sensor.h"             //  For common sensor declarations
 #include "aggregate.h"          //  For aggregating sensor data before transmission
 #include "temp_sensor.h"        //  Temperature sensor (BME280 I2C or SPI)

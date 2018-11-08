@@ -60,8 +60,8 @@ set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIS
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # add them
-# ${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} 
 include_directories(
+    ${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} 
     "${LIBOPENCM3_DIR}/include"
     "${LIB_DIR}/boost_type_traits/src" 
     "${LIB_DIR}/boost_assert/src" 

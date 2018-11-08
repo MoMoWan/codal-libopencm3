@@ -1,8 +1,8 @@
 //  Display the debug log on the console.  If SENSOR_DISPLAY is enabled,
 //  there will be a Display Task that will receive sensor data messages
 //  and displays them on the console.
-#ifndef DISPLAY_H_
-#define DISPLAY_H_
+#ifndef SENSOR_DISPLAY_H_
+#define SENSOR_DISPLAY_H_
 
 //  Uncomment to log sensor data to console via Display Task instead of sending to network.
 //  #define SENSOR_DISPLAY
@@ -105,4 +105,4 @@ void display_task(void);  //  Display Task runs this function to display message
 END_EXTERN_C
 
 #endif  //  SENSOR_DISPLAY
-#endif  //  DISPLAY_H_
+#endif  //  SENSOR_DISPLAY_H_

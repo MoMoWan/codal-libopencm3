@@ -4,7 +4,7 @@
 // #include <stdio.h>
 #include <cocoos.h>
 #include "sensor.h"
-#include "display.h"
+#include "sensor_display.h"
 
 #ifdef SENSOR_DISPLAY
 //  Message buffer to be displayed at next refresh().

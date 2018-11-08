@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cocoos.h>
-#include "display.h"
+#include "sensor_display.h"
 #include "sensor.h"
 
 #if defined(SENSOR_DATA) && defined(STM32)  //  Event Sensors are only supported on STM32, because Arduino doesn't allow DMA.

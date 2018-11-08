@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <cocoos.h>
-#include "display.h"
+#include "sensor_display.h"
 #include "sensor.h"
 #include "gyro_sensor.h"
 

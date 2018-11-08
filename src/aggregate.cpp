@@ -2,7 +2,7 @@
 #include "platform.h"
 #include <string.h>
 #include <math.h>  //  For pow()
-#include "display.h"
+#include "sensor_display.h"
 #include "sensor.h"
 #include "wisol.h"
 #include "aggregate.h"

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cocoos.h>
-#include "display.h"
+#include "sensor_display.h"
 #include "sensor.h"
 
 #ifdef SENSOR_DATA

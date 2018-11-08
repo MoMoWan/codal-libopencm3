@@ -1,7 +1,7 @@
 //  BME280 I2C interface for temperature, humidity and altitude sensors.
 //  Reuses the Arduino library for BME280, even on Blue Pill: https://github.com/finitespace/BME280
 #include "platform.h"
-#include "display.h"
+#include "sensor_display.h"
 
 #ifdef SENSOR_DATA
 #include "bme280.h"

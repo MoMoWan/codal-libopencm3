@@ -1,6 +1,6 @@
 //  Your own function to process any received downlink messages.
 #include "platform.h"
-#include "display.h"
+#include "sensor_display.h"
 #include "downlink.h"
 
 bool process_downlink_msg(

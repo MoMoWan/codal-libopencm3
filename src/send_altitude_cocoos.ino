@@ -3,7 +3,7 @@
 //  If you wish, you may use this file as a staging area while porting your Arduino code 
 //  to .h and .cpp files. That's how bme280.h and bme280.cpp were created.
 #include "platform.h"
-#include "display.h"  //  For debug()
+#include "sensor_display.h"  //  For debug()
 #include "sensor.h"  //  Defines SENSOR_DATA
 #ifdef SENSOR_DATA  //  If we are using data from sensors, not hardcoded data...
 #include <SPI.h>  //  Needed by BME280 library.

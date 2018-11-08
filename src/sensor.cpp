@@ -4,7 +4,7 @@
 #include <string.h>
 #include <cocoos.h>
 #include "sensor.h"
-#include "display.h"
+#include "sensor_display.h"
 
 #ifdef SENSOR_DATA  //  If we are using real or simulated sensors instead of hardcoded sensor data...
 
