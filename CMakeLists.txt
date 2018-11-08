@@ -58,7 +58,6 @@ set(BOOST_INC
     "${LIB_DIR}/boost_preprocessor/src"
 )
 RECURSIVE_FIND_FILE(BOOST_SRC "${BOOST_DIR}*/src" "*.hpp")
-message("BOOST_SRC: ${BOOST_SRC}")
 
 # create boost library.
 add_library(boost ${BOOST_SRC})
@@ -117,17 +116,16 @@ add_library(libopencm3
     ${LIBOPENCM3_F1}
 )
 
-# create our target
-add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES} ${LIB_SOURCE_FILES} ${STM32_SOURCE_FILES})
-
 ###############################################################################
-# src
+# codal-libopencm3
 
-# find sources and headers.
+# find codal-libopencm3 sources and headers.
 set(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src")
-RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.c??")
-
+RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.cpp")
 LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
+
+# create our codal-libopencm3 target
+add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES})
 
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
@@ -135,7 +133,7 @@ set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/s
 set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
-# add them
+# include directories
 include_directories(
     ${INCLUDE_DIRS} 
     ${TOP_LEVEL_INCLUDE_DIRS}
@@ -146,6 +144,7 @@ include_directories(
     ${LIBOPENCM3_INC}
 )
 
+# libraries to be built
 target_link_libraries(
     codal-libopencm3
     codal-core
@@ -157,4 +156,4 @@ target_link_libraries(
 )
 
 # expose it to parent cmake.
-target_include_directories(codal-libopencm3 PUBLIC ${STM32_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
+target_include_directories(codal-libopencm3 PUBLIC ${TOP_LEVEL_INCLUDE_DIRS})
