@@ -5,6 +5,9 @@ include("${CODAL_UTILS_LOCATION}")
 # CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
 message("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 
+set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib")
+message("LIB_DIR: ${LIB_DIR}")
+
 # clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
 set(LIBOPENCM3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/libopencm3")
 message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
@@ -57,8 +60,20 @@ set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIS
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # add them
-include_directories(${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} 
-    "${LIBOPENCM3_DIR}/include")
+include_directories(
+    ${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} 
+    "${LIBOPENCM3_DIR}/include"
+    "${LIB_DIR}/boost_type_traits/src" 
+    "${LIB_DIR}/boost_assert/src" 
+    "${LIB_DIR}/boost_core/src" 
+    "${LIB_DIR}/boost_utility/src" 
+    "${LIB_DIR}/boost_predef/src" 
+    "${LIB_DIR}/boost_mpl/src" 
+    "${LIB_DIR}/boost_detail/src" 
+    "${LIB_DIR}/boost_parameter/src" 
+    "${LIB_DIR}/boost_iterator/src" 
+    "${LIB_DIR}/boost_lockfree/src" 
+)
 
 # create libopencm3 library.
 add_library(libopencm3 
