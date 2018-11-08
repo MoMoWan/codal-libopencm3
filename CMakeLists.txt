@@ -4,7 +4,7 @@ include("${CODAL_UTILS_LOCATION}")
 
 # CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
 # clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
-execute_process(WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR/lib}" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
+execute_process(WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
 
 # find sources and headers.
 RECURSIVE_FIND_DIR(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.h")
