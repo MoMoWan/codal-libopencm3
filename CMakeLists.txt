@@ -10,10 +10,24 @@ set(LIBOPENCM3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/libopencm3")
 message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
 execute_process(WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
 
+# remove files we shouldn't compile.
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2_multi.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/crc_v2.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/crs_common_all.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/crypto_common_f24.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/flash_common_f24.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/dma_common_f24.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/hash_common_f24.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/timer_common_f24.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/gpio_common_f0234.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/rtc_common_l1f024.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/timer_common_f0234.c")
+
 # find libopencm3 sources and headers.
 RECURSIVE_FIND_DIR(LIBOPENCM3_INCLUDE_DIRS "${LIBOPENCM3_DIR}/include/stm32" "*.h")
 RECURSIVE_FIND_FILE(LIBOPENCM3_SOURCE_FILES "${LIBOPENCM3_DIR}/lib/stm32" "*.c")
-message("LIBOPENCM3_INCLUDE_DIRS: ${LIBOPENCM3_INCLUDE_DIRS}")
+# message("LIBOPENCM3_INCLUDE_DIRS: ${LIBOPENCM3_INCLUDE_DIRS}")
 # message("LIBOPENCM3_SOURCE_FILES: ${LIBOPENCM3_SOURCE_FILES}")
 
 # find sources and headers.
