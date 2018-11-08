@@ -7,8 +7,6 @@
 #include <math.h>    //  For sin()
 #include "stm32.h"
 
-#error Stopping in platform_includes.h
-
 #ifdef __cplusplus
 extern "C" {
 #endif
