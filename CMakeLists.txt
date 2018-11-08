@@ -10,7 +10,7 @@ set(LIBOPENCM3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/libopencm3")
 message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
 execute_process(WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
 
-# remove files we shouldn't compile.
+# remove files we shouldn't compile.  TODO: Allow other platforms besides STM32F1
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2.c")
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2_multi.c")
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/crc_v2.c")
@@ -28,12 +28,13 @@ execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/co
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/spi_common_v2.c")
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/usart_common_v2.c")
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/flash_common_l01.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/spi_common_v1_frf.c")
+execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/rng_common_v1.c")
 
-# find libopencm3 sources and headers.
+# find libopencm3 sources and headers.   TODO: Allow other platforms besides STM32F1
 RECURSIVE_FIND_DIR(LIBOPENCM3_INCLUDE_DIRS "${LIBOPENCM3_DIR}/include/stm32" "*.h")
-RECURSIVE_FIND_FILE(LIBOPENCM3_SOURCE_FILES "${LIBOPENCM3_DIR}/lib/stm32" "*.c")
-# message("LIBOPENCM3_INCLUDE_DIRS: ${LIBOPENCM3_INCLUDE_DIRS}")
-# message("LIBOPENCM3_SOURCE_FILES: ${LIBOPENCM3_SOURCE_FILES}")
+RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
+RECURSIVE_FIND_FILE(LIBOPENCM3_F1 "${LIBOPENCM3_DIR}/lib/stm32/f1" "*.c")
 
 # find sources and headers.
 RECURSIVE_FIND_DIR(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.h")
@@ -60,7 +61,10 @@ include_directories(${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS
     "${LIBOPENCM3_DIR}/include")
 
 # create libopencm3 library.
-add_library(libopencm3 ${LIBOPENCM3_SOURCE_FILES})
+add_library(libopencm3 
+    ${LIBOPENCM3_COMMON}
+    ${LIBOPENCM3_F1}
+)
 
 # create our target
 add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES} ${LIB_SOURCE_FILES} ${STM32_SOURCE_FILES})
