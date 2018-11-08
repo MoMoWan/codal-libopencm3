@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "/private/tmp/codal-stm32"
+		},
+		{
+			"path": "/Users/Luppy/codal"
 		}
 	],
 	"settings": {
