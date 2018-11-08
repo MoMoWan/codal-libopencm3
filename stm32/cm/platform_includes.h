@@ -7,6 +7,8 @@
 #include <math.h>    //  For sin()
 #include "stm32.h"
 
+#error Stopping in platform_includes.h
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -29,8 +31,11 @@ void wait_us(uint32_t us);
 ////  TODO: Sync with target.json. Based on https://github.com/mmoskal/codal-generic-f103re/blob/master/target.json
 
 //  Sync with linker def: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
-#define DEVICE_SRAM_BASE &_data   //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
-#define DEVICE_SRAM_END  &_stack  //  TODO: Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+//  TODO: Should use _data and _stack but codal-core build fails because they are undefined.
+//  #define DEVICE_SRAM_BASE &_data   //  Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+//  #define DEVICE_SRAM_END  &_stack  //  Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+#define DEVICE_SRAM_BASE 0x20000000   //  Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
+#define DEVICE_SRAM_END  0x20005000   //  Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
 #define DEVICE_STACK_BASE DEVICE_SRAM_END
 #define DEVICE_STACK_SIZE 2048
 
