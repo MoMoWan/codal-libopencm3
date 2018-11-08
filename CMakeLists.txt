@@ -2,6 +2,9 @@ project(codal-libopencm3)
 
 include("${CODAL_UTILS_LOCATION}")
 
+# clone libopencm3
+execute_process(WORKING_DIRECTORY "." COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
+
 # find sources and headers
 RECURSIVE_FIND_DIR(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.h")
 RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.c??")
