@@ -60,11 +60,12 @@ set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIS
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # add them
+# ${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} 
 include_directories(
-    ${INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS} ${LIB_INCLUDE_DIRS} ${STM32_INCLUDE_DIRS} 
     "${LIBOPENCM3_DIR}/include"
     "${LIB_DIR}/boost_type_traits/src" 
     "${LIB_DIR}/boost_assert/src" 
+    "${LIB_DIR}/boost_config/src" 
     "${LIB_DIR}/boost_core/src" 
     "${LIB_DIR}/boost_utility/src" 
     "${LIB_DIR}/boost_predef/src" 
@@ -73,6 +74,8 @@ include_directories(
     "${LIB_DIR}/boost_parameter/src" 
     "${LIB_DIR}/boost_iterator/src" 
     "${LIB_DIR}/boost_lockfree/src" 
+    "${LIB_DIR}/boost_static_assert/src" 
+    "${LIB_DIR}/boost_preprocessor/src" 
 )
 
 # create libopencm3 library.
