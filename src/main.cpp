@@ -38,7 +38,7 @@ void Blink_main(codal::STM32BluePill& bluepill){
 	while(1)
     {    
 		bluepill.io.led.setDigitalValue(state);
-        bluepill.sleep(1000);
+        bluepill.sleep(10);
         state = !state;
     }
 }
