@@ -9,9 +9,24 @@ https://github.com/lancaster-university/codal-stm32
 
 https://github.com/mmoskal/codal-generic-f103re
 
+https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node
+
+## codal.json
+
+```json
+{
+    "target": {
+        "url": "https://github.com/lupyuen/codal-libopencm3",
+        "type": "git",
+        "name": "codal-libopencm3",
+        "branch": "master"
+    }
+}
+```
+
 ## PlatformIO Build Log
 
-```
+```sh
 > Executing task in folder codal-libopencm3: platformio run <
 
 Processing bluepill_f103c8 (framework: libopencm3; platform: ststm32; board: bluepill_f103c8)
