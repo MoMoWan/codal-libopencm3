@@ -108,12 +108,14 @@ execute_process(
     COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" 
     OUTPUT_VARIABLE git_clone_libopencm3)
 
-# patch nvic.h, which is auto-generated.  TODO: Allow other platforms besides STM32F1
+# patch nvic.h, vector_nvic.c, which are auto-generated.  TODO: Allow other platforms besides STM32F1
 set(LIBOPENCM3_PATCH "${PATCHES_DIR}/libopencm3")
 set(PATCH_NVIC "include/libopencm3/stm32/f1/nvic.h")
-execute_process(
-    WORKING_DIRECTORY "${LIB_DIR}" 
+set(PATCH_VECTOR "lib/stm32/f1/vector_nvic.c")
+execute_process(WORKING_DIRECTORY "${LIB_DIR}" 
     COMMAND "cp" "${LIBOPENCM3_PATCH}/${PATCH_NVIC}" "${LIBOPENCM3_DIR}/${PATCH_NVIC}")
+execute_process(WORKING_DIRECTORY "${LIB_DIR}" 
+    COMMAND "cp" "${LIBOPENCM3_PATCH}/${PATCH_VECTOR}" "${LIBOPENCM3_DIR}/${PATCH_VECTOR}")
 
 # remove files we shouldn't compile.  TODO: Allow other platforms besides STM32F1
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2.c")
@@ -138,11 +140,13 @@ execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/co
 
 # find libopencm3 sources and headers.   TODO: Allow other platforms besides STM32F1
 set(LIBOPENCM3_INC "${LIBOPENCM3_DIR}/include")
+RECURSIVE_FIND_FILE(LIBOPENCM3_CM3 "${LIBOPENCM3_DIR}/lib/cm3" "*.c")
 RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
 RECURSIVE_FIND_FILE(LIBOPENCM3_F1 "${LIBOPENCM3_DIR}/lib/stm32/f1" "*.c")
 
 # create libopencm3 library.
 add_library(libopencm3 
+    ${LIBOPENCM3_CM3}
     ${LIBOPENCM3_COMMON}
     ${LIBOPENCM3_F1}
 )

@@ -1,7 +1,8 @@
 //  Main Application.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
 #include "STM32BluePill.h"
-
 using namespace codal;
+
+void Blink_main(codal::STM32BluePill& bluepill);
 STM32BluePill bluepill;
 
 int main()

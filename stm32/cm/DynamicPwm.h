@@ -74,7 +74,7 @@ class PwmOut {
      *
      *  @param pin PwmOut pin to connect to
      */
-    PwmOut(PinName pin, const char *name = NULL);
+    PwmOut(PinName pin, const char *name = NULL) {}
   protected: 
     ////PWMName _pwm;
 };
