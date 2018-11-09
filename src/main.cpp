@@ -3,6 +3,20 @@
 
 #ifdef PLATFORMIO  //  If building on PlatformIO...
 #include "i2cint.h"  //  Force I2C Interface to be included for PlatformIO build.
+//  Handle exit.  From https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/static.html.
+extern "C" {
+    void* __dso_handle = nullptr;
+    int __wrap_atexit( 
+        void *object, 
+        void (*destructor)(void *), 
+        void *dso_handle) 
+    { 
+        static_cast<void>(object); 
+        static_cast<void>(destructor); 
+        static_cast<void>(dso_handle); 
+        return 0; 
+    }
+}
 #endif  //  PLATFORMIO
 
 using namespace codal;
@@ -27,3 +41,5 @@ void Blink_main(codal::STM32BluePill& bluepill){
         state = !state;
     }
 }
+
+
