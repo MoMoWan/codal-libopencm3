@@ -1,13 +1,14 @@
 project(codal-libopencm3)
-
 include("${CODAL_UTILS_LOCATION}")
 
-# CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
-message("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
+# configure version of libopencm3 to clone.
+set(LIBOPENCM3_VERSION "53347c266bb86f99b74c5f028c4c0f0c24d66b83") # Nov 6, 2018
 
+# CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
 # build the libraries in the "lib" folder.
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib")
-message("LIB_DIR: ${LIB_DIR}")
+# files to be patched.
+set(PATCHES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/patches")
 
 ###############################################################################
 # codal-core
@@ -95,7 +96,17 @@ set(LIBOPENCM3_DIR "${LIB_DIR}/libopencm3")
 message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
 
 # clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
-execute_process(WORKING_DIRECTORY "${LIB_DIR}" COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" OUTPUT_VARIABLE git_clone_libopencm3)
+execute_process(
+    WORKING_DIRECTORY "${LIB_DIR}" 
+    COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" 
+    "--branch" "${LIBOPENCM3_VERSION}" "--single-branch"
+    OUTPUT_VARIABLE git_clone_libopencm3)
+
+# patch nvic.h, which is auto-generated.  TODO: Allow other platforms besides STM32F1
+set(PATCH_NVIC "include/libopencm3/stm32/f1/nvic.h")
+execute_process(
+    WORKING_DIRECTORY "${LIB_DIR}" 
+    COMMAND "cp" "{PATCHES_DIR}/${PATCH_NVIC}" "{LIBOPENCM3_DIR}/${PATCH_NVIC}")
 
 # remove files we shouldn't compile.  TODO: Allow other platforms besides STM32F1
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2.c")
