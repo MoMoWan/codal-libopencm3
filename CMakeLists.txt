@@ -96,17 +96,18 @@ set(LIBOPENCM3_DIR "${LIB_DIR}/libopencm3")
 message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
 
 # clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
+# TODO: "--branch" "${LIBOPENCM3_VERSION}" "--single-branch"
 execute_process(
     WORKING_DIRECTORY "${LIB_DIR}" 
     COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" 
-    "--branch" "${LIBOPENCM3_VERSION}" "--single-branch"
     OUTPUT_VARIABLE git_clone_libopencm3)
 
 # patch nvic.h, which is auto-generated.  TODO: Allow other platforms besides STM32F1
+set(LIBOPENCM3_PATCH, "${PATCHES_DIR}/libopencm3")
 set(PATCH_NVIC "include/libopencm3/stm32/f1/nvic.h")
 execute_process(
     WORKING_DIRECTORY "${LIB_DIR}" 
-    COMMAND "cp" "{PATCHES_DIR}/${PATCH_NVIC}" "{LIBOPENCM3_DIR}/${PATCH_NVIC}")
+    COMMAND "cp" "${LIBOPENCM3_PATCH}/${PATCH_NVIC}" "${LIBOPENCM3_DIR}/${PATCH_NVIC}")
 
 # remove files we shouldn't compile.  TODO: Allow other platforms besides STM32F1
 execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/common/adc_common_v2.c")
