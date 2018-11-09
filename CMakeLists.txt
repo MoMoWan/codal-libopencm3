@@ -87,7 +87,7 @@ message("STM32_DIR: ${STM32_DIR}")
 # find stm32 sources and headers.
 RECURSIVE_FIND_DIR(STM32_INC "${STM32_DIR}" "*.h")
 RECURSIVE_FIND_FILE(STM32_SRC "${STM32_DIR}" "*.cpp")
-LIST(APPEND STM32_SRC "${STM32_CM_DIR}/CortexContextSwitch.s")
+LIST(APPEND STM32_SRC "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 # MODEL_INCLUDE_DIRS will be exposed to the main application.
 set(
     MODEL_INCLUDE_DIRS 
