@@ -43,9 +43,12 @@ static void rtc_setup(void) {
 	rtc_interrupt_disable(RTC_ALR);
 	rtc_interrupt_disable(RTC_OW);
 
-	// RCC_HSE, RCC_LSE, RCC_LSI
-	rtc_awake_from_off(RCC_HSE);  //  TODO: For newer version of libopencm3  
-	//// rtc_awake_from_off(HSE); //  TODO: For older version of libopencm3
+	// Select RCC_HSE, RCC_LSE or RCC_LSI
+#ifdef LIBOPENCM3_RCC_LEGACY      //  If using older version of libopencm3 (PlatformIO)...
+	rtc_awake_from_off(HSE);      //  The older timer is named HSE.
+#else                             //  If using newer version of libopencm3 (Codal)...
+	rtc_awake_from_off(RCC_HSE);  //  The newer timer is named RCC_HSE.
+#endif  //  LIBOPENCM3_RCC_LEGACY
 	
 	rtc_set_prescale_val(62);  //  1 millisecond tick: Should be 62.5
 	// rtc_set_prescale_val(625);  //  0.01 second tick
