@@ -140,9 +140,28 @@ execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/co
 
 # find libopencm3 sources and headers.   TODO: Allow other platforms besides STM32F1
 set(LIBOPENCM3_INC "${LIBOPENCM3_DIR}/include")
-RECURSIVE_FIND_FILE(LIBOPENCM3_CM3 "${LIBOPENCM3_DIR}/lib/cm3" "*.c")
+# RECURSIVE_FIND_FILE(LIBOPENCM3_CM3 "${LIBOPENCM3_DIR}/lib/cm3" "*.c")
+set(
+    LIBOPENCM3_CM3
+    "${LIBOPENCM3_DIR}/lib/cm3/vector.c"
+)
 RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
-RECURSIVE_FIND_FILE(LIBOPENCM3_F1 "${LIBOPENCM3_DIR}/lib/stm32/f1" "*.c")
+# RECURSIVE_FIND_FILE(LIBOPENCM3_F1 "${LIBOPENCM3_DIR}/lib/stm32/f1" "*.c")
+set(
+    LIBOPENCM3_F1
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/adc.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/dac.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/dma.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/flash.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/gpio.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/i2c.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/pwr.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/rcc.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/rtc.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/f1/timer.c"
+    # vector_nvic.c should not be compiled directly, causes error "aliased to undefined symbol 'blocking_handler'"
+    # "${LIBOPENCM3_DIR}"/lib/stm32/f1/vector_nvic.c
+)
 
 # create libopencm3 library.
 add_library(libopencm3 

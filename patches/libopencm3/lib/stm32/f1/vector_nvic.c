@@ -6,7 +6,6 @@
  * blocking_handler gets defined due to the way #pragma works.
  */
 
-
 /** @defgroup CM3_nvic_isrpragmas_STM32F1 User interrupt service routines (ISR) defaults for STM32 F1 series
     @ingroup CM3_nvic_isrpragmas
 
