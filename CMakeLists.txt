@@ -85,6 +85,7 @@ message("STM32_DIR: ${STM32_DIR}")
 # find stm32 sources and headers.
 RECURSIVE_FIND_DIR(STM32_INC "${STM32_DIR}" "*.h")
 RECURSIVE_FIND_FILE(STM32_SRC "${STM32_DIR}" "*.cpp")
+set(MODEL_INCLUDE_DIRS "${STM32_DIR}/bluepill")
 
 # create stm32 library.
 add_library(stm32 ${STM32_SRC})
@@ -146,6 +147,7 @@ add_library(libopencm3
 
 # find codal-libopencm3 sources and headers.
 set(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src")
+message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
 RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.cpp")
 LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 
@@ -187,4 +189,4 @@ target_link_libraries(
 )
 
 # expose it to parent cmake.
-target_include_directories(codal-libopencm3 PUBLIC ${TOP_LEVEL_INCLUDE_DIRS})
+target_include_directories(codal-libopencm3 PUBLIC ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})

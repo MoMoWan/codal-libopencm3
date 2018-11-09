@@ -1,5 +1,4 @@
 //  Main Application.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
-#include "stm32.h"
 #include "STM32BluePill.h"
 
 int main2(void);

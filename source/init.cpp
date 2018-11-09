@@ -1,4 +1,3 @@
-#include "stm32.h"
 #include "codal_target_hal.h"
 #include "CodalDmesg.h"
 
