@@ -44,8 +44,8 @@ static void rtc_setup(void) {
 	rtc_interrupt_disable(RTC_OW);
 
 	// RCC_HSE, RCC_LSE, RCC_LSI
-	//// TODO: rtc_awake_from_off(RCC_HSE); 
-	rtc_awake_from_off(HSE); //// TODO: Older version of libopencm3?
+	rtc_awake_from_off(RCC_HSE);  //  TODO: For newer version of libopencm3  
+	//// rtc_awake_from_off(HSE); //  TODO: For older version of libopencm3
 	
 	rtc_set_prescale_val(62);  //  1 millisecond tick: Should be 62.5
 	// rtc_set_prescale_val(625);  //  0.01 second tick

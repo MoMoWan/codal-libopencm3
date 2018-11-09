@@ -151,6 +151,7 @@ LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContex
 
 # create our codal-libopencm3 target.
 add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES})
+message("TOP_LEVEL_SOURCE_FILES: ${TOP_LEVEL_SOURCE_FILES}")
 
 ###############################################################################
 # global settings
