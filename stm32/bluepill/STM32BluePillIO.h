@@ -84,6 +84,7 @@ namespace codal
 
             _cm::Pin        scl;
             _cm::Pin        sda;
+            _cm::Pin        led;
 
             /**
              * Constructor.

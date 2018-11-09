@@ -25,6 +25,7 @@
 
 #include "STM32BluePill.h"
 #include "Timer.h"
+#include <cocoos.h>
 
 using namespace codal;
 
@@ -44,7 +45,6 @@ STM32BluePill::STM32BluePill() :
 {
     // Clear our status
     status = 0;
-
     device_instance = this;
 }
 
@@ -67,12 +67,19 @@ int STM32BluePill::init()
 {
     if (status & DEVICE_INITIALIZED)
         return DEVICE_NOT_SUPPORTED;
-
     status |= DEVICE_INITIALIZED;
 
-    // Bring up fiber scheduler.
-    scheduler_init(messageBus);
+    //  Blue Pill specific initialisation...
+    enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
 
+    //  Init the platform, cocoOS and create any system objects.
+    platform_setup();  //  Arduino or STM32 platform setup.
+    os_init();         //  Init cocoOS before creating any multitasking objects.
+
+    //  Codal initialisation...
+    //  Bring up fiber scheduler.
+    scheduler_init(messageBus);
     for(int i = 0; i < DEVICE_COMPONENT_COUNT; i++)
     {
         if(CodalComponent::components[i])
@@ -84,7 +91,6 @@ int STM32BluePill::init()
 
     codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);
     status |= DEVICE_COMPONENT_STATUS_IDLE_TICK;
-
     return DEVICE_OK;
 }
 

@@ -4,16 +4,19 @@
 			"path": "."
 		},
 		{
-			"path": "../.platformio/lib"
+			"path": "/Users/Luppy/.platformio/lib"
 		},
 		{
-			"path": "../.platformio/packages"
+			"path": "/Users/Luppy/.platformio/packages"
 		},
 		{
-			"path": "../stm32f103c8t6"
+			"path": "/Users/Luppy/stm32f103c8t6"
 		},
 		{
 			"path": "/private/tmp/codal-generic-f103re"
+		},
+		{
+			"path": "/private/tmp/codal-stm32-iot-node"
 		},
 		{
 			"path": "/private/tmp/codal-stm32"

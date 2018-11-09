@@ -1,21 +1,25 @@
 //  Main Application.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
 #include "STM32BluePill.h"
 
-int main2(void);
-
-//  using namespace codal;
-codal::STM32BluePill bluepill;
+using namespace codal;
+STM32BluePill bluepill;
 
 int main()
 {
     bluepill.init();
-    #if defined(BLE_TEMPERATURE_ALARM_SAMPLE)
-    ////TemperatureAlarm_main(iotNode);
-    #else
-    main2();
-    #endif
+    Blink_main(bluepill);
 }
 
-//  Rename the old main() function as main2()
-#define main main2
-#include "../src/main.cpp"
+void Blink_main(codal::STM32BluePill& bluepill){
+	bluepill.io.led.setDigitalValue(0);
+	bluepill.io.led2.setDigitalValue(0);
+
+	int state = 1;
+	while(1)
+    {    
+		bluepill.io.led.setDigitalValue(state);
+        bluepill.io.led2.setDigitalValue(state);
+        bluepill.sleep(1000);
+        state = !state;
+    }
+}

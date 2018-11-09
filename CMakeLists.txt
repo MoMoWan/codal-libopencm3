@@ -85,7 +85,12 @@ message("STM32_DIR: ${STM32_DIR}")
 # find stm32 sources and headers.
 RECURSIVE_FIND_DIR(STM32_INC "${STM32_DIR}" "*.h")
 RECURSIVE_FIND_FILE(STM32_SRC "${STM32_DIR}" "*.cpp")
-set(MODEL_INCLUDE_DIRS "${STM32_DIR}/bluepill")
+# MODEL_INCLUDE_DIRS will be exposed to the main application.
+set(
+    MODEL_INCLUDE_DIRS 
+    "${STM32_DIR}/bluepill"
+    "${STM32_DIR}/cm"
+)
 
 # create stm32 library.
 add_library(stm32 ${STM32_SRC})
