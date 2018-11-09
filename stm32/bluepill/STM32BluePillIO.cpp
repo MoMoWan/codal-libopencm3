@@ -42,6 +42,8 @@ using namespace codal;
   */
 STM32BluePillIO::STM32BluePillIO() :
     scl (ID_PIN_SCL, PB_6, PIN_CAPABILITY_AD),
-    sda (ID_PIN_SDA, PB_7, PIN_CAPABILITY_AD)
+    sda (ID_PIN_SDA, PB_7, PIN_CAPABILITY_AD),
+    led (ID_PIN_LED_BLUE, PC_13, PIN_CAPABILITY_AD),
+    pc13 (ID_PIN_P13, PC_13, PIN_CAPABILITY_AD)
 {
 }

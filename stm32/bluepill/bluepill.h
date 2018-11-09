@@ -2,9 +2,9 @@
 #ifndef BLUEPILL_H_
 #define BLUEPILL_H_
 #include <stdint.h>  //  For uint32_t
-#include <libopencm3/stm32/spi.h>    //  For SPI port definitions e.g. SPI1
-#include <libopencm3/stm32/i2c.h>    //  For I2C port definitions e.g. I2C1
-#include <libopencm3/stm32/usart.h>  //  For USART port definitions e.g. USART1
+////#include <libopencm3/stm32/spi.h>    //  For SPI port definitions e.g. SPI1
+////#include <libopencm3/stm32/i2c.h>    //  For I2C port definitions e.g. I2C1
+////#include <libopencm3/stm32/usart.h>  //  For USART port definitions e.g. USART1
 #ifdef __cplusplus
 extern "C" {  //  Allows functions below to be called by C and C++ code.
 #endif

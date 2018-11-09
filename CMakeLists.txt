@@ -150,10 +150,17 @@ add_library(libopencm3
 ###############################################################################
 # codal-libopencm3
 
+set(CODAL_LIBOPENCM3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+message("CODAL_LIBOPENCM3_DIR: ${CODAL_LIBOPENCM3_DIR}")
+
 # find codal-libopencm3 sources and headers.
-set(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(TOP_LEVEL_INCLUDE_DIRS "${CODAL_LIBOPENCM3_DIR}")
 message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
-RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.cpp")
+# RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CODAL_LIBOPENCM3_DIR}" "*.cpp")
+set(
+    TOP_LEVEL_SOURCE_FILES
+    "${CODAL_LIBOPENCM3_DIR}/sensor_display.cpp"
+)
 LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 
 # create our codal-libopencm3 target.
