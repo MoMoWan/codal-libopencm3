@@ -44,7 +44,7 @@
     "asm_flags":"-fno-exceptions -fno-unwind-tables",
     "c_flags":"-std=c99 -Warray-bounds",
     "cpp_flags":"-std=c++11 -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-array-bounds",
-    "linker_flags":"-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--wrap,exit -Wl,--wrap,atexit -mcpu=cortex-m3 -mthumb",
+    "linker_flags":"-Wl,-Map,output.map,--print-memory-usage -Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--wrap,exit -Wl,--wrap,atexit -mcpu=cortex-m3 -mthumb",
     "libraries":[
         {
             "name":"codal-core",
