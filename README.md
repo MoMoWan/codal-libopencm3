@@ -24,13 +24,25 @@ Codal is also a build system to simplify as much as possible the experience of n
 4. Install `Python 2.7` (if you are unfamiliar with CMake), python scripts are used to simplify the build process.
 5. Clone the repository <https://github.com/lancaster-university/codal>
 
-## Building
+## Building With Codal
 
 - Create a `codal.json` file. See below for the content.
 - In the root of this repository type `python build.py` the `-c` option cleans before building.
 - The bin file `STM32_BLUE_PILL.bin` and hex file `STM32_BLUE_PILL.hex` will be placed at the location specified by `codal.json`, by default this is the root.
 - The ELF executable file is generated in `build/STM32_BLUE_PILL`. To dump the file: `objdump -t build/STM32_BLUE_PILL`
 - For troubleshooting, the linker output map is generated in `build/STM32_BLUE_PILL.map`. This is configured in `target.json` and `target-locked.json` in `codal-libopencm3`. 
+
+## Building With Visual Studio Code and PlatformIO
+
+The project may also be build in Visual Studio Code with PlatformIO extension for quick testing.
+
+Launch Visual Studio Code and open the workspace file `workspace.code-workspace`
+
+## Running On Blue Pill
+
+You will need ST Link V2 to flash your Blue Pill with the built executable.  Follow the instructions here to flash and monitor your Blue Pill:
+
+https://medium.com/coinmonks/connect-stm32-blue-pill-to-sigfox-28c6f91bddc1?source=friends_link&sk=d0f0d9f40e36badadfb04dc4c0846775
 
 ## codal.json
 
