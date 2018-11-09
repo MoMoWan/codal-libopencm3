@@ -125,7 +125,9 @@ SECTIONS
 	 * The .eh_frame section appears to be used for C++ exception handling.
 	 * You may need to fix this if you're using C++.
 	 */
+	/*  TODO: Disabled
 	/DISCARD/ : { *(.eh_frame) }
+	*/
 
 	. = ALIGN(4);
 	end = .;
