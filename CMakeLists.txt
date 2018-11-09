@@ -103,7 +103,7 @@ execute_process(
     OUTPUT_VARIABLE git_clone_libopencm3)
 
 # patch nvic.h, which is auto-generated.  TODO: Allow other platforms besides STM32F1
-set(LIBOPENCM3_PATCH, "${PATCHES_DIR}/libopencm3")
+set(LIBOPENCM3_PATCH "${PATCHES_DIR}/libopencm3")
 set(PATCH_NVIC "include/libopencm3/stm32/f1/nvic.h")
 execute_process(
     WORKING_DIRECTORY "${LIB_DIR}" 
