@@ -6,6 +6,7 @@
 //  Handle exit.  From https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/static.html.
 extern "C" {
     void* __dso_handle = nullptr;
+    void _fini(void) { }
     int __wrap_atexit( 
         void *object, 
         void (*destructor)(void *), 

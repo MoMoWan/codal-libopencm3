@@ -33,6 +33,7 @@
 ////#include "MbedTimedInterruptIn.h"
 #include "DynamicPwm.h"
 #include <ErrorNo.h>
+#include <logger.h>
 
 //  Blink code from https://github.com/Apress/Beg-STM32-Devel-FreeRTOS-libopencm3-GCC
 #include <libopencm3/stm32/rcc.h>
@@ -142,6 +143,8 @@ void Pin::disconnect()
   */
 int Pin::setDigitalValue(int value)
 {
+    debug_println("setDigitalValue"); debug_flush();
+
     // Check if this pin has a digital mode...
     if(!(PIN_CAPABILITY_DIGITAL & capability))
         return DEVICE_NOT_SUPPORTED;
@@ -158,9 +161,11 @@ int Pin::setDigitalValue(int value)
 	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
     if (value) {
         //  If value is 1, set the pin to HI.  For LED: Switches off the LED (i.e. reversed).
+        debug_println("gpio_set(GPIOC, GPIO13)"); debug_flush();
         gpio_set(GPIOC, GPIO13);
     } else {
         //  If value is 0, set the pin to LO.  For LED: Switched on the LED (i.e. reversed).
+        debug_println("gpio_clear(GPIOC, GPIO13)"); debug_flush();
 	    gpio_clear(GPIOC, GPIO13);
     }
 
