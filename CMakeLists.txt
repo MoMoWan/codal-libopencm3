@@ -80,16 +80,19 @@ RECURSIVE_FIND_FILE(BOOST_SRC "${BOOST_DIR}*/src" "*.cpp")
 # stm32
 
 set(STM32_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stm32")
+set(STM32_BLUEPILL_DIR "${STM32_DIR}/bluepill")
+set(STM32_CM_DIR "${STM32_DIR}/cm")
 message("STM32_DIR: ${STM32_DIR}")
 
 # find stm32 sources and headers.
 RECURSIVE_FIND_DIR(STM32_INC "${STM32_DIR}" "*.h")
 RECURSIVE_FIND_FILE(STM32_SRC "${STM32_DIR}" "*.cpp")
+LIST(APPEND STM32_SRC "${STM32_CM_DIR}/CortexContextSwitch.s")
 # MODEL_INCLUDE_DIRS will be exposed to the main application.
 set(
     MODEL_INCLUDE_DIRS 
-    "${STM32_DIR}/bluepill"
-    "${STM32_DIR}/cm"
+    "${STM32_BLUEPILL_DIR}"
+    "${STM32_CM_DIR}"
 )
 
 # create stm32 library.
@@ -184,7 +187,6 @@ set(
     TOP_LEVEL_SOURCE_FILES
     "${CODAL_LIBOPENCM3_DIR}/sensor_display.cpp"
 )
-LIST(APPEND TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s")
 
 # create our codal-libopencm3 target.
 add_library(codal-libopencm3 ${TOP_LEVEL_SOURCE_FILES})

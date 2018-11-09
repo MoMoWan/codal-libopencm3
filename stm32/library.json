@@ -1,0 +1,14 @@
+{
+    "name": "cm",
+    "frameworks": "libopencm3",
+    "description": "libopencm3 port of codal-core. On PlatformIO, assembling CortexContextSwitch.s gives error 'arm-none-eabi-as: unrecognized option `-x''. We use the CortexContextSwitch.s.o compiled from Codal.",
+    "build": {        
+        "srcFilter": [
+            "+<*.h>",
+            "+<*.c>",
+            "+<*.cpp>",
+            "-<*.o>",
+            "-<*.s>"
+        ]
+    }
+}
