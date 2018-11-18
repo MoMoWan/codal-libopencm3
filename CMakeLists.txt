@@ -17,7 +17,14 @@ set(CODAL_CORE_DIR "${LIB_DIR}/codal-core")
 message("CODAL_CORE_DIR: ${CODAL_CORE_DIR}")
 
 # find codal-core sources and headers.
-RECURSIVE_FIND_DIR(CODAL_CORE_INC "${CODAL_CORE_DIR}/inc" "*.h")
+# RECURSIVE_FIND_DIR(CODAL_CORE_INC "${CODAL_CORE_DIR}/inc" "*.h")
+set(CODAL_CORE_INC
+    "${CODAL_CORE_DIR}/inc/core"
+    "${CODAL_CORE_DIR}/inc/driver-models"
+    "${CODAL_CORE_DIR}/inc/drivers"
+    "${CODAL_CORE_DIR}/inc/streams"
+    "${CODAL_CORE_DIR}/inc/types"
+)
 RECURSIVE_FIND_FILE(CODAL_CORE_SRC "${CODAL_CORE_DIR}/source" "*.cpp")
 
 # skip codal-core library, already created by parent.
