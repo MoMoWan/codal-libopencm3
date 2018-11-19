@@ -65,13 +65,13 @@ void stm32bluepill_dmesg_flush() {
 
 void target_enable_irq() {
 	//  TODO
-  	debug_println("----target_enable_irq"); debug_flush();
+  	//  debug_println("----target_enable_irq"); debug_flush();
     ////__enable_irq();
 }
 
 void target_disable_irq() {
 	//  TODO
-  	debug_println("----target_disable_irq"); debug_flush();
+  	//  debug_println("----target_disable_irq"); debug_flush();
     ////__disable_irq();
 }
 
