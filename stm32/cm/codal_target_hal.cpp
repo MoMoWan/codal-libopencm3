@@ -32,6 +32,9 @@ extern "C" void target_init() {
     os_init();         //  Init cocoOS before creating any multitasking objects.
     // init_irqs();  //  Init the interrupt routines.
 
+    //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
+    platform_start_timer(NULL);
+
     //  Display the dmesg log when idle.
     codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);
 
@@ -65,6 +68,7 @@ void stm32bluepill_dmesg_flush() {
 
 void target_enable_irq() {
 	//  TODO
+    debug_println((size_t) millis()); debug_flush(); ////
   	//  debug_println("----target_enable_irq"); debug_flush();
     ////__enable_irq();
 }
