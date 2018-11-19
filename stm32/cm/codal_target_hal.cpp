@@ -68,7 +68,7 @@ void stm32bluepill_dmesg_flush() {
 
 void target_enable_irq() {
 	//  TODO
-    debug_println((size_t) millis()); debug_flush(); ////
+    //  debug_println((size_t) millis()); debug_flush(); ////
   	//  debug_println("----target_enable_irq"); debug_flush();
     ////__enable_irq();
 }
@@ -87,14 +87,23 @@ void target_wait_for_event() {
 
 void target_wait(uint32_t milliseconds) {
     //  TODO
-    ////HAL_Delay(milliseconds);
-    debug_println("----target_wait"); debug_flush();
+    debug_println("----target_wait");
+    if (milliseconds <= 0) { return; }
+    uint32_t start = millis();
+    for (;;) {
+        if (millis() - start >= milliseconds) { break; }
+    }
 }
 
 // extern void wait_us(uint32_t);
 void target_wait_us(unsigned long us) {
     //  TODO
-    debug_println("----target_wait_us"); debug_flush();
+    debug_println("----target_wait_us");
+    if (us <= 0) { return; }
+    uint32_t start = millis();
+    for (;;) {
+        if (millis() - start >= (us / 1000)) { break; }
+    }
 }
 
 int target_seed_random(uint32_t rand) {
