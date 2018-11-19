@@ -5,6 +5,7 @@
 #include <string.h>  //  For memset()
 #include <stdarg.h>  //  For va_list
 #include <math.h>    //  For sin()
+#include <stdlib.h>  //  For malloc()
 #include "stm32.h"
 
 #ifdef __cplusplus
@@ -26,6 +27,7 @@ void wait_us(uint32_t us);
 #define MBED_ERROR(msg) CODAL_ASSERT(0)
 #define MBED_WEAK __attribute__((weak))
 
+#ifdef PLATFORMIO  //  Define target symbols only for PlatformIO build, not Codal build.
 ////  TODO: Sync with target.json. Based on https://github.com/mmoskal/codal-generic-f103re/blob/master/target.json
 
 //  Sync with linker def: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
@@ -62,6 +64,7 @@ void wait_us(uint32_t us);
 ////#define DEVICE_USB 1
 #define BOOTLOADER_START_ADDR 0x00000000
 #define BOOTLOADER_END_ADDR 0x00002000
+#endif  //  PLATFORMIO
 
 extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
 extern PROCESSOR_WORD_TYPE _stack;  //  Start of Stack segment (grows downwards).
