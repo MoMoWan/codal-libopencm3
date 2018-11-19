@@ -14,7 +14,7 @@ set(PATCHES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/patches")
 ###############################################################################
 # codal-core
 
-set(CODAL_CORE_DIR "${LIB_DIR}/codal-core")
+set(CODAL_CORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../codal-core")
 message("CODAL_CORE_DIR: ${CODAL_CORE_DIR}")
 
 # find codal-core sources and headers.
