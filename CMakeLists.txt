@@ -1,3 +1,4 @@
+set(CMAKE_VERBOSE_MAKEFILE ON)
 project(codal-libopencm3)
 include("${CODAL_UTILS_LOCATION}")
 
