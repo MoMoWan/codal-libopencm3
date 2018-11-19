@@ -82,7 +82,9 @@ void target_disable_irq() {
 void target_wait_for_event() {
     //  TODO
     ////__WFE();
-  	debug_println("----target_wait_for_event"); debug_flush();
+  	//debug_println("----target_wait_for_event");
+    debug_print(".");
+    __asm("wfe");  //  Allow CPU to go to sleep.
 }
 
 void target_wait(uint32_t milliseconds) {
@@ -92,6 +94,7 @@ void target_wait(uint32_t milliseconds) {
     uint32_t start = millis();
     for (;;) {
         if (millis() - start >= milliseconds) { break; }
+        __asm("wfe");  //  Allow CPU to go to sleep.
     }
 }
 
@@ -103,19 +106,20 @@ void target_wait_us(unsigned long us) {
     uint32_t start = millis();
     for (;;) {
         if (millis() - start >= (us / 1000)) { break; }
+        __asm("wfe");  //  Allow CPU to go to sleep.
     }
 }
 
 int target_seed_random(uint32_t rand) {
     //  TODO
-    return 0;  ////  TODO
-    ////return codal::seed_random(rand);
+    //  return 0;  ////  TODO
+    return codal::seed_random(rand);
 }
 
 int target_random(int max) {
     //  TODO
-    return 0;  ////  TODO
-    ////return codal::random(max);
+    //  return 0;  ////  TODO
+    return codal::random(max);
 }
 
 /*
@@ -145,7 +149,9 @@ void target_panic(int statusCode) {
 	debug_println((int) statusCode);
 	debug_flush();
     ////DMESG("*** CODAL PANIC : [%d]", statusCode);
-	for (;;) {}  //  Loop forever.
+	for (;;) {
+        __asm("wfe");  //  Allow CPU to go to sleep.
+    }  //  Loop forever.
 }
 
 /**
