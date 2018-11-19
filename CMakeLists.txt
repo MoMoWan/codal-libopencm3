@@ -154,6 +154,7 @@ set(LIBOPENCM3_INC "${LIBOPENCM3_DIR}/include")
 # RECURSIVE_FIND_FILE(LIBOPENCM3_CM3 "${LIBOPENCM3_DIR}/lib/cm3" "*.c")
 set(
     LIBOPENCM3_CM3
+    "${LIBOPENCM3_DIR}/lib/cm3/nvic.c"
     "${LIBOPENCM3_DIR}/lib/cm3/vector.c"
 )
 RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
