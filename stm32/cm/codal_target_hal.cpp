@@ -91,9 +91,9 @@ void target_wait(uint32_t milliseconds) {
     //  TODO
     debug_println("----target_wait");
     if (milliseconds <= 0) { return; }
-    uint32_t start = millis();
+    uint32_t end = millis() + milliseconds;
     for (;;) {
-        if (millis() - start >= milliseconds) { break; }
+        if (millis() >= end) { break; }
         __asm("wfe");  //  Allow CPU to go to sleep.
     }
 }
@@ -103,9 +103,9 @@ void target_wait_us(unsigned long us) {
     //  TODO
     debug_println("----target_wait_us");
     if (us <= 0) { return; }
-    uint32_t start = millis();
+    uint32_t end = millis() + (us / 1000);
     for (;;) {
-        if (millis() - start >= (us / 1000)) { break; }
+        if (millis() >= end) { break; }
         __asm("wfe");  //  Allow CPU to go to sleep.
     }
 }
