@@ -12,6 +12,7 @@
 extern "C" {
 #endif
 
+void target_init();
 void target_panic(int statusCode);
 void wait_us(uint32_t us);
 

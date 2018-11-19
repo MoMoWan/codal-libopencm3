@@ -145,8 +145,6 @@ namespace codal
     }
 }
 
-void stm32bluepill_dmesg_flush();
-
 using namespace codal;
 
 #endif

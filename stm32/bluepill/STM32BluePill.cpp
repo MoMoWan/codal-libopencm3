@@ -25,7 +25,6 @@
 
 #include "STM32BluePill.h"
 #include "Timer.h"
-#include <cocoos.h>
 
 using namespace codal;
 
@@ -70,12 +69,7 @@ int STM32BluePill::init()
     status |= DEVICE_INITIALIZED;
 
     //  Blue Pill specific initialisation...
-    enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-    //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
-
-    //  Init the platform, cocoOS and create any system objects.
-    platform_setup();  //  Arduino or STM32 platform setup.
-    os_init();         //  Init cocoOS before creating any multitasking objects.
+    target_init();
 
     //  Codal initialisation...
     //  Bring up fiber scheduler.
@@ -85,11 +79,6 @@ int STM32BluePill::init()
         if(CodalComponent::components[i])
             CodalComponent::components[i]->init();
     }
-
-    // Seed our random number generator
-    //seedRandom();
-
-    codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);
     status |= DEVICE_COMPONENT_STATUS_IDLE_TICK;
     return DEVICE_OK;
 }
@@ -104,17 +93,3 @@ void STM32BluePill::idleCallback()
     codal_dmesg_flush();
 }
 
-void stm32bluepill_dmesg_flush()
-{
-#if CONFIG_ENABLED(DMESG_SERIAL_DEBUG)
-#if DEVICE_DMESG_BUFFER_SIZE > 0
-    if (codalLogStore.ptr > 0 && device_instance)
-    {
-        for (uint32_t i=0; i<codalLogStore.ptr; i++)
-            ((F103RE *)device_instance)->serial.putc(codalLogStore.buffer[i]);
-
-        codalLogStore.ptr = 0;
-    }
-#endif
-#endif
-}
