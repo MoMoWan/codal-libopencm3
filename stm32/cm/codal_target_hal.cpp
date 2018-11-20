@@ -4,6 +4,7 @@
 #include "CodalDmesg.h"
 #include "CodalCompat.h"
 #include "CodalHeapAllocator.h"
+#include <libopencm3/cm3/cortex.h>
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
@@ -67,23 +68,18 @@ void stm32bluepill_dmesg_flush() {
 }
 
 void target_enable_irq() {
-	//  TODO
-    //  debug_println((size_t) millis()); debug_flush(); ////
   	//  debug_println("----target_enable_irq"); debug_flush();
-    ////__enable_irq();
+	cm_enable_interrupts();
 }
 
 void target_disable_irq() {
-	//  TODO
   	//  debug_println("----target_disable_irq"); debug_flush();
-    ////__disable_irq();
+	cm_disable_interrupts();
 }
 
 void target_wait_for_event() {
-    //  TODO
-    ////__WFE();
-  	//debug_println("----target_wait_for_event");
-    debug_print(".");
+  	//debug_println("----target_wait_for_event"); //debug_print(".");
+    stm32bluepill_dmesg_flush();
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
 
