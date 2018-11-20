@@ -84,7 +84,6 @@ void target_wait_for_event() {
 }
 
 void target_wait(uint32_t milliseconds) {
-    //  TODO
     debug_println("----target_wait");
     if (milliseconds <= 0) { return; }
     uint32_t end = millis() + milliseconds;
@@ -94,9 +93,7 @@ void target_wait(uint32_t milliseconds) {
     }
 }
 
-// extern void wait_us(uint32_t);
 void target_wait_us(unsigned long us) {
-    //  TODO
     debug_println("----target_wait_us");
     if (us <= 0) { return; }
     uint32_t end = millis() + (us / 1000);
@@ -107,14 +104,10 @@ void target_wait_us(unsigned long us) {
 }
 
 int target_seed_random(uint32_t rand) {
-    //  TODO
-    //  return 0;  ////  TODO
     return codal::seed_random(rand);
 }
 
 int target_random(int max) {
-    //  TODO
-    //  return 0;  ////  TODO
     return codal::random(max);
 }
 
