@@ -71,6 +71,11 @@ static void rtc_setup(void) {
 
 void platform_start_timer(void (*tickFunc0)(void)) {
     //  Start the STM32 Timer to generate interrupt ticks for cocoOS to perform task switching.
-  	tickFunc = tickFunc0;
+  	tickFunc = tickFunc0;  //  Allow tickFunc to be modified at every call to platform_start_timer().
+	
+	//  But system timer will only be started once.
+	static bool timerStarted = false;
+	if (timerStarted) { return; }
+	timerStarted = true;
 	rtc_setup();
 }

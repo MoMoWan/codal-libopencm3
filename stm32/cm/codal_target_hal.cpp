@@ -19,6 +19,16 @@ PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)(&_ebss);  //  Start
 extern "C" void test_codal();
 void stm32bluepill_dmesg_flush();
 static bool initialised = false;
+static void (*tick_callback)() = NULL;
+
+void target_set_tick_callback(void (*tick_callback0)()) {
+    tick_callback = tick_callback0;
+}
+
+static void timer_tick() {
+    //  If Codal Timer exists, update the timer.
+    if (tick_callback) { tick_callback(); }
+}
 
 extern "C" void target_init() {
     //  Blue Pill specific initialisation...
@@ -34,7 +44,7 @@ extern "C" void target_init() {
     // init_irqs();  //  Init the interrupt routines.
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
-    platform_start_timer(NULL);
+    platform_start_timer(timer_tick);
 
     //  Display the dmesg log when idle.
     codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);

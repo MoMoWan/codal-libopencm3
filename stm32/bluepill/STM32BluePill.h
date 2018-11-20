@@ -60,8 +60,8 @@ namespace codal
     {
         public:
             codal::_cm::Timer         timer;
-            MessageBus                  messageBus;
-            STM32BluePillIO                  io;
+            MessageBus                messageBus;
+            STM32BluePillIO           io;
             codal::_cm::I2C           i2c;
 
             /**

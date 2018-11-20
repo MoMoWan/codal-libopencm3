@@ -14,7 +14,8 @@ extern "C" {
 
 void target_init();
 void target_panic(int statusCode);
-void wait_us(uint32_t us);
+void target_set_tick_callback(void (*timer_callback0)());
+// void wait_us(uint32_t us);
 
 #ifdef __cplusplus
 }
