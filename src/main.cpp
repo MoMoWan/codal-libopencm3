@@ -33,17 +33,17 @@ int main()
 }
 
 void Blink_main(codal::STM32BluePill& bluepill){
-    debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+    // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
 	bluepill.io.led.setDigitalValue(0);
 
 	int state = 1;
 	while(1)
     {    
-        debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+        // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
 		bluepill.io.led.setDigitalValue(state);
-        debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
-        bluepill.sleep(1);
-        debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+        // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+        bluepill.sleep(1000);
+        // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
         state = !state;
     }
 }
