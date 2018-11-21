@@ -27,34 +27,34 @@ void Blink_main(codal::STM32BluePill& bluepill);
 STM32BluePill bluepill;
 
 int main() {
+    // bluepill.enableDebug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    bluepill.disableDebug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     bluepill.init();
     Blink_main(bluepill);
 }
 
-#include <libopencm3/stm32/rtc.h> ////
 void debug_dump() {
-    debug_print(" alarm "); debug_print((size_t) getAlarmCount()); 
-    debug_print(" rtc "); debug_print((size_t) rtc_get_counter_val()); 
-    debug_print(" millis "); debug_print((size_t) millis()); 
+    debug_print(" alarm "); debug_print((size_t) platform_alarm_count()); 
+    // debug_print(" rtc "); debug_print((size_t) rtc_get_counter_val()); 
+    debug_print(" t "); debug_print((size_t) millis()); 
     debug_println("");
     debug_flush(); ////
 }
 
-void Blink_main(codal::STM32BluePill& bluepill){
+void Blink_main(codal::STM32BluePill& bluepill) {
     debug_dump();
 	bluepill.io.led.setDigitalValue(0);
 
 	int state = 1;
     int counter = 0;
 	while(1) {    
-        debug_dump();
 		bluepill.io.led.setDigitalValue(state);
-        debug_dump();
         bluepill.sleep(1000);
-        debug_dump();
         state = !state;
+        debug_dump();
 
         counter++;
-        if (counter == 5) {}
+        if (counter == 5) { platform_set_alarm(20 * 1000); }
+        if (counter == 10) { target_enter_deep_sleep_standby_mode(); }
     }
 }

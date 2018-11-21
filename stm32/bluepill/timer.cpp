@@ -39,9 +39,8 @@ static void rtc_setup(void) {
 	// rtc_set_prescale_val(62);     //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
 	// rtc_set_prescale_val(62500);  //  For RCC_HSE: 1 second tick
 
-	//  TODO
-	rtc_set_counter_val(0);
-	rtc_set_alarm_time(20 * 1000);
+	rtc_set_counter_val(1);  //  Start counting millisecond ticks from 1 so we won't trigger alarm.
+	rtc_set_alarm_time(0);   //  Reset alarm to 0.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup.
 	exti_enable_request(EXTI17);
 
@@ -57,9 +56,6 @@ static void rtc_setup(void) {
 	cm_enable_interrupts();
 }
 
-//  rtc_enable_alarm()
-//  rtc_get_counter_val()
-
 void platform_start_timer(void (*tickFunc0)(void)) {
     //  Start the STM32 Timer to generate interrupt ticks to perform task switching.
   	tickFunc = tickFunc0;  //  Allow tickFunc to be modified at every call to platform_start_timer().
@@ -69,6 +65,17 @@ void platform_start_timer(void (*tickFunc0)(void)) {
 	if (timerStarted) { return; }
 	timerStarted = true;
 	rtc_setup();
+}
+
+void platform_set_alarm(uint32_t millisec) {
+	//  Set alarm for millisec milliseconds elapsed since startup.
+	rtc_set_alarm_time(millisec);
+	//  TODO: rtc_enable_alarm()
+}
+
+uint32_t platform_get_alarm(void) {
+	//  Get alarm time.
+	return rtc_get_alarm_val();
 }
 
 void rtc_isr(void) {
@@ -103,7 +110,7 @@ uint32_t millis(void) {
 	// return tickCount;  //  Less accurate, excludes ARM Semihosting time. 
 }
 
-uint32_t getAlarmCount(void) {
+uint32_t platform_alarm_count(void) {
 	//  Return the number of alarms triggered since startup.
 	return alarmCount;
 }

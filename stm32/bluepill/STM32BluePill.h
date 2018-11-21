@@ -68,6 +68,8 @@ namespace codal
              * Constructor.
              */
             STM32BluePill();
+            void enableDebug();
+            void disableDebug();
 
             /**
              * Post constructor initialisation method.
@@ -140,8 +142,7 @@ namespace codal
      */
     inline unsigned long STM32BluePill::systemTime()
     {
-        ////return system_timer_current_time();
-        return millis();
+        return system_timer_current_time();
     }
 }
 

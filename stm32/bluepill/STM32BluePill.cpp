@@ -47,6 +47,9 @@ STM32BluePill::STM32BluePill() :
     device_instance = this;
 }
 
+void STM32BluePill::enableDebug() { target_enable_debug(); }
+void STM32BluePill::disableDebug() { target_disable_debug(); }
+
 /**
   * Post constructor initialisation method.
   *

@@ -5,6 +5,9 @@
 #include "CodalCompat.h"
 #include "CodalHeapAllocator.h"
 #include <libopencm3/cm3/cortex.h>
+#include <libopencm3/cm3/scb.h>
+#include <libopencm3/stm32/rtc.h>
+#include <libopencm3/stm32/pwr.h>
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
@@ -30,12 +33,22 @@ static void timer_tick() {
     if (tick_callback) { tick_callback(); }
 }
 
-extern "C" void target_init() {
+void target_enable_debug() {
+    //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    enable_debug();   
+}
+
+void target_disable_debug() {
+    //  Disable display of debug messages.  For use in production devices.
+    disable_debug();  
+}
+
+void target_init() {
     //  Blue Pill specific initialisation...
     if (initialised) { return; }  //  Already initialised, skip.
     initialised = true;
 
-    enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    //  enable_debug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
     //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
 
     //  Init the platform, cocoOS and create any system objects.
@@ -75,6 +88,27 @@ void stm32bluepill_dmesg_flush() {
         debug_flush();
     }
 #endif
+}
+
+void target_enter_deep_sleep_standby_mode() {
+    //  The Standby mode allows to achieve the lowest power consumption. It is based on the
+    //  Cortex®-M3 deepsleep mode, with the voltage regulator disabled. The 1.8 V domain is
+    //  consequently powered off. The PLL, the HSI oscillator and the HSE oscillator are also
+    //  switched off. SRAM and register contents are lost except for registers in the Backup domain
+    //  and Standby circuitry.  To enter Standby Mode: 
+    //  WFI (Wait for Interrupt) or WFE (Wait for Event) while:
+    //  – Set SLEEPDEEP in Cortex®-M3 System Control register
+    //  – Set PDDS bit in Power Control register (PWR_CR)
+    //  – Clear WUF bit in Power Control/Status register (PWR_CSR)
+    //  – No interrupt (for WFI) or event (for WFI) is pending
+
+    //  TODO: Select the voltage regulator mode by setting LPDS bit in PWR register according to Regulator parameter value
+    //  MODIFY_REG(PWR->CR, PWR_CR_LPDS, Regulator);
+
+    pwr_set_standby_mode();   //  Set PWR_CR_PDDS.
+    pwr_clear_wakeup_flag();  //  Clear WUF.    
+    SCB_SCR |= SCB_SCR_SLEEPDEEP;  //  Set SLEEPDEEP bit of Cortex System Control Register.
+    __asm("wfi");  //  Wait for interrupt.
 }
 
 void target_enable_irq() {

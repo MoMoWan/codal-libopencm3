@@ -9,6 +9,7 @@ STM32BluePill bluepill;
 
 int main()
 {
+    bluepill.enableDebug();
     bluepill.init();
     Blink_main(bluepill);
 }
