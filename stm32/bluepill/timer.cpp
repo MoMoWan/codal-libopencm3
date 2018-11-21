@@ -55,6 +55,11 @@ static void rtc_setup(void) {
 	cm_enable_interrupts();
 }
 
+//  rtc_set_alarm_time()
+//  rtc_set_counter_val()
+//  rtc_enable_alarm()
+//  rtc_get_counter_val()
+
 void platform_start_timer(void (*tickFunc0)(void)) {
     //  Start the STM32 Timer to generate interrupt ticks to perform task switching.
   	tickFunc = tickFunc0;  //  Allow tickFunc to be modified at every call to platform_start_timer().
