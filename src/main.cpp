@@ -35,10 +35,8 @@ int main() {
 
 void debug_dump() {
     debug_print(" alarm "); debug_print((size_t) platform_alarm_count()); 
-    // debug_print(" rtc "); debug_print((size_t) rtc_get_counter_val()); 
     debug_print(" t "); debug_print((size_t) millis()); 
-    debug_println("");
-    debug_flush(); ////
+    debug_println(""); debug_flush();
 }
 
 void Blink_main(codal::STM32BluePill& bluepill) {
@@ -54,7 +52,9 @@ void Blink_main(codal::STM32BluePill& bluepill) {
         debug_dump();
 
         counter++;
+        //  At t = 5 seconds, set the wakeup alarm for t = 20 seconds.
         if (counter == 5) { platform_set_alarm(20 * 1000); }
+        //  At t = 10 seconds, enter deep sleep standby mode.
         if (counter == 10) { target_enter_deep_sleep_standby_mode(); }
     }
 }
