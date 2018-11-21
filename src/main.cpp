@@ -26,24 +26,35 @@ using namespace codal;
 void Blink_main(codal::STM32BluePill& bluepill);
 STM32BluePill bluepill;
 
-int main()
-{
+int main() {
     bluepill.init();
     Blink_main(bluepill);
 }
 
+#include <libopencm3/stm32/rtc.h> ////
+void debug_dump() {
+    debug_print(" alarm "); debug_print((size_t) getAlarmCount()); 
+    debug_print(" rtc "); debug_print((size_t) rtc_get_counter_val()); 
+    debug_print(" millis "); debug_print((size_t) millis()); 
+    debug_println("");
+    debug_flush(); ////
+}
+
 void Blink_main(codal::STM32BluePill& bluepill){
-    // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+    debug_dump();
 	bluepill.io.led.setDigitalValue(0);
 
 	int state = 1;
-	while(1)
-    {    
-        // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+    int counter = 0;
+	while(1) {    
+        debug_dump();
 		bluepill.io.led.setDigitalValue(state);
-        // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+        debug_dump();
         bluepill.sleep(1000);
-        // debug_println((size_t) codal::system_timer_current_time()); debug_flush(); ////
+        debug_dump();
         state = !state;
+
+        counter++;
+        if (counter == 5) {}
     }
 }

@@ -35,13 +35,15 @@ static void rtc_setup(void) {
 	// rtc_awake_from_off(RCC_HSE);  //  Oscillator is named RCC_HSE.
 #endif  //  LIBOPENCM3_RCC_LEGACY
 	
-	rtc_set_prescale_val(33);        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
+	rtc_set_prescale_val(32);        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
 	// rtc_set_prescale_val(62);     //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
 	// rtc_set_prescale_val(62500);  //  For RCC_HSE: 1 second tick
 
 	//  TODO
-	// exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup.
-	// exti_enable_request(EXTI17);
+	rtc_set_counter_val(0);
+	rtc_set_alarm_time(20 * 1000);
+	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup.
+	exti_enable_request(EXTI17);
 
 	nvic_enable_irq(NVIC_RTC_IRQ);        //  Enable RTC tick interrupt processing.
 	nvic_enable_irq(NVIC_RTC_ALARM_IRQ);  //  Enable RTC alarm wakeup interrupt processing.
@@ -51,12 +53,10 @@ static void rtc_setup(void) {
 	rtc_clear_flag(RTC_ALR);
 	rtc_clear_flag(RTC_OW);
 	rtc_interrupt_enable(RTC_SEC);  //  Allow RTC to generate tick interrupts.
-	// rtc_interrupt_enable(RTC_ALR);  //  Allow RTC to generate alarm interrupts.
+	rtc_interrupt_enable(RTC_ALR);  //  Allow RTC to generate alarm interrupts.
 	cm_enable_interrupts();
 }
 
-//  rtc_set_alarm_time()
-//  rtc_set_counter_val()
 //  rtc_enable_alarm()
 //  rtc_get_counter_val()
 
@@ -90,7 +90,7 @@ void rtc_isr(void) {
 
 void rtc_alarm_isr(void) {
 	//  Interrupt Service Routine for RTC Alarm Wakeup.  Don't call any I/O functions here.
-	++alarmCount;
+	alarmCount++;
 	exti_reset_request(EXTI17);
 	rtc_clear_flag(RTC_ALR);
 }
@@ -98,6 +98,12 @@ void rtc_alarm_isr(void) {
 uint32_t millis(void) {
 	//  Return the number of millisecond ticks since startup.
 	//  Compatible with Arduino's millis() function.
-	return tickCount;
+	//  TODO: Compensate for clock slowdown because we truncated RCC_LSE 32.768 kHz to 32.
+	return rtc_get_counter_val();  //  More accurate, uses hardware counters.
+	// return tickCount;  //  Less accurate, excludes ARM Semihosting time. 
 }
 
+uint32_t getAlarmCount(void) {
+	//  Return the number of alarms triggered since startup.
+	return alarmCount;
+}
