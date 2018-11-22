@@ -1,8 +1,13 @@
 #include "codal_target_hal.h"
 #include "CodalDmesg.h"
+#include <logger.h>
 
 void cpu_init()
 {
+    target_enable_debug();
+    target_init();
+    debug_println("---cpu_init"); debug_flush();
+
 #ifdef TODO
     target_init();
 
