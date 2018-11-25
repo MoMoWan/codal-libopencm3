@@ -4,6 +4,8 @@
 
 #ifdef PLATFORMIO  //  If building on PlatformIO...
 #include "i2cint.h"  //  Force I2C Interface to be included for PlatformIO build.
+#include "spiint.h"  //  Force SPI Interface to be included for PlatformIO build.
+#include "adcint.h"  //  Force ADC Interface to be included for PlatformIO build.
 //  Handle exit.  From https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/static.html.
 extern "C" {
     void* __dso_handle = nullptr;
