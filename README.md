@@ -43,17 +43,11 @@ git clone https://github.com/lupyuen/codal-libopencm3
 cd codal-libopencm3
 
 cd lib
-mkdir codal-core
-cd codal-core
 git clone https://github.com/lancaster-university/codal-core
-cd ..
 cd ..
 
 cd lib
-mkdir libopencm3
-cd libopencm3
 git clone https://github.com/libopencm3/libopencm3
-cd ..
 cd ..
 ```
 
