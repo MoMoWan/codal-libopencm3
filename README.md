@@ -22,7 +22,8 @@ Codal is also a build system to simplify as much as possible the experience of n
 2. Install the `arm-none-eabi-*` command line utilities for ARM based devices and/or `avr-gcc`, `avr-binutils`, `avr-libc` for AVR based devices, ensure they are available on your platforms path.
 3. Install [CMake](https://cmake.org)(Cross platform make), this is the entirety of the build system.
 4. Install `Python 2.7` (if you are unfamiliar with CMake), python scripts are used to simplify the build process.
-5. Clone the repository <https://github.com/lancaster-university/codal>
+5. For Windows, install `ninja`: https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages
+6. Clone the repository <https://github.com/lancaster-university/codal>
 
 ## Building With Codal
 
