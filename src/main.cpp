@@ -54,9 +54,10 @@ void Blink_main(codal::STM32BluePill& bluepill) {
         debug_dump();
 
         counter++;
-        //  At t = 5 seconds, set the wakeup alarm for t = 20 seconds.
-        if (counter == 5) { platform_set_alarm(20 * 1000); }
-        //  At t = 10 seconds, enter deep sleep standby mode.
-        if (counter == 10) { target_enter_deep_sleep_standby_mode(); }
+        //  At t = 5 seconds, set the wakeup alarm for t = 30 seconds.
+        if (counter == 5) { platform_set_alarm(30 * 1000); }
+        //  At t = 20 seconds, enter deep sleep standby mode.  Don't enter deep sleep too soon, because Blue Pill will not allow reflashing while sleeping.
+        if (counter == 20) { target_enter_deep_sleep_standby_mode(); }
+        //  At t = 30 seconds, device should wakeup by alarm and restart as though t = 0.
     }
 }
