@@ -38,6 +38,52 @@ The project may also be build in Visual Studio Code with PlatformIO extension fo
 
 Launch Visual Studio Code and open the workspace file `workspace.code-workspace`
 
+Steps to download this repository:
+
+```cmd
+git clone https://github.com/lupyuen/codal-libopencm3
+cd codal-libopencm3
+
+cd lib
+mkdir codal-core
+cd codal-core
+git clone https://github.com/lancaster-university/codal-core
+cd ..
+cd ..
+
+cd lib
+mkdir libopencm3
+cd libopencm3
+git clone https://github.com/libopencm3/libopencm3
+cd ..
+cd ..
+```
+
+In Visual Studio Code, create the file `codal-libopencm3/lib/codal-core/library.json` with the following content:
+
+```json
+{
+    "name": "codal-core",
+    "frameworks": "libopencm3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lancaster-university/codal-core"
+    },
+    "description": "Stub for compiling codal-core under PlatformIO",
+    "build": {        
+        "flags": [
+            "-Iinc -Iinc/core -Iinc/driver-models -Iinc/drivers -Iinc/streams -Iinc/types -Iinc/JACDAC"
+        ],
+        "srcFilter": [
+            "+<inc/*>",
+            "+<source/*>"
+        ]
+    }
+}
+```
+
+PlatformIO build should succeed now.
+
 ## Running On Blue Pill
 
 You will need ST Link V2 to flash your Blue Pill with the built executable.  Follow the instructions here to flash and monitor your Blue Pill:
