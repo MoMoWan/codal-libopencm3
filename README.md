@@ -11,7 +11,7 @@ https://github.com/mmoskal/codal-generic-f103re
 
 https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node
 
-## Installation
+## Codal Installation
 
 Original instructions: https://lancaster-university.github.io/codal/
 
@@ -26,8 +26,8 @@ Codal is also a build system to simplify as much as possible the experience of n
 
 ## Building With Codal
 
-- Create a `codal.json` file. See below for the content.
-- In the root of this repository type `python build.py` the `-c` option cleans before building.
+- Create a `codal.json` file at the root of the `codal` repository (not `codal-libopencm3`). See below for the content.
+- In the root of the `codal` repository (not `codal-libopencm3`) type `python build.py` the `-c` option cleans before building.
 - The bin file `STM32_BLUE_PILL.bin` and hex file `STM32_BLUE_PILL.hex` will be placed at the location specified by `codal.json`, by default this is the root.
 - The ELF executable file is generated in `build/STM32_BLUE_PILL`. To dump the file: `objdump -t build/STM32_BLUE_PILL`
 - For troubleshooting, the linker output map is generated in `build/STM32_BLUE_PILL.map`. This is configured in `target.json` and `target-locked.json` in `codal-libopencm3`. 
