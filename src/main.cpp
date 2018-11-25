@@ -29,15 +29,16 @@ void Blink_main(codal::STM32BluePill& bluepill);
 STM32BluePill bluepill;
 
 int main() {
-    // bluepill.enableDebug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    //  Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
+    //  bluepill.enableDebug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
     bluepill.disableDebug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     bluepill.init();
     Blink_main(bluepill);
 }
 
 void debug_dump() {
-    debug_print(" alarm "); debug_print((size_t) platform_alarm_count()); 
-    debug_print(" t "); debug_print((size_t) millis()); 
+    debug_print("t "); debug_print((size_t) millis()); 
+    debug_print(", alarm "); debug_print((size_t) platform_alarm_count()); 
     debug_println(""); debug_flush();
 }
 
@@ -48,11 +49,13 @@ void Blink_main(codal::STM32BluePill& bluepill) {
 	int state = 1;
     int counter = 0;
 	while(1) {    
+        //  Blink the LED and pause 1 second.
 		bluepill.io.led.setDigitalValue(state);
         bluepill.sleep(1000);
         state = !state;
         debug_dump();
 
+        //  Test Deep Sleep Standby Mode.
         counter++;
         //  At t = 5 seconds, set the wakeup alarm for t = 30 seconds.
         if (counter == 5) { platform_set_alarm(30 * 1000); }
