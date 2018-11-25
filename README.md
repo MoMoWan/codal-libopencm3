@@ -34,11 +34,9 @@ Codal is also a build system to simplify as much as possible the experience of n
 
 ## Building With Visual Studio Code and PlatformIO
 
-The project may also be build in Visual Studio Code with PlatformIO extension for quick testing.
+The project may also be built in Visual Studio Code with PlatformIO extension for quick testing.
 
-Launch Visual Studio Code and open the workspace file `workspace.code-workspace`
-
-Steps to download this repository:
+To download this repository:
 
 ```cmd
 git clone https://github.com/lupyuen/codal-libopencm3
@@ -58,6 +56,8 @@ git clone https://github.com/libopencm3/libopencm3
 cd ..
 cd ..
 ```
+
+Launch Visual Studio Code and open the workspace file `codal-libopencm3/workspace.code-workspace`
 
 In Visual Studio Code, create the file `codal-libopencm3/lib/codal-core/library.json` with the following content:
 
