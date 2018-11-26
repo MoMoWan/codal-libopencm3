@@ -46,7 +46,7 @@ namespace codal {
         static SPI *instances[4];
         #define ZERO(f) memset(&f, 0, sizeof(f))
 
-        uint32_t codal_setup_pin(Pin *p, uint32_t prev, const PinMap *map) {
+        uint32_t _codal_setup_pin(Pin *p, uint32_t prev, const PinMap *map) {
             if (!p) { return 0; }
             auto pin = p->name;
             uint32_t tmp = pinmap_peripheral(pin, map);
@@ -113,26 +113,45 @@ namespace codal {
             }
         }
 
-        void SPI::_complete(uint32_t instance) {
-            // LOG("SPI complete %p", instance);
+        SPI *SPI::_find(SPI *instance) {
+            //  LOG("SPI find %p", instance);
+            if (!instance) { return NULL; }  //  Not found.
+            if (!instance->mosi || !instance->miso || 
+                !instance->sclk || !instance->nss)
+                { return NULL; }  //  Not found.
+
             for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i) {
-                if (instances[i] && (uint32_t)instances[i]->spi.Instance == instance) {
-                    instances[i]->complete();
-                    break;
-                }
+                SPI *inst = instances[i];
+                if (!inst) { continue; }
+                if (!inst->mosi || !inst->miso || 
+                    !inst->sclk || !inst->nss)
+                    { continue; }
+
+            if (inst->mosi->id == instance->mosi->id &&
+                inst->miso->id == instance->miso->id &&
+                inst->sclk->id == instance->sclk->id &&
+                inst->nss->id == instance->nss->id) 
+                { return inst; }  //  Found instance.
             }
+            return NULL;  //  Not found.
         }
 
-        void SPI::_irq(uint32_t instance) {
-            // LOG("SPI IRQ %p", instance);
-            for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i) {
-                if (instances[i] && (uint32_t)instances[i]->spi.Instance == instance) {
+        void SPI::_complete(SPI *instance) {
+            //  LOG("SPI complete %p", instance);
+            SPI *inst = _find(instance);
+            if (inst) { inst->complete(); }
+            //  TODO: Handle not found.
+        }
+
+        void SPI::_irq(SPI *instance) {
+            //  LOG("SPI IRQ %p", instance);
+            SPI *inst = _find(instance);
+            if (inst) { 
 #ifdef TODO
-                    HAL_SPI_IRQHandler(&instances[i]->spi);
+                HAL_SPI_IRQHandler(inst);
 #endif  //  TODO
-                    break;
-                }
             }
+            //  TODO: Handle not found.
         }
 
         void SPI::init() {
@@ -140,9 +159,9 @@ namespace codal {
             if (!needsInit) { return; }
             needsInit = false;
             if (!spi.Instance) {
-                uint32_t instance = codal_setup_pin(sclk, 0, PinMap_SPI_SCLK);
-                instance = codal_setup_pin(miso, 0, PinMap_SPI_MISO);
-                instance = codal_setup_pin(mosi, 0, PinMap_SPI_MOSI);
+                uint32_t instance = _codal_setup_pin(sclk, 0, PinMap_SPI_SCLK);
+                instance = _codal_setup_pin(miso, 0, PinMap_SPI_MISO);
+                instance = _codal_setup_pin(mosi, 0, PinMap_SPI_MOSI);
                 spi.Instance = (SPI_TypeDef *)instance;
             }
             LOG("SPI instance %p", spi.Instance);
@@ -175,10 +194,11 @@ namespace codal {
             CODAL_ASSERT(res == HAL_OK);
         }
 
-        SPI::SPI(Pin &mosi, Pin &miso, Pin &sclk) : codal::SPI() {
+        SPI::SPI(Pin &mosi, Pin &miso, Pin &sclk, Pin &nss) : codal::SPI() {
             this->mosi = &mosi;
             this->miso = &miso;
             this->sclk = &sclk;
+            this->nss = &nss;
             ZERO(spi);
             ZERO(hdma_tx);
             ZERO(hdma_rx);

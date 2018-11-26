@@ -39,7 +39,7 @@ namespace codal
         class SPI : public codal::SPI
         {
         protected:
-            Pin *mosi, *miso, *sclk;
+            Pin *mosi, *miso, *sclk, *nss;
             uint32_t freq;
 
             // DMA_HandleTypeDef hdma_tx;
@@ -56,15 +56,16 @@ namespace codal
             void init();
 
         public:
-            static void _complete(uint32_t instance);
-            static void _irq(uint32_t instance);
+            static SPI *_find(SPI *instance);
+            static void _complete(SPI *instance);
+            static void _irq(SPI *instance);
 
             /**
              * Initialize SPI instance with given pins.
              *
              * Default setup is 1 MHz, 8 bit, mode 0.
              */
-            SPI(codal::Pin &mosi, codal::Pin &miso, codal::Pin &sclk);
+            SPI(codal::Pin &mosi, codal::Pin &miso, codal::Pin &sclk, codal::Pin &nss);
 
             /** Set the frequency of the SPI interface
              *
