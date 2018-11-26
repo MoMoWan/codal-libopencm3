@@ -33,13 +33,6 @@ namespace codal
 {
     namespace _cm
     {
-        class SPI;
-
-        struct SPI_HandleWithParent : public SPI_HandleTypeDef
-        {
-            SPI *spi_parent;
-        };
-
         /**
          * Class definition for SPI service, derived from ARM mbed.
          */
@@ -49,9 +42,8 @@ namespace codal
             Pin *mosi, *miso, *sclk;
             uint32_t freq;
 
-            SPI_HandleWithParent spi;
-            DMA_HandleTypeDef hdma_tx;
-            DMA_HandleTypeDef hdma_rx;
+            // DMA_HandleTypeDef hdma_tx;
+            // DMA_HandleTypeDef hdma_rx;
 
             PVoidCallback doneHandler;
             void *doneHandlerArg;

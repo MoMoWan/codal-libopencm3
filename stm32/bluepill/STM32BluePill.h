@@ -61,12 +61,13 @@ namespace codal
     class STM32BluePill : public CodalComponent
     {
         public:
+            codal::_cm::Timer  timer;
             MessageBus         messageBus;
             STM32BluePillIO    io;
-            codal::_cm::Timer  timer;
-            codal::_cm::I2C    i2c;
-            codal::_cm::SPI    spi;
-            codal::_cm::Serial serial;
+            codal::_cm::I2C    i2c1;
+            codal::_cm::SPI    spi1;
+            codal::_cm::SPI    spi2;
+            codal::_cm::Serial usart2;
 
             /**
              * Constructor.
