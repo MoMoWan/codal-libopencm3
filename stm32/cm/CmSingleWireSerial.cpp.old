@@ -1,3 +1,4 @@
+//  Based on https://github.com/lancaster-university/codal-stm32/blob/master/src/ZSingleWireSerial.cpp
 #include "CodalConfig.h"
 #include "CodalDmesg.h"
 #include "CmSingleWireSerial.h"
@@ -6,8 +7,6 @@
 #include "pinmap.h"
 #include "PeripheralPins.h"
 #include "CodalFiber.h"
-
-#ifdef TODO
 
 using namespace codal::_cm;
 
@@ -19,7 +18,7 @@ uint16_t buffer_head = 0;
 uint16_t buffer_tail = 0;
 uint8_t uart_status = 0;
 
-static CmSingleWireSerial *instances[4];
+static SingleWireSerial *instances[4];
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -318,5 +317,3 @@ int CmSingleWireSerial::sendBreak()
     HAL_LIN_SendBreak(&uart);
     return DEVICE_OK;
 }
-
-#endif  //  TODO

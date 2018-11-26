@@ -16,15 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MBED_PINMAP_H
-#define MBED_PINMAP_H
+#ifndef CM_PINMAP_H
+#define CM_PINMAP_H
 
 #include "platform_includes.h"
-
 #include "PinNamesTypes.h"
 
 typedef uint32_t PinName;
-
 #define NC (PinName)(-1)
 
 #ifdef __cplusplus
@@ -60,6 +58,6 @@ uint32_t codal_setup_pin(Pin *p, uint32_t prev, const PinMap *map);
 
 #endif
 
-#endif
+#endif  //  CM_PINMAP_H
 
 /** @}*/

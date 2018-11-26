@@ -41,9 +41,10 @@ STM32BluePill::STM32BluePill() :
     timer(),
     messageBus(),
     io(),
-    i2c(io.sda, io.scl)
-{
-    // Clear our status
+    i2c(io.sda, io.scl),
+    spi(io.mosi, io.miso, io.sck),
+    serial(io.tx, io.rx) {  //  Note: Default serial port is USART2 (TX2, RX2).
+    //  Clear our status
     status = 0;
     device_instance = this;
 }

@@ -1,3 +1,4 @@
+//  Based on https://github.com/lancaster-university/codal-stm32/blob/master/inc/ZSPI.h
 /*
     The MIT License (MIT)
 
@@ -21,7 +22,6 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 */
-
 #ifndef CM_SPI_H
 #define CM_SPI_H
 
@@ -33,13 +33,12 @@ namespace codal
 {
     namespace _cm
     {
-#ifdef TODO
         class SPI;
+
         struct SPI_HandleWithParent : public SPI_HandleTypeDef
         {
             SPI *spi_parent;
         };
-#endif  //  TODO
 
         /**
          * Class definition for SPI service, derived from ARM mbed.
@@ -50,11 +49,9 @@ namespace codal
             Pin *mosi, *miso, *sclk;
             uint32_t freq;
 
-#ifdef TODO
             SPI_HandleWithParent spi;
             DMA_HandleTypeDef hdma_tx;
             DMA_HandleTypeDef hdma_rx;
-#endif  //  TODO
 
             PVoidCallback doneHandler;
             void *doneHandlerArg;

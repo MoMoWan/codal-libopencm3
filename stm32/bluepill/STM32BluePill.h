@@ -43,6 +43,8 @@
 #include "MessageBus.h"
 #include "CmTimer.h"
 #include "CmI2C.h"
+#include "CmSPI.h"
+#include "CmSerial.h"
 #include "bluepill.h"
 
 // Status flag values
@@ -59,10 +61,12 @@ namespace codal
     class STM32BluePill : public CodalComponent
     {
         public:
-            codal::_cm::Timer         timer;
-            MessageBus                messageBus;
-            STM32BluePillIO           io;
-            codal::_cm::I2C           i2c;
+            MessageBus         messageBus;
+            STM32BluePillIO    io;
+            codal::_cm::Timer  timer;
+            codal::_cm::I2C    i2c;
+            codal::_cm::SPI    spi;
+            codal::_cm::Serial serial;
 
             /**
              * Constructor.
