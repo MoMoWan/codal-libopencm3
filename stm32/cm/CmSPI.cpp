@@ -43,7 +43,7 @@
 
 namespace codal {
     namespace _cm {
-        static SPI *instances[4];
+        static SPI *_instances[4];
         #define ZERO(f) memset(&f, 0, sizeof(f))
 
         uint32_t _codal_setup_pin(Pin *p, uint32_t prev, const PinMap *map) {
@@ -121,17 +121,17 @@ namespace codal {
                 { return NULL; }  //  Not found.
 
             for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i) {
-                SPI *inst = instances[i];
+                SPI *inst = _instances[i];
                 if (!inst) { continue; }
                 if (!inst->mosi || !inst->miso || 
                     !inst->sclk || !inst->nss)
                     { continue; }
 
-            if (inst->mosi->id == instance->mosi->id &&
-                inst->miso->id == instance->miso->id &&
-                inst->sclk->id == instance->sclk->id &&
-                inst->nss->id == instance->nss->id) 
-                { return inst; }  //  Found instance.
+                if (inst->mosi->id == instance->mosi->id &&
+                    inst->miso->id == instance->miso->id &&
+                    inst->sclk->id == instance->sclk->id &&
+                    inst->nss->id == instance->nss->id) 
+                    { return inst; }  //  Found instance.
             }
             return NULL;  //  Not found.
         }
@@ -158,13 +158,13 @@ namespace codal {
             auto res = HAL_OK;
             if (!needsInit) { return; }
             needsInit = false;
-            if (!spi.Instance) {
-                uint32_t instance = _codal_setup_pin(sclk, 0, PinMap_SPI_SCLK);
-                instance = _codal_setup_pin(miso, 0, PinMap_SPI_MISO);
-                instance = _codal_setup_pin(mosi, 0, PinMap_SPI_MOSI);
-                spi.Instance = (SPI_TypeDef *)instance;
-            }
-            LOG("SPI instance %p", spi.Instance);
+            // if (!spi.Instance) {
+            uint32_t instance = _codal_setup_pin(sclk, 0, PinMap_SPI_SCLK);
+            instance = _codal_setup_pin(miso, 0, PinMap_SPI_MISO);
+            instance = _codal_setup_pin(mosi, 0, PinMap_SPI_MOSI);
+            instance = _codal_setup_pin(nss, 0, PinMap_SPI_NSS);
+            // spi.Instance = (SPI_TypeDef *)instance; }
+            LOG("SPI instance %p", instance);
 #ifdef TODO
             spi.Init.Direction = SPI_DIRECTION_2LINES;
             spi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -199,9 +199,9 @@ namespace codal {
             this->miso = &miso;
             this->sclk = &sclk;
             this->nss = &nss;
-            ZERO(spi);
-            ZERO(hdma_tx);
-            ZERO(hdma_rx);
+            // ZERO(spi);
+            // ZERO(hdma_tx);
+            // ZERO(hdma_rx);
             this->needsInit = true;
             this->transferCompleteEventCode = codal::allocateNotifyEvent();
             for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i) {
