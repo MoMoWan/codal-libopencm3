@@ -120,7 +120,7 @@ namespace codal {
                 !instance->sclk || !instance->nss)
                 { return NULL; }  //  Not found.
 
-            for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i) {
+            for (unsigned i = 0; i < ARRAY_SIZE(_instances); ++i) {
                 SPI *inst = _instances[i];
                 if (!inst) { continue; }
                 if (!inst->mosi || !inst->miso || 
@@ -162,7 +162,7 @@ namespace codal {
             uint32_t instance = _codal_setup_pin(sclk, 0, PinMap_SPI_SCLK);
             instance = _codal_setup_pin(miso, 0, PinMap_SPI_MISO);
             instance = _codal_setup_pin(mosi, 0, PinMap_SPI_MOSI);
-            instance = _codal_setup_pin(nss, 0, PinMap_SPI_NSS);
+            instance = _codal_setup_pin(nss, 0, PinMap_SPI_SSEL);
             // spi.Instance = (SPI_TypeDef *)instance; }
             LOG("SPI instance %p", instance);
 #ifdef TODO
@@ -204,9 +204,9 @@ namespace codal {
             // ZERO(hdma_rx);
             this->needsInit = true;
             this->transferCompleteEventCode = codal::allocateNotifyEvent();
-            for (unsigned i = 0; i < ARRAY_SIZE(instances); ++i) {
-                if (instances[i] == NULL) {
-                    instances[i] = this;
+            for (unsigned i = 0; i < ARRAY_SIZE(_instances); ++i) {
+                if (_instances[i] == NULL) {
+                    _instances[i] = this;
                     break;
                 }
             }
