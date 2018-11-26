@@ -22,7 +22,6 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 */
-
 #ifndef STM32BLUEPILL_H
 #define STM32BLUEPILL_H
 
@@ -152,6 +151,4 @@ namespace codal
     }
 }
 
-using namespace codal;
-
-#endif
+#endif  //  STM32BLUEPILL_H
