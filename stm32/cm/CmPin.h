@@ -88,6 +88,7 @@
 #define PB_8 0x18
 #define PB_9 0x19
 #define PB_10 0x1A
+#define PB_11 0x1B
 #define PB_12 0x1C
 #define PB_13 0x1D
 #define PB_14 0x1E
@@ -111,6 +112,10 @@
 #define PD_2 0x32
 #define PH_0 0x70
 #define PH_1 0x71
+
+//  Manually added.
+#define NRST  0xE0
+#define BOOT0 0xE1
 
 #define ADC_TEMP 0xF0
 #define ADC_VREF 0xF1
