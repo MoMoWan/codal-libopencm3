@@ -36,6 +36,7 @@
 #define IO_STATUS_EVENT_ON_EDGE             0x20        // Pin will generate events on pin change
 #define IO_STATUS_EVENT_PULSE_ON_EDGE       0x40        // Pin will generate events on pin change
 
+#ifdef NOTUSED
 //  TODO: Remove this.
 //#defines for each edge connector pin
 #define DEVICE_PIN_P0                     P0_3        //P0 is the left most pad (ANALOG/DIGITAL) used to be P0_3 on green board
@@ -57,6 +58,7 @@
 #define DEVICE_PIN_P16                    P0_16       //PIN 16
 #define DEVICE_PIN_P19                    P0_0        //SCL
 #define DEVICE_PIN_P20                    P0_30       //SDA
+#endif  //  NOTUSED
 
 //  STM32 pins from https://github.com/lancaster-university/codal-stm32/blob/master/inc/stm32.h
 #define PA_0 0x00

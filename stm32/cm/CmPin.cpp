@@ -1,3 +1,4 @@
+//  Based on https://github.com/lancaster-university/codal-stm32/blob/master/src/ZPin.cpp
 /*
     The MIT License (MIT)
 

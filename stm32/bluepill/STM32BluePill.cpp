@@ -1,3 +1,4 @@
+//  Based on https://github.com/nedseb/codal-stm32-iot-node/blob/master/model/STM32IotNode.cpp
 /*
     The MIT License (MIT)
 
@@ -91,8 +92,11 @@ int STM32BluePill::init()
   * We use this for any low priority, backgrounf housekeeping.
   *
   */
-void STM32BluePill::idleCallback()
-{
+void STM32BluePill::idleCallback() {
     codal_dmesg_flush();
+}
+
+void STM32BluePill::periodicCallback() {
+    //  TODO
 }
 

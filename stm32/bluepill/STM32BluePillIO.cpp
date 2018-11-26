@@ -1,3 +1,4 @@
+//  Based on https://github.com/nedseb/codal-stm32-iot-node/blob/master/model/STM32IotNodeIO.cpp
 /*
   The MIT License (MIT)
 
@@ -43,7 +44,8 @@ using namespace codal;
 STM32BluePillIO::STM32BluePillIO() :
     scl (ID_PIN_SCL, PB_6, PIN_CAPABILITY_AD),
     sda (ID_PIN_SDA, PB_7, PIN_CAPABILITY_AD),
-    led (ID_PIN_LED_BLUE, PC_13, PIN_CAPABILITY_AD),
-    pc13 (ID_PIN_P13, PC_13, PIN_CAPABILITY_AD)
+    led (ID_PIN_LED_GREEN, PC_13, PIN_CAPABILITY_AD),
+    pc13 (ID_PIN_P13, PC_13, PIN_CAPABILITY_AD),
+    temperature (ID_PIN_TEMP_SENSOR, ADC_TEMP, PIN_CAPABILITY_ANALOG)
 {
 }

@@ -2,7 +2,7 @@
 //  The SPI Interface supports the Simulator Module that captures, replays and simulates SPI commands for SPI sensors.
 //  We do this so that we can capture the SPI send/receive commands of Arduino sensor drivers and replay
 //  them efficiently on STM32, with multitasking.  And also for testing with simulated sensors.
-//  We support only Blue Pill SPI Port 1:
+//  We support only Blue Pill SPI Port 1 and Port 2:
 //  SS1   = Pin PA4
 //  SCK1  = Pin PA5
 //  MISO1 = Pin PA6

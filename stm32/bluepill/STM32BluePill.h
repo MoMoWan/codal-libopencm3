@@ -1,3 +1,4 @@
+//  Based on https://github.com/nedseb/codal-stm32-iot-node/blob/master/model/STM32IotNode.h
 /*
     The MIT License (MIT)
 
@@ -99,6 +100,11 @@ namespace codal
              */
             virtual void idleCallback();
 
+            /**
+             * A periodic callback invoked by the fiber scheduler every SCHEDULER_TICK_PERIOD_MS.
+             */
+            virtual void periodicCallback();
+            
             /**
              * Determine the time since this STM32BLUEPILL was last reset.
              *
