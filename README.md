@@ -249,6 +249,392 @@ Memory region         Used Size  Region Size  %age Used
 C:\tmp\codal>
 ```
 
+## Source Code Download Log
+
+```cmd
+
+C:\>mkdir 181126
+
+C:\>cd 181126
+
+C:\181126>dir
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126
+
+26/11/2018  03:00 PM    <DIR>          .
+26/11/2018  03:00 PM    <DIR>          ..
+               0 File(s)              0 bytes
+               2 Dir(s)  109,298,024,448 bytes free
+
+C:\181126>git clone https://github.com/lupyuen/codal-libopencm3
+Cloning into 'codal-libopencm3'...
+remote: Enumerating objects: 6, done.
+remote: Counting objects: 100% (6/6), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 2933 (delta 1), reused 2 (delta 0), pack-reused 2927R
+ KiB/s
+Receiving objects: 100% (2933/2933), 2.37 MiB | 915.00 KiB/s, done.
+Resolving deltas: 100% (1455/1455), done.
+Checking connectivity... done.
+Checking out files: 100% (2289/2289), done.
+
+C:\181126>dir
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126
+
+26/11/2018  03:01 PM    <DIR>          .
+26/11/2018  03:01 PM    <DIR>          ..
+26/11/2018  03:01 PM    <DIR>          codal-libopencm3
+               0 File(s)              0 bytes
+               3 Dir(s)  109,275,754,496 bytes free
+
+C:\181126>cd codal-libopencm3
+
+C:\181126\codal-libopencm3>dir
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3
+
+26/11/2018  03:01 PM    <DIR>          .
+26/11/2018  03:01 PM    <DIR>          ..
+26/11/2018  03:01 PM               221 .gitignore
+26/11/2018  03:01 PM             1,620 .travis.yml
+26/11/2018  03:01 PM    <DIR>          .vscode
+26/11/2018  03:01 PM    <DIR>          asm
+26/11/2018  03:01 PM             9,593 CMakeLists.txt
+26/11/2018  03:01 PM    <DIR>          docs
+26/11/2018  03:01 PM    <DIR>          ld
+26/11/2018  03:01 PM    <DIR>          lib
+26/11/2018  03:01 PM             1,098 LICENSE
+26/11/2018  03:01 PM    <DIR>          mbed
+26/11/2018  03:01 PM    <DIR>          patches
+26/11/2018  03:01 PM             4,514 platformio.ini
+26/11/2018  03:01 PM            23,794 README 2.md
+26/11/2018  03:01 PM            93,610 README.md
+26/11/2018  03:01 PM    <DIR>          samples
+26/11/2018  03:01 PM    <DIR>          scripts
+26/11/2018  03:01 PM    <DIR>          source
+26/11/2018  03:01 PM    <DIR>          src
+26/11/2018  03:01 PM    <DIR>          stm32
+26/11/2018  03:01 PM             3,139 target-locked.json
+26/11/2018  03:01 PM             3,139 target.json
+26/11/2018  03:01 PM             4,428 workspace.code-workspace
+              10 File(s)        145,156 bytes
+              14 Dir(s)  109,275,426,816 bytes free
+
+C:\181126\codal-libopencm3>cd lib
+
+C:\181126\codal-libopencm3\lib>dir
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib
+
+26/11/2018  03:01 PM    <DIR>          .
+26/11/2018  03:01 PM    <DIR>          ..
+26/11/2018  03:01 PM    <DIR>          BME280
+26/11/2018  03:01 PM    <DIR>          boost_assert
+26/11/2018  03:01 PM    <DIR>          boost_config
+26/11/2018  03:01 PM    <DIR>          boost_core
+26/11/2018  03:01 PM    <DIR>          boost_detail
+26/11/2018  03:01 PM    <DIR>          boost_iterator
+26/11/2018  03:01 PM    <DIR>          boost_lockfree
+26/11/2018  03:01 PM    <DIR>          boost_mpl
+26/11/2018  03:01 PM    <DIR>          boost_parameter
+26/11/2018  03:01 PM    <DIR>          boost_predef
+26/11/2018  03:01 PM    <DIR>          boost_preprocessor
+26/11/2018  03:01 PM    <DIR>          boost_static_assert
+26/11/2018  03:01 PM    <DIR>          boost_type_traits
+26/11/2018  03:01 PM    <DIR>          boost_utility
+26/11/2018  03:01 PM    <DIR>          cocoOS_5.0.3
+26/11/2018  03:01 PM    <DIR>          codal-core
+26/11/2018  03:01 PM    <DIR>          libopencm3
+26/11/2018  03:01 PM             1,045 readme.txt
+               1 File(s)          1,045 bytes
+              19 Dir(s)  109,275,164,672 bytes free
+
+C:\181126\codal-libopencm3\lib>git clone https://github.com/lancaster-university/codal-core
+Cloning into 'codal-core'...
+remote: Enumerating objects: 172, done.
+remote: Counting objects: 100% (172/172), done.
+remote: Compressing objects: 100% (110/110), done.
+remote: Total 4109 (delta 110), reused 110 (delta 62), pack-reused 3937 eceiving objects:  99% (4068/4109), 512.01 KiB | 502.00 KiB/s
+Receiving objects: 100% (4109/4109), 953.04 KiB | 502.00 KiB/s, done.
+Resolving deltas: 100% (2994/2994), done.
+Checking connectivity... done.
+
+C:\181126\codal-libopencm3\lib>dir
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib
+
+26/11/2018  03:01 PM    <DIR>          .
+26/11/2018  03:01 PM    <DIR>          ..
+26/11/2018  03:01 PM    <DIR>          BME280
+26/11/2018  03:01 PM    <DIR>          boost_assert
+26/11/2018  03:01 PM    <DIR>          boost_config
+26/11/2018  03:01 PM    <DIR>          boost_core
+26/11/2018  03:01 PM    <DIR>          boost_detail
+26/11/2018  03:01 PM    <DIR>          boost_iterator
+26/11/2018  03:01 PM    <DIR>          boost_lockfree
+26/11/2018  03:01 PM    <DIR>          boost_mpl
+26/11/2018  03:01 PM    <DIR>          boost_parameter
+26/11/2018  03:01 PM    <DIR>          boost_predef
+26/11/2018  03:01 PM    <DIR>          boost_preprocessor
+26/11/2018  03:01 PM    <DIR>          boost_static_assert
+26/11/2018  03:01 PM    <DIR>          boost_type_traits
+26/11/2018  03:01 PM    <DIR>          boost_utility
+26/11/2018  03:01 PM    <DIR>          cocoOS_5.0.3
+26/11/2018  03:02 PM    <DIR>          codal-core
+26/11/2018  03:01 PM    <DIR>          libopencm3
+26/11/2018  03:01 PM             1,045 readme.txt
+               1 File(s)          1,045 bytes
+              19 Dir(s)  109,272,281,088 bytes free
+
+C:\181126\codal-libopencm3\lib>dir codal-core
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\codal-core
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM                20 .gitignore
+26/11/2018  03:02 PM               903 CMakeLists.txt
+26/11/2018  03:02 PM    <DIR>          inc
+26/11/2018  03:02 PM             1,098 LICENSE
+26/11/2018  03:02 PM    <DIR>          source
+               3 File(s)          2,021 bytes
+               4 Dir(s)  109,272,281,088 bytes free
+
+C:\181126\codal-libopencm3\lib>dir codal-core\inc
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\codal-core\inc
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM    <DIR>          core
+26/11/2018  03:02 PM    <DIR>          driver-models
+26/11/2018  03:02 PM    <DIR>          drivers
+26/11/2018  03:02 PM    <DIR>          JACDAC
+26/11/2018  03:02 PM    <DIR>          streams
+26/11/2018  03:02 PM    <DIR>          types
+               0 File(s)              0 bytes
+               8 Dir(s)  109,272,281,088 bytes free
+
+C:\181126\codal-libopencm3\lib>cd ..
+
+C:\181126\codal-libopencm3>cd lib
+
+C:\181126\codal-libopencm3\lib>dir
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib
+
+26/11/2018  03:01 PM    <DIR>          .
+26/11/2018  03:01 PM    <DIR>          ..
+26/11/2018  03:01 PM    <DIR>          BME280
+26/11/2018  03:01 PM    <DIR>          boost_assert
+26/11/2018  03:01 PM    <DIR>          boost_config
+26/11/2018  03:01 PM    <DIR>          boost_core
+26/11/2018  03:01 PM    <DIR>          boost_detail
+26/11/2018  03:01 PM    <DIR>          boost_iterator
+26/11/2018  03:01 PM    <DIR>          boost_lockfree
+26/11/2018  03:01 PM    <DIR>          boost_mpl
+26/11/2018  03:01 PM    <DIR>          boost_parameter
+26/11/2018  03:01 PM    <DIR>          boost_predef
+26/11/2018  03:01 PM    <DIR>          boost_preprocessor
+26/11/2018  03:01 PM    <DIR>          boost_static_assert
+26/11/2018  03:01 PM    <DIR>          boost_type_traits
+26/11/2018  03:01 PM    <DIR>          boost_utility
+26/11/2018  03:01 PM    <DIR>          cocoOS_5.0.3
+26/11/2018  03:02 PM    <DIR>          codal-core
+26/11/2018  03:01 PM    <DIR>          libopencm3
+26/11/2018  03:01 PM             1,045 readme.txt
+               1 File(s)          1,045 bytes
+              19 Dir(s)  109,275,754,496 bytes free
+
+C:\181126\codal-libopencm3\lib>git clone https://github.com/libopencm3/libopencm3
+Cloning into 'libopencm3'...
+remote: Enumerating objects: 61, done.
+remote: Counting objects: 100% (61/61), done.
+remote: Compressing objects: 100% (36/36), done.
+remote: Total 24804 (delta 30), reused 50 (delta 25), pack-reused 24743
+Receiving objects: 100% (24804/24804), 5.49 MiB | 1024.00 KiB/s, done.
+Resolving deltas: 100% (16222/16222), done.
+Checking connectivity... done.
+
+C:\181126\codal-libopencm3\lib>dir libopencm3
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\libopencm3
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM               730 .gitignore
+26/11/2018  03:02 PM               289 .travis.yml
+26/11/2018  03:02 PM            35,744 COPYING.GPL3
+26/11/2018  03:02 PM             7,816 COPYING.LGPL3
+26/11/2018  03:02 PM    <DIR>          doc
+26/11/2018  03:02 PM             3,590 HACKING
+26/11/2018  03:02 PM             3,198 HACKING_COMMON_DOC
+26/11/2018  03:02 PM    <DIR>          include
+26/11/2018  03:02 PM    <DIR>          ld
+26/11/2018  03:02 PM    <DIR>          lib
+26/11/2018  03:02 PM               521 locm3.sublime-project
+26/11/2018  03:02 PM             3,870 Makefile
+26/11/2018  03:02 PM    <DIR>          mk
+26/11/2018  03:02 PM             7,026 README.md
+26/11/2018  03:02 PM    <DIR>          scripts
+26/11/2018  03:02 PM    <DIR>          tests
+               9 File(s)         62,784 bytes
+               9 Dir(s)  109,260,390,400 bytes free
+
+C:\181126\codal-libopencm3\lib>dir libopencm3\include
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\libopencm3\include
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM    <DIR>          libopencm3
+26/11/2018  03:02 PM    <DIR>          libopencmsis
+               0 File(s)              0 bytes
+               4 Dir(s)  109,260,390,400 bytes free
+
+C:\181126\codal-libopencm3\lib>dir libopencm3\include\libopencm3
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\libopencm3\include\libopencm3
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM    <DIR>          cm3
+26/11/2018  03:02 PM    <DIR>          dispatch
+26/11/2018  03:02 PM               554 docmain.dox
+26/11/2018  03:02 PM    <DIR>          efm32
+26/11/2018  03:02 PM    <DIR>          ethernet
+26/11/2018  03:02 PM               693 license.dox
+26/11/2018  03:02 PM    <DIR>          lm3s
+26/11/2018  03:02 PM    <DIR>          lm4f
+26/11/2018  03:02 PM    <DIR>          lpc13xx
+26/11/2018  03:02 PM    <DIR>          lpc17xx
+26/11/2018  03:02 PM    <DIR>          lpc43xx
+26/11/2018  03:02 PM    <DIR>          msp432
+26/11/2018  03:02 PM    <DIR>          sam
+26/11/2018  03:02 PM    <DIR>          stm32
+26/11/2018  03:02 PM    <DIR>          usb
+26/11/2018  03:02 PM    <DIR>          vf6xx
+               2 File(s)          1,247 bytes
+              16 Dir(s)  109,260,386,304 bytes free
+
+C:\181126\codal-libopencm3\lib>dir libopencm3\include\libopencm3\stm32
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\libopencm3\include\libopencm3\stm32
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM             1,429 adc.h
+26/11/2018  03:02 PM            21,185 can.h
+26/11/2018  03:02 PM             1,015 cec.h
+26/11/2018  03:02 PM    <DIR>          common
+26/11/2018  03:02 PM             1,096 comparator.h
+26/11/2018  03:02 PM             1,429 crc.h
+26/11/2018  03:02 PM             1,234 crs.h
+26/11/2018  03:02 PM             1,163 crypto.h
+26/11/2018  03:02 PM             1,360 dac.h
+26/11/2018  03:02 PM             2,660 dbgmcu.h
+26/11/2018  03:02 PM             1,016 dcmi.h
+26/11/2018  03:02 PM             2,055 desig.h
+26/11/2018  03:02 PM             1,567 dma.h
+26/11/2018  03:02 PM             1,030 dma2d.h
+26/11/2018  03:02 PM               947 dsi.h
+26/11/2018  03:02 PM             1,571 exti.h
+26/11/2018  03:02 PM    <DIR>          f0
+26/11/2018  03:02 PM    <DIR>          f1
+26/11/2018  03:02 PM    <DIR>          f2
+26/11/2018  03:02 PM    <DIR>          f3
+26/11/2018  03:02 PM    <DIR>          f4
+26/11/2018  03:02 PM    <DIR>          f7
+26/11/2018  03:02 PM             1,585 flash.h
+26/11/2018  03:02 PM             9,462 fsmc.h
+26/11/2018  03:02 PM             1,576 gpio.h
+26/11/2018  03:02 PM             1,142 hash.h
+26/11/2018  03:02 PM             1,020 hrtim.h
+26/11/2018  03:02 PM             1,567 i2c.h
+26/11/2018  03:02 PM             1,506 iwdg.h
+26/11/2018  03:02 PM    <DIR>          l0
+26/11/2018  03:02 PM    <DIR>          l1
+26/11/2018  03:02 PM    <DIR>          l4
+26/11/2018  03:02 PM             1,021 ltdc.h
+26/11/2018  03:02 PM             1,604 memorymap.h
+26/11/2018  03:02 PM             1,567 pwr.h
+26/11/2018  03:02 PM             1,034 quadspi.h
+26/11/2018  03:02 PM             1,567 rcc.h
+26/11/2018  03:02 PM             1,289 rng.h
+26/11/2018  03:02 PM             1,429 rtc.h
+26/11/2018  03:02 PM            14,399 sdio.h
+26/11/2018  03:02 PM             1,567 spi.h
+26/11/2018  03:02 PM             1,492 st_usbfs.h
+26/11/2018  03:02 PM             1,450 syscfg.h
+26/11/2018  03:02 PM             1,650 timer.h
+26/11/2018  03:02 PM             2,290 tools.h
+26/11/2018  03:02 PM             1,015 tsc.h
+26/11/2018  03:02 PM             1,585 usart.h
+26/11/2018  03:02 PM             2,521 wwdg.h
+              38 File(s)         96,095 bytes
+              12 Dir(s)  109,260,386,304 bytes free
+
+C:\181126\codal-libopencm3\lib>dir libopencm3\include\libopencm3\stm32\f1
+ Volume in drive C is Win2008
+ Volume Serial Number is A65F-559C
+
+ Directory of C:\181126\codal-libopencm3\lib\libopencm3\include\libopencm3\stm32\f1
+
+26/11/2018  03:02 PM    <DIR>          .
+26/11/2018  03:02 PM    <DIR>          ..
+26/11/2018  03:02 PM            15,701 adc.h
+26/11/2018  03:02 PM             6,452 bkp.h
+26/11/2018  03:02 PM             1,165 crc.h
+26/11/2018  03:02 PM             1,088 dac.h
+26/11/2018  03:02 PM             1,096 dma.h
+26/11/2018  03:02 PM               663 doc-stm32f1.h
+26/11/2018  03:02 PM             1,293 exti.h
+26/11/2018  03:02 PM             4,177 flash.h
+26/11/2018  03:02 PM            33,414 gpio.h
+26/11/2018  03:02 PM             1,088 i2c.h
+26/11/2018  03:02 PM             1,625 irq.json
+26/11/2018  03:02 PM             1,173 iwdg.h
+26/11/2018  03:02 PM             5,673 memorymap.h
+26/11/2018  03:02 PM             1,095 pwr.h
+26/11/2018  03:02 PM            25,611 rcc.h
+26/11/2018  03:02 PM             5,096 rtc.h
+26/11/2018  03:02 PM             1,087 spi.h
+26/11/2018  03:02 PM               979 st_usbfs.h
+26/11/2018  03:02 PM             1,562 timer.h
+26/11/2018  03:02 PM             1,101 usart.h
+              20 File(s)        111,139 bytes
+               2 Dir(s)  109,260,386,304 bytes free
+
+C:\181126\codal-libopencm3\lib>cd ..
+
+C:\181126\codal-libopencm3>
+```
+
 ## PlatformIO Build Log
 
 ```cmd
