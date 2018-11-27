@@ -22,6 +22,52 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 */
+/*
+typedef struct
+{
+    PinName pin;
+    int peripheral;
+    int function;
+} PinMap;
+
+static const PinMap PinMap_SPI_SCLK[] = {
+    {P10_12, SPI_0, 4},
+    {P11_12, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_SPI_SSEL[] = {
+    {P10_13, SPI_0, 4},
+    {P11_13, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_SPI_MOSI[] = {
+    {P10_14, SPI_0, 4},
+    {P11_14, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_SPI_MISO[] = {
+    {P10_15, SPI_0, 4},
+    {P11_15, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_I2C_SDA[] = {
+    {PB_7,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_9,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_11, I2C_2, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C2)},
+    {NC,    NC,    0}
+};
+
+static const PinMap PinMap_I2C_SCL[] = {
+    {PB_6,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_8,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_10, I2C_2, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C2)},
+    {NC,    NC,    0}
+};
+*/
 #include "CodalConfig.h"
 #include "CmSPI.h"
 #include "ErrorNo.h"
@@ -54,104 +100,6 @@ namespace codal {
             pin_mode(pin, PullNone);
             CODAL_ASSERT(!prev || prev == tmp);
             return tmp;
-        }
-
-        static int enable_clock(uint32_t instance) {
-#ifdef TODO
-            switch (instance)
-            {
-            case SPI1_BASE:
-                __HAL_RCC_SPI1_CLK_ENABLE();
-                NVIC_EnableIRQ(SPI1_IRQn);
-                return HAL_RCC_GetPCLK2Freq();
-            case SPI2_BASE:
-                __HAL_RCC_SPI2_CLK_ENABLE();
-                NVIC_EnableIRQ(SPI2_IRQn);
-                return HAL_RCC_GetPCLK1Freq();
-        #ifdef SPI3_BASE
-            case SPI3_BASE:
-                __HAL_RCC_SPI3_CLK_ENABLE();
-                NVIC_EnableIRQ(SPI3_IRQn);
-                return HAL_RCC_GetPCLK1Freq();
-        #endif
-        #ifdef SPI4_BASE
-            case SPI4_BASE:
-                __HAL_RCC_SPI4_CLK_ENABLE();
-                NVIC_EnableIRQ(SPI4_IRQn);
-                return HAL_RCC_GetPCLK2Freq();
-        #endif
-        #ifdef SPI5_BASE
-            case SPI5_BASE:
-                __HAL_RCC_SPI5_CLK_ENABLE();
-                NVIC_EnableIRQ(SPI5_IRQn);
-                return HAL_RCC_GetPCLK2Freq();
-        #endif
-        #ifdef SPI6_BASE
-            case SPI6_BASE:
-                __HAL_RCC_SPI6_CLK_ENABLE();
-                NVIC_EnableIRQ(SPI6_IRQn);
-                return HAL_RCC_GetPCLK2Freq();
-        #endif
-
-            default:
-                CODAL_ASSERT(0);
-                return 0;
-            }
-#endif  //  TODO
-            return 0;
-        }
-
-        void SPI::complete() {
-            LOG("SPI complete D=%p", doneHandler);
-            if (doneHandler) {
-                PVoidCallback done = doneHandler;
-                doneHandler = NULL;
-                //create_fiber(done, doneHandlerArg);
-                done(doneHandlerArg);
-            } else {
-                Event(DEVICE_ID_NOTIFY_ONE, transferCompleteEventCode);
-            }
-        }
-
-        SPI *SPI::_find(SPI *instance) {
-            //  LOG("SPI find %p", instance);
-            if (!instance) { return NULL; }  //  Not found.
-            if (!instance->mosi || !instance->miso || 
-                !instance->sclk || !instance->nss)
-                { return NULL; }  //  Not found.
-
-            for (unsigned i = 0; i < ARRAY_SIZE(_instances); ++i) {
-                SPI *inst = _instances[i];
-                if (!inst) { continue; }
-                if (!inst->mosi || !inst->miso || 
-                    !inst->sclk || !inst->nss)
-                    { continue; }
-
-                if (inst->mosi->id == instance->mosi->id &&
-                    inst->miso->id == instance->miso->id &&
-                    inst->sclk->id == instance->sclk->id &&
-                    inst->nss->id == instance->nss->id) 
-                    { return inst; }  //  Found instance.
-            }
-            return NULL;  //  Not found.
-        }
-
-        void SPI::_complete(SPI *instance) {
-            //  LOG("SPI complete %p", instance);
-            SPI *inst = _find(instance);
-            if (inst) { inst->complete(); }
-            //  TODO: Handle not found.
-        }
-
-        void SPI::_irq(SPI *instance) {
-            //  LOG("SPI IRQ %p", instance);
-            SPI *inst = _find(instance);
-            if (inst) { 
-#ifdef TODO
-                HAL_SPI_IRQHandler(inst);
-#endif  //  TODO
-            }
-            //  TODO: Handle not found.
         }
 
         void SPI::init() {
@@ -199,9 +147,7 @@ namespace codal {
             this->miso = &miso;
             this->sclk = &sclk;
             this->nss = &nss;
-            // ZERO(spi);
-            // ZERO(hdma_tx);
-            // ZERO(hdma_rx);
+            // ZERO(spi); ZERO(hdma_tx); ZERO(hdma_rx);
             this->needsInit = true;
             this->transferCompleteEventCode = codal::allocateNotifyEvent();
             for (unsigned i = 0; i < ARRAY_SIZE(_instances); ++i) {
@@ -273,6 +219,105 @@ namespace codal {
                 return 0; // nothing to do
             }
             CODAL_ASSERT(res == HAL_OK);
+            return 0;
+        }
+
+        void SPI::complete() {
+            LOG("SPI complete D=%p", doneHandler);
+            if (doneHandler) {
+                PVoidCallback done = doneHandler;
+                doneHandler = NULL;
+                //create_fiber(done, doneHandlerArg);
+                done(doneHandlerArg);
+            } else {
+                Event(DEVICE_ID_NOTIFY_ONE, transferCompleteEventCode);
+            }
+        }
+
+        void SPI::_complete(SPI *instance) {
+            //  LOG("SPI complete %p", instance);
+            SPI *inst = _find(instance);
+            if (inst) { inst->complete(); }
+            //  TODO: Handle not found.
+        }
+
+        void SPI::_irq(SPI *instance) {
+            //  LOG("SPI IRQ %p", instance);
+            SPI *inst = _find(instance);
+            if (inst) { 
+#ifdef TODO
+                HAL_SPI_IRQHandler(inst);
+#endif  //  TODO
+            }
+            //  TODO: Handle not found.
+        }
+
+        SPI *SPI::_find(SPI *instance) {
+            //  Warning: Called by interrupt service routine.
+            //  LOG("SPI find %p", instance);
+            if (!instance) { return NULL; }  //  Not found.
+            if (!instance->mosi || !instance->miso || 
+                !instance->sclk || !instance->nss)
+                { return NULL; }  //  Not found.
+
+            for (unsigned i = 0; i < ARRAY_SIZE(_instances); ++i) {
+                SPI *inst = _instances[i];
+                if (!inst) { continue; }
+                if (!inst->mosi || !inst->miso || 
+                    !inst->sclk || !inst->nss)
+                    { continue; }
+
+                if (inst->mosi->id == instance->mosi->id &&
+                    inst->miso->id == instance->miso->id &&
+                    inst->sclk->id == instance->sclk->id &&
+                    inst->nss->id == instance->nss->id) 
+                    { return inst; }  //  Found instance.
+            }
+            return NULL;  //  Not found.
+        }
+
+        static int enable_clock(uint32_t instance) {
+#ifdef TODO
+            switch (instance)
+            {
+            case SPI1_BASE:
+                __HAL_RCC_SPI1_CLK_ENABLE();
+                NVIC_EnableIRQ(SPI1_IRQn);
+                return HAL_RCC_GetPCLK2Freq();
+            case SPI2_BASE:
+                __HAL_RCC_SPI2_CLK_ENABLE();
+                NVIC_EnableIRQ(SPI2_IRQn);
+                return HAL_RCC_GetPCLK1Freq();
+        #ifdef SPI3_BASE
+            case SPI3_BASE:
+                __HAL_RCC_SPI3_CLK_ENABLE();
+                NVIC_EnableIRQ(SPI3_IRQn);
+                return HAL_RCC_GetPCLK1Freq();
+        #endif
+        #ifdef SPI4_BASE
+            case SPI4_BASE:
+                __HAL_RCC_SPI4_CLK_ENABLE();
+                NVIC_EnableIRQ(SPI4_IRQn);
+                return HAL_RCC_GetPCLK2Freq();
+        #endif
+        #ifdef SPI5_BASE
+            case SPI5_BASE:
+                __HAL_RCC_SPI5_CLK_ENABLE();
+                NVIC_EnableIRQ(SPI5_IRQn);
+                return HAL_RCC_GetPCLK2Freq();
+        #endif
+        #ifdef SPI6_BASE
+            case SPI6_BASE:
+                __HAL_RCC_SPI6_CLK_ENABLE();
+                NVIC_EnableIRQ(SPI6_IRQn);
+                return HAL_RCC_GetPCLK2Freq();
+        #endif
+
+            default:
+                CODAL_ASSERT(0);
+                return 0;
+            }
+#endif  //  TODO
             return 0;
         }
 
