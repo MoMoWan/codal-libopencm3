@@ -34,7 +34,8 @@ extern "C"
     {
         PinName pin;
         int peripheral;
-        int function;
+        int remapped;  //  1 if this is a remapped pin.
+        int function;  //  mode, speed, output type and pull-up/pull-down
     } PinMap;
 
     void pin_function(PinName pin, int function);
