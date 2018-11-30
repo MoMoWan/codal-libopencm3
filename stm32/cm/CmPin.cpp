@@ -28,17 +28,14 @@
   *
   * Commonly represents an I/O pin on the edge connector.
   */
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
 #include "CmPin.h"
 #include <Button.h>
 #include <Timer.h>
-////#include "MbedTimedInterruptIn.h"
 #include "DynamicPwm.h"
 #include <ErrorNo.h>
 #include <logger.h>
-
-//  Blink code from https://github.com/Apress/Beg-STM32-Devel-FreeRTOS-libopencm3-GCC
-#include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
 
 ////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/667d61c9177b/PinNames.h/
 enum PinMode {
@@ -89,8 +86,7 @@ Pin::Pin(
     uint32_t port,  //  e.g. GPIOC
     uint16_t pin,   //  e.g. GPIO13
     PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
-): codal::Pin(id, name, capability), rcc(rcc), port(port), pin(pin)
-{
+): codal::Pin(id, name, capability), rcc(rcc), port(port), pin(pin) {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
 
     // Power up in a disconnected, low power state.
@@ -98,38 +94,23 @@ Pin::Pin(
     this->status = 0;
 }
 
+void Pin::setup(
+    uint8_t mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+    uint8_t cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
+) {
+	//  Set up GPIO pin.
+	//  Enable GPIO clock.
+	rcc_periph_clock_enable((enum rcc_periph_clken) this->rcc);
+	//  Set mode and configuration of GPIO port and pin.
+	gpio_set_mode(this->port, mode, cnf, this->pin);
+}
+
 /**
   * Disconnect any attached mBed IO from this pin.
   *
   * Used only when pin changes mode (i.e. Input/Output/Analog/Digital)
   */
-void Pin::disconnect()
-{
-#ifdef TODO  //  Don't use delete.  Increases code size.
-    // This is a bit ugly, but rarely used code.
-    // It would be much better to use some polymorphism here, but the mBed I/O classes aren't arranged in an inheritance hierarchy... yet. :-)
-    if (status & IO_STATUS_DIGITAL_IN)
-        delete ((DigitalIn *)pin);
-
-    if (status & IO_STATUS_DIGITAL_OUT)
-        delete ((DigitalOut *)pin);
-
-    if (status & IO_STATUS_ANALOG_IN)
-        delete ((AnalogIn *)pin);
-
-    if (status & IO_STATUS_ANALOG_OUT)
-    {
-        ((DynamicPwm *)pin)->release();
-        delete ((DynamicPwm *)pin);
-    }
-
-    if (status & IO_STATUS_TOUCH_IN)
-        delete ((Button *)pin);
-
-    if ((status & IO_STATUS_EVENT_ON_EDGE) || (status & IO_STATUS_EVENT_PULSE_ON_EDGE))
-        delete ((TimedInterruptIn *)pin);
-#endif  //  TODO
-
+void Pin::disconnect() {
     this->status = 0;
 }
 

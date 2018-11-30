@@ -297,9 +297,12 @@ namespace codal
         _cm::Pin miso3_remap;
         _cm::Pin mosi3_remap;
         _cm::Pin led;
+        
+        #ifdef TODO
         _cm::Pin temperature;
         _cm::Pin vref;
         _cm::Pin vbat;
+        #endif  //  TODO
 
     };
 }

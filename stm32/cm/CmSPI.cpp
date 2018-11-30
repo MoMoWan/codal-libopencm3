@@ -200,11 +200,14 @@ namespace codal {
         uint32_t _codal_setup_pin(Pin *p, uint32_t prev, const PinMap *map) {
             if (!p) { return 0; }
             auto pin = p->name;
-            uint32_t tmp = pinmap_peripheral(pin, map);
-            pin_function(pin, pinmap_function(pin, map));
-            pin_mode(pin, PullNone);
-            CODAL_ASSERT(!prev || prev == tmp);
-            return tmp;
+            uint32_t peri = pinmap_peripheral(pin, map);
+            if (peri == (uint32_t)NC) { return peri; }
+            
+            auto mode = pinmap_mode(pin, map);
+            auto cnf = pinmap_cnf(pin, map);
+            p->setup(mode, cnf);
+            CODAL_ASSERT(!prev || prev == peri);
+            return peri;
         }
 
         void SPI::init() {

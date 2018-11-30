@@ -30,23 +30,23 @@ extern "C"
 {
 #endif
 
-    typedef struct
-    {
-        PinName pin;
-        int peripheral;
-        int remapped;  //  1 if this is a remapped pin.
-        int function;  //  mode, speed, output type and pull-up/pull-down
+    typedef struct {
+        //  For a peripheral, maps the peripheral function to a pin.
+        PinName pin;    //  0 to 127
+        uint32_t peripheral; //  e.g. SPI1
+        uint8_t remapped;    //  1 if this is a remapped pin.
+        uint8_t mode;   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+        uint8_t cnf;    //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
     } PinMap;
 
-    void pin_function(PinName pin, int function);
-    void pin_mode(PinName pin, PinMode mode);
-
     uint32_t pinmap_peripheral(PinName pin, const PinMap *map);
-    uint32_t pinmap_function(PinName pin, const PinMap *map);
+    uint8_t pinmap_mode(PinName pin, const PinMap *map);
+    uint8_t pinmap_cnf(PinName pin, const PinMap *map);
     uint32_t pinmap_merge(uint32_t a, uint32_t b);
     void pinmap_pinout(PinName pin, const PinMap *map);
     uint32_t pinmap_find_peripheral(PinName pin, const PinMap *map);
-    uint32_t pinmap_find_function(PinName pin, const PinMap *map);
+    uint8_t pinmap_find_mode(PinName pin, const PinMap *map);
+    uint8_t pinmap_find_cnf(PinName pin, const PinMap *map);
 
 #ifdef __cplusplus
 }

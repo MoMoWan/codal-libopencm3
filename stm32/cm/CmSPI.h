@@ -27,7 +27,7 @@
 
 #include "CodalConfig.h"
 #include "SPI.h"
-#include "Pin.h"
+#include "CmPin.h"
 
 namespace codal
 {
@@ -65,7 +65,7 @@ namespace codal
              *
              * Default setup is 1 MHz, 8 bit, mode 0.
              */
-            SPI(codal::Pin &mosi, codal::Pin &miso, codal::Pin &sclk, codal::Pin &nss);
+            SPI(Pin &mosi, Pin &miso, Pin &sclk, Pin &nss);
 
             /** Set the frequency of the SPI interface
              *

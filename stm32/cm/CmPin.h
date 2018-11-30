@@ -27,6 +27,7 @@
 
 #include "Pin.h"
 #include "CodalConfig.h"
+#include "pinmap.h"
                                                         // Status Field flags...
 #define IO_STATUS_DIGITAL_IN                0x01        // Pin is configured as a digital input, with no pull up.
 #define IO_STATUS_DIGITAL_OUT               0x02        // Pin is configured as a digital output
@@ -123,11 +124,16 @@ namespace codal
               */
             Pin(
               int id,  //  e.g. DEVICE_ID_IO_PA0
-              uint8_t name,   //  0 to 127
+              PinName name,   //  0 to 127
               uint32_t rcc,   //  e.g. RCC_GPIOC
               uint32_t port,  //  e.g. GPIOC
               uint16_t pin,   //  e.g. GPIO13
               PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
+            );
+
+            void setup(
+              uint8_t mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+              uint8_t cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
             );
 
             /**

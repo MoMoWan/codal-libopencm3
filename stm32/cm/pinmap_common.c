@@ -69,22 +69,42 @@ uint32_t pinmap_peripheral(PinName pin, const PinMap* map) {
     return peripheral;
 }
 
-uint32_t pinmap_find_function(PinName pin, const PinMap* map) {
+uint8_t pinmap_find_mode(PinName pin, const PinMap* map) {
     while (map->pin != NC) {
         if (map->pin == pin)
-            return map->function;
+            return map->mode;
         map++;
     }
-    return (uint32_t)NC;
+    return (uint8_t)NC;
 }
 
-uint32_t pinmap_function(PinName pin, const PinMap* map) {
-    uint32_t function = (uint32_t)NC;
+uint8_t pinmap_mode(PinName pin, const PinMap* map) {
+    uint8_t mode = (uint8_t)NC;
 
     if (pin == (PinName)NC)
-        return (uint32_t)NC;
-    function = pinmap_find_function(pin, map);
-    if ((uint32_t)NC == function) // no mapping available
-        error("pinmap not found for function");
-    return function;
+        return (uint8_t)NC;
+    mode = pinmap_find_mode(pin, map);
+    if ((uint8_t)NC == mode) // no mapping available
+        error("pinmap not found for mode");
+    return mode;
+}
+
+uint8_t pinmap_find_cnf(PinName pin, const PinMap* map) {
+    while (map->pin != NC) {
+        if (map->pin == pin)
+            return map->cnf;
+        map++;
+    }
+    return (uint8_t)NC;
+}
+
+uint8_t pinmap_cnf(PinName pin, const PinMap* map) {
+    uint8_t cnf = (uint8_t)NC;
+
+    if (pin == (PinName)NC)
+        return (uint8_t)NC;
+    cnf = pinmap_find_cnf(pin, map);
+    if ((uint8_t)NC == cnf) // no mapping available
+        error("pinmap not found for cnf");
+    return cnf;
 }

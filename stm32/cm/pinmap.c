@@ -3,20 +3,6 @@
 #include "pinmap.h"
 #include "pin_device.h"
 
-void pin_setup(
-    enum rcc_periph_clken rcc,  //  e.g. RCC_GPIOC
-    uint32_t port,  //  e.g. GPIOC
-    uint16_t pin,   //  e.g. GPIO13
-    uint8_t mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
-    uint8_t cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
-) {
-	//  Set up GPIO pin.
-	//  Enable GPIO clock.
-	rcc_periph_clock_enable(rcc);
-	//  Set mode and configuration of GPIO port and pin.
-	gpio_set_mode(port, mode, cnf, pin);
-}
-
 void pin_clear(
     uint32_t port,  //  e.g. GPIOC
     uint16_t pin    //  e.g. GPIO13
