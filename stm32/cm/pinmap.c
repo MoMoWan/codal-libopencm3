@@ -31,6 +31,32 @@
 //#include "PortNames.h"
 #include "pin_device.h"
 
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+
+void TODO_setup(void) {
+	//  Set up Blue Pill LED GPIO.
+	//  Enable GPIOC clock.
+	rcc_periph_clock_enable(RCC_GPIOC);
+	//  Set GPIO13 (in GPIO port C) to 'output push-pull'.
+	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
+}
+
+void TODO_on(void) {
+	//  Switch Blue Pill LED on.
+	gpio_clear(GPIOC, GPIO13);
+}
+
+void TODO_off(void) {
+	//  Switch Blue Pill LED off.
+	gpio_set(GPIOC, GPIO13);
+}
+
+void TODO_toggle(void) {
+	//  Toggle Blue Pill LED.
+	gpio_toggle(GPIOC, GPIO13);
+}
+
 #define error MBED_ERROR
 
 extern GPIO_TypeDef *Set_GPIO_Clock(uint32_t port_idx);
