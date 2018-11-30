@@ -264,3 +264,61 @@ static const PinMap PinMap_I2C_SCL[] = {    { CM_PB6  , I2C1, GPIOB, GPIO6, 0, 0
                                                                    { CM_PB6  , USART1, GPIOB, GPIO6, 1, 0 },  /*  PinMap_USART_TX_REMAP[0]  */  
 { NC, NC, 0, 0 } };    
                                                                    
+/*
+typedef struct
+{
+    PinName pin;
+    int peripheral;
+    int function;  //  mode, speed, output type and pull-up/pull-down
+} PinMap;
+
+static const PinMap PinMap_ADC[] = {
+    {P0_11, ADC0_0, 2},
+    {P1_0 , ADC0_1, 2},
+    {P1_1 , ADC0_2, 2},
+    {P1_2 , ADC0_3, 2},
+    // {P1_3 , ADC0_4, 2}, -- should be mapped to SWDIO only
+    {P1_4 , ADC0_5, 1},
+    {P1_10, ADC0_6, 1},
+    {P1_11, ADC0_7, 1},
+    {NC   , NC    , 0}
+};
+
+static const PinMap PinMap_SPI_SCLK[] = {
+    {P10_12, SPI_0, 4},
+    {P11_12, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_SPI_SSEL[] = {
+    {P10_13, SPI_0, 4},
+    {P11_13, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_SPI_MOSI[] = {
+    {P10_14, SPI_0, 4},
+    {P11_14, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_SPI_MISO[] = {
+    {P10_15, SPI_0, 4},
+    {P11_15, SPI_1, 2},
+    {NC   , NC   , 0}
+};
+
+static const PinMap PinMap_I2C_SDA[] = {
+    {PB_7,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_9,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_11, I2C_2, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C2)},
+    {NC,    NC,    0}
+};
+
+static const PinMap PinMap_I2C_SCL[] = {
+    {PB_6,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_8,  I2C_1, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C1)},
+    {PB_10, I2C_2, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF1_I2C2)},
+    {NC,    NC,    0}
+};
+*/

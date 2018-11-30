@@ -1,9 +1,79 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
+#include "logger.h"
 #include "pinmap.h"
 #include "pin_device.h"
 
-void pin_clear(
+#define error(x) { debug_println(x); debug_flush; }
+
+static uint32_t pinmap_find_peripheral(PinName pin, const PinMap *map);
+static uint8_t pinmap_find_mode(PinName pin, const PinMap *map);
+static uint8_t pinmap_find_cnf(PinName pin, const PinMap *map);
+
+uint32_t pinmap_peripheral(PinName pin, const PinMap* map) {
+    //  Return the peripheral for the pin e.g. SPI1.
+    uint32_t peripheral = (uint32_t)NC;
+    if (pin == (PinName)NC)
+        return (uint32_t)NC;
+    peripheral = pinmap_find_peripheral(pin, map);
+    if ((uint32_t)NC == peripheral) // no mapping available
+        error("pinmap not found for peripheral");
+    return peripheral;
+}
+
+uint8_t pinmap_mode(PinName pin, const PinMap* map) {
+    //  Return the pin mode for the peripheral e.g. GPIO_MODE_OUTPUT_2_MHZ.
+    uint8_t mode = (uint8_t)NC;
+    if (pin == (PinName)NC)
+        return (uint8_t)NC;
+    mode = pinmap_find_mode(pin, map);
+    if ((uint8_t)NC == mode) // no mapping available
+        error("pinmap not found for mode");
+    return mode;
+}
+
+uint8_t pinmap_cnf(PinName pin, const PinMap* map) {
+    //  Return the pin config for the peripheral e.g. GPIO_CNF_OUTPUT_PUSHPULL.
+    uint8_t cnf = (uint8_t)NC;
+    if (pin == (PinName)NC)
+        return (uint8_t)NC;
+    cnf = pinmap_find_cnf(pin, map);
+    if ((uint8_t)NC == cnf) // no mapping available
+        error("pinmap not found for cnf");
+    return cnf;
+}
+
+static uint32_t pinmap_find_peripheral(PinName pin, const PinMap* map) {
+    //  Return the peripheral for the pin e.g. SPI1.
+    while (map->pin != NC) {
+        if (map->pin == pin)
+            return map->peripheral;
+        map++;
+    }
+    return (uint32_t)NC;
+}
+
+static uint8_t pinmap_find_mode(PinName pin, const PinMap* map) {
+    //  Return the pin mode for the peripheral e.g. GPIO_MODE_OUTPUT_2_MHZ.
+    while (map->pin != NC) {
+        if (map->pin == pin)
+            return map->mode;
+        map++;
+    }
+    return (uint8_t)NC;
+}
+
+static uint8_t pinmap_find_cnf(PinName pin, const PinMap* map) {
+    //  Return the pin config for the peripheral e.g. GPIO_CNF_OUTPUT_PUSHPULL.
+    while (map->pin != NC) {
+        if (map->pin == pin)
+            return map->cnf;
+        map++;
+    }
+    return (uint8_t)NC;
+}
+
+static void pin_clear(
     uint32_t port,  //  e.g. GPIOC
     uint16_t pin    //  e.g. GPIO13
 ) {
@@ -11,7 +81,7 @@ void pin_clear(
 	gpio_clear(port, pin);
 }
 
-void pin_set(
+static void pin_set(
     uint32_t port,  //  e.g. GPIOC
     uint16_t pin    //  e.g. GPIO13
 ) {
@@ -19,13 +89,47 @@ void pin_set(
 	gpio_set(port, pin);
 }
 
-void pin_toggle(
+static void pin_toggle(
     uint32_t port,  //  e.g. GPIOC
     uint16_t pin    //  e.g. GPIO13
 ) {
 	//  Toggle GPIO pin.
 	gpio_toggle(port, pin);
 }
+
+#ifdef TODO
+    uint32_t pinmap_merge(uint32_t a, uint32_t b) {
+        // both are the same (inc both NC)
+        if (a == b)
+            return a;
+
+        // one (or both) is not connected
+        if (a == (uint32_t)NC)
+            return b;
+        if (b == (uint32_t)NC)
+            return a;
+
+        // mis-match error case
+        error("pinmap mis-match");
+        return (uint32_t)NC;
+    }
+
+    void pinmap_pinout(PinName pin, const PinMap *map) {
+        if (pin == NC)
+            return;
+
+        while (map->pin != NC) {
+            if (map->pin == pin) {
+                pin_function(pin, map->function);
+
+                pin_mode(pin, PullNone);
+                return;
+            }
+            map++;
+        }
+        error("could not pinout");
+    }
+#endif  //  TODO
 
 #ifdef NOTUSED
 

@@ -153,8 +153,11 @@ void pwmout_init(pwmout_t* obj, PinName pin)
         __HAL_RCC_TIM22_CLK_ENABLE();
     }
 #endif
+
+#ifdef TODO
     // Configure GPIO
     pinmap_pinout(pin, PinMap_PWM);
+#endif  //  TODO
 
     obj->pin = pin;
     obj->period = 0;
