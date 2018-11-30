@@ -82,15 +82,20 @@ using namespace codal::_cm;
   * Pin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_ALL);
   * @endcode
   */
-Pin::Pin(int id, PinNumber name, PinCapability capability) : codal::Pin(id, name, capability)
+Pin::Pin(
+    int id,        //  e.g. DEVICE_ID_IO_PA0
+    uint8_t name,  //  0 to 127
+    uint32_t rcc,  //  e.g. RCC_GPIOC
+    uint32_t port,  //  e.g. GPIOC
+    uint16_t pin,   //  e.g. GPIO13
+    PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
+): codal::Pin(id, name, capability), rcc(rcc), port(port), pin(pin)
 {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
 
     // Power up in a disconnected, low power state.
     // If we're unused, this is how it will stay...
-    this->status = 0x00;
-    this->pin = NULL;
-
+    this->status = 0;
 }
 
 /**
@@ -125,7 +130,6 @@ void Pin::disconnect()
         delete ((TimedInterruptIn *)pin);
 #endif  //  TODO
 
-    this->pin = NULL;
     this->status = 0;
 }
 
@@ -242,12 +246,13 @@ int Pin::getDigitalValue(PullMode pull)
 int Pin::obtainAnalogChannel()
 {
     // Move into an analogue input state if necessary, if we are no longer the focus of a DynamicPWM instance, allocate ourselves again!
+#ifdef TODO
     if (!(status & IO_STATUS_ANALOG_OUT) || !(((DynamicPwm *)pin)->getPinName() == name)){
         disconnect();
         pin = new DynamicPwm((PinName)name);
         status |= IO_STATUS_ANALOG_OUT;
     }
-
+#endif  //  TODO
     return DEVICE_OK;
 }
 
@@ -271,10 +276,11 @@ int Pin::setAnalogValue(int value)
 
     float level = (float)value / float(DEVICE_PIN_MAX_OUTPUT);
 
+#ifdef TODO
     //obtain use of the DynamicPwm instance, if it has changed / configure if we do not have one
     if(obtainAnalogChannel() == DEVICE_OK)
         return ((DynamicPwm *)pin)->write(level);
-
+#endif  //  TODO
     return DEVICE_OK;
 }
 
@@ -414,18 +420,7 @@ int Pin::isAnalog()
   */
 int Pin::isTouched()
 {
-    //check if this pin has a touch mode...
-    if(!(PIN_CAPABILITY_DIGITAL & capability))
-        return DEVICE_NOT_SUPPORTED;
-
-    // Move into a touch input state if necessary.
-    if (!(status & IO_STATUS_TOUCH_IN)){
-        disconnect();
-        pin = new Button(*this, id);
-        status |= IO_STATUS_TOUCH_IN;
-    }
-
-    return ((Button *)pin)->isPressed();
+    return DEVICE_NOT_SUPPORTED;
 }
 
 /**
@@ -480,8 +475,10 @@ int Pin::setAnalogPeriodUs(int period)
         if (ret != DEVICE_OK)
             return ret;
     }
-
+#ifdef TODO
     return ((DynamicPwm *)pin)->setPeriodUs(period);
+#endif //  TODO
+    return 0;
 }
 
 /**
@@ -505,10 +502,13 @@ int Pin::setAnalogPeriod(int period)
   */
 uint32_t Pin::getAnalogPeriodUs()
 {
+#ifdef TODO
     if (!(status & IO_STATUS_ANALOG_OUT))
         return DEVICE_NOT_SUPPORTED;
 
     return ((DynamicPwm *)pin)->getPeriodUs();
+#endif  //  TODO
+    return DEVICE_NOT_SUPPORTED;
 }
 
 /**
