@@ -1,7 +1,7 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <logger.h>
-#include "pin_device.h"
+// #include "pin_device.h"
 #include "CmPinMap.h"
 
 #define error(x) { debug_println(x); debug_flush; }

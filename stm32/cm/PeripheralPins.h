@@ -31,7 +31,7 @@
 #ifndef MBED_PERIPHERALPINS_H
 #define MBED_PERIPHERALPINS_H
 
-#include "pinmap.h"
+#include "CmPinMap.h"
 
 //*** ADC ***
 extern const PinMap PinMap_ADC[];

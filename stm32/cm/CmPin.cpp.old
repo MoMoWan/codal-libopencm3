@@ -34,7 +34,7 @@ DEALINGS IN THE SOFTWARE.
 #include "codal_target_hal.h"
 #include "codal-core/inc/types/Event.h"
 #include "PinNamesTypes.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 
 #define IO_STATUS_CAN_READ                                                                         \
     (IO_STATUS_DIGITAL_IN | IO_STATUS_EVENT_ON_EDGE | IO_STATUS_EVENT_PULSE_ON_EDGE)

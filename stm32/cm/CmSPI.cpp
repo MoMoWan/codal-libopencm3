@@ -32,7 +32,7 @@
 #include "CodalFiber.h"
 
 #include "dma.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 #include "PeripheralPins.h"
 
 #define HAL_OK 0

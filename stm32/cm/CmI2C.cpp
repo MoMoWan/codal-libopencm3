@@ -26,7 +26,7 @@
 #include "CodalConfig.h"
 #include "CmI2C.h"
 #include "ErrorNo.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 #include "PeripheralPins.h"
 
 namespace codal

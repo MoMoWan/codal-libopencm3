@@ -7,7 +7,7 @@
 #include "CodalConfig.h"
 #include "DMASingleWireSerial.h"
 ////#include "JACDAC.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 #include "MemberFunctionCallback.h"
 
 #ifdef TODO

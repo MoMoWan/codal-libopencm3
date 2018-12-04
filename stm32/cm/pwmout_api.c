@@ -31,7 +31,7 @@
 #include "pwmout_api.h"
 
 ////#include "cmsis.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 #include "PeripheralPins.h"
 #include "pwmout_device.h"
 

@@ -28,7 +28,7 @@
 
 #include "Serial.h"
 #include "ManagedString.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 
 namespace codal
 {
