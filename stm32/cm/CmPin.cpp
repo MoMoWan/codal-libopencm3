@@ -86,7 +86,7 @@ Pin::Pin(
     CmPinPort   port,  //  e.g. GPIOC
     CmPinNumber pin,   //  e.g. GPIO13
     PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
-): codal::Pin(id, name, capability), rcc(rcc), port(port), pin(pin) {
+): codal::Pin(id, (PinNumber) name, capability), rcc(rcc), port(port), pin(pin) {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
 
     // Power up in a disconnected, low power state.

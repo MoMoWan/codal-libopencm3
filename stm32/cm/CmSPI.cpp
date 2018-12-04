@@ -49,8 +49,8 @@ namespace codal {
         uint32_t _codal_setup_pin(Pin *p, uint32_t prev, const PinMap *map) {
             if (!p) { return 0; }
             auto pin = p->name;
-            uint32_t peri = pinmap_peripheral(pin, map);
-            if (peri == (uint32_t)NC) { return peri; }
+            CmPeripheral peri = pinmap_peripheral(pin, map);
+            if (peri == CM_PERIPHERAL_NC) { return peri; }
             
             auto mode = pinmap_mode(pin, map);
             auto cnf = pinmap_cnf(pin, map);
