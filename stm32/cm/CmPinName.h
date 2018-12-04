@@ -1,0 +1,4 @@
+#ifndef CODAL_CM_PINNAME_H
+#define CODAL_CM_PINNAME_H
+
+#endif  //  CODAL_CM_PINNAME_H

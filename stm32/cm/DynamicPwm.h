@@ -29,6 +29,7 @@
 
 #define DEVICE_DEFAULT_PWM_PERIOD 20000
 
+/*
 ////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/667d61c9177b/PinNames.h/
 enum PinName {
  
@@ -66,6 +67,7 @@ enum PinName {
   , NC = (int)0xFFFFFFFF
 };
 typedef enum PinName PinName;
+*/
 
 ////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/aff670d0d510/PwmOut.h/
 class PwmOut {

@@ -5,8 +5,8 @@
 #include "platform_includes.h"
 #include "PinNamesTypes.h"
 
-typedef uint32_t PinName;
-#define NC (PinName)(-1)
+// typedef uint32_t PinName;
+// #define NC (PinName)(-1)
 
 #ifdef __cplusplus
 extern "C"
