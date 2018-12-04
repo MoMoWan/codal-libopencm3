@@ -12,7 +12,7 @@ extern "C" {
 
     typedef struct {
         //  For a peripheral and pin, this record defines the pin mode and config to be used.
-        codal::PinNumber pin;      //  e.g. CM_PIN_SPI1
+        codal::PinNumber pin;      //  e.g. CM_PIN_SPI_MOSI1
         CmPeripheral peripheral;   //  e.g. SPI1
         uint8_t remapped; //  1 if this is a remapped pin.
         CmPinMode mode;   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
