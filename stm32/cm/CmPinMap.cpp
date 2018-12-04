@@ -4,7 +4,7 @@
 // #include "pin_device.h"
 #include "CmPinMap.h"
 
-#define error(x) { debug_println(x); debug_flush; }
+#define error(x) { debug_println(x); debug_flush(); }
 
 static CmPeripheral pinmap_find_peripheral(PinName pin, const PinMap *map);
 static CmPinMode pinmap_find_mode(PinName pin, const PinMap *map);

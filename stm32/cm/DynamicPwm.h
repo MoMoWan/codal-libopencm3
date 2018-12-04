@@ -23,51 +23,12 @@
 */
 
 #include <CodalConfig.h>
+#include "CmPinName.h"  //  For PinName
 
 #ifndef DEVICE_DYNAMIC_PWM_H
 #define DEVICE_DYNAMIC_PWM_H
 
 #define DEVICE_DEFAULT_PWM_PERIOD 20000
-
-/*
-////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/667d61c9177b/PinNames.h/
-enum PinName {
- 
-    // LPC11U Pin Names
-   P0_0 = 0
-  , P0_1 = 1
-  , P0_2 = 2
-  , P0_3 = 3
-  , P0_4 = 4
-  , P0_5 = 5
-  , P0_6 = 6
-  , P0_7 = 7
-  , P0_8 = 8
-  , P0_9 = 9
-  , P0_10 = 10
-  , P0_11 = 11
-  , P0_12 = 12
-  , P0_13 = 13
-  , P0_14 = 14
-  , P0_15 = 15
-  , P0_16 = 16
-  , P0_17 = 17
-  , P0_18 = 18
-  , P0_19 = 19
-  , P0_20 = 20
-  , P0_21 = 21
-  , P0_22 = 22
-  , P0_23 = 23
-  , P0_24 = 24
-  , P0_25 = 25
-  , P0_26 = 26
-  , P0_30 = 30
-
-  // Not connected
-  , NC = (int)0xFFFFFFFF
-};
-typedef enum PinName PinName;
-*/
 
 ////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/aff670d0d510/PwmOut.h/
 class PwmOut {
