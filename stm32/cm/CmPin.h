@@ -25,10 +25,11 @@
 #ifndef CODAL_CM_PIN_H
 #define CODAL_CM_PIN_H
 
-#include "Pin.h"
 #include "CodalConfig.h"
-#include "pinmap.h"
-                                                        // Status Field flags...
+#include "Pin.h"
+#include "CmPinName.h"  //  For PinName
+
+// Status Field flags...
 #define IO_STATUS_DIGITAL_IN                0x01        // Pin is configured as a digital input, with no pull up.
 #define IO_STATUS_DIGITAL_OUT               0x02        // Pin is configured as a digital output
 #define IO_STATUS_ANALOG_IN                 0x04        // Pin is Analog in

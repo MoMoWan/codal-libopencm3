@@ -76,90 +76,91 @@
 #define ID_PIN_PD13 (DEVICE_ID_IO_P0 + 39)
 #define ID_PIN_PD14 (DEVICE_ID_IO_P0 + 40)
 #define ID_PIN_PD15 (DEVICE_ID_IO_P0 + 41)
-#define ID_PIN_TIM_CH15         (DEVICE_ID_IO_P0 + 42)
-#define ID_PIN_TIM_CH25         (DEVICE_ID_IO_P0 + 43)
-#define ID_PIN_TIM_CH35         (DEVICE_ID_IO_P0 + 44)
-#define ID_PIN_TIM_CH45         (DEVICE_ID_IO_P0 + 45)
-#define ID_PIN_TIM_CH14         (DEVICE_ID_IO_P0 + 46)
-#define ID_PIN_TIM_CH24         (DEVICE_ID_IO_P0 + 47)
-#define ID_PIN_TIM_CH34         (DEVICE_ID_IO_P0 + 48)
-#define ID_PIN_TIM_CH44         (DEVICE_ID_IO_P0 + 49)
-#define ID_PIN_TIM_CH14_REMAP   (DEVICE_ID_IO_P0 + 50)
-#define ID_PIN_TIM_CH24_REMAP   (DEVICE_ID_IO_P0 + 51)
-#define ID_PIN_TIM_CH34_REMAP   (DEVICE_ID_IO_P0 + 52)
-#define ID_PIN_TIM_CH44_REMAP   (DEVICE_ID_IO_P0 + 53)
-#define ID_PIN_TIM_CH13         (DEVICE_ID_IO_P0 + 54)
-#define ID_PIN_TIM_CH23         (DEVICE_ID_IO_P0 + 55)
-#define ID_PIN_TIM_CH33         (DEVICE_ID_IO_P0 + 56)
-#define ID_PIN_TIM_CH43         (DEVICE_ID_IO_P0 + 57)
-#define ID_PIN_TIM_CH22         (DEVICE_ID_IO_P0 + 58)
-#define ID_PIN_TIM_CH32         (DEVICE_ID_IO_P0 + 59)
-#define ID_PIN_TIM_CH42         (DEVICE_ID_IO_P0 + 60)
-#define ID_PIN_TIM_ETR1         (DEVICE_ID_IO_P0 + 61)
-#define ID_PIN_TIM_CH11         (DEVICE_ID_IO_P0 + 62)
-#define ID_PIN_TIM_CH21         (DEVICE_ID_IO_P0 + 63)
-#define ID_PIN_TIM_CH31         (DEVICE_ID_IO_P0 + 64)
-#define ID_PIN_TIM_CH41         (DEVICE_ID_IO_P0 + 65)
-#define ID_PIN_TIM_BKIN1        (DEVICE_ID_IO_P0 + 66)
-#define ID_PIN_TIM_CH1N1        (DEVICE_ID_IO_P0 + 67)
-#define ID_PIN_TIM_CH2N1        (DEVICE_ID_IO_P0 + 68)
-#define ID_PIN_TIM_CH3N1        (DEVICE_ID_IO_P0 + 69)
-#define ID_PIN_UART_TX5         (DEVICE_ID_IO_P0 + 70)
-#define ID_PIN_UART_RX5         (DEVICE_ID_IO_P0 + 71)
-#define ID_PIN_UART_TX4         (DEVICE_ID_IO_P0 + 72)
-#define ID_PIN_UART_RX4         (DEVICE_ID_IO_P0 + 73)
-#define ID_PIN_USART_TX3        (DEVICE_ID_IO_P0 + 74)
-#define ID_PIN_USART_RX3        (DEVICE_ID_IO_P0 + 75)
-#define ID_PIN_USART_CK3        (DEVICE_ID_IO_P0 + 76)
-#define ID_PIN_USART_CTS3       (DEVICE_ID_IO_P0 + 77)
-#define ID_PIN_USART_RTS3       (DEVICE_ID_IO_P0 + 78)
-#define ID_PIN_USART_CTS2       (DEVICE_ID_IO_P0 + 79)
-#define ID_PIN_USART_RTS2       (DEVICE_ID_IO_P0 + 80)
-#define ID_PIN_USART_TX2        (DEVICE_ID_IO_P0 + 81)
-#define ID_PIN_USART_RX2        (DEVICE_ID_IO_P0 + 82)
-#define ID_PIN_USART_CK2        (DEVICE_ID_IO_P0 + 83)
+#define ID_PIN_TIM_CH15 (DEVICE_ID_IO_P0 + 42)
+#define ID_PIN_TIM_CH25 (DEVICE_ID_IO_P0 + 43)
+#define ID_PIN_TIM_CH35 (DEVICE_ID_IO_P0 + 44)
+#define ID_PIN_TIM_CH45 (DEVICE_ID_IO_P0 + 45)
+#define ID_PIN_TIM_CH14 (DEVICE_ID_IO_P0 + 46)
+#define ID_PIN_TIM_CH24 (DEVICE_ID_IO_P0 + 47)
+#define ID_PIN_TIM_CH34 (DEVICE_ID_IO_P0 + 48)
+#define ID_PIN_TIM_CH44 (DEVICE_ID_IO_P0 + 49)
+#define ID_PIN_TIM_CH14_REMAP (DEVICE_ID_IO_P0 + 50)
+#define ID_PIN_TIM_CH24_REMAP (DEVICE_ID_IO_P0 + 51)
+#define ID_PIN_TIM_CH34_REMAP (DEVICE_ID_IO_P0 + 52)
+#define ID_PIN_TIM_CH44_REMAP (DEVICE_ID_IO_P0 + 53)
+#define ID_PIN_TIM_CH13 (DEVICE_ID_IO_P0 + 54)
+#define ID_PIN_TIM_CH23 (DEVICE_ID_IO_P0 + 55)
+#define ID_PIN_TIM_CH33 (DEVICE_ID_IO_P0 + 56)
+#define ID_PIN_TIM_CH43 (DEVICE_ID_IO_P0 + 57)
+#define ID_PIN_TIM_CH22 (DEVICE_ID_IO_P0 + 58)
+#define ID_PIN_TIM_CH32 (DEVICE_ID_IO_P0 + 59)
+#define ID_PIN_TIM_CH42 (DEVICE_ID_IO_P0 + 60)
+#define ID_PIN_TIM_ETR1 (DEVICE_ID_IO_P0 + 61)
+#define ID_PIN_TIM_CH11 (DEVICE_ID_IO_P0 + 62)
+#define ID_PIN_TIM_CH21 (DEVICE_ID_IO_P0 + 63)
+#define ID_PIN_TIM_CH31 (DEVICE_ID_IO_P0 + 64)
+#define ID_PIN_TIM_CH41 (DEVICE_ID_IO_P0 + 65)
+#define ID_PIN_TIM_BKIN1 (DEVICE_ID_IO_P0 + 66)
+#define ID_PIN_TIM_CH1N1 (DEVICE_ID_IO_P0 + 67)
+#define ID_PIN_TIM_CH2N1 (DEVICE_ID_IO_P0 + 68)
+#define ID_PIN_TIM_CH3N1 (DEVICE_ID_IO_P0 + 69)
+#define ID_PIN_UART_TX5 (DEVICE_ID_IO_P0 + 70)
+#define ID_PIN_UART_RX5 (DEVICE_ID_IO_P0 + 71)
+#define ID_PIN_UART_TX4 (DEVICE_ID_IO_P0 + 72)
+#define ID_PIN_UART_RX4 (DEVICE_ID_IO_P0 + 73)
+#define ID_PIN_USART_TX3 (DEVICE_ID_IO_P0 + 74)
+#define ID_PIN_USART_RX3 (DEVICE_ID_IO_P0 + 75)
+#define ID_PIN_USART_CK3 (DEVICE_ID_IO_P0 + 76)
+#define ID_PIN_USART_CTS3 (DEVICE_ID_IO_P0 + 77)
+#define ID_PIN_USART_RTS3 (DEVICE_ID_IO_P0 + 78)
+#define ID_PIN_USART_CTS2 (DEVICE_ID_IO_P0 + 79)
+#define ID_PIN_USART_RTS2 (DEVICE_ID_IO_P0 + 80)
+#define ID_PIN_USART_TX2 (DEVICE_ID_IO_P0 + 81)
+#define ID_PIN_USART_RX2 (DEVICE_ID_IO_P0 + 82)
+#define ID_PIN_USART_CK2 (DEVICE_ID_IO_P0 + 83)
 #define ID_PIN_USART_CTS2_REMAP (DEVICE_ID_IO_P0 + 84)
 #define ID_PIN_USART_RTS2_REMAP (DEVICE_ID_IO_P0 + 85)
-#define ID_PIN_USART_TX2_REMAP  (DEVICE_ID_IO_P0 + 86)
-#define ID_PIN_USART_RX2_REMAP  (DEVICE_ID_IO_P0 + 87)
-#define ID_PIN_USART_CK2_REMAP  (DEVICE_ID_IO_P0 + 88)
-#define ID_PIN_USART_TX1        (DEVICE_ID_IO_P0 + 89)
-#define ID_PIN_USART_RX1        (DEVICE_ID_IO_P0 + 90)
-#define ID_PIN_USART_TX1_REMAP  (DEVICE_ID_IO_P0 + 91)
-#define ID_PIN_USART_RX1_REMAP  (DEVICE_ID_IO_P0 + 92)
-#define ID_PIN_I2C_SMBAI1       (DEVICE_ID_IO_P0 + 93)
-#define ID_PIN_I2C_SCL1         (DEVICE_ID_IO_P0 + 94)
-#define ID_PIN_I2C_SDA1         (DEVICE_ID_IO_P0 + 95)
+#define ID_PIN_USART_TX2_REMAP (DEVICE_ID_IO_P0 + 86)
+#define ID_PIN_USART_RX2_REMAP (DEVICE_ID_IO_P0 + 87)
+#define ID_PIN_USART_CK2_REMAP (DEVICE_ID_IO_P0 + 88)
+#define ID_PIN_USART_TX1 (DEVICE_ID_IO_P0 + 89)
+#define ID_PIN_USART_RX1 (DEVICE_ID_IO_P0 + 90)
+#define ID_PIN_USART_TX1_REMAP (DEVICE_ID_IO_P0 + 91)
+#define ID_PIN_USART_RX1_REMAP (DEVICE_ID_IO_P0 + 92)
+#define ID_PIN_I2C_SMBAI1 (DEVICE_ID_IO_P0 + 93)
+#define ID_PIN_I2C_SCL1 (DEVICE_ID_IO_P0 + 94)
+#define ID_PIN_I2C_SDA1 (DEVICE_ID_IO_P0 + 95)
 #define ID_PIN_I2C_SMBAI1_REMAP (DEVICE_ID_IO_P0 + 96)
-#define ID_PIN_I2C_SCL1_REMAP   (DEVICE_ID_IO_P0 + 97)
-#define ID_PIN_I2C_SDA1_REMAP   (DEVICE_ID_IO_P0 + 98)
-#define ID_PIN_I2C_SCL2         (DEVICE_ID_IO_P0 + 99)
-#define ID_PIN_I2C_SDA2         (DEVICE_ID_IO_P0 + 100)
-#define ID_PIN_I2C_SMBAI2       (DEVICE_ID_IO_P0 + 101)
-#define ID_PIN_SPI_NSS1         (DEVICE_ID_IO_P0 + 102)
-#define ID_PIN_SPI_SCK1         (DEVICE_ID_IO_P0 + 103)
-#define ID_PIN_SPI_MISO1        (DEVICE_ID_IO_P0 + 104)
-#define ID_PIN_SPI_MOSI1        (DEVICE_ID_IO_P0 + 105)
-#define ID_PIN_SPI_NSS1_REMAP   (DEVICE_ID_IO_P0 + 106)
-#define ID_PIN_SPI_SCK1_REMAP   (DEVICE_ID_IO_P0 + 107)
-#define ID_PIN_SPI_MISO1_REMAP  (DEVICE_ID_IO_P0 + 108)
-#define ID_PIN_SPI_MOSI1_REMAP  (DEVICE_ID_IO_P0 + 109)
-#define ID_PIN_SPI_NSS2         (DEVICE_ID_IO_P0 + 110)
-#define ID_PIN_SPI_SCK2         (DEVICE_ID_IO_P0 + 111)
-#define ID_PIN_SPI_MISO2        (DEVICE_ID_IO_P0 + 112)
-#define ID_PIN_SPI_MOSI2        (DEVICE_ID_IO_P0 + 113)
-#define ID_PIN_SPI_NSS3         (DEVICE_ID_IO_P0 + 114)
-#define ID_PIN_SPI_SCK3         (DEVICE_ID_IO_P0 + 115)
-#define ID_PIN_SPI_MISO3        (DEVICE_ID_IO_P0 + 116)
-#define ID_PIN_SPI_MOSI3        (DEVICE_ID_IO_P0 + 117)
-#define ID_PIN_SPI_NSS3_REMAP   (DEVICE_ID_IO_P0 + 118)
-#define ID_PIN_SPI_SCK3_REMAP   (DEVICE_ID_IO_P0 + 119)
-#define ID_PIN_SPI_MISO3_REMAP  (DEVICE_ID_IO_P0 + 120)
-#define ID_PIN_SPI_MOSI3_REMAP  (DEVICE_ID_IO_P0 + 121)
+#define ID_PIN_I2C_SCL1_REMAP (DEVICE_ID_IO_P0 + 97)
+#define ID_PIN_I2C_SDA1_REMAP (DEVICE_ID_IO_P0 + 98)
+#define ID_PIN_I2C_SCL2 (DEVICE_ID_IO_P0 + 99)
+#define ID_PIN_I2C_SDA2 (DEVICE_ID_IO_P0 + 100)
+#define ID_PIN_I2C_SMBAI2 (DEVICE_ID_IO_P0 + 101)
+#define ID_PIN_SPI_NSS1 (DEVICE_ID_IO_P0 + 102)
+#define ID_PIN_SPI_SCK1 (DEVICE_ID_IO_P0 + 103)
+#define ID_PIN_SPI_MISO1 (DEVICE_ID_IO_P0 + 104)
+#define ID_PIN_SPI_MOSI1 (DEVICE_ID_IO_P0 + 105)
+#define ID_PIN_SPI_NSS1_REMAP (DEVICE_ID_IO_P0 + 106)
+#define ID_PIN_SPI_SCK1_REMAP (DEVICE_ID_IO_P0 + 107)
+#define ID_PIN_SPI_MISO1_REMAP (DEVICE_ID_IO_P0 + 108)
+#define ID_PIN_SPI_MOSI1_REMAP (DEVICE_ID_IO_P0 + 109)
+#define ID_PIN_SPI_NSS2 (DEVICE_ID_IO_P0 + 110)
+#define ID_PIN_SPI_SCK2 (DEVICE_ID_IO_P0 + 111)
+#define ID_PIN_SPI_MISO2 (DEVICE_ID_IO_P0 + 112)
+#define ID_PIN_SPI_MOSI2 (DEVICE_ID_IO_P0 + 113)
+#define ID_PIN_SPI_NSS3 (DEVICE_ID_IO_P0 + 114)
+#define ID_PIN_SPI_SCK3 (DEVICE_ID_IO_P0 + 115)
+#define ID_PIN_SPI_MISO3 (DEVICE_ID_IO_P0 + 116)
+#define ID_PIN_SPI_MOSI3 (DEVICE_ID_IO_P0 + 117)
+#define ID_PIN_SPI_NSS3_REMAP (DEVICE_ID_IO_P0 + 118)
+#define ID_PIN_SPI_SCK3_REMAP (DEVICE_ID_IO_P0 + 119)
+#define ID_PIN_SPI_MISO3_REMAP (DEVICE_ID_IO_P0 + 120)
+#define ID_PIN_SPI_MOSI3_REMAP (DEVICE_ID_IO_P0 + 121)
 #define ID_PIN_LED         (DEVICE_ID_IO_P0 + 122)
 #define ID_PIN_TEMPERATURE (DEVICE_ID_IO_P0 + 123)
 #define ID_PIN_VREF        (DEVICE_ID_IO_P0 + 124)
 #define ID_PIN_VBAT        (DEVICE_ID_IO_P0 + 125)
+
 
 namespace codal
 {
@@ -173,130 +174,130 @@ namespace codal
 
         //  From https://docs.google.com/spreadsheets/d/1yLciHFyPfhRfwEcG3wfqHDgRFa5OoQYTk63bUmTboa8/edit#gid=1888249278
 
-        //  Codal Pins are autogenerated. Do not update here
-        _cm::Pin pa0;
-        _cm::Pin pa1;
-        _cm::Pin pa2;
-        _cm::Pin pa3;
-        _cm::Pin pa4;
-        _cm::Pin pa5;
-        _cm::Pin pa6;
-        _cm::Pin pa7;
-        _cm::Pin pa8;
-        _cm::Pin pa9;
-        _cm::Pin pa10;
-        _cm::Pin pa11;
-        _cm::Pin pa12;
-        _cm::Pin pa15;
-        _cm::Pin pb0;
-        _cm::Pin pb1;
-        _cm::Pin pb3;
-        _cm::Pin pb4;
-        _cm::Pin pb5;
-        _cm::Pin pb6;
-        _cm::Pin pb7;
-        _cm::Pin pb8;
-        _cm::Pin pb9;
-        _cm::Pin pb10;
-        _cm::Pin pb11;
-        _cm::Pin pb12;
-        _cm::Pin pb13;
-        _cm::Pin pb14;
-        _cm::Pin pb15;
-        _cm::Pin pc10;
-        _cm::Pin pc11;
-        _cm::Pin pc12;
-        _cm::Pin pd2;
-        _cm::Pin pd3;
-        _cm::Pin pd4;
-        _cm::Pin pd5;
-        _cm::Pin pd6;
-        _cm::Pin pd7;
-        _cm::Pin pd12;
-        _cm::Pin pd13;
-        _cm::Pin pd14;
-        _cm::Pin pd15;
-        _cm::Pin ch15;
-        _cm::Pin ch25;
-        _cm::Pin ch35;
-        _cm::Pin ch45;
-        _cm::Pin ch14;
-        _cm::Pin ch24;
-        _cm::Pin ch34;
-        _cm::Pin ch44;
-        _cm::Pin ch14_remap;
-        _cm::Pin ch24_remap;
-        _cm::Pin ch34_remap;
-        _cm::Pin ch44_remap;
-        _cm::Pin ch13;
-        _cm::Pin ch23;
-        _cm::Pin ch33;
-        _cm::Pin ch43;
-        _cm::Pin ch22;
-        _cm::Pin ch32;
-        _cm::Pin ch42;
-        _cm::Pin etr1;
-        _cm::Pin ch11;
-        _cm::Pin ch21;
-        _cm::Pin ch31;
-        _cm::Pin ch41;
-        _cm::Pin bkin1;
-        _cm::Pin ch1n1;
-        _cm::Pin ch2n1;
-        _cm::Pin ch3n1;
-        _cm::Pin tx5;
-        _cm::Pin rx5;
-        _cm::Pin tx4;
-        _cm::Pin rx4;
-        _cm::Pin tx3;
-        _cm::Pin rx3;
-        _cm::Pin ck3;
-        _cm::Pin cts3;
-        _cm::Pin rts3;
-        _cm::Pin cts2;
-        _cm::Pin rts2;
-        _cm::Pin tx2;
-        _cm::Pin rx2;
-        _cm::Pin ck2;
-        _cm::Pin cts2_remap;
-        _cm::Pin rts2_remap;
-        _cm::Pin tx2_remap;
-        _cm::Pin rx2_remap;
-        _cm::Pin ck2_remap;
-        _cm::Pin tx1;
-        _cm::Pin rx1;
-        _cm::Pin tx1_remap;
-        _cm::Pin rx1_remap;
-        _cm::Pin smbai1;
-        _cm::Pin scl1;
-        _cm::Pin sda1;
-        _cm::Pin smbai1_remap;
-        _cm::Pin scl1_remap;
-        _cm::Pin sda1_remap;
-        _cm::Pin scl2;
-        _cm::Pin sda2;
-        _cm::Pin smbai2;
-        _cm::Pin nss1;
-        _cm::Pin sck1;
-        _cm::Pin miso1;
-        _cm::Pin mosi1;
-        _cm::Pin nss1_remap;
-        _cm::Pin sck1_remap;
-        _cm::Pin miso1_remap;
-        _cm::Pin mosi1_remap;
-        _cm::Pin nss2;
-        _cm::Pin sck2;
-        _cm::Pin miso2;
-        _cm::Pin mosi2;
-        _cm::Pin nss3;
-        _cm::Pin sck3;
-        _cm::Pin miso3;
-        _cm::Pin mosi3;
-        _cm::Pin nss3_remap;
-        _cm::Pin sck3_remap;
-        _cm::Pin miso3_remap;
-        _cm::Pin mosi3_remap;
-        _cm::Pin led;
+//  Codal Pins are autogenerated. Do not update here
+_cm::Pin pa0;
+_cm::Pin pa1;
+_cm::Pin pa2;
+_cm::Pin pa3;
+_cm::Pin pa4;
+_cm::Pin pa5;
+_cm::Pin pa6;
+_cm::Pin pa7;
+_cm::Pin pa8;
+_cm::Pin pa9;
+_cm::Pin pa10;
+_cm::Pin pa11;
+_cm::Pin pa12;
+_cm::Pin pa15;
+_cm::Pin pb0;
+_cm::Pin pb1;
+_cm::Pin pb3;
+_cm::Pin pb4;
+_cm::Pin pb5;
+_cm::Pin pb6;
+_cm::Pin pb7;
+_cm::Pin pb8;
+_cm::Pin pb9;
+_cm::Pin pb10;
+_cm::Pin pb11;
+_cm::Pin pb12;
+_cm::Pin pb13;
+_cm::Pin pb14;
+_cm::Pin pb15;
+_cm::Pin pc10;
+_cm::Pin pc11;
+_cm::Pin pc12;
+_cm::Pin pd2;
+_cm::Pin pd3;
+_cm::Pin pd4;
+_cm::Pin pd5;
+_cm::Pin pd6;
+_cm::Pin pd7;
+_cm::Pin pd12;
+_cm::Pin pd13;
+_cm::Pin pd14;
+_cm::Pin pd15;
+_cm::Pin ch15;
+_cm::Pin ch25;
+_cm::Pin ch35;
+_cm::Pin ch45;
+_cm::Pin ch14;
+_cm::Pin ch24;
+_cm::Pin ch34;
+_cm::Pin ch44;
+_cm::Pin ch14_remap;
+_cm::Pin ch24_remap;
+_cm::Pin ch34_remap;
+_cm::Pin ch44_remap;
+_cm::Pin ch13;
+_cm::Pin ch23;
+_cm::Pin ch33;
+_cm::Pin ch43;
+_cm::Pin ch22;
+_cm::Pin ch32;
+_cm::Pin ch42;
+_cm::Pin etr1;
+_cm::Pin ch11;
+_cm::Pin ch21;
+_cm::Pin ch31;
+_cm::Pin ch41;
+_cm::Pin bkin1;
+_cm::Pin ch1n1;
+_cm::Pin ch2n1;
+_cm::Pin ch3n1;
+_cm::Pin tx5;
+_cm::Pin rx5;
+_cm::Pin tx4;
+_cm::Pin rx4;
+_cm::Pin tx3;
+_cm::Pin rx3;
+_cm::Pin ck3;
+_cm::Pin cts3;
+_cm::Pin rts3;
+_cm::Pin cts2;
+_cm::Pin rts2;
+_cm::Pin tx2;
+_cm::Pin rx2;
+_cm::Pin ck2;
+_cm::Pin cts2_remap;
+_cm::Pin rts2_remap;
+_cm::Pin tx2_remap;
+_cm::Pin rx2_remap;
+_cm::Pin ck2_remap;
+_cm::Pin tx1;
+_cm::Pin rx1;
+_cm::Pin tx1_remap;
+_cm::Pin rx1_remap;
+_cm::Pin smbai1;
+_cm::Pin scl1;
+_cm::Pin sda1;
+_cm::Pin smbai1_remap;
+_cm::Pin scl1_remap;
+_cm::Pin sda1_remap;
+_cm::Pin scl2;
+_cm::Pin sda2;
+_cm::Pin smbai2;
+_cm::Pin nss1;
+_cm::Pin sck1;
+_cm::Pin miso1;
+_cm::Pin mosi1;
+_cm::Pin nss1_remap;
+_cm::Pin sck1_remap;
+_cm::Pin miso1_remap;
+_cm::Pin mosi1_remap;
+_cm::Pin nss2;
+_cm::Pin sck2;
+_cm::Pin miso2;
+_cm::Pin mosi2;
+_cm::Pin nss3;
+_cm::Pin sck3;
+_cm::Pin miso3;
+_cm::Pin mosi3;
+_cm::Pin nss3_remap;
+_cm::Pin sck3_remap;
+_cm::Pin miso3_remap;
+_cm::Pin mosi3_remap;
+_cm::Pin led;
         
         #ifdef TODO
         _cm::Pin temperature;
