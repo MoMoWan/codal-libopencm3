@@ -124,8 +124,8 @@ namespace codal
               * @endcode
               */
             Pin(
-              int id,  //  e.g. DEVICE_ID_IO_PA0
-              PinName name,   //  0 to 127
+              int id,         //  e.g. DEVICE_ID_IO_PC13
+              PinName name,   //  e.g. CM_PIN_PC13
               uint32_t rcc,   //  e.g. RCC_GPIOC
               uint32_t port,  //  e.g. GPIOC
               uint16_t pin,   //  e.g. GPIO13

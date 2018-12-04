@@ -35,8 +35,8 @@
 #include <libopencm3/stm32/usart.h>  //  For USART port definitions e.g. USART1
 #include <libopencm3/stm32/timer.h>  //  For timer port definitions e.g. TIM1
 #include "CodalConfig.h"
+#include "CmPinMap.h"  //  For PinMap
 #include "STM32BluePillIO.h"
-#include "pinmap.h"  //  For PinMap
 
 using namespace codal;
 
@@ -186,7 +186,7 @@ vbat        (ID_PIN_VBAT       , CM_PIN_VBAT, RCC_GPIOADC, GPIOADC, GPIOVBAT, PI
 {
 }
 
-#define ENDMAP { NC, NC, 0, 0, 0 }
+#define ENDMAP { CM_PIN_NC, CM_PERIPHERAL_NC, 0, CM_PINMODE_NC, CM_PINCNF_NC }
 
 //  From https://docs.google.com/spreadsheets/d/1yLciHFyPfhRfwEcG3wfqHDgRFa5OoQYTk63bUmTboa8/edit#gid=0
 
