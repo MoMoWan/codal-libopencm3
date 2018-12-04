@@ -38,6 +38,17 @@
 #define IO_STATUS_EVENT_ON_EDGE             0x20        // Pin will generate events on pin change
 #define IO_STATUS_EVENT_PULSE_ON_EDGE       0x40        // Pin will generate events on pin change
 
+typedef uint32_t CmPeripheral; //  e.g. SPI1
+typedef uint32_t CmPinRCC;     //  e.g. RCC_GPIOC
+typedef uint32_t CmPinPort;    //  e.g. GPIOC
+typedef uint16_t CmPinNumber;  //  e.g. GPIO13
+typedef uint8_t  CmPinMode;    //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+typedef uint8_t  CmPinCnf;     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
+
+const CmPeripheral CM_PERIPHERAL_NC = -1;  //  Undefined peripheral.
+const CmPinMode CM_PINMODE_NC = -1;        //  Undefined pin mode.
+const CmPinCnf CM_PINCNF_NC = -1;          //  Undefined pin cnf.
+
 /**
   * Class definition for Pin.
   *
@@ -52,9 +63,9 @@ namespace codal
             // The mbed object looking after this pin at any point in time (untyped due to dynamic behaviour).
             // TODO: void *pin;
 
-            uint32_t rcc;   //  e.g. RCC_GPIOC
-            uint32_t port;  //  e.g. GPIOC
-            uint16_t pin;   //  e.g. GPIO13
+            CmPinRCC    rcc;   //  e.g. RCC_GPIOC
+            CmPinPort   port;  //  e.g. GPIOC
+            CmPinNumber pin;   //  e.g. GPIO13
 
             /**
               * Disconnect any attached mBed IO from this pin.
@@ -124,17 +135,17 @@ namespace codal
               * @endcode
               */
             Pin(
-              int id,         //  e.g. DEVICE_ID_IO_PC13
-              PinName name,   //  e.g. CM_PIN_PC13
-              uint32_t rcc,   //  e.g. RCC_GPIOC
-              uint32_t port,  //  e.g. GPIOC
-              uint16_t pin,   //  e.g. GPIO13
+              int id,            //  e.g. DEVICE_ID_IO_PC13
+              PinName     name,  //  e.g. CM_PIN_PC13
+              CmPinRCC    rcc,   //  e.g. RCC_GPIOC
+              CmPinPort   port,  //  e.g. GPIOC
+              CmPinNumber pin,   //  e.g. GPIO13
               PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
             );
 
             void setup(
-              uint8_t mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
-              uint8_t cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
+              CmPinMode mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+              CmPinCnf  cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
             );
 
             /**

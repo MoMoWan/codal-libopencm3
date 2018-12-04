@@ -10,14 +10,6 @@
 extern "C" {
 #endif  //  __cplusplus
 
-    typedef uint32_t CmPeripheral;  //  e.g. SPI1
-    typedef uint8_t CmPinMode;  //  e.g. GPIO_MODE_OUTPUT_2_MHZ
-    typedef uint8_t CmPinCnf;   //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
-
-    const CmPeripheral CM_PERIPHERAL_NC = -1;  //  Undefined peripheral.
-    const CmPinMode CM_PINMODE_NC = -1;        //  Undefined pin mode.
-    const CmPinCnf CM_PINCNF_NC = -1;          //  Undefined pin cnf.
-
     typedef struct {
         //  For a peripheral, maps the peripheral function to a pin.
         PinName pin;    //  //  e.g. CM_PIN_SPI1

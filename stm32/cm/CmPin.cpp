@@ -80,11 +80,11 @@ using namespace codal::_cm;
   * @endcode
   */
 Pin::Pin(
-    int id,        //  e.g. DEVICE_ID_IO_PA0
-    uint8_t name,  //  0 to 127
-    uint32_t rcc,  //  e.g. RCC_GPIOC
-    uint32_t port,  //  e.g. GPIOC
-    uint16_t pin,   //  e.g. GPIO13
+    int id,            //  e.g. DEVICE_ID_IO_PC13
+    PinName     name,  //  e.g. CM_PIN_PC13
+    CmPinRCC    rcc,   //  e.g. RCC_GPIOC
+    CmPinPort   port,  //  e.g. GPIOC
+    CmPinNumber pin,   //  e.g. GPIO13
     PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
 ): codal::Pin(id, name, capability), rcc(rcc), port(port), pin(pin) {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
@@ -95,8 +95,8 @@ Pin::Pin(
 }
 
 void Pin::setup(
-    uint8_t mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
-    uint8_t cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
+    CmPinMode mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+    CmPinCnf  cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
 ) {
 	//  Set up GPIO pin.
 	//  Enable GPIO clock.
