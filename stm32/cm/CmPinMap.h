@@ -3,6 +3,7 @@
 #define CM_PINMAP_H
 
 #include "platform_includes.h"
+#include "CmPin.h"      //  For CmPeripheral, CmPinMode, CmPinCnf
 #include "CmPinName.h"  //  For PinName
 // #include "PinNamesTypes.h"
 
@@ -11,8 +12,8 @@ extern "C" {
 #endif  //  __cplusplus
 
     typedef struct {
-        //  For a peripheral, maps the peripheral function to a pin.
-        PinName pin;    //  //  e.g. CM_PIN_SPI1
+        //  For a peripheral and pin, this record defines the pin mode and config to be used.
+        PinName pin;      //  e.g. CM_PIN_SPI1
         CmPeripheral peripheral; //  e.g. SPI1
         uint8_t remapped; //  1 if this is a remapped pin.
         CmPinMode mode;   //  e.g. GPIO_MODE_OUTPUT_2_MHZ

@@ -26,7 +26,6 @@
 #define STM32BLUEPILL_IO_H
 
 #include "CodalConfig.h"
-#include "CmPin.h"
 #include "STM32BluePillPin.h"
 
 // Codal Component IDs for each pin.  DEVICE_ID_IO_P0 to DEVICE_ID_IO_P0 + 127 are reserved for I/O Pin IDs.
