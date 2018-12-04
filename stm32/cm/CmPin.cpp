@@ -80,13 +80,17 @@ using namespace codal::_cm;
   * @endcode
   */
 Pin::Pin(
-    int id,            //  e.g. DEVICE_ID_IO_PC13
-    PinName     name,  //  e.g. CM_PIN_PC13
+    // int id,            //  e.g. DEVICE_ID_IO_PC13
+    PinNumber   name,  //  e.g. CM_PIN_PC13
     CmPinRCC    rcc,   //  e.g. RCC_GPIOC
     CmPinPort   port,  //  e.g. GPIOC
     CmPinNumber pin,   //  e.g. GPIO13
     PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
-): codal::Pin(id, (PinNumber) name, capability), rcc(rcc), port(port), pin(pin) {
+): codal::Pin(
+        DEVICE_ID_IO_P0 + name,  //  Will be from 100 to 227
+        name,          //  e.g. CM_PIN_PC13
+        capability),   //  e.g. PIN_CAPABILITY_DIGITAL
+    rcc(rcc), port(port), pin(pin) {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
 
     // Power up in a disconnected, low power state.

@@ -5,7 +5,6 @@
 #include "platform_includes.h"
 #include "CmPin.h"      //  For CmPeripheral, CmPinMode, CmPinCnf
 #include "CmPinName.h"  //  For PinName
-// #include "PinNamesTypes.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,21 +12,21 @@ extern "C" {
 
     typedef struct {
         //  For a peripheral and pin, this record defines the pin mode and config to be used.
-        PinName pin;      //  e.g. CM_PIN_SPI1
-        CmPeripheral peripheral; //  e.g. SPI1
+        codal::PinNumber pin;      //  e.g. CM_PIN_SPI1
+        CmPeripheral peripheral;   //  e.g. SPI1
         uint8_t remapped; //  1 if this is a remapped pin.
         CmPinMode mode;   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
         CmPinCnf cnf;     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
     } PinMap;
 
     //  Return the peripheral for the pin e.g. SPI1.
-    CmPeripheral pinmap_peripheral(PinName pin, const PinMap *map);
+    CmPeripheral pinmap_peripheral(codal::PinNumber pin, const PinMap *map);
 
     //  Return the pin mode for the peripheral e.g. GPIO_MODE_OUTPUT_2_MHZ.
-    CmPinMode pinmap_mode(PinName pin, const PinMap *map);
+    CmPinMode pinmap_mode(codal::PinNumber pin, const PinMap *map);
 
     //  Return the pin config for the peripheral e.g. GPIO_CNF_OUTPUT_PUSHPULL.
-    CmPinCnf pinmap_cnf(PinName pin, const PinMap *map);
+    CmPinCnf pinmap_cnf(codal::PinNumber pin, const PinMap *map);
 
 #ifdef __cplusplus
 }

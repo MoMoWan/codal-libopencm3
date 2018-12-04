@@ -1,16 +1,15 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <logger.h>
-// #include "pin_device.h"
 #include "CmPinMap.h"
 
 #define error(x) { debug_println(x); debug_flush(); }
 
-static CmPeripheral pinmap_find_peripheral(PinName pin, const PinMap *map);
-static CmPinMode pinmap_find_mode(PinName pin, const PinMap *map);
-static CmPinCnf pinmap_find_cnf(PinName pin, const PinMap *map);
+static CmPeripheral pinmap_find_peripheral(codal::PinNumber pin, const PinMap *map);
+static CmPinMode pinmap_find_mode(codal::PinNumber pin, const PinMap *map);
+static CmPinCnf pinmap_find_cnf(codal::PinNumber pin, const PinMap *map);
 
-CmPeripheral pinmap_peripheral(PinName pin, const PinMap* map) {
+CmPeripheral pinmap_peripheral(codal::PinNumber pin, const PinMap* map) {
     //  Return the peripheral for the pin e.g. SPI1.
     CmPeripheral peripheral = CM_PERIPHERAL_NC;
     if (pin == CM_PIN_NC) { return CM_PERIPHERAL_NC; }
@@ -21,7 +20,7 @@ CmPeripheral pinmap_peripheral(PinName pin, const PinMap* map) {
     return peripheral;
 }
 
-CmPinMode pinmap_mode(PinName pin, const PinMap* map) {
+CmPinMode pinmap_mode(codal::PinNumber pin, const PinMap* map) {
     //  Return the pin mode for the peripheral e.g. GPIO_MODE_OUTPUT_2_MHZ.
     CmPinMode mode = CM_PINMODE_NC;
     if (pin == CM_PIN_NC) { return CM_PINMODE_NC; }
@@ -32,7 +31,7 @@ CmPinMode pinmap_mode(PinName pin, const PinMap* map) {
     return mode;
 }
 
-CmPinCnf pinmap_cnf(PinName pin, const PinMap* map) {
+CmPinCnf pinmap_cnf(codal::PinNumber pin, const PinMap* map) {
     //  Return the pin config for the peripheral e.g. GPIO_CNF_OUTPUT_PUSHPULL.
     CmPinCnf cnf = CM_PINCNF_NC;
     if (pin == CM_PIN_NC) { return CM_PINCNF_NC; }
@@ -43,7 +42,7 @@ CmPinCnf pinmap_cnf(PinName pin, const PinMap* map) {
     return cnf;
 }
 
-static CmPeripheral pinmap_find_peripheral(PinName pin, const PinMap* map) {
+static CmPeripheral pinmap_find_peripheral(codal::PinNumber pin, const PinMap* map) {
     //  Return the peripheral for the pin e.g. SPI1.
     while (map->pin != CM_PIN_NC) {
         if (map->pin == pin) { return map->peripheral; }
@@ -52,7 +51,7 @@ static CmPeripheral pinmap_find_peripheral(PinName pin, const PinMap* map) {
     return CM_PERIPHERAL_NC;
 }
 
-static CmPinMode pinmap_find_mode(PinName pin, const PinMap* map) {
+static CmPinMode pinmap_find_mode(codal::PinNumber pin, const PinMap* map) {
     //  Return the pin mode for the peripheral e.g. GPIO_MODE_OUTPUT_2_MHZ.
     while (map->pin != CM_PIN_NC) {
         if (map->pin == pin) { return map->mode; }
@@ -61,7 +60,7 @@ static CmPinMode pinmap_find_mode(PinName pin, const PinMap* map) {
     return CM_PINMODE_NC;
 }
 
-static CmPinCnf pinmap_find_cnf(PinName pin, const PinMap* map) {
+static CmPinCnf pinmap_find_cnf(codal::PinNumber pin, const PinMap* map) {
     //  Return the pin config for the peripheral e.g. GPIO_CNF_OUTPUT_PUSHPULL.
     while (map->pin != CM_PIN_NC) {
         if (map->pin == pin) { return map->cnf; }
@@ -87,7 +86,7 @@ static CmPinCnf pinmap_find_cnf(PinName pin, const PinMap* map) {
         return (uint32_t)NC;
     }
 
-    void pinmap_pinout(PinName pin, const PinMap *map) {
+    void pinmap_pinout(codal::PinNumber pin, const PinMap *map) {
         if (pin == NC)
             return;
 
@@ -228,7 +227,7 @@ static CmPinCnf pinmap_find_cnf(PinName pin, const PinMap* map) {
     /**
      * Configure pin (mode, speed, output type and pull-up/pull-down)
      */
-    void pin_function(PinName pin, int data)
+    void pin_function(codal::PinNumber pin, int data)
     {
     #ifdef TODO
         MBED_ASSERT(pin != CM_PIN_NC);
@@ -304,7 +303,7 @@ static CmPinCnf pinmap_find_cnf(PinName pin, const PinMap* map) {
     /**
      * Configure pin pull-up/pull-down
      */
-    void pin_mode(PinName pin, PinMode mode)
+    void pin_mode(codal::PinNumber pin, PinMode mode)
     {
     #ifdef TODO
         MBED_ASSERT(pin != CM_PIN_NC);
