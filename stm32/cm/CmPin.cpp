@@ -81,8 +81,8 @@ using namespace codal::_cm;
   */
 //  Codal constructor
 Pin::Pin(
-    int id,            //  e.g. DEVICE_ID_IO_P0 + CM_PIN_PC13
-    PinNumber   name,  //  e.g. CM_PIN_PC13
+    int id,              //  e.g. DEVICE_ID_IO_P0 + CM_PIN_PC13
+    PinName       name,  //  e.g. CM_PIN_PC13
     PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
 ): codal::Pin(
         id,  //  Will be from 100 to 227
