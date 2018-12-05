@@ -65,6 +65,10 @@ namespace codal
              *
              * Default setup is 1 MHz, 8 bit, mode 0.
              */
+            //  Codal constructor.  Called by pxt-maker.
+            SPI(Pin &mosi, Pin &miso, Pin &sclk);
+
+            //  New constructor.  Called by codal-libopencm3.
             SPI(Pin &mosi, Pin &miso, Pin &sclk, Pin &nss);
 
             /** Set the frequency of the SPI interface

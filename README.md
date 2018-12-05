@@ -1,6 +1,14 @@
 # codal-libopencm3
 Codal framework ported to libopencm3 to support MakeCode on STM32 Blue Pill
 
+Used by MakeCode on STM32 Blue Pill:
+
+https://github.com/lupyuen/pxt-maker
+
+Generated from these pin definitions:
+
+https://docs.google.com/spreadsheets/d/1yLciHFyPfhRfwEcG3wfqHDgRFa5OoQYTk63bUmTboa8/edit#gid=1888249278
+
 Based on code from:
 
 https://github.com/lupyuen/send_altitude_cocoos

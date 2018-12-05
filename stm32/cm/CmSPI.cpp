@@ -30,9 +30,9 @@
 #include "MessageBus.h"
 #include "Event.h"
 #include "CodalFiber.h"
-
-#include "dma.h"
+// #include "dma.h"
 #include "CmPinMap.h"
+#include <logger.h>
 
 #define HAL_OK 0
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -98,6 +98,20 @@ namespace codal {
             CODAL_ASSERT(res == HAL_OK);
         }
 
+        //  Codal constructor.  Called by pxt-maker.
+        SPI::SPI(Pin &mosi, Pin &miso, Pin &sclk) : codal::SPI() {
+            this->mosi = &mosi;
+            this->miso = &miso;
+            this->sclk = &sclk;
+            this->nss = NULL;
+            //  TODO
+            debug_print("*** codal spi mosi "); debug_print(mosi.name); 
+            debug_print(" miso "); debug_print(miso.name); 
+            debug_print(" sclk "); debug_print(sclk.name); 
+            debug_println(""); debug_flush();
+        }
+
+        //  New constructor.  Called by codal-libopencm3.
         SPI::SPI(Pin &mosi, Pin &miso, Pin &sclk, Pin &nss) : codal::SPI() {
             this->mosi = &mosi;
             this->miso = &miso;
@@ -112,6 +126,11 @@ namespace codal {
                     break;
                 }
             }
+            debug_print("spi mosi "); debug_print(mosi.name); 
+            debug_print(" miso "); debug_print(miso.name); 
+            debug_print(" sclk "); debug_print(sclk.name); 
+            debug_print(" nss "); debug_print(nss.name); 
+            debug_println(""); debug_flush();
         }
 
         int SPI::setFrequency(uint32_t frequency) {
