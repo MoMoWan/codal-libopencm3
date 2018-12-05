@@ -134,8 +134,15 @@ namespace codal
               * DevicePin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_ALL);
               * @endcode
               */
+            //  Codal constructor
             Pin(
-              // int id,            //  e.g. DEVICE_ID_IO_PC13
+              int id,            //  e.g. DEVICE_ID_IO_P0 + CM_PIN_PC13
+              PinNumber   name,  //  e.g. CM_PIN_PC13
+              PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
+            );
+
+            //  New constructor
+            Pin(
               PinNumber   name,  //  e.g. CM_PIN_PC13
               CmPinRCC    rcc,   //  e.g. RCC_GPIOC
               CmPinPort   port,  //  e.g. GPIOC

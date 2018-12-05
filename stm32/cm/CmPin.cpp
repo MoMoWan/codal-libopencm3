@@ -79,8 +79,28 @@ using namespace codal::_cm;
   * Pin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_ALL);
   * @endcode
   */
+//  Codal constructor
 Pin::Pin(
-    // int id,            //  e.g. DEVICE_ID_IO_PC13
+    int id,            //  e.g. DEVICE_ID_IO_P0 + CM_PIN_PC13
+    PinNumber   name,  //  e.g. CM_PIN_PC13
+    PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
+): codal::Pin(
+        id,  //  Will be from 100 to 227
+        name,          //  e.g. CM_PIN_PC13
+        capability),   //  e.g. PIN_CAPABILITY_DIGITAL
+    rcc(0), port(0), pin() {
+    this->pullMode = DEVICE_DEFAULT_PULLMODE;
+
+    // Power up in a disconnected, low power state.
+    // If we're unused, this is how it will stay...
+    this->status = 0;
+
+    //  TODO
+    debug_print("*** codal pin "); debug_print(id); debug_print(" name "); debug_print(name); debug_println(""); debug_flush();
+}
+
+//  New constructor
+Pin::Pin(
     PinNumber   name,  //  e.g. CM_PIN_PC13
     CmPinRCC    rcc,   //  e.g. RCC_GPIOC
     CmPinPort   port,  //  e.g. GPIOC
@@ -96,6 +116,7 @@ Pin::Pin(
     // Power up in a disconnected, low power state.
     // If we're unused, this is how it will stay...
     this->status = 0;
+    debug_print("pin name "); debug_print(name); debug_println(""); debug_flush();
 }
 
 void Pin::setup(
