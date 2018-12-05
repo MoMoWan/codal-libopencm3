@@ -53,8 +53,8 @@ extern "C" {
     //*** SPI ***
     extern const PinMap PinMap_SPI_MOSI[];
     extern const PinMap PinMap_SPI_MISO[];
-    extern const PinMap PinMap_SPI_SCLK[];
-    extern const PinMap PinMap_SPI_SSEL[];
+    extern const PinMap PinMap_SPI_SCK[];
+    extern const PinMap PinMap_SPI_NSS[];
 
     //*** CAN ***
     extern const PinMap PinMap_CAN_RD[];

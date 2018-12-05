@@ -63,10 +63,10 @@ namespace codal {
             if (!needsInit) { return; }
             needsInit = false;
             // if (!spi.Instance) {
-            uint32_t instance = _codal_setup_pin(sclk, 0, PinMap_SPI_SCLK);
+            uint32_t instance = _codal_setup_pin(sclk, 0, PinMap_SPI_SCK);
             instance = _codal_setup_pin(miso, 0, PinMap_SPI_MISO);
             instance = _codal_setup_pin(mosi, 0, PinMap_SPI_MOSI);
-            instance = _codal_setup_pin(nss, 0, PinMap_SPI_SSEL);
+            instance = _codal_setup_pin(nss, 0, PinMap_SPI_NSS);
             // spi.Instance = (SPI_TypeDef *)instance; }
             LOG("SPI instance %p", instance);
 #ifdef TODO
