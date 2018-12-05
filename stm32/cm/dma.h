@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PeripheralPins.h"
+// #include "PeripheralPins.h"
 
 #ifdef __cplusplus
 extern "C" {

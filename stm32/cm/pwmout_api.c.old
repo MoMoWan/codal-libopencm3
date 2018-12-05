@@ -32,7 +32,6 @@
 
 ////#include "cmsis.h"
 #include "CmPinMap.h"
-#include "PeripheralPins.h"
 #include "pwmout_device.h"
 
 ////TODO

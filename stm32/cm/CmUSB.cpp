@@ -26,7 +26,6 @@ DEALINGS IN THE SOFTWARE.
 
 #if CONFIG_ENABLED(DEVICE_USB)
 #include "CmPinMap.h"
-#include "PeripheralPins.h"
 #include "CodalDmesg.h"
 #include "Timer.h"
 

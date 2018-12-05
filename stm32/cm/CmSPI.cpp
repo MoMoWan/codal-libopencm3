@@ -33,7 +33,6 @@
 
 #include "dma.h"
 #include "CmPinMap.h"
-#include "PeripheralPins.h"
 
 #define HAL_OK 0
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))

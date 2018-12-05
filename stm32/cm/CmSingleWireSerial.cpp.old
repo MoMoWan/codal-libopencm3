@@ -5,7 +5,6 @@
 #include "Event.h"
 #include "dma.h"
 #include "CmPinMap.h"
-#include "PeripheralPins.h"
 #include "CodalFiber.h"
 
 using namespace codal::_cm;
