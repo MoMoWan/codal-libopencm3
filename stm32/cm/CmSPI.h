@@ -1,3 +1,4 @@
+//  Based on https://github.com/lancaster-university/codal-stm32/blob/master/inc/ZSPI.h
 /*
     The MIT License (MIT)
 
@@ -21,40 +22,28 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 */
-
 #ifndef CM_SPI_H
 #define CM_SPI_H
 
 #include "CodalConfig.h"
 #include "SPI.h"
-#include "Pin.h"
+#include "CmPin.h"
 
 namespace codal
 {
     namespace _cm
     {
-#ifdef TODO
-        class SPI;
-        struct SPI_HandleWithParent : public SPI_HandleTypeDef
-        {
-            SPI *spi_parent;
-        };
-#endif  //  TODO
-
         /**
          * Class definition for SPI service, derived from ARM mbed.
          */
         class SPI : public codal::SPI
         {
         protected:
-            Pin *mosi, *miso, *sclk;
+            Pin *mosi, *miso, *sclk, *nss;
             uint32_t freq;
 
-#ifdef TODO
-            SPI_HandleWithParent spi;
-            DMA_HandleTypeDef hdma_tx;
-            DMA_HandleTypeDef hdma_rx;
-#endif  //  TODO
+            // DMA_HandleTypeDef hdma_tx;
+            // DMA_HandleTypeDef hdma_rx;
 
             PVoidCallback doneHandler;
             void *doneHandlerArg;
@@ -67,15 +56,16 @@ namespace codal
             void init();
 
         public:
-            static void _complete(uint32_t instance);
-            static void _irq(uint32_t instance);
+            static SPI *_find(SPI *instance);
+            static void _complete(SPI *instance);
+            static void _irq(SPI *instance);
 
             /**
              * Initialize SPI instance with given pins.
              *
              * Default setup is 1 MHz, 8 bit, mode 0.
              */
-            SPI(codal::Pin &mosi, codal::Pin &miso, codal::Pin &sclk);
+            SPI(Pin &mosi, Pin &miso, Pin &sclk, Pin &nss);
 
             /** Set the frequency of the SPI interface
              *

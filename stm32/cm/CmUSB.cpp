@@ -25,8 +25,7 @@ DEALINGS IN THE SOFTWARE.
 #include "CodalUSB.h"
 
 #if CONFIG_ENABLED(DEVICE_USB)
-#include "pinmap.h"
-#include "PeripheralPins.h"
+#include "CmPinMap.h"
 #include "CodalDmesg.h"
 #include "Timer.h"
 

@@ -1,3 +1,4 @@
+//  Based on https://github.com/lancaster-university/codal-stm32/blob/master/src/ZPin.cpp
 /*
     The MIT License (MIT)
 
@@ -27,17 +28,14 @@
   *
   * Commonly represents an I/O pin on the edge connector.
   */
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
 #include "CmPin.h"
 #include <Button.h>
 #include <Timer.h>
-////#include "MbedTimedInterruptIn.h"
 #include "DynamicPwm.h"
 #include <ErrorNo.h>
 #include <logger.h>
-
-//  Blink code from https://github.com/Apress/Beg-STM32-Devel-FreeRTOS-libopencm3-GCC
-#include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
 
 ////TODO: From https://os.mbed.com/users/screamer/code/mbed/file/667d61c9177b/PinNames.h/
 enum PinMode {
@@ -81,15 +79,34 @@ using namespace codal::_cm;
   * Pin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_ALL);
   * @endcode
   */
-Pin::Pin(int id, PinNumber name, PinCapability capability) : codal::Pin(id, name, capability)
-{
+Pin::Pin(
+    // int id,            //  e.g. DEVICE_ID_IO_PC13
+    PinNumber   name,  //  e.g. CM_PIN_PC13
+    CmPinRCC    rcc,   //  e.g. RCC_GPIOC
+    CmPinPort   port,  //  e.g. GPIOC
+    CmPinNumber pin,   //  e.g. GPIO13
+    PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
+): codal::Pin(
+        DEVICE_ID_IO_P0 + name,  //  Will be from 100 to 227
+        name,          //  e.g. CM_PIN_PC13
+        capability),   //  e.g. PIN_CAPABILITY_DIGITAL
+    rcc(rcc), port(port), pin(pin) {
     this->pullMode = DEVICE_DEFAULT_PULLMODE;
 
     // Power up in a disconnected, low power state.
     // If we're unused, this is how it will stay...
-    this->status = 0x00;
-    this->pin = NULL;
+    this->status = 0;
+}
 
+void Pin::setup(
+    CmPinMode mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+    CmPinCnf  cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
+) {
+	//  Set up GPIO pin.
+	//  Enable GPIO clock.
+	rcc_periph_clock_enable((enum rcc_periph_clken) this->rcc);
+	//  Set mode and configuration of GPIO port and pin.
+	gpio_set_mode(this->port, mode, cnf, this->pin);
 }
 
 /**
@@ -97,34 +114,7 @@ Pin::Pin(int id, PinNumber name, PinCapability capability) : codal::Pin(id, name
   *
   * Used only when pin changes mode (i.e. Input/Output/Analog/Digital)
   */
-void Pin::disconnect()
-{
-#ifdef TODO  //  Don't use delete.  Increases code size.
-    // This is a bit ugly, but rarely used code.
-    // It would be much better to use some polymorphism here, but the mBed I/O classes aren't arranged in an inheritance hierarchy... yet. :-)
-    if (status & IO_STATUS_DIGITAL_IN)
-        delete ((DigitalIn *)pin);
-
-    if (status & IO_STATUS_DIGITAL_OUT)
-        delete ((DigitalOut *)pin);
-
-    if (status & IO_STATUS_ANALOG_IN)
-        delete ((AnalogIn *)pin);
-
-    if (status & IO_STATUS_ANALOG_OUT)
-    {
-        ((DynamicPwm *)pin)->release();
-        delete ((DynamicPwm *)pin);
-    }
-
-    if (status & IO_STATUS_TOUCH_IN)
-        delete ((Button *)pin);
-
-    if ((status & IO_STATUS_EVENT_ON_EDGE) || (status & IO_STATUS_EVENT_PULSE_ON_EDGE))
-        delete ((TimedInterruptIn *)pin);
-#endif  //  TODO
-
-    this->pin = NULL;
+void Pin::disconnect() {
     this->status = 0;
 }
 
@@ -241,12 +231,13 @@ int Pin::getDigitalValue(PullMode pull)
 int Pin::obtainAnalogChannel()
 {
     // Move into an analogue input state if necessary, if we are no longer the focus of a DynamicPWM instance, allocate ourselves again!
+#ifdef TODO
     if (!(status & IO_STATUS_ANALOG_OUT) || !(((DynamicPwm *)pin)->getPinName() == name)){
         disconnect();
         pin = new DynamicPwm((PinName)name);
         status |= IO_STATUS_ANALOG_OUT;
     }
-
+#endif  //  TODO
     return DEVICE_OK;
 }
 
@@ -270,10 +261,11 @@ int Pin::setAnalogValue(int value)
 
     float level = (float)value / float(DEVICE_PIN_MAX_OUTPUT);
 
+#ifdef TODO
     //obtain use of the DynamicPwm instance, if it has changed / configure if we do not have one
     if(obtainAnalogChannel() == DEVICE_OK)
         return ((DynamicPwm *)pin)->write(level);
-
+#endif  //  TODO
     return DEVICE_OK;
 }
 
@@ -413,18 +405,7 @@ int Pin::isAnalog()
   */
 int Pin::isTouched()
 {
-    //check if this pin has a touch mode...
-    if(!(PIN_CAPABILITY_DIGITAL & capability))
-        return DEVICE_NOT_SUPPORTED;
-
-    // Move into a touch input state if necessary.
-    if (!(status & IO_STATUS_TOUCH_IN)){
-        disconnect();
-        pin = new Button(*this, id);
-        status |= IO_STATUS_TOUCH_IN;
-    }
-
-    return ((Button *)pin)->isPressed();
+    return DEVICE_NOT_SUPPORTED;
 }
 
 /**
@@ -479,8 +460,10 @@ int Pin::setAnalogPeriodUs(int period)
         if (ret != DEVICE_OK)
             return ret;
     }
-
+#ifdef TODO
     return ((DynamicPwm *)pin)->setPeriodUs(period);
+#endif //  TODO
+    return 0;
 }
 
 /**
@@ -504,10 +487,13 @@ int Pin::setAnalogPeriod(int period)
   */
 uint32_t Pin::getAnalogPeriodUs()
 {
+#ifdef TODO
     if (!(status & IO_STATUS_ANALOG_OUT))
         return DEVICE_NOT_SUPPORTED;
 
     return ((DynamicPwm *)pin)->getPeriodUs();
+#endif  //  TODO
+    return DEVICE_NOT_SUPPORTED;
 }
 
 /**

@@ -1,9 +1,9 @@
 #include "STM32BluePillPin.h"
 
-
 namespace codal {
+#ifdef TODO
     STM32BluePillPin::STM32BluePillPin(int id, PinNumber name, PinCapability capability) : 
-    codal::_cm::Pin(id, name, capability) {
+        codal::_cm::Pin(id, name, capability) {
         this->pullMode = DEVICE_DEFAULT_PULLMODE;
         this->status = 0x00;
         this->pin = NULL;
@@ -14,7 +14,7 @@ namespace codal {
             return DEVICE_NOT_SUPPORTED;
 
         return 225; ////TODO
-#ifdef TODO
+
         if (!(status & IO_STATUS_ANALOG_IN)) {
             disconnect();
             pin = new AnalogIn((PinName)name);
@@ -22,6 +22,6 @@ namespace codal {
         }
 
         return ((AnalogIn*)pin)->read_u16() >> 6;
-#endif  //  TODO
     }
+#endif  //  TODO
 }

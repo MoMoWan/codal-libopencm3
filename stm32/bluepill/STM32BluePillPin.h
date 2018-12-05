@@ -5,14 +5,15 @@
 
 namespace codal {
     class STM32BluePillPin : public codal::_cm::Pin {
+#ifdef NOTUSED        
     protected:
         void* pin;
 
     public:
-        int getAnalogValue() override;
-
         STM32BluePillPin(int id, PinNumber name, PinCapability capability);
+        int getAnalogValue() override;
+#endif  //  NOTUSED
     };
 }
 
-#endif
+#endif  //  STM32BLUEPILL_PIN_H

@@ -12,12 +12,14 @@
 extern "C" {
 #endif
 
-void target_enable_debug();  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-void target_disable_debug();  //  Disable display of debug messages.  For use in production devices.
-void target_init();
+void target_enable_debug(void);  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+void target_disable_debug(void);  //  Disable display of debug messages.  For use in production devices.
+void target_init(void);
 void target_panic(int statusCode);
 void target_set_tick_callback(void (*timer_callback0)());
-void target_enter_deep_sleep_standby_mode();
+void target_enter_sleep_mode(void);
+void target_enter_deep_sleep_stop_mode(void);
+void target_enter_deep_sleep_standby_mode(void);
 
 #ifdef __cplusplus
 }

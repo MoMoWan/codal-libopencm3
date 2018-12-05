@@ -1,3 +1,4 @@
+//  Based on https://github.com/nedseb/codal-stm32-iot-node/blob/master/model/STM32IotNode.cpp
 /*
     The MIT License (MIT)
 
@@ -40,9 +41,11 @@ STM32BluePill::STM32BluePill() :
     timer(),
     messageBus(),
     io(),
-    i2c(io.sda, io.scl)
-{
-    // Clear our status
+    i2c1(io.sda1, io.scl1),   //  Port I2C1 (I2C2 not supported yet)
+    spi1(io.mosi1, io.miso1, io.sck1, io.nss1),  //  Port SPI1
+    spi2(io.mosi2, io.miso2, io.sck2, io.nss2),  //  Port SPI2
+    usart2(io.tx2, io.rx2) {  //  Port USART2 (USART1, USART3 not supported yet)
+    //  Clear our status
     status = 0;
     device_instance = this;
 }
@@ -91,8 +94,11 @@ int STM32BluePill::init()
   * We use this for any low priority, backgrounf housekeeping.
   *
   */
-void STM32BluePill::idleCallback()
-{
+void STM32BluePill::idleCallback() {
     codal_dmesg_flush();
+}
+
+void STM32BluePill::periodicCallback() {
+    //  TODO
 }
 

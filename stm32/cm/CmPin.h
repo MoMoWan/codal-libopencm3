@@ -25,9 +25,11 @@
 #ifndef CODAL_CM_PIN_H
 #define CODAL_CM_PIN_H
 
-#include "Pin.h"
 #include "CodalConfig.h"
-                                                        // Status Field flags...
+#include "Pin.h"
+#include "CmPinName.h"  //  For PinName
+
+// Status Field flags...
 #define IO_STATUS_DIGITAL_IN                0x01        // Pin is configured as a digital input, with no pull up.
 #define IO_STATUS_DIGITAL_OUT               0x02        // Pin is configured as a digital output
 #define IO_STATUS_ANALOG_IN                 0x04        // Pin is Analog in
@@ -36,83 +38,16 @@
 #define IO_STATUS_EVENT_ON_EDGE             0x20        // Pin will generate events on pin change
 #define IO_STATUS_EVENT_PULSE_ON_EDGE       0x40        // Pin will generate events on pin change
 
-//  TODO: Remove this.
-//#defines for each edge connector pin
-#define DEVICE_PIN_P0                     P0_3        //P0 is the left most pad (ANALOG/DIGITAL) used to be P0_3 on green board
-#define DEVICE_PIN_P1                     P0_2        //P1 is the middle pad (ANALOG/DIGITAL)
-#define DEVICE_PIN_P2                     P0_1        //P2 is the right most pad (ANALOG/DIGITAL) used to be P0_1 on green board
-#define DEVICE_PIN_P3                     P0_4        //COL1 (ANALOG/DIGITAL)
-#define DEVICE_PIN_P4                     P0_5        //COL2 (ANALOG/DIGITAL)
-#define DEVICE_PIN_P5                     P0_17       //BTN_A
-#define DEVICE_PIN_P6                     P0_12       //COL9
-#define DEVICE_PIN_P7                     P0_11       //COL8
-#define DEVICE_PIN_P8                     P0_18       //PIN 18
-#define DEVICE_PIN_P9                     P0_10       //COL7
-#define DEVICE_PIN_P10                    P0_6        //COL3 (ANALOG/DIGITAL)
-#define DEVICE_PIN_P11                    P0_26       //BTN_B
-#define DEVICE_PIN_P12                    P0_20       //PIN 20
-#define DEVICE_PIN_P13                    P0_23       //SCK
-#define DEVICE_PIN_P14                    P0_22       //MISO
-#define DEVICE_PIN_P15                    P0_21       //MOSI
-#define DEVICE_PIN_P16                    P0_16       //PIN 16
-#define DEVICE_PIN_P19                    P0_0        //SCL
-#define DEVICE_PIN_P20                    P0_30       //SDA
+typedef uint32_t CmPeripheral; //  e.g. SPI1
+typedef uint32_t CmPinRCC;     //  e.g. RCC_GPIOC
+typedef uint32_t CmPinPort;    //  e.g. GPIOC
+typedef uint16_t CmPinNumber;  //  e.g. GPIO13
+typedef uint8_t  CmPinMode;    //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+typedef uint8_t  CmPinCnf;     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
 
-//  STM32 pins from https://github.com/lancaster-university/codal-stm32/blob/master/inc/stm32.h
-#define PA_0 0x00
-#define PA_1 0x01
-#define PA_2 0x02
-#define PA_3 0x03
-#define PA_4 0x04
-#define PA_5 0x05
-#define PA_6 0x06
-#define PA_7 0x07
-#define PA_8 0x08
-#define PA_9 0x09
-#define PA_10 0x0A
-#define PA_11 0x0B
-#define PA_12 0x0C
-#define PA_13 0x0D
-#define PA_14 0x0E
-#define PA_15 0x0F
-#define PB_0 0x10
-#define PB_1 0x11
-#define PB_2 0x12
-#define PB_3 0x13
-#define PB_4 0x14
-#define PB_5 0x15
-#define PB_6 0x16
-#define PB_7 0x17
-#define PB_8 0x18
-#define PB_9 0x19
-#define PB_10 0x1A
-#define PB_12 0x1C
-#define PB_13 0x1D
-#define PB_14 0x1E
-#define PB_15 0x1F
-#define PC_0 0x20
-#define PC_1 0x21
-#define PC_2 0x22
-#define PC_3 0x23
-#define PC_4 0x24
-#define PC_5 0x25
-#define PC_6 0x26
-#define PC_7 0x27
-#define PC_8 0x28
-#define PC_9 0x29
-#define PC_10 0x2A
-#define PC_11 0x2B
-#define PC_12 0x2C
-#define PC_13 0x2D
-#define PC_14 0x2E
-#define PC_15 0x2F
-#define PD_2 0x32
-#define PH_0 0x70
-#define PH_1 0x71
-
-#define ADC_TEMP 0xF0
-#define ADC_VREF 0xF1
-#define ADC_VBAT 0xF2
+const CmPeripheral CM_PERIPHERAL_NC = -1;  //  Undefined peripheral.
+const CmPinMode    CM_PINMODE_NC = -1;     //  Undefined pin mode.
+const CmPinCnf     CM_PINCNF_NC = -1;      //  Undefined pin cnf.
 
 /**
   * Class definition for Pin.
@@ -126,7 +61,11 @@ namespace codal
         class Pin : public codal::Pin
         {
             // The mbed object looking after this pin at any point in time (untyped due to dynamic behaviour).
-            void *pin;
+            // TODO: void *pin;
+
+            CmPinRCC    rcc;   //  e.g. RCC_GPIOC
+            CmPinPort   port;  //  e.g. GPIOC
+            CmPinNumber pin;   //  e.g. GPIO13
 
             /**
               * Disconnect any attached mBed IO from this pin.
@@ -195,7 +134,19 @@ namespace codal
               * DevicePin P0(DEVICE_ID_IO_P0, DEVICE_PIN_P0, PIN_CAPABILITY_ALL);
               * @endcode
               */
-            Pin(int id, PinNumber name, PinCapability capability);
+            Pin(
+              // int id,            //  e.g. DEVICE_ID_IO_PC13
+              PinNumber   name,  //  e.g. CM_PIN_PC13
+              CmPinRCC    rcc,   //  e.g. RCC_GPIOC
+              CmPinPort   port,  //  e.g. GPIOC
+              CmPinNumber pin,   //  e.g. GPIO13
+              PinCapability capability  //  e.g. PIN_CAPABILITY_DIGITAL
+            );
+
+            void setup(
+              CmPinMode mode,   //  e.g. GPIO_MODE_OUTPUT_2_MHZ
+              CmPinCnf  cnf     //  e.g. GPIO_CNF_OUTPUT_PUSHPULL
+            );
 
             /**
               * Configures this IO pin as a digital output (if necessary) and sets the pin to 'value'.

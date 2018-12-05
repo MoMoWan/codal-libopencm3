@@ -104,7 +104,7 @@ int DynamicPwm::write(float value){
   */
 PinName DynamicPwm::getPinName()
 {
-  return P0_22;  ////TODO
+  return CM_PIN_PA9;  ////TODO
 #ifdef TODO
     return _pwm.pin;
 #endif  //  TODO

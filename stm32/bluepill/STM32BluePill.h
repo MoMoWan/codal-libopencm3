@@ -1,3 +1,4 @@
+//  Based on https://github.com/nedseb/codal-stm32-iot-node/blob/master/model/STM32IotNode.h
 /*
     The MIT License (MIT)
 
@@ -21,7 +22,6 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 */
-
 #ifndef STM32BLUEPILL_H
 #define STM32BLUEPILL_H
 
@@ -43,6 +43,8 @@
 #include "MessageBus.h"
 #include "CmTimer.h"
 #include "CmI2C.h"
+#include "CmSPI.h"
+#include "CmSerial.h"
 #include "bluepill.h"
 
 // Status flag values
@@ -59,10 +61,13 @@ namespace codal
     class STM32BluePill : public CodalComponent
     {
         public:
-            codal::_cm::Timer         timer;
-            MessageBus                messageBus;
-            STM32BluePillIO           io;
-            codal::_cm::I2C           i2c;
+            codal::_cm::Timer  timer;
+            MessageBus         messageBus;
+            STM32BluePillIO    io;
+            codal::_cm::I2C    i2c1;
+            codal::_cm::SPI    spi1;
+            codal::_cm::SPI    spi2;
+            codal::_cm::Serial usart2;
 
             /**
              * Constructor.
@@ -99,6 +104,11 @@ namespace codal
              */
             virtual void idleCallback();
 
+            /**
+             * A periodic callback invoked by the fiber scheduler every SCHEDULER_TICK_PERIOD_MS.
+             */
+            virtual void periodicCallback();
+            
             /**
              * Determine the time since this STM32BLUEPILL was last reset.
              *
@@ -146,6 +156,4 @@ namespace codal
     }
 }
 
-using namespace codal;
-
-#endif
+#endif  //  STM32BLUEPILL_H

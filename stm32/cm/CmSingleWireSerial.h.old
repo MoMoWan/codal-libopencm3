@@ -1,15 +1,18 @@
+//  Based on https://github.com/lancaster-university/codal-stm32/blob/master/inc/ZSingleWireSerial.h
 #ifndef CM_SINGLE_WIRE_SERIAL_H
 #define CM_SINGLE_WIRE_SERIAL_H
 
 #include "Pin.h"
 #include "CodalComponent.h"
 #include "CodalConfig.h"
-////#include "SingleWireSerial.h"
+#include "DMASingleWireSerial.h"
 ////#include "JACDAC.h"
-#include "pinmap.h"
+#include "CmPinMap.h"
 #include "MemberFunctionCallback.h"
 
 #ifdef TODO
+#endif  //  TODO
+
 namespace codal
 {
     namespace _cm
@@ -59,6 +62,5 @@ namespace codal
         };
     }  //  _cm
 }
-#endif  //  TODO
 
 #endif  //  CM_SINGLE_WIRE_SERIAL_H
