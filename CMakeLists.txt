@@ -127,6 +127,8 @@ execute_process(
 set(
     NEWLIB_INC
     "${NEWLIB_DIR}/include"
+    #"${NEWLIB_DIR}/newlib/libc/include"
+    "../../libc/include"
     "${NEWLIB_CTYPE_DIR}"
     "${NEWLIB_LIBM_COMMON_DIR}"
 )
@@ -178,7 +180,7 @@ set(
     "${NEWLIB_STRING_DIR}/strcspn.c"
     "${NEWLIB_STRING_DIR}/strdup.c"
     "${NEWLIB_STRING_DIR}/strdup_r.c"
-    "${NEWLIB_STRING_DIR}/strerror.c"
+    #"${NEWLIB_STRING_DIR}/strerror.c"
     "${NEWLIB_STRING_DIR}/strerror_r.c"
     "${NEWLIB_STRING_DIR}/strlcat.c"
     "${NEWLIB_STRING_DIR}/strlcpy.c"
@@ -298,7 +300,8 @@ message("CODAL_LIBOPENCM3_DIR: ${CODAL_LIBOPENCM3_DIR}")
 # find codal-libopencm3 sources and headers. newlib must be first
 set(
     TOP_LEVEL_INCLUDE_DIRS
-    "${NEWLIB_INC}"
+    # "${NEWLIB_INC}"
+    "../../libc/include"
     "${CODAL_LIBOPENCM3_DIR}"
 )
 message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
@@ -321,9 +324,8 @@ set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/s
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
-# include directories. newlib must be first.
+# include directories
 include_directories(    
-    ${NEWLIB_INC}
     ${INCLUDE_DIRS} 
     ${TOP_LEVEL_INCLUDE_DIRS}
     ${CODAL_CORE_INC}
@@ -332,6 +334,7 @@ include_directories(
     ${BOOST_INC}
     ${STM32_INC}
     ${LIBOPENCM3_INC}
+    ${NEWLIB_INC}
     ${LIB_DIR}
 )
 
@@ -347,7 +350,7 @@ target_link_libraries(
 )
 
 # expose it to parent cmake.
-target_include_directories(codal-libopencm3 PUBLIC ${NEWLIB_INC} ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
+target_include_directories(codal-libopencm3 PUBLIC ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
 
 # message("CMAKE_SYSTEM_INCLUDE_PATH: ${CMAKE_SYSTEM_INCLUDE_PATH}")
 message("NEWLIB_INC: ${NEWLIB_INC}")
