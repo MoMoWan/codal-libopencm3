@@ -295,8 +295,12 @@ add_library(libopencm3
 set(CODAL_LIBOPENCM3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 message("CODAL_LIBOPENCM3_DIR: ${CODAL_LIBOPENCM3_DIR}")
 
-# find codal-libopencm3 sources and headers.
-set(TOP_LEVEL_INCLUDE_DIRS "${CODAL_LIBOPENCM3_DIR}")
+# find codal-libopencm3 sources and headers. newlib must be first
+set(
+    TOP_LEVEL_INCLUDE_DIRS
+    "${NEWLIB_INC}"
+    "${CODAL_LIBOPENCM3_DIR}"
+)
 message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
 # RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CODAL_LIBOPENCM3_DIR}" "*.cpp")
 set(
@@ -317,11 +321,7 @@ set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/s
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
-# include directories.  newlib must be first.
-include_directories(
-    BEFORE SYSTEM
-    ${NEWLIB_INC}
-)
+# include directories. newlib must be first.
 include_directories(    
     ${NEWLIB_INC}
     ${INCLUDE_DIRS} 
@@ -347,7 +347,7 @@ target_link_libraries(
 )
 
 # expose it to parent cmake.
-target_include_directories(codal-libopencm3 PUBLIC ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
+target_include_directories(codal-libopencm3 PUBLIC ${NEWLIB_INC} ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
 
 # message("CMAKE_SYSTEM_INCLUDE_PATH: ${CMAKE_SYSTEM_INCLUDE_PATH}")
-message("INCLUDE_DIRS: ${INCLUDE_DIRS}")
+message("NEWLIB_INC: ${NEWLIB_INC}")
