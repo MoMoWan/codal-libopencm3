@@ -107,6 +107,38 @@ set(
 add_library(stm32 ${STM32_SRC})
 
 ###############################################################################
+# newlib
+
+set(NEWLIB_DIR "${LIB_DIR}/newlib")
+message("NEWLIB_DIR: ${NEWLIB_DIR}")
+
+# clone libopencm3 into codal/libraries/codal-libopencm3/newlib
+# TODO: "--branch" "${NEWLIB_VERSION}" "--single-branch"
+execute_process(
+    WORKING_DIRECTORY "${LIB_DIR}" 
+    COMMAND "git" "clone" "https://github.com/lupyuen/newlib" 
+    OUTPUT_VARIABLE git_clone_newlib)
+
+# find newlib sources and headers.
+set(NEWLIB_INC
+    "${NEWLIB_DIR}/include"
+    "${NEWLIB_DIR}/newlib/libc/ctype",
+    "${NEWLIB_DIR}/newlib/libm/common"
+)
+RECURSIVE_FIND_FILE(NEWLIB_CTYPE       "${NEWLIB_DIR}/newlib/libc/ctype" "*.c")
+RECURSIVE_FIND_FILE(NEWLIB_STRING      "${NEWLIB_DIR}/newlib/libc/string" "*.c")
+RECURSIVE_FIND_FILE(NEWLIB_LIBM_COMMON "${NEWLIB_DIR}/newlib/libm/common" "*.c")
+RECURSIVE_FIND_FILE(NEWLIB_LIBM_MATH   "${NEWLIB_DIR}/newlib/libm/math" "*.c")
+
+# create libopencm3 library.
+add_library(newlib 
+    ${NEWLIB_CTYPE}
+    ${NEWLIB_STRING}
+    ${NEWLIB_LIBM_COMMON}
+    ${NEWLIB_LIBM_MATH}
+)
+
+###############################################################################
 # libopencm3
 
 set(LIBOPENCM3_DIR "${LIB_DIR}/libopencm3")
@@ -220,6 +252,7 @@ include_directories(
     ${BOOST_INC}
     ${STM32_INC}
     ${LIBOPENCM3_INC}
+    ${NEWLIB_INC}
     ${LIB_DIR}
 )
 message("CODAL_CORE_INC: ${CODAL_CORE_INC}")
@@ -232,6 +265,7 @@ target_link_libraries(
     bme280
     stm32
     libopencm3
+    newlib
 )
 
 # expose it to parent cmake.
