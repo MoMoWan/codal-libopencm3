@@ -58,6 +58,10 @@ cd ..
 cd lib
 git clone https://github.com/libopencm3/libopencm3
 cd ..
+
+cd lib
+git clone https://github.com/lupyuen/newlib
+cd ..
 ```
 
 Launch Visual Studio Code and open the workspace file `codal-libopencm3/workspace.code-workspace`
