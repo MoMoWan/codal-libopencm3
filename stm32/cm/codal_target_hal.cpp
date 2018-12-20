@@ -318,3 +318,19 @@ void test_codal() {
 	debug_print(", stack used: "); debug_println((size_t) 
         ((PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - get_current_sp()));
 }
+
+//  Handle exit.  From https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/static.html.
+extern "C" {
+    void* __dso_handle = nullptr;
+    void _fini(void) { }
+    int __aeabi_atexit( 
+        void *object, 
+        void (*destructor)(void *), 
+        void *dso_handle) 
+    { 
+        static_cast<void>(object); 
+        static_cast<void>(destructor); 
+        static_cast<void>(dso_handle); 
+        return 0; 
+    }
+}
