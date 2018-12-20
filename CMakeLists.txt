@@ -120,9 +120,10 @@ execute_process(
     OUTPUT_VARIABLE git_clone_newlib)
 
 # find newlib sources and headers.
-set(NEWLIB_INC
+set(
+    NEWLIB_INC
     "${NEWLIB_DIR}/include"
-    "${NEWLIB_DIR}/newlib/libc/ctype",
+    "${NEWLIB_DIR}/newlib/libc/ctype"
     "${NEWLIB_DIR}/newlib/libm/common"
 )
 RECURSIVE_FIND_FILE(NEWLIB_CTYPE       "${NEWLIB_DIR}/newlib/libc/ctype" "*.c")
