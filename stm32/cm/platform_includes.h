@@ -45,6 +45,7 @@ void target_enter_deep_sleep_standby_mode(void);
 #define DEVICE_STACK_BASE DEVICE_SRAM_END
 #define DEVICE_STACK_SIZE 2048
 
+#define LIGHTWEIGHT_EVENTS 1  //  Avoid long division in codal::scheduler_tick()
 #define PROCESSOR_WORD_TYPE uint32_t
 #define CODAL_TIMESTAMP uint64_t
 #define USB_MAX_PKT_SIZE 64
@@ -66,10 +67,9 @@ void target_enter_deep_sleep_standby_mode(void);
 #define DEVICE_DMESG 1
 #define DEVICE_DMESG_BUFFER_SIZE 1024
 #define CODAL_DEBUG CODAL_DEBUG_DISABLED
-#define DEVICE_USB 0  ////TODO: Disable flashing by USB.  Requires UF2 to be included for build.
-////#define DEVICE_USB 1
-#define BOOTLOADER_START_ADDR 0x00000000
-#define BOOTLOADER_END_ADDR 0x00002000
+#define DEVICE_USB 0  //  TODO: Previously 1.  Disable flashing by USB.  Requires UF2 to be included for build.
+#define BOOTLOADER_START_ADDR 0x08000000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader
+#define BOOTLOADER_END_ADDR 0x08004000
 #endif  //  PLATFORMIO
 
 extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
