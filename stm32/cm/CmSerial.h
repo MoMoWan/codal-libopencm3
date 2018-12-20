@@ -41,6 +41,13 @@ namespace codal
           */
         class Serial : public codal::Serial
         {
+            ////TODO
+            int enableInterrupt(SerialInterruptType t) { return 0; }
+            int disableInterrupt(SerialInterruptType t) { return 0; }
+            int setBaudrate(uint32_t baudrate) { return 0; }
+            int configurePins(codal::Pin& tx, codal::Pin& rx) { return 0; }
+            int putc(char c) { return 1; }
+            int getc() { return -1; }
 
             /**
               * An internal interrupt callback for DeviceSerial configured for when a

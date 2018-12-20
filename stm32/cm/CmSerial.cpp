@@ -30,8 +30,8 @@
 
 namespace codal
 {
-    uint8_t Serial::status = 0;
-    int Serial::baudrate = 0;
+    ////uint8_t Serial::status = 0;
+    ////int Serial::baudrate = 0;
 
     namespace _cm
     {

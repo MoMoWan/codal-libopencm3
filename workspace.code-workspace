@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "/Users/Luppy/codal"
+		},
+		{
+			"path": "lib/newlib"
 		}
 	],
 	"settings": {
