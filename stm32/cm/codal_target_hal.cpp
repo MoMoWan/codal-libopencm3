@@ -4,11 +4,12 @@
 #include "CodalDmesg.h"
 #include "CodalCompat.h"
 #include "CodalHeapAllocator.h"
+#include <string.h>
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/scb.h>
 #include <libopencm3/stm32/rtc.h>
 #include <libopencm3/stm32/pwr.h>
-#include <newlib-force.h>  //  Force newlib to be included for build
+#include <newlib-force.h>  //  TODO: Force newlib to be included for build
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
