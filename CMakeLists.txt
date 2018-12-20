@@ -317,8 +317,13 @@ set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/s
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
-# include directories
+# include directories.  newlib must be first.
+include_directories(
+    BEFORE SYSTEM
+    ${NEWLIB_INC}
+)
 include_directories(    
+    ${NEWLIB_INC}
     ${INCLUDE_DIRS} 
     ${TOP_LEVEL_INCLUDE_DIRS}
     ${CODAL_CORE_INC}
@@ -327,10 +332,8 @@ include_directories(
     ${BOOST_INC}
     ${STM32_INC}
     ${LIBOPENCM3_INC}
-    ${NEWLIB_INC}
     ${LIB_DIR}
 )
-message("CODAL_CORE_INC: ${CODAL_CORE_INC}")
 
 # libraries to be built
 target_link_libraries(
@@ -345,3 +348,6 @@ target_link_libraries(
 
 # expose it to parent cmake.
 target_include_directories(codal-libopencm3 PUBLIC ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
+
+# message("CMAKE_SYSTEM_INCLUDE_PATH: ${CMAKE_SYSTEM_INCLUDE_PATH}")
+message("INCLUDE_DIRS: ${INCLUDE_DIRS}")

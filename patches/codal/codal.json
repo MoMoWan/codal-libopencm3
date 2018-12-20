@@ -1,0 +1,8 @@
+{
+    "target": {
+        "url": "https://github.com/lupyuen/codal-libopencm3",
+        "type": "git",
+        "branch": "master",
+        "name": "codal-libopencm3"
+    }
+}
