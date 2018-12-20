@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "lib/newlib"
+		},
+		{
+			"path": "C:/Users/guppy/.platformio/packages"
 		}
 	],
 	"settings": {
