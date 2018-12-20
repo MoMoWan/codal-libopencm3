@@ -128,7 +128,7 @@ set(
     NEWLIB_INC
     "${NEWLIB_DIR}/include"
     #"${NEWLIB_DIR}/newlib/libc/include"
-    "../../libc/include"
+    #"../../libc/include"
     "${NEWLIB_CTYPE_DIR}"
     "${NEWLIB_LIBM_COMMON_DIR}"
 )
@@ -301,7 +301,7 @@ message("CODAL_LIBOPENCM3_DIR: ${CODAL_LIBOPENCM3_DIR}")
 set(
     TOP_LEVEL_INCLUDE_DIRS
     # "${NEWLIB_INC}"
-    "../../libc/include"
+    # "../../libc/include"
     "${CODAL_LIBOPENCM3_DIR}"
 )
 message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
