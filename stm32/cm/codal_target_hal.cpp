@@ -8,6 +8,7 @@
 #include <libopencm3/cm3/scb.h>
 #include <libopencm3/stm32/rtc.h>
 #include <libopencm3/stm32/pwr.h>
+#include <_newlib_version.h>  //  Force newlib to be included for build
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
