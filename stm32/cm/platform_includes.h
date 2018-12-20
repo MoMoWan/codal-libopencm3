@@ -47,11 +47,11 @@ void target_enter_deep_sleep_standby_mode(void);
 
 #define LIGHTWEIGHT_EVENTS 1  //  Avoid long division in codal::scheduler_tick()
 #define PROCESSOR_WORD_TYPE uint32_t
-#define CODAL_TIMESTAMP uint64_t
+#define CODAL_TIMESTAMP     uint32_t  //  TODO: Previously uint64_t. To reduce code size.
 #define USB_MAX_PKT_SIZE 64
 #define DEVICE_USB_ENDPOINTS 8
-#define USB_DEFAULT_PID 0x2402
-#define USB_DEFAULT_VID 0x03EB
+#define USB_DEFAULT_VID 0x1209  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/usb_conf.h
+#define USB_DEFAULT_PID 0xDB42  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/usb_conf.h
 #define USB_EP_FLAG_NO_AUTO_ZLP 0x01
 #define TARGET_DEBUG_CLASS NOT_IMPLEMENTED
 #define DEVICE_HEAP_ALLOCATOR 1
@@ -68,8 +68,8 @@ void target_enter_deep_sleep_standby_mode(void);
 #define DEVICE_DMESG_BUFFER_SIZE 1024
 #define CODAL_DEBUG CODAL_DEBUG_DISABLED
 #define DEVICE_USB 0  //  TODO: Previously 1.  Disable flashing by USB.  Requires UF2 to be included for build.
-#define BOOTLOADER_START_ADDR 0x08000000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader
-#define BOOTLOADER_END_ADDR 0x08004000
+#define BOOTLOADER_START_ADDR 0x08000000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
+#define BOOTLOADER_END_ADDR   0x08004000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
 #endif  //  PLATFORMIO
 
 extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
