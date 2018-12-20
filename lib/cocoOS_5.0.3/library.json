@@ -15,7 +15,11 @@
   "homepage": "http://www.cocoos.net",
   "version": "5.0.4",
   "build": {
-    "flags": "-I inc"
+    "flags": "-I inc",
+    "unflags": [
+      "-fno-rtti",
+      "-fno-threadsafe-statics"
+    ]
   },
   "frameworks": "*",
   "platforms": "atmelavr, atmelsam, ststm32, timsp430"
