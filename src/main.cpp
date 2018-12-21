@@ -1,5 +1,6 @@
 //  Main Application.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
 #include <newlib-force.h>  //  Force newlib to be included for build
+#include <nano-float.h>    //  Force nano-float to be included for build
 #include "STM32BluePill.h"
 #include <logger.h>
 
