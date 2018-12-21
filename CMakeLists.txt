@@ -109,6 +109,15 @@ add_library(stm32 ${STM32_SRC})
 ###############################################################################
 # newlib
 
+set(NEWLIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../newlib")
+message("NEWLIB_DIR: ${NEWLIB_DIR}")
+
+# find newlib headers.
+set(
+    NEWLIB_INC
+    "${NEWLIB_DIR}/include"
+)
+
 # set(NEWLIB_DIR             "${LIB_DIR}/newlib")
 # set(NEWLIB_CTYPE_DIR       "${NEWLIB_DIR}/newlib/libc/ctype")
 # set(NEWLIB_STRING_DIR      "${NEWLIB_DIR}/newlib/libc/string")
@@ -300,8 +309,7 @@ message("CODAL_LIBOPENCM3_DIR: ${CODAL_LIBOPENCM3_DIR}")
 # find codal-libopencm3 sources and headers. newlib must be first
 set(
     TOP_LEVEL_INCLUDE_DIRS
-    # "${NEWLIB_INC}"
-    # "../../libc/include"
+    "${NEWLIB_INC}"
     "${CODAL_LIBOPENCM3_DIR}"
 )
 message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
@@ -334,7 +342,6 @@ include_directories(
     ${BOOST_INC}
     ${STM32_INC}
     ${LIBOPENCM3_INC}
-    #${NEWLIB_INC}
     ${LIB_DIR}
 )
 
@@ -346,7 +353,7 @@ target_link_libraries(
     bme280
     stm32
     libopencm3
-    #newlib
+    newlib
 )
 
 # expose it to parent cmake.
