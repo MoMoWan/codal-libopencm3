@@ -148,7 +148,7 @@ message("QFPLIB_DIR: ${QFPLIB_DIR}")
 # find headers.
 set(
     QFPLIB_INC
-    "${QFPLIB_DIR}/include"
+    "${QFPLIB_DIR}"
 )
 
 ###############################################################################
