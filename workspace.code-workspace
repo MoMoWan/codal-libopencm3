@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "C:/Users/guppy/.platformio/packages"
+		},
+		{
+			"path": "C:/codal"
 		}
 	],
 	"settings": {
