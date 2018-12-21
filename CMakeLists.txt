@@ -40,6 +40,19 @@ RECURSIVE_FIND_FILE(CODAL_CORE_SRC "${CODAL_CORE_DIR}/source" "*.cpp")
 # add_library(codal-core ${CODAL_CORE_SRC})
 
 ###############################################################################
+# nano-float
+
+set(NANOFLOAT_DIR "${LIB_DIR}/nano-float")
+message("NANOFLOAT_DIR: ${NANOFLOAT_DIR}")
+
+# find sources and headers.
+set(NANOFLOAT_INC "${NANOFLOAT_DIR}/inc")
+RECURSIVE_FIND_FILE(NANOFLOAT_SRC "${NANOFLOAT_DIR}/src" "*.c")
+
+# create library.
+add_library(nano-float ${NANOFLOAT_SRC})
+
+###############################################################################
 # cocoos
 
 set(COCOOS_DIR "${LIB_DIR}/cocoOS_5.0.3")
@@ -252,6 +265,7 @@ include_directories(
     ${INCLUDE_DIRS} 
     ${TOP_LEVEL_INCLUDE_DIRS}
     ${CODAL_CORE_INC}
+    ${NANOFLOAT_INC}
     ${COCOOS_INC}
     ${BME280_INC}
     ${BOOST_INC}
@@ -265,6 +279,7 @@ include_directories(
 target_link_libraries(
     codal-libopencm3
     codal-core
+    nano-float
     cocoos
     bme280
     stm32

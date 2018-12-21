@@ -1308,6 +1308,7 @@ START GROUP
 LOAD .pioenvs/bluepill_f103c8/libd9b/liblogger.a
 LOAD .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a
 LOAD .pioenvs/bluepill_f103c8/lib49c/libnewlib.a
+LOAD .pioenvs/bluepill_f103c8/libd88/libnano-float.a
 LOAD .pioenvs/bluepill_f103c8/lib739/libcm.a
 LOAD .pioenvs/bluepill_f103c8/lib23d/libcodal-core.a
 LOAD .pioenvs/bluepill_f103c8/lib271/libbluepill.a
