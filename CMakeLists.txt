@@ -127,6 +127,18 @@ set(
 )
 
 ###############################################################################
+# qfplib
+
+set(QFPLIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../qfplib")
+message("QFPLIB_DIR: ${QFPLIB_DIR}")
+
+# find headers.
+set(
+    QFPLIB_INC
+    "${QFPLIB_DIR}/include"
+)
+
+###############################################################################
 # libopencm3
 
 set(LIBOPENCM3_DIR "${LIB_DIR}/libopencm3")
@@ -245,6 +257,7 @@ include_directories(
     ${BOOST_INC}
     ${STM32_INC}
     ${LIBOPENCM3_INC}
+    ${QFPLIB_INC}
     ${LIB_DIR}
 )
 
