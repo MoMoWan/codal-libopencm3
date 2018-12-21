@@ -3,7 +3,7 @@
 
 # enable verbose log
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(ENV{VERBOSE} "1"
+set(ENV{VERBOSE} "1")
 message("VERBOSE: $ENV{VERBOSE}")
 
 project(codal-libopencm3)
