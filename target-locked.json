@@ -48,6 +48,12 @@
     "linker_flags":"-nostdlib -Wl,-Map,output.map,--print-memory-usage -Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--wrap,exit -Wl,--wrap,atexit -mcpu=cortex-m3 -mthumb",
     "libraries":[
         {
+            "name":"newlib",
+            "url":"https://github.com/lupyuen/newlib",
+            "branch":"master",
+            "type":"git"
+        },
+        {
             "name":"codal-core",
             "url":"https://github.com/lancaster-university/codal-core",
             "branch":"main",
