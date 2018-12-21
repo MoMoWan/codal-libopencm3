@@ -257,6 +257,7 @@ target_link_libraries(
     stm32
     libopencm3
     newlib
+    qfplib
 )
 
 # expose it to parent cmake.
