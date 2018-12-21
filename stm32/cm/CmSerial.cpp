@@ -815,7 +815,7 @@ namespace codal
             if(baudrate < 0)
                 return DEVICE_INVALID_PARAMETER;
 
-            codal::Serial::baudrate = baudrate;
+            this->baudrate = baudrate;
 #ifdef TODO
             RawSerial::baud(baudrate);
 #endif  //  TODO
@@ -1106,7 +1106,7 @@ namespace codal
           */
         int Serial::rxInUse()
         {
-            return (codal::CodalComponent::status & CODAL_SERIAL_RX_IN_USE);
+            return (status & CODAL_SERIAL_RX_IN_USE);
         }
 
         /**
