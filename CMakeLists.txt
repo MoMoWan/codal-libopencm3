@@ -1,4 +1,11 @@
+# Build codal-libopencm3, the CODAL framework ported to libopencm3 for STM32 Blue Pill.
+# Also builds the libepencm3 and newlib libraries.
+
+# enable verbose log
 set(CMAKE_VERBOSE_MAKEFILE ON)
+set(ENV{VERBOSE} "1"
+message("VERBOSE: $ENV{VERBOSE}")
+
 project(codal-libopencm3)
 include("${CODAL_UTILS_LOCATION}")
 
