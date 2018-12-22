@@ -92,13 +92,21 @@ double exp(double x) { return qfp_fexp(x); }
 
 //  log10(x) = ln(x) / ln(10)
 //  e.g. log10(1000) = ln(1000) / ln(10) = 3
-
-double log10(double x) { return qfp_fln(x) / qfp_fln(10); }
+double log10(double x) { 
+    return qfp_fln(x) / qfp_fln(10); 
+}
 
 //  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
 //  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
+double pow(double b, double x) { 
+    return qfp_fexp( qfp_fln(b) * x ); 
+}
 
-double pow(double b, double x) { return qfp_fexp( qfp_fln(b) * x ); }
+//  ldexp(x, ex) = x * pow(2, ex) 
+//               = x * exp(log(2) * ex)
+double ldexp(double x, int ex) {
+    return x * exp( log(2) * ex );
+}
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:910: undefined reference to `sin'
@@ -151,4 +159,3 @@ double atan2(double x, double y) { return qfp_fatan2(x, y); }
 //  TODO: Support other functions
 //  double cosh(double x) { return (x); }
 //  double sinh(double x) { return (x); }
-//  double ldexp(double, int);
