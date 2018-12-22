@@ -20,23 +20,46 @@ double __wrap___aeabi_dmul(double x, double y) { return qfp_fmul(x, y); }
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 3, double precision floating-point comparison helper functions
 
+//  qfp_fcmp(r0, r1):
+//  equal? return 0
+//  r0 > r1? return +1
+//  r0 < r1: return -1
+
 //  result (1, 0) denotes (=, ?<>) [2], use for C == and !=
-int __wrap___aeabi_dcmpeq(double x, double y) { return qfp_fcmp(x, y); }
+int __wrap___aeabi_dcmpeq(double x, double y) {
+    return (qfp_fcmp(x, y) == 0)  //  x == y
+        ? 1 : 0;
+}
 
 //  result (1, 0) denotes (<, ?>=) [2], use for C <
-int __wrap___aeabi_dcmplt(double x, double y) { return qfp_fcmp(x, y); }
+int __wrap___aeabi_dcmplt(double x, double y) {
+    return (qfp_fcmp(x, y) == -1)  //  x < y
+        ? 1 : 0;
+}
 
 //  result (1, 0) denotes (<=, ?>) [2], use for C <=
-int __wrap___aeabi_dcmple(double x, double y) { return qfp_fcmp(x, y); }
+int __wrap___aeabi_dcmple(double x, double y) { 
+    return (qfp_fcmp(x, y) == 1)  //  x > y
+        ? 0 : 1; 
+}
 
 //  result (1, 0) denotes (>=, ?<) [2], use for C >=
-int __wrap___aeabi_dcmpge(double x, double y) { return qfp_fcmp(x, y); }
+int __wrap___aeabi_dcmpge(double x, double y) { 
+    return (qfp_fcmp(x, y) == -1)  //  x < y
+        ? 0 : 1; 
+}
 
 //  result (1, 0) denotes (>, ?<=) [2], use for C >
-int __wrap___aeabi_dcmpgt(double x, double y) { return qfp_fcmp(x, y); }
+int __wrap___aeabi_dcmpgt(double x, double y) { 
+    return (qfp_fcmp(x, y) == 1)  //  x > y
+        ? 1 : 0; 
+}
 
 //  result (1, 0) denotes (?, <=>) [2], use for C99 isunordered()
-int __wrap___aeabi_dcmpun(double x, double y) { return qfp_fcmp(x, y); }
+int __wrap___aeabi_dcmpun(double x, double y) { 
+    return (qfp_fcmp(x, y) == 0)  //  x == y
+        ? 0 : 1;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 4, Standard single precision floating-point arithmetic helper functions
@@ -67,12 +90,15 @@ double exp(double x) { return qfp_fexp(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::log10(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:904: undefined reference to `log10'
 
+//  log10(x) = ln(x) / ln(10)
+//  e.g. log10(1000) = ln(1000) / ln(10) = 3
+
 double log10(double x) { return qfp_fln(x) / qfp_fln(10); }
 
 //  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
-//  e.g. pow(10, 3) = exp(log(10) * 3)
+//  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
 
-double pow(double b, double x) { return qfp_fexp(qfp_fln(b) * x); }
+double pow(double b, double x) { return qfp_fexp( qfp_fln(b) * x ); }
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:910: undefined reference to `sin'
@@ -120,9 +146,9 @@ double atan2(double x, double y) { return qfp_fatan2(x, y); }
 
 ////  double trunc(double x) { return (x); }
 
-//  double fmod(double, double);
+////  double fmod(double, double) { return (x); }
 
-//  TODO
+//  TODO: Support other functions
 //  double cosh(double x) { return (x); }
 //  double sinh(double x) { return (x); }
 //  double ldexp(double, int);
