@@ -92,12 +92,30 @@ unsigned __wrap___aeabi_d2uiz(double x) {
 // /src/pxtapp/base/core.cpp:925: undefined reference to `sqrt'
 
 double sqrt(double x) { return qfp_fsqrt_fast(x); }
+// Examples:
+// sqrt(100) = 10.000000
+// sqrt(2) = 1.414214
+// sqrt(-0) = -0.000000
+// sqrt(-1.0) = -nan
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::log(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:901: undefined reference to `log'
 
 double log(double x) { return qfp_fln(x); }
+// Examples:
+// log(1) = 0.000000
+// log(2) = _M_LN2
+// log(10) = M_LN10
+// log(+Inf) = inf
+// log(0) = -inf
+
 double exp(double x) { return qfp_fexp(x); }
+// Examples:
+// exp(1) = 2.718282
+// exp(_M_LN2) = 2
+// exp(M_LN10) = 10
+// exp(-0) = 1.000000
+// exp(-Inf) = 0.000000
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::log10(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:904: undefined reference to `log10'
@@ -110,6 +128,13 @@ double log10(double x) {
         1.0 / M_LN10  //  Constant
     ); 
 }
+// Examples:
+// log10(1000) = 3.000000
+// log10(0.001) = -3.000000
+// base-5 logarithm of 125 = 3.000000
+// log10(1) = 0.000000
+// log10(+Inf) = inf
+// log10(0) = -inf
 
 //  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
 //  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
@@ -121,6 +146,15 @@ double pow(double b, double x) {
         )        
     );
 }
+// Examples:
+// pow(2, 10) = 1024.000000
+// pow(2, 0.5) = 1.414214
+// pow(-2, -3) = -0.125000
+// pow(-1, NAN) = nan
+// pow(+1, NAN) = 1.000000
+// pow(INFINITY, 2) = inf
+// pow(INFINITY, -1) = 0.000000
+// pow(-1, 1/3) = -nan
 
 //  ldexp(x, ex) = x * pow(2, ex) 
 //               = x * exp(log(2) * ex)
@@ -132,26 +166,62 @@ double ldexp(double x, int ex) {
         )
     );
 }
+// Examples:
+// ldexp(7, -4) = 0.437500
+// ldexp(-0, 10) = -0.000000
+// ldexp(-Inf, -1) = -inf
+// ldexp(1, 1024) = inf
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:910: undefined reference to `sin'
 
 double sin(double x) { return qfp_fsin(x); }
+// Examples:
+// sin(pi/6) = 0.500000
+// sin(pi/2) = 1.000000
+// sin(-3*pi/4) = -0.707107
+// sin(+0) = 0.000000
+// sin(-0) = -0.000000
+// sin(INFINITY) = -nan
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::cos(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:913: undefined reference to `cos'
 
 double cos(double x) { return qfp_fcos(x); }
+// Examples:
+// cos(pi/3) = 0.500000
+// cos(pi/2) = 0.000000
+// cos(-3*pi/4) = -0.707107
+// cos(+0) = 1.000000
+// cos(-0) = 1.000000
+// cos(INFINITY) = -nan
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::tan(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:907: undefined reference to `tan'
 
 double tan(double x) { return qfp_ftan(x); }
+// Examples:
+// tan  (pi/4) = +1.000000
+// tan(3*pi/4) = -1.000000
+// tan(5*pi/4) = +1.000000
+// tan(7*pi/4) = -1.000000
+// tan(+0) = 0.000000
+// tan(-0) = -0.000000
+// tan(INFINITY) = -nan
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::atan(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:916: undefined reference to `atan'
 
 double atan2(double y, double x) { return qfp_fatan2( y, x ); }
+// Examples:
+// atan2(+1,+1) = 0.785398
+// atan2(+1,-1) = 2.356194
+// atan2(-1,-1) = -2.356194
+// atan2(-1,+1) = -0.785398
+// atan2(0, 0) = 0.000000 
+// atan2(0, -0)=3.141593
+// atan2(7, 0) = 1.570796 
+// atan2(7, -0)=1.570796
 
 ////  TODO: Confirm
 double atan(double y_over_x) {
@@ -169,6 +239,13 @@ double atan(double y_over_x) {
 
     return qfp_fatan2( y_over_x, 1 ); 
 }
+// Examples:
+// atan(1) = 0.785398
+// 4*atan(1)=3.141593
+// atan(Inf) = 1.570796
+// 2*atan(Inf) = 3.141593
+// atan(-0.0) = -0.000000
+// atan(+0.0) = +0.000000
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::asin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:919: undefined reference to `asin'
@@ -196,6 +273,13 @@ double asin(double x) {
         )
     );
 }
+// Examples:
+// asin( 1.0) = +1.570796
+// 2*asin( 1.0)=+3.141593
+// asin(-0.5) = -0.523599
+// 6*asin(-0.5)=-3.141593
+// asin(0.0) = 0.000000, asin(-0.0)=-0.000000
+// asin(1.1) = nan
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::acos(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:922: undefined reference to `acos'
@@ -225,6 +309,14 @@ double acos(double x) {
         qfp_fadd( 1 , x )
     );
 }
+// Examples:
+// acos(-1) = 3.141593
+// acos(0.0) = 1.570796 
+// 2*acos(0.0) = 3.141593
+// acos(0.5) = 1.047198 
+// 3*acos(0.5) = 3.141593
+// acos(1) = 0.000000
+// acos(1.1) = nan
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::trunc(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:934: undefined reference to `trunc'
