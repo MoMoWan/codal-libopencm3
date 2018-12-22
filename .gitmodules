@@ -1,0 +1,9 @@
+[submodule "lib/newlib"]
+	path = lib/newlib
+	url = https://github.com/lupyuen/newlib.git
+[submodule "lib/qfplib"]
+	path = lib/qfplib
+	url = https://github.com/lupyuen/qfplib.git
+[submodule "lib/codal-core"]
+	path = lib/codal-core
+	url = https://github.com/lancaster-university/codal-core.git
