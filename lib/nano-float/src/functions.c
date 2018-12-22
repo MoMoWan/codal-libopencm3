@@ -126,8 +126,10 @@ double tan(double x) { return qfp_ftan(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::atan(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:916: undefined reference to `atan'
 
-////  double atan(double x) { return (x); }
-double atan2(double x, double y) { return qfp_fatan2(x, y); }
+double atan2(double y, double x) { return qfp_fatan2(y, x); }
+
+////  TODO: Confirm
+double atan(double y_over_x)     { return qfp_fatan2(y_over_x, 1); }
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::asin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:919: undefined reference to `asin'
