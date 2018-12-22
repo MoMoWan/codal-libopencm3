@@ -263,7 +263,7 @@ double asin(double x) {
     if (qfp_fcmp(x,  1) > 0) { return NAN; }
     if (qfp_fcmp(x, -1) < 0) { return NAN; }
 
-    return arctan2(
+    return qfp_fatan2(
         x,
         qfp_fsqrt_fast(
             qfp_fsub(
@@ -299,7 +299,7 @@ double acos(double x) {
     if (qfp_fcmp(x,  1) > 0) { return NAN; }
     if (qfp_fcmp(x, -1) < 0) { return NAN; }
 
-    return 2 * atan2(
+    return 2 * qfp_fatan2(
         qfp_fsqrt_fast(
             qfp_fsub( 
                 1,
