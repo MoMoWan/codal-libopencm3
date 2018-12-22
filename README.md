@@ -46,43 +46,25 @@ Codal is also a build system to simplify as much as possible the experience of n
 
 The project may also be built in Visual Studio Code with PlatformIO extension for quick testing.
 
-To download this repository:
+1. Run these commands to download this repository:
 
 ```cmd
 git clone --recurse-submodules https://github.com/lupyuen/codal-libopencm3
 cd codal-libopencm3
+copy patches/codal-core/library.json lib/codal-core/
 ```
 
-Launch Visual Studio Code and open the workspace file `codal-libopencm3/workspace.code-workspace`
+1. On Mac and Linux, change `copy` to `cp`
 
-In Visual Studio Code, create the file `codal-libopencm3/lib/codal-core/library.json` with the following content:
+1. Launch Visual Studio Code and open the workspace file `codal-libopencm3/workspace.code-workspace`
 
-```json
-{
-    "name": "codal-core",
-    "frameworks": "libopencm3",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lancaster-university/codal-core"
-    },
-    "description": "Stub for compiling codal-core under PlatformIO",
-    "build": {        
-        "flags": [
-            "-Iinc -Iinc/core -Iinc/driver-models -Iinc/drivers -Iinc/streams -Iinc/types -Iinc/JACDAC"
-        ],
-        "srcFilter": [
-            "+<inc/*>",
-            "+<source/*>"
-        ]
-    }
-}
-```
+1. Install the PlatformIO extension for Visual Studio Code
 
-Click the PlatformIO `Build` command to build.  The main program used is located at `codal-libopencm3/src/main.cpp`.
+1. Click the PlatformIO `Build` command to build.  The main program used is located at `codal-libopencm3/src/main.cpp`.
 
 ## Running On Blue Pill
 
-You will need ST Link V2 to flash your Blue Pill with the built executable.  Follow the instructions here to flash and monitor your Blue Pill:
+You will need ST Link V2 to flash your Blue Pill with the built executable.  Follow the instructions here to flash and monitor your Blue Pill with PlatformIO:
 
 https://medium.com/coinmonks/connect-stm32-blue-pill-to-sigfox-28c6f91bddc1?source=friends_link&sk=d0f0d9f40e36badadfb04dc4c0846775
 
