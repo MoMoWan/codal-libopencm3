@@ -2,6 +2,57 @@
 #include <math.h>
 #include <qfplib.h>
 
+//  Run-time ABI for the ARM Architecture.  The function names are wrapped via "-Wl,-wrap,__aeabi..."
+//  in newlib/CMakeLists.txt.  See http://infocenter.arm.com/help/topic/com.arm.doc.ihi0043d/IHI0043D_rtabi.pdf
+
+//  double to integer C-style conversion
+int __wrap___aeabi_d2iz(double x)  { return qfp_float2int(x); }
+
+///////////////////////////////////////////////////////////////////////////////
+//  Table 2, Standard double precision floating-point arithmetic helper functions
+
+//  double-precision division, n / d
+double __wrap___aeabi_ddiv(double n, double d) { return qfp_fdiv_fast(n, d); }
+
+//  double-precision multiplication
+double __wrap___aeabi_dmul(double x, double y) { return qfp_fmul(x, y); }
+
+///////////////////////////////////////////////////////////////////////////////
+//  Table 3, double precision floating-point comparison helper functions
+
+//  result (1, 0) denotes (=, ?<>) [2], use for C == and !=
+int __wrap___aeabi_dcmpeq(double x, double y) { return qfp_fcmp(x, y); }
+
+//  result (1, 0) denotes (<, ?>=) [2], use for C <
+int __wrap___aeabi_dcmplt(double x, double y) { return qfp_fcmp(x, y); }
+
+//  result (1, 0) denotes (<=, ?>) [2], use for C <=
+int __wrap___aeabi_dcmple(double x, double y) { return qfp_fcmp(x, y); }
+
+//  result (1, 0) denotes (>=, ?<) [2], use for C >=
+int __wrap___aeabi_dcmpge(double x, double y) { return qfp_fcmp(x, y); }
+
+//  result (1, 0) denotes (>, ?<=) [2], use for C >
+int __wrap___aeabi_dcmpgt(double x, double y) { return qfp_fcmp(x, y); }
+
+//  result (1, 0) denotes (?, <=>) [2], use for C99 isunordered()
+int __wrap___aeabi_dcmpun(double x, double y) { return qfp_fcmp(x, y); }
+
+///////////////////////////////////////////////////////////////////////////////
+//  Table 4, Standard single precision floating-point arithmetic helper functions
+
+//  single-precision division, n / d
+float  __wrap___aeabi_fdiv(float  n, float d)  { return qfp_fdiv_fast(n, d); }
+
+///////////////////////////////////////////////////////////////////////////////
+//  Table 6, Standard floating-point to integer conversions
+
+//  double to unsigned C-style conversion
+unsigned __wrap___aeabi_d2uiz(double x) { return qfp_float2uint(x); }
+
+///////////////////////////////////////////////////////////////////////////////
+//  <math.h> Functions
+
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sqrt(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:925: undefined reference to `sqrt'
 
@@ -69,8 +120,9 @@ double atan2(double x, double y) { return qfp_fatan2(x, y); }
 
 ////  double trunc(double x) { return (x); }
 
+//  double fmod(double, double);
+
 //  TODO
-//double cosh(double x) { return (x); }
-//double sinh(double x) { return (x); }
-//double ldexp(double, int);
-//double fmod(double, double);
+//  double cosh(double x) { return (x); }
+//  double sinh(double x) { return (x); }
+//  double ldexp(double, int);
