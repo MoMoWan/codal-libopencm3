@@ -301,8 +301,64 @@ double ceil(double x) {
 // ceil(-2.4) = -2.0
 // ceil(-0.0) = -0.0
 
-////  double fmod(double, double) { return (x); }
+//  Computes the floating-point remainder of the division operation x/y
+//  i.e. x - n*y, where n is x/y with its fractional part truncated.
+double fmod(double x, double y) { 
+    // If either argument is NaN, NaN is returned
+    if (isnan(x) || isnan(y)) { return NAN; }
+
+    // If x is ±0 and y is not zero, ±0 is returned
+    if (qfp_fcmp(x, 0) == 0 && qfp_fcmp(y, 0) != 0) { return 0; }
+
+    // If x is ±∞ and y is not NaN, NaN is returned and FE_INVALID is raised
+    if (isinf(x) && !isnan(y)) { return NAN; }
+
+    // If y is ±0 and x is not NaN, NaN is returned and FE_INVALID is raised
+    if (qfp_fcmp(y, 0) == 0 && !isnan(x)) { return NAN; }
+
+    // If y is ±∞ and x is finite, x is returned.
+    if (isinf(y) && !isinf(x)) { return x; }
+
+    // From https://en.cppreference.com/w/c/numeric/math/fmod
+    double xabs = fabs(x);
+    double yabs = fabs(y);
+    // Was: double result = remainder(fabs(x), (y = fabs(y)));
+    double n = trunc(qfp_fdiv_fast(xabs, yabs));
+    double result = qfp_fsub(xabs, qfp_fmul(n, yabs));  //  x - n*y, always positive
+
+    // Was: if (signbit(result)) result += y;
+    if (qfp_fcmp(result, 0) < 0) { result += yabs; }
+
+    // Composes a floating point value with the magnitude of result and the sign of x.
+    // Was: return copysign(result, x);
+    return (qfp_fcmp(x, 0) < 0) ? -result : result;
+}
+// Examples:
+// fmod(+5.1, +3.0) = 2.1
+// fmod(-5.1, +3.0) = -2.1
+// fmod(+5.1, -3.0) = 2.1
+// fmod(-5.1, -3.0) = -2.1
+// fmod(+0.0, 1.0) = 0.0
+// fmod(-0.0, 1.0) = -0.0
+// fmod(+5.1, Inf) = 5.1
+// fmod(+5.1, 0) = nan
+
+//  Computes the absolute value of a floating point value arg.
+double fabs(double x) {
+    if (isnan(x) || isinf(x) || qfp_fcmp(x, 0) == 0) { return x; }
+    if (qfp_fcmp(x, 0) < 0) { return -x; }
+    return x;
+}
+//  Examples:
+//  fabs(+3) = 3.000000
+//  fabs(-3) = 3.000000
+//  fabs(-0) = 0.000000
+//  fabs(-Inf) = inf
 
 //  TODO: Support other functions
-//  double cosh(double x) { return (x); }
-//  double sinh(double x) { return (x); }
+//  Computes the floating-point remainder of the division operation x/y
+//  i.e. x - n*y, where the value n is the integral value nearest the exact value x/y
+//  double remainder(double x, double y)
+//  double cosh(double x)
+//  double sinh(double x)
+//  double tanh(double x)
