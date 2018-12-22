@@ -1,5 +1,5 @@
 # Build codal-libopencm3, the CODAL framework ported to libopencm3 for STM32 Blue Pill.
-# Also builds the libepencm3 and newlib libraries.
+# Also builds the libepencm3 and newlib libraries.  cmake version in Yotta Docker image in 3.8.2.
 project(codal-libopencm3)
 
 # enable verbose log. Must be after project()
