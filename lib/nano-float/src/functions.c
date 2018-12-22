@@ -1,22 +1,24 @@
 //  Rewrite standard C math functions with qfplib to reduce ROM size.
 #include <math.h>
 #include <qfplib.h>
+#define M_LN10		2.30258509299404568402  //  Natural log of 10
 #define M_PI_2		1.57079632679489661923  //  Pi divided by 2
 
 //  Run-time ABI for the ARM Architecture.  The function names are wrapped via "-Wl,-wrap,__aeabi..."
 //  in newlib/CMakeLists.txt.  See http://infocenter.arm.com/help/topic/com.arm.doc.ihi0043d/IHI0043D_rtabi.pdf
 
-//  double to integer C-style conversion
-int __wrap___aeabi_d2iz(double x)  { return qfp_float2int(x); }
-
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 2, Standard double precision floating-point arithmetic helper functions
 
 //  double-precision division, n / d
-double __wrap___aeabi_ddiv(double n, double d) { return qfp_fdiv_fast(n, d); }
+double __wrap___aeabi_ddiv(double n, double d) { 
+    return qfp_fdiv_fast(n, d); 
+}
 
 //  double-precision multiplication
-double __wrap___aeabi_dmul(double x, double y) { return qfp_fmul(x, y); }
+double __wrap___aeabi_dmul(double x, double y) { 
+    return qfp_fmul(x, y); 
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 3, double precision floating-point comparison helper functions
@@ -66,13 +68,22 @@ int __wrap___aeabi_dcmpun(double x, double y) {
 //  Table 4, Standard single precision floating-point arithmetic helper functions
 
 //  single-precision division, n / d
-float  __wrap___aeabi_fdiv(float  n, float d)  { return qfp_fdiv_fast(n, d); }
+float  __wrap___aeabi_fdiv(float  n, float d)  { 
+    return qfp_fdiv_fast(n, d); 
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 6, Standard floating-point to integer conversions
 
+//  double to integer C-style conversion
+int __wrap___aeabi_d2iz(double x) { 
+    return qfp_float2int(x); 
+}
+
 //  double to unsigned C-style conversion
-unsigned __wrap___aeabi_d2uiz(double x) { return qfp_float2uint(x); }
+unsigned __wrap___aeabi_d2uiz(double x) { 
+    return qfp_float2uint(x); 
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //  <math.h> Functions
@@ -94,24 +105,32 @@ double exp(double x) { return qfp_fexp(x); }
 //  log10(x) = ln(x) / ln(10)
 //  e.g. log10(1000) = ln(1000) / ln(10) = 3
 double log10(double x) { 
-    return qfp_fln(x) / qfp_fln(10); 
+    return qfp_fmul(
+        qfp_fln(x),
+        1.0 / M_LN10  //  Constant
+    ); 
 }
 
 //  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
 //  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
 double pow(double b, double x) { 
     return qfp_fexp(
-        qfp_fln(b) * x
+        qfp_fmul(
+            qfp_fln(b),
+            x
+        )        
     );
 }
 
 //  ldexp(x, ex) = x * pow(2, ex) 
 //               = x * exp(log(2) * ex)
 double ldexp(double x, int ex) {
-    return x * 
-        exp(
-            _M_LN2 * ex
-        );
+    return qfp_fmul(
+        x, 
+        qfp_fexp(
+            qfp_fmul( _M_LN2 , ex )
+        )
+    );
 }
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sin(pxt::TValueStruct*)':
@@ -170,7 +189,10 @@ double asin(double x) {
     return arctan2(
         x,
         qfp_fsqrt_fast(
-            1 - (x*x) 
+            qfp_fsub(
+                1,
+                qfp_fmul( x , x )
+            ) 
         )
     );
 }
@@ -182,7 +204,6 @@ double asin(double x) {
 //                      sqrt( 1 - x^2 ) /
 //                      ( 1 + x )
 //                  ) where -1 < x <= 1
-
 double acos(double x) {
     //  if the argument is NaN, NaN is returned
     if (isnan(x)) { return NAN; }
@@ -196,10 +217,25 @@ double acos(double x) {
 
     return 2 * atan2(
         qfp_fsqrt_fast(
-            1 - (x*x)
+            qfp_fsub( 
+                1,
+                qfp_fmul( x , x ) 
+            )
         ),
-        ( 1 + x )
+        qfp_fadd( 1 , x )
     );
+}
+
+// CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::trunc(pxt::TValueStruct*)':
+// /src/pxtapp/base/core.cpp:934: undefined reference to `trunc'
+
+//  Computes the nearest integer not greater in magnitude than x.
+//  TODO: Warn if number is out of 32-bit int range.
+double trunc(double x) { 
+    //  If arg is ±∞, it is returned, unmodified
+    //  If arg is ±0, it is returned, unmodified
+    //  If arg is NaN, NaN is returned
+    return (x); 
 }
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::floor(pxt::TValueStruct*)':
@@ -211,11 +247,6 @@ double acos(double x) {
 // /src/pxtapp/base/core.cpp:931: undefined reference to `ceil'
 
 ////  double ceil(double x) { return (x); }
-
-// CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::trunc(pxt::TValueStruct*)':
-// /src/pxtapp/base/core.cpp:934: undefined reference to `trunc'
-
-////  double trunc(double x) { return (x); }
 
 ////  double fmod(double, double) { return (x); }
 
