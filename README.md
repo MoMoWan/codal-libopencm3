@@ -51,10 +51,6 @@ To download this repository:
 ```cmd
 git clone --recurse-submodules https://github.com/lupyuen/codal-libopencm3
 cd codal-libopencm3
-
-cd lib
-git clone https://github.com/libopencm3/libopencm3
-cd ..
 ```
 
 Launch Visual Studio Code and open the workspace file `codal-libopencm3/workspace.code-workspace`
