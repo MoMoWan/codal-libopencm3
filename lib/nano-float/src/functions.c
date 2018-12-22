@@ -266,8 +266,9 @@ double floor(double x) {
     if (qfp_fcmp(x, 0) == 0) { return x; }
 
     //  If negative, truncate then subtract one: floor(-2.7) = -3.0
-    if (qfp_fcmp(x, 0) < 0) { return qfp_float2int(x) - 1; }
-    return qfp_float2int(x);
+    int truncated = qfp_float2int(x);
+    if (qfp_fcmp(truncated, x) > 0) { return truncated - 1; }
+    return truncated;
 }
 // Examples:
 // floor(+2.7) = +2.0
@@ -277,7 +278,28 @@ double floor(double x) {
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::ceil(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:931: undefined reference to `ceil'
 
-////  double ceil(double x) { return (x); }
+//  Computes the smallest integer value not less than arg.
+//  TODO: Warn if number is out of 32-bit int range.
+//  TODO: Test neg numbers.
+double ceil(double x) { 
+    //  If arg is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If arg is ±∞, it is returned, unmodified
+    if (isinf(x)) { return x; }
+
+    //  If arg is ±0, it is returned, unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If positive, truncate then add one: ceil(+2.4) = +3.0
+    int truncated = qfp_float2int(x);
+    if (qfp_fcmp(truncated, x) < 0) { return truncated + 1; }
+    return truncated;
+}
+// Examples:
+// ceil(+2.4) = +3.0
+// ceil(-2.4) = -2.0
+// ceil(-0.0) = -0.0
 
 ////  double fmod(double, double) { return (x); }
 
