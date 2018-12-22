@@ -159,10 +159,10 @@ message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
 
 # clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
 # TODO: "--branch" "${LIBOPENCM3_VERSION}" "--single-branch"
-execute_process(
-    WORKING_DIRECTORY "${LIB_DIR}" 
-    COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" 
-    OUTPUT_VARIABLE git_clone_libopencm3)
+# execute_process(
+#     WORKING_DIRECTORY "${LIB_DIR}" 
+#     COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" 
+#     OUTPUT_VARIABLE git_clone_libopencm3)
 
 # patch nvic.h, vector_nvic.c, which are auto-generated.  TODO: Allow other platforms besides STM32F1
 set(LIBOPENCM3_PATCH "${PATCHES_DIR}/libopencm3")
