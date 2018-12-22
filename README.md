@@ -49,19 +49,11 @@ The project may also be built in Visual Studio Code with PlatformIO extension fo
 To download this repository:
 
 ```cmd
-git clone https://github.com/lupyuen/codal-libopencm3
+git clone --recurse-submodules https://github.com/lupyuen/codal-libopencm3
 cd codal-libopencm3
 
 cd lib
-git clone https://github.com/lancaster-university/codal-core
-cd ..
-
-cd lib
 git clone https://github.com/libopencm3/libopencm3
-cd ..
-
-cd lib
-git clone https://github.com/lupyuen/newlib
 cd ..
 ```
 
