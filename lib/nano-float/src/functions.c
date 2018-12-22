@@ -109,7 +109,7 @@ double pow(double b, double x) {
 double ldexp(double x, int ex) {
     return x * 
         exp(
-            log(2) * ex
+            _M_LN2 * ex
         );
 }
 
@@ -134,7 +134,21 @@ double tan(double x) { return qfp_ftan(x); }
 double atan2(double y, double x) { return qfp_fatan2( y, x ); }
 
 ////  TODO: Confirm
-double atan(double y_over_x)     { return qfp_fatan2( y_over_x, 1 ); }
+double atan(double y_over_x) {
+    //  If the argument is NaN, NaN is returned
+    if (isnan(y_over_x)) { return NAN; }
+
+    //  If the argument is ±0, it is returned unmodified
+    if (qfp_fcmp(y_over_x, 0) == 0) { return y_over_x; }
+
+    //  If the argument is +∞, +π/2 is returned
+    //  TODO: if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) > 0) { return M_PI_2; }
+
+    //  If the argument is -∞, -π/2 is returned
+    //  TODO: if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) < 0) { return M_PI_2; }
+
+    return qfp_fatan2( y_over_x, 1 ); 
+}
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::asin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:919: undefined reference to `asin'
@@ -142,6 +156,16 @@ double atan(double y_over_x)     { return qfp_fatan2( y_over_x, 1 ); }
 //  arcsin(x) = arctan( x / sqrt( 1 - x^2 ) )
 //            = arctan2( x , sqrt( 1 - (x*x) ) )
 double asin(double x) { 
+    //  If the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If the argument is ±0, it is returned unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If |arg| > 1, a domain error occurs and NaN is returned.
+    if (qfp_fcmp(x,  1) > 0) { return NAN; }
+    if (qfp_fcmp(x, -1) < 0) { return NAN; }
+
     return arctan2(
         x,
         qfp_fsqrt_fast(
@@ -160,7 +184,7 @@ double asin(double x) {
 
 double acos(double x) {
     //  if the argument is NaN, NaN is returned
-    if (x == NAN) { return NAN; }
+    if (isnan(x)) { return NAN; }
 
     //  If the argument is +1, the value +0 is returned.
     if (qfp_fcmp(x, 1) == 0) { return 0; }
