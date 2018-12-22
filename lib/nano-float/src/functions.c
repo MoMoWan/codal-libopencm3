@@ -63,9 +63,13 @@ double sqrt(double x) { return qfp_fsqrt_fast(x); }
 
 ////  double trunc(double x) { return (x); }
 
+//  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
+//  e.g. pow(10, 3) = exp(log(10) * 3)
+
+double pow(double b, double x) { return qfp_fexp(qfp_fln(b) * x); }
+
 //double cosh(double x) { return (x); }
 //double sinh(double x) { return (x); }
 //double exp(double x) { return (x); }
 //double ldexp(double, int);
-//double pow(double, double);
 //double fmod(double, double);
