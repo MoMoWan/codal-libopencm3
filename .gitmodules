@@ -7,3 +7,6 @@
 [submodule "lib/codal-core"]
 	path = lib/codal-core
 	url = https://github.com/lancaster-university/codal-core.git
+[submodule "lib/libopencm3"]
+	path = lib/libopencm3
+	url = https://github.com/libopencm3/libopencm3
