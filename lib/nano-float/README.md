@@ -2,7 +2,6 @@
 
 - Direct replacement for standard C `<math.h>` and `libm.a` functions
 
-- Based on qflib: https://github.com/lupyuen/qfplib
+- Based on qfplib: https://github.com/lupyuen/qfplib
 
 - Warning: There will be loss of accuracy and deviations from IEEE standards. See https://www.quinapalus.com/qfplib.html
-
