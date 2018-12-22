@@ -231,17 +231,48 @@ double acos(double x) {
 
 //  Computes the nearest integer not greater in magnitude than x.
 //  TODO: Warn if number is out of 32-bit int range.
+//  TODO: Test neg numbers.
 double trunc(double x) { 
-    //  If arg is ±∞, it is returned, unmodified
-    //  If arg is ±0, it is returned, unmodified
     //  If arg is NaN, NaN is returned
-    return (x); 
+    if (isnan(x)) { return NAN; }
+
+    //  If arg is ±∞, it is returned, unmodified
+    if (isinf(x)) { return x; }
+
+    //  If arg is ±0, it is returned, unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    return qfp_float2int(x);
 }
+// Examples:
+// trunc(+2.7) = +2.0
+// trunc(-2.7) = -2.0
+// trunc(-0.0) = -0.0
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::floor(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:928: undefined reference to `floor'
 
-////  double floor(double x) { return (x); }
+//  Computes the largest integer value not greater than arg.
+//  TODO: Warn if number is out of 32-bit int range.
+//  TODO: Test neg numbers.
+double floor(double x) { 
+    //  If arg is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If arg is ±∞, it is returned, unmodified
+    if (isinf(x)) { return x; }
+
+    //  If arg is ±0, it is returned, unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If negative, truncate then subtract one: floor(-2.7) = -3.0
+    if (qfp_fcmp(x, 0) < 0) { return qfp_float2int(x) - 1; }
+    return qfp_float2int(x);
+}
+// Examples:
+// floor(+2.7) = +2.0
+// floor(-2.7) = -3.0
+// floor(-0.0) = -0.0
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::ceil(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:931: undefined reference to `ceil'
