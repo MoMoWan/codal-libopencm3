@@ -99,13 +99,18 @@ double log10(double x) {
 //  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
 //  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
 double pow(double b, double x) { 
-    return qfp_fexp( qfp_fln(b) * x ); 
+    return qfp_fexp(
+        qfp_fln(b) * x
+    );
 }
 
 //  ldexp(x, ex) = x * pow(2, ex) 
 //               = x * exp(log(2) * ex)
 double ldexp(double x, int ex) {
-    return x * exp( log(2) * ex );
+    return x * 
+        exp(
+            log(2) * ex
+        );
 }
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sin(pxt::TValueStruct*)':
@@ -126,15 +131,24 @@ double tan(double x) { return qfp_ftan(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::atan(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:916: undefined reference to `atan'
 
-double atan2(double y, double x) { return qfp_fatan2(y, x); }
+double atan2(double y, double x) { return qfp_fatan2( y, x ); }
 
 ////  TODO: Confirm
-double atan(double y_over_x)     { return qfp_fatan2(y_over_x, 1); }
+double atan(double y_over_x)     { return qfp_fatan2( y_over_x, 1 ); }
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::asin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:919: undefined reference to `asin'
 
-////  double asin(double x) { return (x); }
+//  arcsin(x) = arctan( x / sqrt( 1 - x^2 ) )
+//            = arctan2( x , sqrt( 1 - (x*x) ) )
+double asin(double x) { 
+    return arctan2(
+        x,
+        qfp_fsqrt_fast(
+            1 - (x*x) 
+        )
+    );
+}
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::acos(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:922: undefined reference to `acos'
