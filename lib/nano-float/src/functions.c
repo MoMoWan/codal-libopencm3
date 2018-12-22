@@ -33,25 +33,25 @@ int __wrap___aeabi_dcmpeq(double x, double y) {
 
 //  result (1, 0) denotes (<, ?>=) [2], use for C <
 int __wrap___aeabi_dcmplt(double x, double y) {
-    return (qfp_fcmp(x, y) == -1)  //  x < y
+    return (qfp_fcmp(x, y) < 0)  //  x < y
         ? 1 : 0;
 }
 
 //  result (1, 0) denotes (<=, ?>) [2], use for C <=
 int __wrap___aeabi_dcmple(double x, double y) { 
-    return (qfp_fcmp(x, y) == 1)  //  x > y
+    return (qfp_fcmp(x, y) > 0)  //  x > y
         ? 0 : 1; 
 }
 
 //  result (1, 0) denotes (>=, ?<) [2], use for C >=
 int __wrap___aeabi_dcmpge(double x, double y) { 
-    return (qfp_fcmp(x, y) == -1)  //  x < y
+    return (qfp_fcmp(x, y) < 0)  //  x < y
         ? 0 : 1; 
 }
 
 //  result (1, 0) denotes (>, ?<=) [2], use for C >
 int __wrap___aeabi_dcmpgt(double x, double y) { 
-    return (qfp_fcmp(x, y) == 1)  //  x > y
+    return (qfp_fcmp(x, y) > 0)  //  x > y
         ? 1 : 0; 
 }
 
@@ -153,7 +153,29 @@ double asin(double x) {
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::acos(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:922: undefined reference to `acos'
 
-////  double acos(double x) { return (x); }
+//  arccos(x) = 2 * arctan(
+//                      sqrt( 1 - x^2 ) /
+//                      ( 1 + x )
+//                  ) where -1 < x <= 1
+
+double acos(double x) {
+    //  if the argument is NaN, NaN is returned
+    if (x == NAN) { return NAN; }
+
+    //  If the argument is +1, the value +0 is returned.
+    if (qfp_fcmp(x, 1) == 0) { return 0; }
+
+    //  If |arg| > 1, a domain error occurs and NaN is returned.
+    if (qfp_fcmp(x,  1) > 0) { return NAN; }
+    if (qfp_fcmp(x, -1) < 0) { return NAN; }
+
+    return 2 * atan2(
+        qfp_fsqrt_fast(
+            1 - (x*x)
+        ),
+        ( 1 + x )
+    );
+}
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::floor(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:928: undefined reference to `floor'
