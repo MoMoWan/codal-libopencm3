@@ -1,6 +1,7 @@
 //  Rewrite standard C math functions with qfplib to reduce ROM size.
 #include <math.h>
 #include <qfplib.h>
+#define M_PI_2		1.57079632679489661923  //  Pi divided by 2
 
 //  Run-time ABI for the ARM Architecture.  The function names are wrapped via "-Wl,-wrap,__aeabi..."
 //  in newlib/CMakeLists.txt.  See http://infocenter.arm.com/help/topic/com.arm.doc.ihi0043d/IHI0043D_rtabi.pdf
@@ -142,10 +143,10 @@ double atan(double y_over_x) {
     if (qfp_fcmp(y_over_x, 0) == 0) { return y_over_x; }
 
     //  If the argument is +∞, +π/2 is returned
-    //  TODO: if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) > 0) { return M_PI_2; }
+    if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) > 0) { return M_PI_2; }
 
     //  If the argument is -∞, -π/2 is returned
-    //  TODO: if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) < 0) { return M_PI_2; }
+    if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) < 0) { return M_PI_2; }
 
     return qfp_fatan2( y_over_x, 1 ); 
 }
