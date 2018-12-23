@@ -1,4 +1,6 @@
-//  Unit Test for nano-float
+//  Unit Test for nano-float:
+//  cd /mnt/c/qemu_stm32 ; arm-softmmu/qemu-system-arm -M stm32-f103c8 -semihosting -kernel /mnt/c/codal-libopencm3/.pioenvs/bluepill_f103c8/firmware.bin
+//  cd C:\qemu_stm32 && arm-none-eabi-gdb -ex="target remote localhost:1234" /codal-libopencm3/.pioenvs/bluepill_f103c8/firmware.elf
 #ifdef UNIT_TEST
 #include <unity.h>
 #include <logger.h>
