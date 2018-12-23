@@ -38,7 +38,8 @@
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 //#define LOG DMESG
-#define LOG(...) ((void)0)
+//#define LOG(...) ((void)0)
+#define LOG(str, arg) { debug_println(str); debug_flush(); }
 
 namespace codal {
     namespace _cm {
@@ -174,7 +175,7 @@ namespace codal {
                                 uint32_t rxSize, PVoidCallback doneHandler, void *arg) {
             int res = HAL_OK;
             init();
-            LOG("SPI start %p/%d %p/%d D=%p", txBuffer, txSize, rxBuffer, rxSize, doneHandler);
+            ////LOG("SPI start %p/%d %p/%d D=%p", txBuffer, txSize, rxBuffer, rxSize, doneHandler);
             this->doneHandler = doneHandler;
             this->doneHandlerArg = arg;
             if (txSize && rxSize) {

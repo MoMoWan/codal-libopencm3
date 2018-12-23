@@ -13,7 +13,6 @@
 using namespace codal;
 
 void Blink_main(codal::STM32BluePill& bluepill);
-STM32BluePill bluepill;
 
 //  From /framework-libopencm3/lib/cm3/vector.c
 #include <libopencm3/cm3/scb.h>
@@ -54,11 +53,14 @@ void custom_reset_handler() {
 }
 
 int main() {
-    custom_reset_handler(); ////
+    // custom_reset_handler(); ////
 
     //  Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
-    bluepill.enableDebug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-    //  bluepill.disableDebug();  //  Uncomment to disable display of debug messages.  For use in production devices.
+    target_enable_debug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
+    //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
+
+    //  Blue Pill constructor will generate debug messages, so we construct after enabling debug.
+    STM32BluePill bluepill;
     bluepill.init();
     Blink_main(bluepill);
 }
