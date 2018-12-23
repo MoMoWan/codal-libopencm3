@@ -12,11 +12,19 @@ uint8_t *get_float_usage(uint16_t *size);
 volatile double x = 0, y = 0, r = 0;
 
 void test_sqrt(void) {
-    //  TEST_ASSERT_DOUBLE_WITHIN
+    //  TODO: TEST_ASSERT_DOUBLE_WITHIN
     //  Must use x because compiler will optimise all constants.
-    x = 100; TEST_ASSERT_EQUAL_DOUBLE(10.000000, sqrt(x));
-    TEST_ASSERT_EQUAL_DOUBLE(1.414214, sqrt(2));
-    TEST_ASSERT_EQUAL_DOUBLE(0.000000, sqrt(0));
+    x = 100; r = sqrt(x); TEST_ASSERT_EQUAL_DOUBLE(10.000000, r);
+    x = 2; TEST_ASSERT_EQUAL_DOUBLE(1.414214, sqrt(x));
+    x = 0; TEST_ASSERT_EQUAL_DOUBLE(0.000000, sqrt(x));
+}
+
+void test_aeabi_ddiv(void) {
+    x = 2205.1969; y = 270.8886; r = x / y; TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105, r );
+}
+
+void test_aeabi_dmul(void) {
+    x = 2205.1969; y = 270.8886; r = x * y; TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534, r );
 }
 
 int test_nanofloat(void) {
