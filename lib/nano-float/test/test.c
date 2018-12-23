@@ -30,10 +30,12 @@ void test_aeabi_dmul(void) {
 int test_nanofloat(void) {
     debug_flush();
     UNITY_BEGIN();
-    RUN_TEST(test_sqrt);
-    int fails = UNITY_END();
-    debug_flush();
 
+    RUN_TEST(test_sqrt);
+    RUN_TEST(test_aeabi_ddiv);
+    RUN_TEST(test_aeabi_dmul);
+
+    int fails = UNITY_END(); debug_flush();
     uint16_t size = 0;
     uint8_t *float_usage = get_float_usage(&size);
     if (float_usage != NULL && size < 1000) {
