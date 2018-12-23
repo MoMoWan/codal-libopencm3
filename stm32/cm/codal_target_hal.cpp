@@ -318,6 +318,7 @@ void test_codal() {
 	debug_print(", size: "); debug_print((size_t) size);
 	debug_print(", stack used: "); debug_println((size_t) 
         ((PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - get_current_sp()));
+    debug_flush();
 }
 
 //  Handle exit.  From https://arobenko.gitbooks.io/bare_metal_cpp/content/compiler_output/static.html.

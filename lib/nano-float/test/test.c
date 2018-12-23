@@ -20,6 +20,7 @@ void test_sqrt(void) {
 }
 
 int test_nanofloat(void) {
+    debug_flush();
     UNITY_BEGIN();
     RUN_TEST(test_sqrt);
     int fails = UNITY_END();
