@@ -15,10 +15,39 @@ using namespace codal;
 void Blink_main(codal::STM32BluePill& bluepill);
 STM32BluePill bluepill;
 
+//  From /framework-libopencm3/lib/cm3/vector.c
+#include <libopencm3/cm3/scb.h>
+/* Symbols exported by the linker script(s): */
+extern unsigned _data_loadaddr, _edata, _ebss;
+typedef void (*funcp_t) (void);
+extern funcp_t __preinit_array_start, __preinit_array_end;
+extern funcp_t __init_array_start, __init_array_end;
+extern funcp_t __fini_array_start, __fini_array_end;
+void custom_reset_handler() {
+    volatile unsigned *src, *dest;
+	funcp_t *fp;
+
+	for (src = &_data_loadaddr, dest = (volatile unsigned *) &_data;
+		dest < &_edata;
+		src++, dest++) {
+		*dest = *src;
+	}
+
+	while (dest < &_ebss) {
+		*dest++ = 0;
+	}
+
+	/* Ensure 8-byte alignment of stack pointer on interrupts */
+	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
+	SCB_CCR |= SCB_CCR_STKALIGN;
+}
+
 int main() {
+    custom_reset_handler(); ////
+
     //  Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
-    //  bluepill.enableDebug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-    bluepill.disableDebug();  //  Uncomment to disable display of debug messages.  For use in production devices.
+    bluepill.enableDebug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    //  bluepill.disableDebug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     bluepill.init();
     Blink_main(bluepill);
 }
@@ -49,7 +78,7 @@ void Blink_main(codal::STM32BluePill& bluepill) {
 
         //  At t = 20 seconds, enter deep sleep standby mode.  Don't enter deep sleep too soon, because Blue Pill will not allow reflashing while sleeping.
         //  if (counter == 20) { target_enter_deep_sleep_standby_mode(); }
-        
+
         //  At t = 30 seconds, device should wakeup by alarm and restart as though t = 0.
     }
 }
