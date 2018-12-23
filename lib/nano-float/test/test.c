@@ -8,6 +8,7 @@
 #include <logger.h>
 #include <math.h>
 
+uint8_t *get_float_usage(uint16_t *size);
 volatile double x = 0, y = 0, r = 0;
 
 void test_sqrt(void) {
@@ -23,6 +24,18 @@ int test_nanofloat(void) {
     RUN_TEST(test_sqrt);
     int fails = UNITY_END();
     debug_flush();
+
+    uint16_t size = 0;
+    uint8_t *float_usage = get_float_usage(&size);
+    if (float_usage != NULL && size < 1000) {
+        uint16_t i = 0;
+        for (i = 0; i < size; i++) {
+            if (float_usage[i] == 0) { continue; }
+            debug_printhex(i); debug_print(" > "); 
+            debug_printhex(float_usage[i]); debug_print(" / ");
+        }
+        debug_println(""); debug_flush();
+    }
     //  Crash and exit.
     rtc_awake_from_off(LSE);
     return fails;
