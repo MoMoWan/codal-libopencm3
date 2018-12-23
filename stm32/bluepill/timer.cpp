@@ -10,6 +10,25 @@
 #include <logger.h>
 #include "bluepill.h"
 
+//  Select Oscillator for the realtime clock: 
+//  RCC_HSE: 62.5 kHz, fastest oscillator, doesn't work in Stop or Standby Low Power mode. 
+//  RCC_LSE: 32.768 kHz, slowest oscillator, works in Stop or Standby Low Power mode. 
+//  RCC_LSI: 40 kHz, works in Stop or Standby Low Power mode. 
+//  We choose RCC_LSE because it can be used to wake up in Low Power mode.
+	
+#ifdef LIBOPENCM3_RCC_LEGACY  //  If using older version of libopencm3 (PlatformIO)...
+const rcc_osc clock_source = LSE;         //  Oscillator is named LSE.
+//  const rcc_osc clock_source = HSE;     //  Oscillator is named HSE.
+#else                         //  If using newer version of libopencm3 (Codal)...
+const rcc_osc clock_source = RCC_LSE;     //  Oscillator is named RCC_LSE.
+//  const rcc_osc clock_source = RCC_HSE; //  Oscillator is named RCC_HSE.
+#endif  //  LIBOPENCM3_RCC_LEGACY
+
+//  Set the clock prescaling value, so that we will get a tick interrupt every 1 millisecond. Dependent on LSE or HSE clock selection.
+const uint32_t prescale = 32;        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
+// const uint32_t prescale = 62;     //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
+// const uint32_t prescale = 62500;  //  For RCC_HSE: 1 second tick
+
 //  This is the tick function we will call every millisecond.  
 //  Usually points to os_tick() in cocoOS.
 static void (*tickFunc)(void) = NULL;
@@ -18,30 +37,26 @@ static volatile uint32_t alarmCount = 0;  //  Number of alarms elapsed.
 
 static void rtc_setup(void) {
 	//  Setup RTC interrupts for tick and alarm wakeup.
+	debug_println("rtc awake..."); debug_flush(); //  rtc_awake_from_off() fails on qemu.
+
+	//  From: https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f1/stm32vl-discovery/rtc/rtc.c
+	//  rtc_auto_awake(): If the RTC is pre-configured just allow access, don't reconfigure.
+	//  Otherwise enable it with the clock source and set the prescale value.
+	//  rtc_auto_awake(clock_source, prescale);
+
+	//  rtc_auto_awake() will not reset the RTC when you press the RST button.
+	//  It will also continue to count while the MCU is held in reset. If
+	//  you want it to reset, comment out the above and use the following:
+	rtc_awake_from_off(clock_source);  //  This will enable RTC.
+	rtc_set_prescale_val(prescale);
+	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
+
+	//  RTC should already be enabled in rtc_awake_from_off().
 	rcc_enable_rtc_clock();
 	rtc_interrupt_disable(RTC_SEC);
 	rtc_interrupt_disable(RTC_ALR);
 	rtc_interrupt_disable(RTC_OW);
-	debug_println("rtc awake..."); debug_flush(); //  rtc_awake_from_off() fails on qemu.
-
-	//  Select Oscillator: 
-	//  RCC_HSE: 62.5 kHz, fastest oscillator, doesn't work in Stop or Standby Low Power mode. 
-	//  RCC_LSE: 32.768 kHz, slowest oscillator, works in Stop or Standby Low Power mode. 
-	//  RCC_LSI: 40 kHz, works in Stop or Standby Low Power mode. 
-	//  We choose RCC_LSE because it can be used to wake up in Low Power mode.
-#ifdef LIBOPENCM3_RCC_LEGACY      //  If using older version of libopencm3 (PlatformIO)...
-	rtc_awake_from_off(LSE);      //  Oscillator is named LSE.
-	// rtc_awake_from_off(HSE);   //  Oscillator is named HSE.
-#else                             //  If using newer version of libopencm3 (Codal)...
-	rtc_awake_from_off(RCC_LSE);  //  Oscillator is named RCC_LSE.
-	// rtc_awake_from_off(RCC_HSE);  //  Oscillator is named RCC_HSE.
-#endif  //  LIBOPENCM3_RCC_LEGACY
-	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 	
-	rtc_set_prescale_val(32);        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
-	// rtc_set_prescale_val(62);     //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
-	// rtc_set_prescale_val(62500);  //  For RCC_HSE: 1 second tick
-
 	rtc_set_counter_val(1);  //  Start counting millisecond ticks from 1 so we won't trigger alarm.
 	rtc_set_alarm_time(0);   //  Reset alarm to 0.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup.

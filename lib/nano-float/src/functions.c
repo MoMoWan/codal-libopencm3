@@ -180,6 +180,7 @@ double exp(double x) {
 //  log10(x) = ln(x) / ln(10)
 //  e.g. log10(1000) = ln(1000) / ln(10) = 3
 double log10(double x) { 
+    float_usage[USAGE_LOG10]++;
     return qfp_fmul(
         qfp_fln(x),
         1.0 / M_LN10  //  Constant
@@ -196,6 +197,7 @@ double log10(double x) {
 //  pow(b, x) = pow(e, log(b) * x) = exp(log(b) * x)
 //  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
 double pow(double b, double x) { 
+    float_usage[USAGE_POW]++;
     return qfp_fexp(
         qfp_fmul(
             qfp_fln(b),
@@ -216,6 +218,7 @@ double pow(double b, double x) {
 //  ldexp(x, ex) = x * pow(2, ex) 
 //               = x * exp(log(2) * ex)
 double ldexp(double x, int ex) {
+    float_usage[USAGE_LDEXP]++;
     return qfp_fmul(
         x, 
         qfp_fexp(
@@ -232,7 +235,10 @@ double ldexp(double x, int ex) {
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sin(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:910: undefined reference to `sin'
 
-double sin(double x) { return qfp_fsin(x); }
+double sin(double x) { 
+    float_usage[USAGE_SIN]++;
+    return qfp_fsin(x); 
+}
 // Examples:
 // sin(pi/6) = 0.500000
 // sin(pi/2) = 1.000000
@@ -244,7 +250,10 @@ double sin(double x) { return qfp_fsin(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::cos(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:913: undefined reference to `cos'
 
-double cos(double x) { return qfp_fcos(x); }
+double cos(double x) { 
+    float_usage[USAGE_COS]++;
+    return qfp_fcos(x); 
+}
 // Examples:
 // cos(pi/3) = 0.500000
 // cos(pi/2) = 0.000000
@@ -256,7 +265,10 @@ double cos(double x) { return qfp_fcos(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::tan(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:907: undefined reference to `tan'
 
-double tan(double x) { return qfp_ftan(x); }
+double tan(double x) { 
+    float_usage[USAGE_TAN]++;
+    return qfp_ftan(x); 
+}
 // Examples:
 // tan  (pi/4) = +1.000000
 // tan(3*pi/4) = -1.000000
@@ -269,7 +281,10 @@ double tan(double x) { return qfp_ftan(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::atan(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:916: undefined reference to `atan'
 
-double atan2(double y, double x) { return qfp_fatan2( y, x ); }
+double atan2(double y, double x) { 
+    float_usage[USAGE_ATAN2]++;
+    return qfp_fatan2( y, x ); 
+}
 // Examples:
 // atan2(+1,+1) = 0.785398
 // atan2(+1,-1) = 2.356194
@@ -282,6 +297,7 @@ double atan2(double y, double x) { return qfp_fatan2( y, x ); }
 
 ////  TODO: Confirm
 double atan(double y_over_x) {
+    float_usage[USAGE_ATAN]++;
     //  If the argument is NaN, NaN is returned
     if (isnan(y_over_x)) { return NAN; }
 
@@ -310,6 +326,7 @@ double atan(double y_over_x) {
 //  arcsin(x) = arctan( x / sqrt( 1 - x^2 ) )
 //            = arctan2( x , sqrt( 1 - (x*x) ) )
 double asin(double x) { 
+    float_usage[USAGE_ASIN]++;
     //  If the argument is NaN, NaN is returned
     if (isnan(x)) { return NAN; }
 
@@ -346,6 +363,7 @@ double asin(double x) {
 //                      ( 1 + x )
 //                  ) where -1 < x <= 1
 double acos(double x) {
+    float_usage[USAGE_ACOS]++;
     //  if the argument is NaN, NaN is returned
     if (isnan(x)) { return NAN; }
 
@@ -382,6 +400,7 @@ double acos(double x) {
 //  TODO: Warn if number is out of 32-bit int range.
 //  TODO: Test neg numbers.
 double trunc(double x) { 
+    float_usage[USAGE_TRUNC]++;
     //  If arg is NaN, NaN is returned
     if (isnan(x)) { return NAN; }
 
@@ -405,6 +424,7 @@ double trunc(double x) {
 //  TODO: Warn if number is out of 32-bit int range.
 //  TODO: Test neg numbers.
 double floor(double x) { 
+    float_usage[USAGE_FLOOR]++;
     //  If arg is NaN, NaN is returned
     if (isnan(x)) { return NAN; }
 
@@ -431,6 +451,7 @@ double floor(double x) {
 //  TODO: Warn if number is out of 32-bit int range.
 //  TODO: Test neg numbers.
 double ceil(double x) { 
+    float_usage[USAGE_CEIL]++;
     //  If arg is NaN, NaN is returned
     if (isnan(x)) { return NAN; }
 
@@ -453,6 +474,7 @@ double ceil(double x) {
 //  Computes the floating-point remainder of the division operation x/y
 //  i.e. x - n*y, where n is x/y with its fractional part truncated.
 double fmod(double x, double y) { 
+    float_usage[USAGE_FMOD]++;
     // If either argument is NaN, NaN is returned
     if (isnan(x) || isnan(y)) { return NAN; }
 
@@ -494,6 +516,7 @@ double fmod(double x, double y) {
 
 //  Computes the absolute value of a floating point value arg.
 double fabs(double x) {
+    float_usage[USAGE_FABS]++;
     if (isnan(x) || isinf(x) || qfp_fcmp(x, 0) == 0) { return x; }
     if (qfp_fcmp(x, 0) < 0) { return -x; }
     return x;
@@ -511,21 +534,3 @@ double fabs(double x) {
 //  double cosh(double x)
 //  double sinh(double x)
 //  double tanh(double x)
-
-/*
-    float_usage[USAGE_LOG10]++;
-    float_usage[USAGE_POW]++;
-    float_usage[USAGE_LDEXP]++;
-    float_usage[USAGE_SIN]++;
-    float_usage[USAGE_COS]++;
-    float_usage[USAGE_TAN]++;
-    float_usage[USAGE_ATAN2]++;
-    float_usage[USAGE_ATAN]++;
-    float_usage[USAGE_ASIN]++;
-    float_usage[USAGE_ACOS]++;
-    float_usage[USAGE_TRUNC]++;
-    float_usage[USAGE_FLOOR]++;
-    float_usage[USAGE_CEIL]++;
-    float_usage[USAGE_FMOD]++;
-    float_usage[USAGE_FABS]++;
-*/

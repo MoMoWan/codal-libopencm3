@@ -55,7 +55,7 @@ void target_init(void) {
     //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
 
     //  Init the platform, cocoOS and create any system objects.
-    platform_setup();  //  Arduino or STM32 platform setup.
+    platform_setup();  //  STM32 platform setup.
     os_init();         //  Init cocoOS before creating any multitasking objects.
     // init_irqs();  //  Init the interrupt routines.
 
