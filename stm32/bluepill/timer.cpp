@@ -7,6 +7,7 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/exti.h>
 #include <libopencm3/cm3/nvic.h>
+#include <logger.h>
 #include "bluepill.h"
 
 //  This is the tick function we will call every millisecond.  
@@ -21,6 +22,7 @@ static void rtc_setup(void) {
 	rtc_interrupt_disable(RTC_SEC);
 	rtc_interrupt_disable(RTC_ALR);
 	rtc_interrupt_disable(RTC_OW);
+	debug_println("rtc awake..."); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 
 	//  Select Oscillator: 
 	//  RCC_HSE: 62.5 kHz, fastest oscillator, doesn't work in Stop or Standby Low Power mode. 
@@ -34,6 +36,7 @@ static void rtc_setup(void) {
 	rtc_awake_from_off(RCC_LSE);  //  Oscillator is named RCC_LSE.
 	// rtc_awake_from_off(RCC_HSE);  //  Oscillator is named RCC_HSE.
 #endif  //  LIBOPENCM3_RCC_LEGACY
+	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 	
 	rtc_set_prescale_val(32);        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
 	// rtc_set_prescale_val(62);     //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)

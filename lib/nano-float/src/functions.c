@@ -1,8 +1,45 @@
 //  Rewrite standard C math functions with qfplib to reduce ROM size.
+#include <stdint.h>
 #include <math.h>
 #include <qfplib.h>
 #define M_LN10		2.30258509299404568402  //  Natural log of 10
 #define M_PI_2		1.57079632679489661923  //  Pi divided by 2
+
+enum float_usage_index {
+    FIRST_USAGE_INDEX = 0,
+    USAGE_AEABI_DDIV,
+    USAGE_AEABI_DMUL,
+    USAGE_AEABI_DCMPEQ,
+    USAGE_AEABI_DCMPLT,
+    USAGE_AEABI_DCMPLE,
+    USAGE_AEABI_DCMPGE,
+    USAGE_AEABI_DCMPGT,
+    USAGE_AEABI_DCMPUN,
+    USAGE_AEABI_FDIV,
+    USAGE_AEABI_D2IZ,
+    USAGE_AEABI_D2UIZ,
+    USAGE_SQRT,
+    USAGE_LOG,
+    USAGE_EXP,
+    USAGE_LOG10,
+    USAGE_POW,
+    USAGE_LDEXP,
+    USAGE_SIN,
+    USAGE_COS,
+    USAGE_TAN,
+    USAGE_ATAN2,
+    USAGE_ATAN,
+    USAGE_ASIN,
+    USAGE_ACOS,
+    USAGE_TRUNC,
+    USAGE_FLOOR,
+    USAGE_CEIL,
+    USAGE_FMOD,
+    USAGE_FABS,
+    LAST_FLOAT_USAGE_INDEX
+};
+
+uint8_t float_usage[LAST_FLOAT_USAGE_INDEX];
 
 //  Run-time ABI for the ARM Architecture.  The function names are wrapped via "-Wl,-wrap,__aeabi..."
 //  in newlib/CMakeLists.txt.  See http://infocenter.arm.com/help/topic/com.arm.doc.ihi0043d/IHI0043D_rtabi.pdf
@@ -12,11 +49,13 @@
 
 //  double-precision division, n / d
 double __wrap___aeabi_ddiv(double n, double d) { 
+    float_usage[USAGE_AEABI_DDIV]++;
     return qfp_fdiv_fast(n, d); 
 }
 
 //  double-precision multiplication
 double __wrap___aeabi_dmul(double x, double y) { 
+    float_usage[USAGE_AEABI_DMUL]++;
     return qfp_fmul(x, y); 
 }
 
@@ -30,36 +69,42 @@ double __wrap___aeabi_dmul(double x, double y) {
 
 //  result (1, 0) denotes (=, ?<>) [2], use for C == and !=
 int __wrap___aeabi_dcmpeq(double x, double y) {
+    float_usage[USAGE_AEABI_DCMPEQ]++;
     return (qfp_fcmp(x, y) == 0)  //  x == y
         ? 1 : 0;
 }
 
 //  result (1, 0) denotes (<, ?>=) [2], use for C <
 int __wrap___aeabi_dcmplt(double x, double y) {
+    float_usage[USAGE_AEABI_DCMPLT]++;
     return (qfp_fcmp(x, y) < 0)  //  x < y
         ? 1 : 0;
 }
 
 //  result (1, 0) denotes (<=, ?>) [2], use for C <=
 int __wrap___aeabi_dcmple(double x, double y) { 
+    float_usage[USAGE_AEABI_DCMPLE]++;
     return (qfp_fcmp(x, y) > 0)  //  x > y
         ? 0 : 1; 
 }
 
 //  result (1, 0) denotes (>=, ?<) [2], use for C >=
 int __wrap___aeabi_dcmpge(double x, double y) { 
+    float_usage[USAGE_AEABI_DCMPGE]++;
     return (qfp_fcmp(x, y) < 0)  //  x < y
         ? 0 : 1; 
 }
 
 //  result (1, 0) denotes (>, ?<=) [2], use for C >
 int __wrap___aeabi_dcmpgt(double x, double y) { 
+    float_usage[USAGE_AEABI_DCMPGT]++;
     return (qfp_fcmp(x, y) > 0)  //  x > y
         ? 1 : 0; 
 }
 
 //  result (1, 0) denotes (?, <=>) [2], use for C99 isunordered()
 int __wrap___aeabi_dcmpun(double x, double y) { 
+    float_usage[USAGE_AEABI_DCMPUN]++;
     return (qfp_fcmp(x, y) == 0)  //  x == y
         ? 0 : 1;
 }
@@ -69,6 +114,7 @@ int __wrap___aeabi_dcmpun(double x, double y) {
 
 //  single-precision division, n / d
 float  __wrap___aeabi_fdiv(float  n, float d)  { 
+    float_usage[USAGE_AEABI_FDIV]++;
     return qfp_fdiv_fast(n, d); 
 }
 
@@ -77,11 +123,13 @@ float  __wrap___aeabi_fdiv(float  n, float d)  {
 
 //  double to integer C-style conversion
 int __wrap___aeabi_d2iz(double x) { 
+    float_usage[USAGE_AEABI_D2IZ]++;
     return qfp_float2int(x); 
 }
 
 //  double to unsigned C-style conversion
 unsigned __wrap___aeabi_d2uiz(double x) { 
+    float_usage[USAGE_AEABI_D2UIZ]++;
     return qfp_float2uint(x); 
 }
 
@@ -91,7 +139,10 @@ unsigned __wrap___aeabi_d2uiz(double x) {
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::sqrt(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:925: undefined reference to `sqrt'
 
-double sqrt(double x) { return qfp_fsqrt_fast(x); }
+double sqrt(double x) { 
+    float_usage[USAGE_SQRT]++;
+    return qfp_fsqrt_fast(x); 
+}
 // Examples:
 // sqrt(100) = 10.000000
 // sqrt(2) = 1.414214
@@ -101,7 +152,10 @@ double sqrt(double x) { return qfp_fsqrt_fast(x); }
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::log(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:901: undefined reference to `log'
 
-double log(double x) { return qfp_fln(x); }
+double log(double x) { 
+    float_usage[USAGE_LOG]++;
+    return qfp_fln(x); 
+}
 // Examples:
 // log(1) = 0.000000
 // log(2) = _M_LN2
@@ -109,7 +163,10 @@ double log(double x) { return qfp_fln(x); }
 // log(+Inf) = inf
 // log(0) = -inf
 
-double exp(double x) { return qfp_fexp(x); }
+double exp(double x) { 
+    float_usage[USAGE_EXP]++;
+    return qfp_fexp(x); 
+}
 // Examples:
 // exp(1) = 2.718282
 // exp(_M_LN2) = 2
@@ -454,3 +511,21 @@ double fabs(double x) {
 //  double cosh(double x)
 //  double sinh(double x)
 //  double tanh(double x)
+
+/*
+    float_usage[USAGE_LOG10]++;
+    float_usage[USAGE_POW]++;
+    float_usage[USAGE_LDEXP]++;
+    float_usage[USAGE_SIN]++;
+    float_usage[USAGE_COS]++;
+    float_usage[USAGE_TAN]++;
+    float_usage[USAGE_ATAN2]++;
+    float_usage[USAGE_ATAN]++;
+    float_usage[USAGE_ASIN]++;
+    float_usage[USAGE_ACOS]++;
+    float_usage[USAGE_TRUNC]++;
+    float_usage[USAGE_FLOOR]++;
+    float_usage[USAGE_CEIL]++;
+    float_usage[USAGE_FMOD]++;
+    float_usage[USAGE_FABS]++;
+*/

@@ -1,5 +1,6 @@
 //  Main Application.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
 #include <newlib-force.h>  //  Force newlib to be included for build
+#include <qfplib.h>        //  Force qfplib to be included for build
 #include <nano-float.h>    //  Force nano-float to be included for build
 #include "STM32BluePill.h"
 #include <logger.h>
@@ -13,44 +14,6 @@
 using namespace codal;
 
 void Blink_main(codal::STM32BluePill& bluepill);
-
-//  From /framework-libopencm3/lib/cm3/vector.c
-#include <libopencm3/cm3/scb.h>
-/* Symbols exported by the linker script(s): */
-extern unsigned _data_loadaddr, _edata, _ebss;
-typedef void (*funcp_t) (void);
-extern funcp_t __preinit_array_start, __preinit_array_end;
-extern funcp_t __init_array_start, __init_array_end;
-extern funcp_t __fini_array_start, __fini_array_end;
-void custom_reset_handler() {
-    volatile unsigned *src, *dest;
-	funcp_t *fp;
-
-	for (src = &_data_loadaddr, dest = (volatile unsigned *) &_data;
-		dest < &_edata;
-		src++, dest++) {
-		*dest = *src;
-	}
-
-	while (dest < &_ebss) {
-		*dest++ = 0;
-	}
-
-	/* Ensure 8-byte alignment of stack pointer on interrupts */
-	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
-	SCB_CCR |= SCB_CCR_STKALIGN;
-
-	/* might be provided by platform specific vector.c */
-	// pre_main();
-
-	/* Constructors. */
-	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
-		(*fp)();
-	}
-	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
-		(*fp)();
-	}
-}
 
 int main() {
     // custom_reset_handler(); ////
@@ -95,3 +58,44 @@ void Blink_main(codal::STM32BluePill& bluepill) {
         //  At t = 30 seconds, device should wakeup by alarm and restart as though t = 0.
     }
 }
+
+#ifdef NOTUSED
+//  From /framework-libopencm3/lib/cm3/vector.c
+#include <libopencm3/cm3/scb.h>
+/* Symbols exported by the linker script(s): */
+extern unsigned _data_loadaddr, _edata, _ebss;
+typedef void (*funcp_t) (void);
+extern funcp_t __preinit_array_start, __preinit_array_end;
+extern funcp_t __init_array_start, __init_array_end;
+extern funcp_t __fini_array_start, __fini_array_end;
+void custom_reset_handler() {
+    volatile unsigned *src, *dest;
+	funcp_t *fp;
+
+	for (src = &_data_loadaddr, dest = (volatile unsigned *) &_data;
+		dest < &_edata;
+		src++, dest++) {
+		*dest = *src;
+	}
+
+	while (dest < &_ebss) {
+		*dest++ = 0;
+	}
+
+	/* Ensure 8-byte alignment of stack pointer on interrupts */
+	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
+	SCB_CCR |= SCB_CCR_STKALIGN;
+
+	/* might be provided by platform specific vector.c */
+	// pre_main();
+
+	/* Constructors. */
+	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
+		(*fp)();
+	}
+	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
+		(*fp)();
+	}
+}
+
+#endif  //  NOTUSED
