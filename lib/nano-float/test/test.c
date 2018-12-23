@@ -8,9 +8,12 @@
 #include <logger.h>
 #include <math.h>
 
+volatile double x = 0, y = 0, r = 0;
+
 void test_sqrt(void) {
     //  TEST_ASSERT_DOUBLE_WITHIN
-    TEST_ASSERT_EQUAL_DOUBLE(10.000000, sqrt(100));
+    //  Must use x because compiler will optimise all constants.
+    x = 100; TEST_ASSERT_EQUAL_DOUBLE(10.000000, sqrt(x));
     TEST_ASSERT_EQUAL_DOUBLE(1.414214, sqrt(2));
     TEST_ASSERT_EQUAL_DOUBLE(0.000000, sqrt(0));
 }
