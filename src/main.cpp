@@ -6,14 +6,16 @@
 #include "STM32BluePill.h"
 #include <logger.h>
 
-#ifdef PLATFORMIO  //  If building on PlatformIO...
+#ifdef PLATFORMIO    //  If building on PlatformIO...
 #include "i2cint.h"  //  Force I2C Interface to be included for PlatformIO build.
 #include "spiint.h"  //  Force SPI Interface to be included for PlatformIO build.
 #include "adcint.h"  //  Force ADC Interface to be included for PlatformIO build.
+#include "unity.h"   //  Force Unity unit test to be included for PlatformIO build.
 #endif  //  PLATFORMIO
 
 using namespace codal;
 
+extern "C" int test_nanofloat(void);
 void Blink_main(codal::STM32BluePill& bluepill);
 
 int main() {
@@ -21,6 +23,10 @@ int main() {
     target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     target_init();               //  Init the STM32 platform.
+
+#ifdef UNIT_TEST
+    test_nanofloat();
+#endif
 
     //  Blue Pill constructor will generate debug messages, so we construct after enabling debug.
     STM32BluePill bluepill;
