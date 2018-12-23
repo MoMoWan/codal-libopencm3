@@ -40,6 +40,17 @@ void custom_reset_handler() {
 	/* Ensure 8-byte alignment of stack pointer on interrupts */
 	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
 	SCB_CCR |= SCB_CCR_STKALIGN;
+
+	/* might be provided by platform specific vector.c */
+	// pre_main();
+
+	/* Constructors. */
+	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
+		(*fp)();
+	}
+	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
+		(*fp)();
+	}
 }
 
 int main() {
