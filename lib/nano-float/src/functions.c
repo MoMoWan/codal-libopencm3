@@ -5,6 +5,7 @@
 #define M_LN10		2.30258509299404568402  //  Natural log of 10
 #define M_PI_2		1.57079632679489661923  //  Pi divided by 2
 
+//  We count the number of times each function was called. So we can check whether our unit tests cover all functions.
 enum float_usage_index {
     FIRST_USAGE_INDEX = 0,
     USAGE_AEABI_DDIV,
@@ -143,7 +144,7 @@ double sqrt(double x) {
     float_usage[USAGE_SQRT]++;
     return qfp_fsqrt_fast(x); 
 }
-// Examples:
+// Unit Tests:
 // sqrt(100) = 10.000000
 // sqrt(2) = 1.414214
 // sqrt(-0) = -0.000000
@@ -156,7 +157,7 @@ double log(double x) {
     float_usage[USAGE_LOG]++;
     return qfp_fln(x); 
 }
-// Examples:
+// Unit Tests:
 // log(1) = 0.000000
 // log(2) = _M_LN2
 // log(10) = M_LN10
@@ -167,7 +168,7 @@ double exp(double x) {
     float_usage[USAGE_EXP]++;
     return qfp_fexp(x); 
 }
-// Examples:
+// Unit Tests:
 // exp(1) = 2.718282
 // exp(_M_LN2) = 2
 // exp(M_LN10) = 10
@@ -186,7 +187,7 @@ double log10(double x) {
         1.0 / M_LN10  //  Constant
     ); 
 }
-// Examples:
+// Unit Tests:
 // log10(1000) = 3.000000
 // log10(0.001) = -3.000000
 // base-5 logarithm of 125 = 3.000000
@@ -205,7 +206,7 @@ double pow(double b, double x) {
         )        
     );
 }
-// Examples:
+// Unit Tests:
 // pow(2, 10) = 1024.000000
 // pow(2, 0.5) = 1.414214
 // pow(-2, -3) = -0.125000
@@ -226,7 +227,7 @@ double ldexp(double x, int ex) {
         )
     );
 }
-// Examples:
+// Unit Tests:
 // ldexp(7, -4) = 0.437500
 // ldexp(-0, 10) = -0.000000
 // ldexp(-Inf, -1) = -inf
@@ -239,7 +240,7 @@ double sin(double x) {
     float_usage[USAGE_SIN]++;
     return qfp_fsin(x); 
 }
-// Examples:
+// Unit Tests:
 // sin(pi/6) = 0.500000
 // sin(pi/2) = 1.000000
 // sin(-3*pi/4) = -0.707107
@@ -254,7 +255,7 @@ double cos(double x) {
     float_usage[USAGE_COS]++;
     return qfp_fcos(x); 
 }
-// Examples:
+// Unit Tests:
 // cos(pi/3) = 0.500000
 // cos(pi/2) = 0.000000
 // cos(-3*pi/4) = -0.707107
@@ -269,7 +270,7 @@ double tan(double x) {
     float_usage[USAGE_TAN]++;
     return qfp_ftan(x); 
 }
-// Examples:
+// Unit Tests:
 // tan  (pi/4) = +1.000000
 // tan(3*pi/4) = -1.000000
 // tan(5*pi/4) = +1.000000
@@ -285,7 +286,7 @@ double atan2(double y, double x) {
     float_usage[USAGE_ATAN2]++;
     return qfp_fatan2( y, x ); 
 }
-// Examples:
+// Unit Tests:
 // atan2(+1,+1) = 0.785398
 // atan2(+1,-1) = 2.356194
 // atan2(-1,-1) = -2.356194
@@ -312,7 +313,7 @@ double atan(double y_over_x) {
 
     return qfp_fatan2( y_over_x, 1 ); 
 }
-// Examples:
+// Unit Tests:
 // atan(1) = 0.785398
 // 4*atan(1)=3.141593
 // atan(Inf) = 1.570796
@@ -347,7 +348,7 @@ double asin(double x) {
         )
     );
 }
-// Examples:
+// Unit Tests:
 // asin( 1.0) = +1.570796
 // 2*asin( 1.0)=+3.141593
 // asin(-0.5) = -0.523599
@@ -384,7 +385,7 @@ double acos(double x) {
         qfp_fadd( 1 , x )
     );
 }
-// Examples:
+// Unit Tests:
 // acos(-1) = 3.141593
 // acos(0.0) = 1.570796 
 // 2*acos(0.0) = 3.141593
@@ -412,10 +413,12 @@ double trunc(double x) {
 
     return qfp_float2int(x);
 }
-// Examples:
+// Unit Tests:
 // trunc(+2.7) = +2.0
 // trunc(-2.7) = -2.0
 // trunc(-0.0) = -0.0
+// trunc(2205.1969) = 2205.000000
+// trunc(-270.8886) = -270.000000
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::floor(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:928: undefined reference to `floor'
@@ -439,17 +442,18 @@ double floor(double x) {
     if (qfp_fcmp(truncated, x) > 0) { return truncated - 1; }
     return truncated;
 }
-// Examples:
+// Unit Tests:
 // floor(+2.7) = +2.0
 // floor(-2.7) = -3.0
 // floor(-0.0) = -0.0
+// floor(2205.1969) = 2205.000000
+// floor(-270.8886) = -269.000000
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::ceil(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:931: undefined reference to `ceil'
 
 //  Computes the smallest integer value not less than arg.
 //  TODO: Warn if number is out of 32-bit int range.
-//  TODO: Test neg numbers.
 double ceil(double x) { 
     float_usage[USAGE_CEIL]++;
     //  If arg is NaN, NaN is returned
@@ -466,10 +470,12 @@ double ceil(double x) {
     if (qfp_fcmp(truncated, x) < 0) { return truncated + 1; }
     return truncated;
 }
-// Examples:
+// Unit Tests:
 // ceil(+2.4) = +3.0
 // ceil(-2.4) = -2.0
 // ceil(-0.0) = -0.0
+// ceil(2205.1969) = 2206.000000
+// ceil(-270.8886) = -270.000000
 
 //  Computes the floating-point remainder of the division operation x/y
 //  i.e. x - n*y, where n is x/y with its fractional part truncated.
@@ -504,7 +510,7 @@ double fmod(double x, double y) {
     // Was: return copysign(result, x);
     return (qfp_fcmp(x, 0) < 0) ? -result : result;
 }
-// Examples:
+// Unit Tests:
 // fmod(+5.1, +3.0) = 2.1
 // fmod(-5.1, +3.0) = -2.1
 // fmod(+5.1, -3.0) = 2.1
@@ -521,10 +527,12 @@ double fabs(double x) {
     if (qfp_fcmp(x, 0) < 0) { return -x; }
     return x;
 }
-//  Examples:
+//  Unit Tests:
 //  fabs(+3) = 3.000000
 //  fabs(-3) = 3.000000
 //  fabs(-0) = 0.000000
+//  fabs(2205.1969) = 2205.000000
+//  fabs(-270.8886) = -270.000000
 //  fabs(-Inf) = inf
 
 //  TODO: Support other functions

@@ -16,6 +16,7 @@ volatile double x = 0, y = 0, r = 0;
 volatile float xf = 0, yf = 0, rf = 0;
 
 void test_aeabi_fdiv(void) {
+    //  gcc compiles "x / y" to "__aeabi_fdiv(x, y)"
     xf = 2205.1969; yf = 270.8886; rf = xf / yf; TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105, rf );
 }
 
