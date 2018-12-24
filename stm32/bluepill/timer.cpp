@@ -46,7 +46,6 @@ static volatile uint32_t alarmCount = 0;  //  Number of alarms elapsed.
 static void rtc_setup(void) {
 	//  Setup RTC interrupts for tick and alarm wakeup.
 
-//#ifndef UNIT_TEST
 	//  Note: Older versions of rtc_awake_from_off() and rtc_auto_awake() cause qemu to crash with error
 	//  "hardware error: you are must enter to configuration mode for write in any registre" in hw\timer\stm32_rtc.c
 	debug_println("rtc awake..."); debug_flush(); //  rtc_awake_from_off() fails on qemu.
@@ -63,7 +62,6 @@ static void rtc_setup(void) {
 	rtc_set_prescale_val(prescale);
 #endif  //  AUTO_AWAKE
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
-//#endif  //  !UNIT_TEST
 
 	//  RTC should already be enabled in rtc_awake_from_off().
 	rcc_enable_rtc_clock();

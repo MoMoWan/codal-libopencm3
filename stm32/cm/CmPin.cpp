@@ -116,7 +116,7 @@ Pin::Pin(
     // Power up in a disconnected, low power state.
     // If we're unused, this is how it will stay...
     this->status = 0;
-    debug_print("pin name "); debug_print(name); debug_println(""); debug_flush();
+    // debug_print("pin name "); debug_print(name); debug_println(""); debug_flush();
 }
 
 void Pin::setup(

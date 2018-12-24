@@ -1,3 +1,4 @@
 ##  BluePill Library
 
-Subclass of CM Library for STM32 Blue Pill
+Subclass of CODAL specific to STM32 Blue Pill.
+
