@@ -199,6 +199,19 @@ double log10(double x) {
 //  e.g. pow(10, 3) = exp(log(10) * 3) = 1000
 double pow(double b, double x) { 
     float_usage[USAGE_POW]++;
+    //  If b and x are both negative and x is odd, then return -pow(-b, x).
+    //  e.g. pow(-2, -3) = -pow(2, -3)
+    if (qfp_fcmp(b,  0) < 0 && qfp_fcmp(x,  0) < 0) {
+        int xfloored = qfp_float2int(-x);
+        if (xfloored % 2 == 1) {
+            return -qfp_fexp(
+                qfp_fmul(
+                    qfp_fln(-b),
+                    x
+                )        
+            );
+        }
+    }
     return qfp_fexp(
         qfp_fmul(
             qfp_fln(b),
