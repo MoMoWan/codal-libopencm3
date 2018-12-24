@@ -27,13 +27,13 @@
             "label": "🔗 Emulate STM32 Blue Pill",
             "type": "shell",
             "windows": {
-                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
+                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
             },
             "osx": {
-                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
+                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
             },
             "linux": {
-                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
+                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
             },
             "problemMatcher": [],
             "group": "test",
@@ -43,16 +43,16 @@
             }
         },
         {
-            "label": "🔗 Emulate Bootloader",
+            "label": "🔗 Emulate STM32 Blue Pill (Debug)",
             "type": "shell",
             "windows": {
-                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel ../bluepill-bootloader/.pioenvs/bluepill_f103c8_bootloader/firmware.bin"
+                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
             },
             "osx": {
-                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel ../bluepill-bootloader/.pioenvs/bluepill_f103c8_bootloader/firmware.bin"
+                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
             },
             "linux": {
-                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel ../bluepill-bootloader/.pioenvs/bluepill_f103c8_bootloader/firmware.bin"
+                "command": "../qemu_stm32/arm-softmmu/qemu-system-arm -M stm32-f103c8 -s -S -semihosting -kernel .pioenvs/bluepill_f103c8/firmware.bin"
             },
             "problemMatcher": [],
             "group": "test",
