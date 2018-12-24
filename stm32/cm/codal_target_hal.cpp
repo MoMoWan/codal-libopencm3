@@ -315,7 +315,7 @@ void test_codal() {
 	PROCESSOR_WORD_TYPE size = end - start;
 	debug_print("heap start: "); debug_printhex_unsigned((size_t) start);
 	debug_print(", end: ");      debug_printhex_unsigned((size_t) end);
-	debug_print(", size: ");       debug_print((size_t) (size >> 10));
+	debug_print(", size: ");     debug_print((size_t) (size >> 10));
 	debug_print(" KB, stack used: "); debug_print((size_t) 
         ((PROCESSOR_WORD_TYPE)(DEVICE_STACK_BASE) - get_current_sp()) >> 10);
     debug_println(" KB"); debug_flush();
