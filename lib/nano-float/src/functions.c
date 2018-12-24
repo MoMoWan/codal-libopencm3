@@ -40,7 +40,7 @@ enum float_usage_index {
     LAST_FLOAT_USAGE_INDEX
 };
 static uint8_t float_usage[LAST_FLOAT_USAGE_INDEX];
-uint8_t *get_float_usage(uint16_t *size) { *size = (uint16_t) LAST_FLOAT_USAGE_INDEX; return float_usage; }
+uint8_t *get_float_usage(uint16_t *size) { *size = (uint16_t) LAST_FLOAT_USAGE_INDEX - 1; return float_usage; }
 
 //  Run-time ABI for the ARM Architecture.  The function names are wrapped via "-Wl,-wrap,__aeabi..."
 //  in newlib/CMakeLists.txt.  See http://infocenter.arm.com/help/topic/com.arm.doc.ihi0043d/IHI0043D_rtabi.pdf

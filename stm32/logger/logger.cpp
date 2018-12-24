@@ -2,7 +2,7 @@
 #include "logger.h"
 #include <string.h>
 
-#define DEBUG_BUFFER_SIZE 80
+#define DEBUG_BUFFER_SIZE 256  //  Use a larger buffer size so that we don't interrupt USB processing.
 static char debugBuffer[DEBUG_BUFFER_SIZE + 1];  //  Buffer to hold output before flushing.
 static bool logEnabled = false;  //  Logging is off by default.  Developer must switch it on with enable_debug().
 
@@ -187,6 +187,11 @@ void debug_println(float f) {
     debug_append("\n", 1);
 }
 
+void debug_print_int(int i) { debug_print(i); }
+void debug_print_unsigned(size_t l) { debug_print(l); }
+void debug_print_char(char ch) { debug_print(ch); }
+void debug_print_float(float f) { debug_print(f); }
+
 void debug_printhex(uint8_t v) {
     //  Write a char in hexadecimal to the buffered debug log.
     #define MAX_BYTE_LENGTH 2
@@ -209,4 +214,12 @@ void debug_printhex(uint8_t v) {
     buffer[size - 1] = 0;  //  Terminate in case of overflow.
 
     debug_append(buffer, strlen(buffer));
+}
+
+void debug_printhex_unsigned(size_t l) {
+    //  Write an unsigned int in hexadecimal to the buffered debug log.
+    for (int i = sizeof(l) - 1; i >= 0; i--) {
+        uint8_t b = 0xff & (l >> (8 * i));
+        debug_printhex(b);
+    }
 }

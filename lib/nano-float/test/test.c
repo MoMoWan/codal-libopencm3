@@ -219,7 +219,7 @@ int test_nanofloat(void) {
     if (float_usage != NULL && size < 1000) {
         bool no_usage = false;
         uint16_t i = 0;        
-        for (i = 0; i < size; i++) {
+        for (i = 1; i < size; i++) {
             if (float_usage[i] > 0) { continue; }
             if (!no_usage) {
                 no_usage = true;
@@ -229,7 +229,7 @@ int test_nanofloat(void) {
         }
         if (!no_usage) { debug_print("All functions called"); }
         debug_println("\nUsage: ");
-        for (i = 0; i < size; i++) {
+        for (i = 1; i < size; i++) {
             if (float_usage[i] == 0) { continue; }
             debug_printhex(i); debug_print(" > "); debug_printhex(float_usage[i]); debug_print(" / ");
         }
