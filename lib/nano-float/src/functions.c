@@ -394,7 +394,6 @@ double acos(double x) {
 
 //  Computes the nearest integer not greater in magnitude than x.
 //  TODO: Warn if number is out of 32-bit int range.
-//  TODO: Test neg numbers.
 double trunc(double x) { 
     float_usage[USAGE_TRUNC]++;
     //  If arg is NaN, NaN is returned
@@ -406,7 +405,10 @@ double trunc(double x) {
     //  If arg is ±0, it is returned, unmodified
     if (qfp_fcmp(x, 0) == 0) { return x; }
 
-    return qfp_float2int(x);
+    //  qfp_float2int() behaves like floor().  If negative, add one.
+    int floored = qfp_float2int(x);
+    if (floored < 0) { return floored + 1; }
+    return floored;
 }
 // Unit Tests:
 // trunc(+2.7) = +2.0
@@ -420,7 +422,6 @@ double trunc(double x) {
 
 //  Computes the largest integer value not greater than arg.
 //  TODO: Warn if number is out of 32-bit int range.
-//  TODO: Test neg numbers.
 double floor(double x) { 
     float_usage[USAGE_FLOOR]++;
     //  If arg is NaN, NaN is returned
@@ -432,10 +433,9 @@ double floor(double x) {
     //  If arg is ±0, it is returned, unmodified
     if (qfp_fcmp(x, 0) == 0) { return x; }
 
-    //  If negative, truncate then subtract one: floor(-2.7) = -3.0
-    int truncated = qfp_float2int(x);
-    if (qfp_fcmp(truncated, x) > 0) { return truncated - 1; }
-    return truncated;
+    //  qfp_float2int() behaves like floor().
+    int floored = qfp_float2int(x);
+    return floored;
 }
 // Unit Tests:
 // floor(+2.7) = +2.0
@@ -460,10 +460,10 @@ double ceil(double x) {
     //  If arg is ±0, it is returned, unmodified
     if (qfp_fcmp(x, 0) == 0) { return x; }
 
-    //  If positive, truncate then add one: ceil(+2.4) = +3.0
-    int truncated = qfp_float2int(x);
-    if (qfp_fcmp(truncated, x) < 0) { return truncated + 1; }
-    return truncated;
+    //  qfp_float2int() behaves like floor().  If positive, add one.
+    int floored = qfp_float2int(x);
+    if (floored > 0) { return floored + 1; }
+    return floored;
 }
 // Unit Tests:
 // ceil(+2.4) = +3.0

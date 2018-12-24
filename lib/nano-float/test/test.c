@@ -188,28 +188,28 @@ int test_nanofloat(void) {
     debug_flush();
     UNITY_BEGIN();
 
-    RUN_TEST(test_aeabi_fdiv);
-    RUN_TEST(test_aeabi_ddiv);
-    RUN_TEST(test_aeabi_dmul);
+    RUN_TEST(test_aeabi_fdiv); debug_flush();
+    RUN_TEST(test_aeabi_ddiv); debug_flush();
+    RUN_TEST(test_aeabi_dmul); debug_flush();
 
-    RUN_TEST(test_sqrt);
-    RUN_TEST(test_log);
-    RUN_TEST(test_exp);
-    RUN_TEST(test_log10);
-    RUN_TEST(test_pow);
-    RUN_TEST(test_ldexp);
-    RUN_TEST(test_sin);
-    RUN_TEST(test_cos);
-    RUN_TEST(test_tan);
-    RUN_TEST(test_atan2);
-    RUN_TEST(test_atan);
-    RUN_TEST(test_asin);
-    RUN_TEST(test_acos);
-    RUN_TEST(test_trunc);
-    RUN_TEST(test_floor);
-    RUN_TEST(test_ceil);
-    RUN_TEST(test_fmod);
-    RUN_TEST(test_fabs);
+    RUN_TEST(test_sqrt); debug_flush();
+    RUN_TEST(test_log); debug_flush();
+    RUN_TEST(test_exp); debug_flush();
+    RUN_TEST(test_log10); debug_flush();
+    RUN_TEST(test_pow); debug_flush();
+    RUN_TEST(test_ldexp); debug_flush();
+    RUN_TEST(test_sin); debug_flush();
+    RUN_TEST(test_cos); debug_flush();
+    RUN_TEST(test_tan); debug_flush();
+    RUN_TEST(test_atan2); debug_flush();
+    RUN_TEST(test_atan); debug_flush();
+    RUN_TEST(test_asin); debug_flush();
+    RUN_TEST(test_acos); debug_flush();
+    RUN_TEST(test_trunc); debug_flush();
+    RUN_TEST(test_floor); debug_flush();
+    RUN_TEST(test_ceil); debug_flush();
+    RUN_TEST(test_fmod); debug_flush();
+    RUN_TEST(test_fabs); debug_flush();
 
     int fails = UNITY_END(); debug_flush();
 
@@ -236,7 +236,7 @@ int test_nanofloat(void) {
         debug_println(""); debug_flush();
     }
     //  Crash and exit QEMU.
-    //  rtc_awake_from_off(LSE);
+    rtc_awake_from_off(LSE);
     return fails;
 }
 
