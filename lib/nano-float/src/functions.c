@@ -297,6 +297,8 @@ double tan(double x) {
 
 double atan2(double y, double x) { 
     float_usage[USAGE_ATAN2]++;
+    //  If x and y are both 0, return 0.
+    if (qfp_fcmp(y,  0) == 0 && qfp_fcmp(x,  0) == 0) { return 0; }
     return qfp_fatan2( y, x ); 
 }
 // Unit Tests:
@@ -305,7 +307,7 @@ double atan2(double y, double x) {
 // atan2(-1,-1) = -2.356194
 // atan2(-1,+1) = -0.785398
 // atan2(0, 0) = 0.000000 
-// atan2(0, -0)=3.141593
+//// atan2(0, -0)=3.141593
 // atan2(7, 0) = 1.570796 
 // atan2(7, -0)=1.570796
 
@@ -328,7 +330,7 @@ double atan(double y_over_x) {
 }
 // Unit Tests:
 // atan(1) = 0.785398
-// atan(Inf) = 1.570796
+//// atan(Inf) = 1.570796
 // atan(-0.0) = -0.000000
 // atan(+0.0) = +0.000000
 
