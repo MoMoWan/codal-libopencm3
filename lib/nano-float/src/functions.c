@@ -326,7 +326,8 @@ double atan(double y_over_x) {
     //  If the argument is -∞, -π/2 is returned
     if (isinf(y_over_x) && qfp_fcmp(y_over_x, 0) < 0) { return M_PI_2; }
 
-    return qfp_fatan2( y_over_x, 1 ); 
+    //  Must call atan2 instead of qfp_fatan2 in case the values are 0.
+    return atan2( y_over_x, 1 ); 
 }
 // Unit Tests:
 // atan(1) = 0.785398
@@ -351,7 +352,8 @@ double asin(double x) {
     if (qfp_fcmp(x,  1) > 0) { return NAN; }
     if (qfp_fcmp(x, -1) < 0) { return NAN; }
 
-    return qfp_fatan2(
+    //  Must call atan2 instead of qfp_fatan2 in case the values are 0.
+    return atan2(
         x,
         qfp_fsqrt_fast(
             qfp_fsub(
@@ -387,7 +389,11 @@ double acos(double x) {
     if (qfp_fcmp(x,  1) > 0) { return NAN; }
     if (qfp_fcmp(x, -1) < 0) { return NAN; }
 
-    return 2 * qfp_fatan2(
+    //  If x is -1, return Pi.
+    if (qfp_fcmp(x, -1) == 0) { return M_PI_2 * 2.0; }
+
+    //  Must call atan2 instead of qfp_fatan2 in case the values are 0.
+    return 2 * atan2(
         qfp_fsqrt_fast(
             qfp_fsub( 
                 1,
