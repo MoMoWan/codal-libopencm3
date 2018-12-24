@@ -218,7 +218,7 @@ int test_nanofloat(void) {
         debug_println(""); debug_flush();
     }
     //  Crash and exit.
-    rtc_awake_from_off(LSE);
+    //  rtc_awake_from_off(LSE);
     return fails;
 }
 

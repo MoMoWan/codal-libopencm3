@@ -14,6 +14,8 @@
 #define RCC_HSE HSE           //  Slow Oscillator is named HSE.
 #endif  //  LIBOPENCM3_RCC_LEGACY
 
+static void custom_rtc_awake_from_off(enum rcc_osc clock_source);
+
 //  Select Oscillator for the realtime clock: 
 //  RCC_HSE: 62.5 kHz, fastest oscillator, doesn't work in Stop or Standby Low Power mode. 
 //  RCC_LSE: 32.768 kHz, slowest oscillator, works in Stop or Standby Low Power mode. 
@@ -44,11 +46,10 @@ static volatile uint32_t alarmCount = 0;  //  Number of alarms elapsed.
 static void rtc_setup(void) {
 	//  Setup RTC interrupts for tick and alarm wakeup.
 
-#ifndef UNIT_TEST
-	//  TODO: rtc_awake_from_off() and rtc_auto_awake() cause qemu to crash with error
+//#ifndef UNIT_TEST
+	//  Note: Older versions of rtc_awake_from_off() and rtc_auto_awake() cause qemu to crash with error
 	//  "hardware error: you are must enter to configuration mode for write in any registre" in hw\timer\stm32_rtc.c
 	debug_println("rtc awake..."); debug_flush(); //  rtc_awake_from_off() fails on qemu.
-//  #define AUTO_AWAKE
 #ifdef AUTO_AWAKE	
 	//  From: https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f1/stm32vl-discovery/rtc/rtc.c
 	//  rtc_auto_awake(): If the RTC is pre-configured just allow access, don't reconfigure.
@@ -58,11 +59,11 @@ static void rtc_setup(void) {
 	//  rtc_auto_awake() will not reset the RTC when you press the RST button.
 	//  It will also continue to count while the MCU is held in reset. If
 	//  you want it to reset, comment out the above and use the following:
-	rtc_awake_from_off(clock_source);  //  This will enable RTC.
+	custom_rtc_awake_from_off(clock_source);  //  This will enable RTC.
 	rtc_set_prescale_val(prescale);
 #endif  //  AUTO_AWAKE
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
-#endif  //  !UNIT_TEST
+//#endif  //  !UNIT_TEST
 
 	//  RTC should already be enabled in rtc_awake_from_off().
 	rcc_enable_rtc_clock();
@@ -144,4 +145,51 @@ uint32_t millis(void) {
 uint32_t platform_alarm_count(void) {
 	//  Return the number of alarms triggered since startup.
 	return alarmCount;
+}
+
+//  Latest version of rtc_awake_from_off() from https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/f1/rtc.c
+//  PlatformIO uses an older version that crashes QEMU.  libopencm3 versions released 31 Mar 2017 onwards have this fix.
+//  See https://github.com/libopencm3/libopencm3/commit/808cd44a41797b98102151c35f1c858aa53fdeb5#diff-53d037e30430840081cbd1ae8eeab166
+
+/*---------------------------------------------------------------------------*/
+/** @brief RTC Set Operational from the Off state.
+Power up the backup domain clocks, enable write access to the backup domain,
+select the clock source, clear the RTC registers and enable the RTC.
+@param[in] clock_source ::rcc_osc. RTC clock source. Only the values HSE, LSE
+    and LSI are permitted.
+*/
+static void custom_rtc_awake_from_off(enum rcc_osc clock_source)
+{
+	uint32_t reg32;
+
+	/* Enable power and backup interface clocks. */
+	rcc_periph_clock_enable(RCC_PWR);
+	rcc_periph_clock_enable(RCC_BKP);
+
+	/* Enable access to the backup registers and the RTC. */
+	pwr_disable_backup_domain_write_protect();
+
+	/* Set the clock source */
+	rcc_set_rtc_clock_source(clock_source);
+
+	/* Clear the RTC Control Register */
+	RTC_CRH = 0;
+	RTC_CRL = 0;
+
+	/* Enable the RTC. */
+	rcc_enable_rtc_clock();
+
+	/* Clear the Registers */
+	rtc_enter_config_mode();
+	RTC_PRLH = 0;
+	RTC_PRLL = 0;
+	RTC_CNTH = 0;
+	RTC_CNTL = 0;
+	RTC_ALRH = 0xFFFF;
+	RTC_ALRL = 0xFFFF;
+	rtc_exit_config_mode();
+
+	/* Wait for the RSF bit in RTC_CRL to be set by hardware. */
+	RTC_CRL &= ~RTC_CRL_RSF;
+	while ((reg32 = (RTC_CRL & RTC_CRL_RSF)) == 0);
 }
