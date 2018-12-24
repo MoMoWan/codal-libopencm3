@@ -184,6 +184,7 @@ x = -270.8886; r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( -270.000000 , r );
 }
 
 int test_nanofloat(void) {
+    //  Run unit tests.
     debug_flush();
     UNITY_BEGIN();
 
@@ -211,18 +212,30 @@ int test_nanofloat(void) {
     RUN_TEST(test_fabs);
 
     int fails = UNITY_END(); debug_flush();
+
+    //  Fetch the usage stats and display functions with no usage.
     uint16_t size = 0;
     uint8_t *float_usage = get_float_usage(&size);
     if (float_usage != NULL && size < 1000) {
-        uint16_t i = 0;
+        bool no_usage = false;
+        uint16_t i = 0;        
+        for (i = 0; i < size; i++) {
+            if (float_usage[i] > 0) { continue; }
+            if (!no_usage) {
+                no_usage = true;
+                debug_print("*** Functions not called: ");
+            } else { debug_print(", "); }
+            debug_printhex(i);
+        }
+        if (!no_usage) { debug_print("All functions called"); }
+        debug_println("\nUsage: ");
         for (i = 0; i < size; i++) {
             if (float_usage[i] == 0) { continue; }
-            debug_printhex(i); debug_print(" > "); 
-            debug_printhex(float_usage[i]); debug_print(" / ");
+            debug_printhex(i); debug_print(" > "); debug_printhex(float_usage[i]); debug_print(" / ");
         }
         debug_println(""); debug_flush();
     }
-    //  Crash and exit.
+    //  Crash and exit QEMU.
     //  rtc_awake_from_off(LSE);
     return fails;
 }
