@@ -132,10 +132,10 @@ x = -0.5;      r = asin(x);     TEST_ASSERT_EQUAL_DOUBLE( -0.523599   , r );
 
 void test_acos(void) {
 x = -1;        r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 3.141593    , r );
+x = -0.9;      r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 2.690565    , r );
 x = 0.0;       r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 1.570796    , r );
 x = 0.5;       r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 1.047198    , r );
 x = 1;         r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 0.000000    , r );
-// x = 1.1;    r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( nan         , r );
 }
 
 void test_trunc(void) {
