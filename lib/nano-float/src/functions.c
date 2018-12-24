@@ -442,7 +442,7 @@ double floor(double x) {
 // floor(-2.7) = -3.0
 // floor(-0.0) = -0.0
 // floor(2205.1969) = 2205.000000
-// floor(-270.8886) = -269.000000
+// floor(-270.8886) = -271.000000
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::ceil(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:931: undefined reference to `ceil'
@@ -460,10 +460,9 @@ double ceil(double x) {
     //  If arg is ±0, it is returned, unmodified
     if (qfp_fcmp(x, 0) == 0) { return x; }
 
-    //  qfp_float2int() behaves like floor().  If positive, add one.
+    //  qfp_float2int() behaves like floor().  Always add one.
     int floored = qfp_float2int(x);
-    if (floored > 0) { return floored + 1; }
-    return floored;
+    return floored + 1;
 }
 // Unit Tests:
 // ceil(+2.4) = +3.0
