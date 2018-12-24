@@ -54,7 +54,7 @@ x = -0; 	r = exp(x); 	TEST_ASSERT_EQUAL_DOUBLE( 1.000000	 , r );
 }
 
 void test_log10(void) {
-x = x; 	r = log10(x); 	TEST_ASSERT_EQUAL_DOUBLE( ln(x) / ln(10)	 , r );
+// x = x; 	r = log10(x); 	TEST_ASSERT_EQUAL_DOUBLE( ln(x) / ln(10)	 , r );
 x = 1000; 	r = log10(x); 	TEST_ASSERT_EQUAL_DOUBLE( 3.000000	 , r );
 x = 0.001; 	r = log10(x); 	TEST_ASSERT_EQUAL_DOUBLE( -3.000000	 , r );
 x = 1; 	r = log10(x); 	TEST_ASSERT_EQUAL_DOUBLE( 0.000000	 , r );
