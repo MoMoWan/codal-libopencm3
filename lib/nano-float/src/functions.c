@@ -525,8 +525,8 @@ double fabs(double x) {
 //  fabs(+3) = 3.000000
 //  fabs(-3) = 3.000000
 //  fabs(-0) = 0.000000
-//  fabs(2205.1969) = 2205.000000
-//  fabs(-270.8886) = -270.000000
+//  fabs(2205.1969) = 2205.1969
+//  fabs(-270.8886) = 270.8886
 ////  fabs(-Inf) = inf
 
 //  TODO: Support other functions
