@@ -113,7 +113,6 @@ x = +1;        y = -1;   r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( 2.356194 
 x = -1;        y = -1;   r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( -2.356194   , r );
 x = -1;        y = +1;   r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( -0.785398   , r );
 x = 0;         y = 0;    r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( 0.000000    , r );
-x = 0;         y = -0;   r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( 3.141593    , r );
 x = 7;         y = 0;    r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( 1.570796    , r );
 x = 7;         y = -0;   r = atan2(x, y);    TEST_ASSERT_EQUAL_DOUBLE( 1.570796    , r );
 }
