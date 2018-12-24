@@ -266,6 +266,8 @@ double sin(double x) {
 
 double cos(double x) { 
     float_usage[USAGE_COS]++;
+    //  If x is Pi/2, return 0.
+    if (qfp_fcmp(x, M_PI_2) == 0) { return 0; }
     return qfp_fcos(x); 
 }
 // Unit Tests:
@@ -405,6 +407,7 @@ double acos(double x) {
 }
 // Unit Tests:
 // acos(-1) = 3.141593
+// acos(-0.9) = 2.690565
 // acos(0.0) = 1.570796 
 // acos(0.5) = 1.047198 
 // acos(1) = 0.000000
