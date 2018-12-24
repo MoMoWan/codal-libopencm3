@@ -178,9 +178,8 @@ void test_fabs(void) {
 x = +3;        r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( 3.000000    , r );
 x = -3;        r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( 3.000000    , r );
 x = -0;        r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( 0.000000    , r );
-x = 2205.1969; r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( 2205.000000 , r );
-x = -270.8886; r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( -270.000000 , r );
-// x = -Inf;   r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( inf         , r );
+x = 2205.1969; r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( 2205.1969   , r );
+x = -270.8886; r = fabs(x);     TEST_ASSERT_EQUAL_DOUBLE( 270.8886    , r );
 }
 
 int test_nanofloat(void) {
