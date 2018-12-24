@@ -152,7 +152,7 @@ x = +2.7;      r = floor(x);    TEST_ASSERT_EQUAL_DOUBLE( +2.0        , r );
 x = -2.7;      r = floor(x);    TEST_ASSERT_EQUAL_DOUBLE( -3.0        , r );
 x = -0.0;      r = floor(x);    TEST_ASSERT_EQUAL_DOUBLE( -0.0        , r );
 x = 2205.1969; r = floor(x);    TEST_ASSERT_EQUAL_DOUBLE( 2205.000000 , r );
-x = -270.8886; r = floor(x);    TEST_ASSERT_EQUAL_DOUBLE( -269.000000 , r );
+x = -270.8886; r = floor(x);    TEST_ASSERT_EQUAL_DOUBLE( -271.000000 , r );
 }
 
 void test_ceil(void) {
