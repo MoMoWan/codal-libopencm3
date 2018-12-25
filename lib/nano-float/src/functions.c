@@ -194,20 +194,25 @@ float  __wrap___aeabi_fdiv(float  n, float d)  {
 //  double to integer C-style conversion. "z" means round towards 0.
 int __wrap___aeabi_d2iz(double x) { 
     float_usage[USAGE_AEABI_D2IZ]++;
+    if (qfp_fcmp(x, 0) == 0) { return 0; }
     return qfp_float2int(x); 
 }
 //  Unit Tests:
+//  aeabi_d2iz(0) = 0
 //  aeabi_d2iz(2205.1969) = 2205
 //  aeabi_d2iz(-2205.1969) = -2205
 
 //  double to unsigned C-style conversion. "z" means round towards 0.
 unsigned __wrap___aeabi_d2uiz(double x) { 
     float_usage[USAGE_AEABI_D2UIZ]++;
+    if (qfp_fcmp(x, 0) == 0) { return 0; }
+    if (qfp_fcmp(x, 0) < 0) { return 0; }
     return qfp_float2uint(x); 
 }
 //  Unit Tests:
+//  aeabi_d2iz(0) = 0
 //  aeabi_d2uiz(2205.1969) = 2205
-//  aeabi_d2uiz(-2205.1969) = 2205
+//  aeabi_d2uiz(-2205.1969) = 0
 
 ///////////////////////////////////////////////////////////////////////////////
 //  <math.h> Functions

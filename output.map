@@ -73,7 +73,7 @@ c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-
 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_fixunsdfsi.o)
                               .pioenvs\bluepill_f103c8\src\unit_test.o (__aeabi_d2uiz)
 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_truncdfsf2.o)
-                              .pioenvs\bluepill_f103c8\src\unit_test.o (__aeabi_d2f)
+                              .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o) (__aeabi_d2f)
 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_addsubsf3.o)
                               .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o) (__aeabi_fsub)
 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_muldivsf3.o)
@@ -640,9 +640,9 @@ Discarded input sections
  .text.__wrap___aeabi_fdiv
                 0x00000000       0x10 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .text.__wrap___aeabi_d2iz
-                0x00000000       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x00000000       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .text.__wrap___aeabi_d2uiz
-                0x00000000       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x00000000       0x38 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .text.fabs     0x00000000       0x70 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .group         0x00000000        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
  .group         0x00000000        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
@@ -1536,7 +1536,7 @@ LOAD c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc
 LOAD .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a
 END GROUP
 
-.text           0x08000000     0x8fc8
+.text           0x08000000     0x8fb4
  *(SORT_BY_ALIGNMENT(.vectors))
  .vectors       0x08000000      0x150 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
                 0x08000000                vector_table
@@ -1577,1380 +1577,1381 @@ END GROUP
                 0x08000e38                test_aeabi_dcmpun
  *fill*         0x08000fdc        0x4 
  .text.test_aeabi_d2iz
-                0x08000fe0       0x74 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08000fe0       0x94 .pioenvs\bluepill_f103c8\src\unit_test.o
                 0x08000fe0                test_aeabi_d2iz
- *fill*         0x08001054        0x4 
+ *fill*         0x08001074        0x4 
  .text.test_aeabi_d2uiz
-                0x08001058       0x70 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001058                test_aeabi_d2uiz
+                0x08001078       0x94 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001078                test_aeabi_d2uiz
+ *fill*         0x0800110c        0x4 
  .text.test_sqrt
-                0x080010c8       0xc8 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x080010c8                test_sqrt
+                0x08001110       0xc8 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001110                test_sqrt
  .text.test_log
-                0x08001190       0xd0 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001190                test_log
+                0x080011d8       0xd0 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080011d8                test_log
  .text.test_exp
-                0x08001260      0x128 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001260                test_exp
+                0x080012a8      0x128 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080012a8                test_exp
  .text.test_log10
-                0x08001388       0xd0 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001388                test_log10
+                0x080013d0       0xd0 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080013d0                test_log10
  .text.test_pow
-                0x08001458      0x110 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001458                test_pow
+                0x080014a0      0x110 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080014a0                test_pow
  .text.test_ldexp
-                0x08001568       0xc4 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001568                test_ldexp
- *fill*         0x0800162c        0x4 
+                0x080015b0       0xc4 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080015b0                test_ldexp
+ *fill*         0x08001674        0x4 
  .text.test_sin
-                0x08001630      0x150 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001630                test_sin
+                0x08001678      0x150 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001678                test_sin
  .text.test_cos
-                0x08001780      0x158 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001780                test_cos
+                0x080017c8      0x158 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080017c8                test_cos
  .text.test_tan
-                0x080018d8      0x148 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x080018d8                test_tan
+                0x08001920      0x148 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001920                test_tan
  .text.test_atan2
-                0x08001a20      0x218 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001a20                test_atan2
+                0x08001a68      0x218 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001a68                test_atan2
  .text.test_atan
-                0x08001c38       0xc4 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001c38                test_atan
- *fill*         0x08001cfc        0x4 
+                0x08001c80       0xc4 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001c80                test_atan
+ *fill*         0x08001d44        0x4 
  .text.test_asin
-                0x08001d00       0xa0 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001d00                test_asin
+                0x08001d48       0xa0 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001d48                test_asin
  .text.test_acos
-                0x08001da0      0x16c .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001da0                test_acos
- *fill*         0x08001f0c        0x4 
+                0x08001de8      0x16c .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001de8                test_acos
+ *fill*         0x08001f54        0x4 
  .text.test_trunc
-                0x08001f10      0x170 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08001f10                test_trunc
+                0x08001f58      0x170 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08001f58                test_trunc
  .text.test_floor
-                0x08002080      0x174 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08002080                test_floor
- *fill*         0x080021f4        0x4 
+                0x080020c8      0x174 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080020c8                test_floor
+ *fill*         0x0800223c        0x4 
  .text.test_ceil
-                0x080021f8      0x17c .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x080021f8                test_ceil
- *fill*         0x08002374        0x4 
+                0x08002240      0x17c .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08002240                test_ceil
+ *fill*         0x080023bc        0x4 
  .text.test_fmod
-                0x08002378      0x1d8 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08002378                test_fmod
+                0x080023c0      0x1d8 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x080023c0                test_fmod
  .text.UnityPrintFloat
-                0x08002550      0x344 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08002550                UnityPrintFloat
- *fill*         0x08002894        0x4 
- .text.acos     0x08002898       0xbc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08002898                acos
- .text          0x08002954      0x124 asm/CortexContextSwitch.s.o
-                0x08002954                swap_context
-                0x080029d6                save_context
-                0x08002a1a                save_register_context
-                0x08002a4a                restore_register_context
+                0x08002598      0x344 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08002598                UnityPrintFloat
+ *fill*         0x080028dc        0x4 
+ .text.acos     0x080028e0       0xbc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080028e0                acos
+ .text          0x0800299c      0x124 asm/CortexContextSwitch.s.o
+                0x0800299c                swap_context
+                0x08002a1e                save_context
+                0x08002a62                save_register_context
+                0x08002a92                restore_register_context
  .text._Z10debug_dumpv
-                0x08002a78       0x38 .pioenvs\bluepill_f103c8\src\main.o
-                0x08002a78                debug_dump()
+                0x08002ac0       0x38 .pioenvs\bluepill_f103c8\src\main.o
+                0x08002ac0                debug_dump()
  .text.startup._GLOBAL__sub_I_serialPort
-                0x08002ab0       0x10 .pioenvs\bluepill_f103c8\src\uart.o
+                0x08002af8       0x10 .pioenvs\bluepill_f103c8\src\uart.o
  .text.test_aeabi_fdiv
-                0x08002ac0      0x15c .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08002ac0                test_aeabi_fdiv
+                0x08002b08      0x100 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08002b08                test_aeabi_fdiv
  .text.test_nanofloat
-                0x08002c1c      0x394 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08002c1c                test_nanofloat
+                0x08002c08      0x394 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08002c08                test_nanofloat
  .text.os_event_init
-                0x08002fb0        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
-                0x08002fb0                os_event_init
- .text.os_init  0x08002fbc       0x34 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
-                0x08002fbc                os_init
+                0x08002f9c        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
+                0x08002f9c                os_event_init
+ .text.os_init  0x08002fa8       0x34 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
+                0x08002fa8                os_init
  .text.os_msgQ_init
-                0x08002ff0       0x24 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x08002ff0                os_msgQ_init
+                0x08002fdc       0x24 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x08002fdc                os_msgQ_init
  .text.os_sem_init
-                0x08003014        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
-                0x08003014                os_sem_init
+                0x08003000        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
+                0x08003000                os_sem_init
  .text.os_task_init
-                0x08003020       0x40 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
-                0x08003020                os_task_init
+                0x0800300c       0x40 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
+                0x0800300c                os_task_init
  .text.enable_log
-                0x08003060       0x18 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x08003060                enable_log
+                0x0800304c       0x18 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x0800304c                enable_log
  .text.debug_flush
-                0x08003078       0x38 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x08003078                debug_flush
+                0x08003064       0x38 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08003064                debug_flush
  .text._ZL12debug_appendPKcj
-                0x080030b0       0x50 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x0800309c       0x50 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
  .text._Z11debug_printj
-                0x08003100       0x7c .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x08003100                debug_print(unsigned int)
+                0x080030ec       0x7c .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x080030ec                debug_print(unsigned int)
  .text._Z11debug_printi
-                0x0800317c       0x30 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x0800317c                debug_print(int)
+                0x08003168       0x30 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08003168                debug_print(int)
  .text.debug_println
-                0x080031ac       0x1c .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x080031ac                debug_println
+                0x08003198       0x1c .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08003198                debug_println
  .text._Z13debug_printlni
-                0x080031c8       0x18 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x080031c8                debug_println(int)
+                0x080031b4       0x18 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x080031b4                debug_println(int)
  .text.UnityTestResultsBegin
-                0x080031e0       0x30 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080031cc       0x30 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityTestResultsFailBegin
-                0x08003210       0x24 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080031fc       0x24 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityAddMsgIfSpecified
-                0x08003234       0x50 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08003220       0x50 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityConcludeTest
-                0x08003284       0x44 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08003284                UnityConcludeTest
+                0x08003270       0x44 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08003270                UnityConcludeTest
  .text.UnityAssertEqualNumber
-                0x080032c8       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x080032c8                UnityAssertEqualNumber
+                0x080032b4       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080032b4                UnityAssertEqualNumber
  .text.UnityAssertFloatsWithin
-                0x08003320       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08003320                UnityAssertFloatsWithin
+                0x0800330c       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800330c                UnityAssertFloatsWithin
  .text.UnityAssertDoublesWithin
-                0x08003378       0x60 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08003378                UnityAssertDoublesWithin
+                0x08003364       0x60 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08003364                UnityAssertDoublesWithin
  .text.UnityDefaultTestRun
-                0x080033d8       0x2c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x080033d8                UnityDefaultTestRun
+                0x080033c4       0x2c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080033c4                UnityDefaultTestRun
  .text.UnityBegin
-                0x08003404       0x20 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08003404                UnityBegin
+                0x080033f0       0x20 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080033f0                UnityBegin
  .text.UnityEnd
-                0x08003424       0x74 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08003424                UnityEnd
+                0x08003410       0x74 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08003410                UnityEnd
  .text.get_float_usage
-                0x08003498        0xc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003498                get_float_usage
- .text.sqrt     0x080034a4       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080034a4                sqrt
- .text.log      0x080034c0       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080034c0                log
- .text.exp      0x080034dc       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080034dc                exp
- .text.log10    0x080034f8       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080034f8                log10
- .text.pow      0x08003520       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003520                pow
- .text.ldexp    0x080035a8       0x40 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080035a8                ldexp
- .text.sin      0x080035e8       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080035e8                sin
- .text.cos      0x08003604       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003604                cos
- .text.tan      0x08003638       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003638                tan
- .text.atan2    0x08003654       0x50 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003654                atan2
- .text.atan     0x080036a4       0xa8 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080036a4                atan
- .text.asin     0x0800374c       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x0800374c                asin
- .text.trunc    0x080037d4       0x7c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080037d4                trunc
- .text.floor    0x08003850       0x78 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003850                floor
- .text.ceil     0x080038c8       0x7c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080038c8                ceil
- .text.fmod     0x08003944      0x144 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08003944                fmod
+                0x08003484        0xc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003484                get_float_usage
+ .text.sqrt     0x08003490       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003490                sqrt
+ .text.log      0x080034ac       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080034ac                log
+ .text.exp      0x080034c8       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080034c8                exp
+ .text.log10    0x080034e4       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080034e4                log10
+ .text.pow      0x0800350c       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x0800350c                pow
+ .text.ldexp    0x08003594       0x40 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003594                ldexp
+ .text.sin      0x080035d4       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080035d4                sin
+ .text.cos      0x080035f0       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080035f0                cos
+ .text.tan      0x08003624       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003624                tan
+ .text.atan2    0x08003640       0x50 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003640                atan2
+ .text.atan     0x08003690       0xa8 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003690                atan
+ .text.asin     0x08003738       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003738                asin
+ .text.trunc    0x080037c0       0x7c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080037c0                trunc
+ .text.floor    0x0800383c       0x78 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x0800383c                floor
+ .text.ceil     0x080038b4       0x7c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080038b4                ceil
+ .text.fmod     0x08003930      0x144 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08003930                fmod
  .text._ZN5codal3_cm3Pin14setAnalogValueEi
-                0x08003a88       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08003a88                codal::_cm::Pin::setAnalogValue(int)
+                0x08003a74       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08003a74                codal::_cm::Pin::setAnalogValue(int)
  .text._ZN5codal3_cm3Pin13setServoValueEiii
-                0x08003aa4       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08003aa4                codal::_cm::Pin::setServoValue(int, int, int)
+                0x08003a90       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08003a90                codal::_cm::Pin::setServoValue(int, int, int)
  .text._ZN5codal3_cm3Pin9isTouchedEv
-                0x08003ad0        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08003ad0                codal::_cm::Pin::isTouched()
+                0x08003abc        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08003abc                codal::_cm::Pin::isTouched()
  .text._ZN5codal3_cm3Pin17getAnalogPeriodUsEv
-                0x08003ad8        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08003ad8                codal::_cm::Pin::getAnalogPeriodUs()
+                0x08003ac4        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08003ac4                codal::_cm::Pin::getAnalogPeriodUs()
  .text._ZN5codal3_cm3Pin15setDigitalValueEi
-                0x08003ae0       0x80 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08003ae0                codal::_cm::Pin::setDigitalValue(int)
+                0x08003acc       0x80 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08003acc                codal::_cm::Pin::setDigitalValue(int)
  .text._ZN5codal3_cm3PinC2EhmmtNS_13PinCapabilityE
-                0x08003b60       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08003b60                codal::_cm::Pin::Pin(unsigned char, unsigned long, unsigned long, unsigned short, codal::PinCapability)
-                0x08003b60                codal::_cm::Pin::Pin(unsigned char, unsigned long, unsigned long, unsigned short, codal::PinCapability)
+                0x08003b4c       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08003b4c                codal::_cm::Pin::Pin(unsigned char, unsigned long, unsigned long, unsigned short, codal::PinCapability)
+                0x08003b4c                codal::_cm::Pin::Pin(unsigned char, unsigned long, unsigned long, unsigned short, codal::PinCapability)
  .text._ZL10timer_tickv
-                0x08003b8c       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003b78       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
  .text._Z25stm32bluepill_dmesg_flushv
-                0x08003b9c       0x38 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003b9c                stm32bluepill_dmesg_flush()
+                0x08003b88       0x38 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003b88                stm32bluepill_dmesg_flush()
  .text.target_set_tick_callback
-                0x08003bd4        0xc .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003bd4                target_set_tick_callback
+                0x08003bc0        0xc .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003bc0                target_set_tick_callback
  .text.target_init
-                0x08003be0       0x34 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003be0                target_init
+                0x08003bcc       0x34 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003bcc                target_init
  .text.target_wait
-                0x08003c14       0x24 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003c14                target_wait
+                0x08003c00       0x24 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003c00                target_wait
  .text.target_panic
-                0x08003c38       0x20 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003c38                target_panic
+                0x08003c24       0x20 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003c24                target_panic
  .text.fiber_initial_stack_base
-                0x08003c58        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003c58                fiber_initial_stack_base
+                0x08003c44        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003c44                fiber_initial_stack_base
  .text.test_codal
-                0x08003c60       0x70 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08003c60                test_codal
+                0x08003c4c       0x70 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08003c4c                test_codal
  .text.codal_dmesg_set_flush_fn
-                0x08003cd0        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalDmesg.o)
-                0x08003cd0                codal_dmesg_set_flush_fn
+                0x08003cbc        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalDmesg.o)
+                0x08003cbc                codal_dmesg_set_flush_fn
  .text.codal_dmesg_flush
-                0x08003cdc       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalDmesg.o)
-                0x08003cdc                codal_dmesg_flush
+                0x08003cc8       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalDmesg.o)
+                0x08003cc8                codal_dmesg_flush
  .text._ZN5codal10EventModel6listenEiiPFvNS_5EventEEt
-                0x08003cec       0x60 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003cec                codal::EventModel::listen(int, int, void (*)(codal::Event), unsigned short)
+                0x08003cd8       0x60 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003cd8                codal::EventModel::listen(int, int, void (*)(codal::Event), unsigned short)
  .text._ZN5codal14scheduler_tickENS_5EventE
-                0x08003d4c       0x38 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003d4c                codal::scheduler_tick(codal::Event)
+                0x08003d38       0x38 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003d38                codal::scheduler_tick(codal::Event)
  .text._ZN5codal15scheduler_eventENS_5EventE
-                0x08003d84       0xc0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003d84                codal::scheduler_event(codal::Event)
+                0x08003d70       0xc0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003d70                codal::scheduler_event(codal::Event)
  .text._Z15getFiberContextv
-                0x08003e44       0x50 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003e44                getFiberContext()
+                0x08003e30       0x50 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003e30                getFiberContext()
  .text._ZL10handle_fobv
-                0x08003e94       0x2c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003e80       0x2c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
  .text._ZN5codal23fiber_scheduler_runningEv
-                0x08003ec0       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003ec0                codal::fiber_scheduler_running()
+                0x08003eac       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003eac                codal::fiber_scheduler_running()
  .text._ZN5codal14scheduler_initERNS_10EventModelE
-                0x08003ed0       0xac .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003ed0                codal::scheduler_init(codal::EventModel&)
+                0x08003ebc       0xac .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003ebc                codal::scheduler_init(codal::EventModel&)
  .text._ZN5codal19fiber_wake_on_eventEtt
-                0x08003f7c       0x5c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003f7c                codal::fiber_wake_on_event(unsigned short, unsigned short)
+                0x08003f68       0x5c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003f68                codal::fiber_wake_on_event(unsigned short, unsigned short)
  .text._Z14__create_fibermmmi
-                0x08003fd8       0x64 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08003fd8                __create_fiber(unsigned long, unsigned long, unsigned long, int)
+                0x08003fc4       0x64 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08003fc4                __create_fiber(unsigned long, unsigned long, unsigned long, int)
  .text._ZN5codal17verify_stack_sizeEPNS_5FiberE
-                0x0800403c       0x44 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x0800403c                codal::verify_stack_size(codal::Fiber*)
+                0x08004028       0x44 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08004028                codal::verify_stack_size(codal::Fiber*)
  .text._ZN5codal24scheduler_runqueue_emptyEv
-                0x08004080       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08004080                codal::scheduler_runqueue_empty()
+                0x0800406c       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x0800406c                codal::scheduler_runqueue_empty()
  .text._ZN5codal4idleEv
-                0x08004090       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08004090                codal::idle()
+                0x0800407c       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x0800407c                codal::idle()
  .text._ZN5codal8scheduleEv
-                0x080040cc      0x108 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x080040cc                codal::schedule()
+                0x080040b8      0x108 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x080040b8                codal::schedule()
  .text._ZN5codal11fiber_sleepEm
-                0x080041d4       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x080041d4                codal::fiber_sleep(unsigned long)
+                0x080041c0       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x080041c0                codal::fiber_sleep(unsigned long)
  .text._ZN5codal13release_fiberEv
-                0x08004210       0x6c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08004210                codal::release_fiber()
+                0x080041fc       0x6c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x080041fc                codal::release_fiber()
  .text._ZN5codal6invokeEPFvPvES0_
-                0x0800427c       0x80 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x0800427c                codal::invoke(void (*)(void*), void*)
+                0x08004268       0x80 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08004268                codal::invoke(void (*)(void*), void*)
  .text._Z18device_create_heapmm
-                0x080042fc       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
-                0x080042fc                device_create_heap(unsigned long, unsigned long)
+                0x080042e8       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
+                0x080042e8                device_create_heap(unsigned long, unsigned long)
  .text.device_malloc
-                0x08004338       0x48 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
-                0x08004338                device_malloc
-                0x08004338                malloc
+                0x08004324       0x48 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
+                0x08004324                device_malloc
+                0x08004324                malloc
  .text.device_free
-                0x08004380       0x40 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
-                0x08004380                free
-                0x08004380                device_free
+                0x0800436c       0x40 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
+                0x0800436c                free
+                0x0800436c                device_free
  .text._ZN5codal5TimerC2Ev
-                0x080043c0       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x080043c0                codal::Timer::Timer()
-                0x080043c0                codal::Timer::Timer()
+                0x080043ac       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x080043ac                codal::Timer::Timer()
+                0x080043ac                codal::Timer::Timer()
  .text._ZN5codal25system_timer_current_timeEv
-                0x080043f4       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x080043f4                codal::system_timer_current_time()
+                0x080043e0       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x080043e0                codal::system_timer_current_time()
  .text._ZN5codal27system_timer_event_every_usEmtt
-                0x08004404       0x24 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08004404                codal::system_timer_event_every_us(unsigned long, unsigned short, unsigned short)
+                0x080043f0       0x24 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x080043f0                codal::system_timer_event_every_us(unsigned long, unsigned short, unsigned short)
  .text._ZN5codal5Event4fireEv
-                0x08004428       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
-                0x08004428                codal::Event::fire()
+                0x08004414       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
+                0x08004414                codal::Event::fire()
  .text._ZN5codal14CodalComponent4initEv
-                0x08004448        0x8 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08004448                codal::CodalComponent::init()
+                0x08004434        0x8 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08004434                codal::CodalComponent::init()
  .text._ZN5codal14CodalComponentD2Ev
-                0x08004450       0x18 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08004450                codal::CodalComponent::~CodalComponent()
-                0x08004450                codal::CodalComponent::~CodalComponent()
+                0x0800443c       0x18 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x0800443c                codal::CodalComponent::~CodalComponent()
+                0x0800443c                codal::CodalComponent::~CodalComponent()
  .text._ZN5codal13STM32BluePill4initEv
-                0x08004468       0x4c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08004468                codal::STM32BluePill::init()
+                0x08004454       0x4c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08004454                codal::STM32BluePill::init()
  .text._ZN5codal13STM32BluePillC2Ev
-                0x080044b4       0x98 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x080044b4                codal::STM32BluePill::STM32BluePill()
-                0x080044b4                codal::STM32BluePill::STM32BluePill()
+                0x080044a0       0x98 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x080044a0                codal::STM32BluePill::STM32BluePill()
+                0x080044a0                codal::STM32BluePill::STM32BluePill()
  .text._ZN5codal13STM32BluePillD2Ev
-                0x0800454c       0x40 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x0800454c                codal::STM32BluePill::~STM32BluePill()
-                0x0800454c                codal::STM32BluePill::~STM32BluePill()
+                0x08004538       0x40 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08004538                codal::STM32BluePill::~STM32BluePill()
+                0x08004538                codal::STM32BluePill::~STM32BluePill()
  .text._ZN5codal15STM32BluePillIOC2Ev
-                0x0800458c      0xaf0 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
-                0x0800458c                codal::STM32BluePillIO::STM32BluePillIO()
-                0x0800458c                codal::STM32BluePillIO::STM32BluePillIO()
+                0x08004578      0xaf0 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
+                0x08004578                codal::STM32BluePillIO::STM32BluePillIO()
+                0x08004578                codal::STM32BluePillIO::STM32BluePillIO()
  .text.platform_setup
-                0x0800507c       0x4c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
-                0x0800507c                platform_setup
+                0x08005068       0x4c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
+                0x08005068                platform_setup
  .text.enable_debug
-                0x080050c8       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
-                0x080050c8                enable_debug
+                0x080050b4       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
+                0x080050b4                enable_debug
  .text.led_setup
-                0x080050d8       0x20 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
-                0x080050d8                led_setup
- .text.led_on   0x080050f8       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
-                0x080050f8                led_on
- .text.led_off  0x08005108       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
-                0x08005108                led_off
+                0x080050c4       0x20 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
+                0x080050c4                led_setup
+ .text.led_on   0x080050e4       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
+                0x080050e4                led_on
+ .text.led_off  0x080050f4       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
+                0x080050f4                led_off
  .text.led_wait
-                0x08005118       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
-                0x08005118                led_wait
+                0x08005104       0x10 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(led.o)
+                0x08005104                led_wait
  .text.platform_start_timer
-                0x08005128      0x100 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
-                0x08005128                platform_start_timer
- .text.rtc_isr  0x08005228       0x40 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
-                0x08005228                rtc_isr
+                0x08005114      0x100 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
+                0x08005114                platform_start_timer
+ .text.rtc_isr  0x08005214       0x40 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
+                0x08005214                rtc_isr
  .text.rtc_alarm_isr
-                0x08005268       0x20 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
-                0x08005268                rtc_alarm_isr
+                0x08005254       0x20 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
+                0x08005254                rtc_alarm_isr
  .text.platform_alarm_count
-                0x08005288        0xc .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
-                0x08005288                platform_alarm_count
+                0x08005274        0xc .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
+                0x08005274                platform_alarm_count
  .text.usart2_isr
-                0x08005294       0x50 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
-                0x08005294                usart2_isr
+                0x08005280       0x50 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
+                0x08005280                usart2_isr
  .text.startup._GLOBAL__sub_I__ZN13UARTInterfaceC2Ejj
-                0x080052e4       0x10 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
- .text          0x080052f4      0x378 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_addsubdf3.o)
-                0x080052f4                __aeabi_drsub
-                0x080052fc                __aeabi_dsub
-                0x080052fc                __subdf3
-                0x08005300                __aeabi_dadd
-                0x08005300                __adddf3
-                0x08005578                __floatunsidf
-                0x08005578                __aeabi_ui2d
-                0x08005598                __floatsidf
-                0x08005598                __aeabi_i2d
-                0x080055bc                __aeabi_f2d
-                0x080055bc                __extendsfdf2
-                0x08005600                __floatundidf
-                0x08005600                __aeabi_ul2d
-                0x08005610                __floatdidf
-                0x08005610                __aeabi_l2d
- .text          0x0800566c      0x424 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_muldivdf3.o)
-                0x0800566c                __aeabi_dmul
-                0x0800566c                __muldf3
-                0x080058c0                __divdf3
-                0x080058c0                __aeabi_ddiv
- .text          0x08005a90      0x110 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_cmpdf2.o)
-                0x08005a90                __gtdf2
-                0x08005a90                __gedf2
-                0x08005a98                __ltdf2
-                0x08005a98                __ledf2
-                0x08005aa0                __nedf2
-                0x08005aa0                __eqdf2
-                0x08005aa0                __cmpdf2
-                0x08005b1c                __aeabi_cdrcmple
-                0x08005b2c                __aeabi_cdcmpeq
-                0x08005b2c                __aeabi_cdcmple
-                0x08005b3c                __aeabi_dcmpeq
-                0x08005b50                __aeabi_dcmplt
-                0x08005b64                __aeabi_dcmple
-                0x08005b78                __aeabi_dcmpge
-                0x08005b8c                __aeabi_dcmpgt
- .text          0x08005ba0       0x2c c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_unorddf2.o)
-                0x08005ba0                __unorddf2
-                0x08005ba0                __aeabi_dcmpun
- .text          0x08005bcc       0x50 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_fixdfsi.o)
-                0x08005bcc                __aeabi_d2iz
-                0x08005bcc                __fixdfsi
- .text          0x08005c1c       0x40 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_fixunsdfsi.o)
-                0x08005c1c                __aeabi_d2uiz
-                0x08005c1c                __fixunsdfsi
- .text          0x08005c5c       0xa0 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_truncdfsf2.o)
-                0x08005c5c                __truncdfsf2
-                0x08005c5c                __aeabi_d2f
- .text          0x08005cfc      0x21c c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_addsubsf3.o)
-                0x08005cfc                __aeabi_frsub
-                0x08005d04                __subsf3
-                0x08005d04                __aeabi_fsub
-                0x08005d08                __aeabi_fadd
-                0x08005d08                __addsf3
-                0x08005e68                __aeabi_ui2f
-                0x08005e68                __floatunsisf
-                0x08005e70                __aeabi_i2f
-                0x08005e70                __floatsisf
-                0x08005e8c                __aeabi_ul2f
-                0x08005e8c                __floatundisf
-                0x08005e9c                __aeabi_l2f
-                0x08005e9c                __floatdisf
- .text          0x08005f18      0x2a0 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_muldivsf3.o)
-                0x08005f18                __mulsf3
-                0x08005f18                __aeabi_fmul
-                0x08006080                __aeabi_fdiv
-                0x08006080                __divsf3
- .text          0x080061b8       0xec c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_cmpsf2.o)
-                0x080061b8                __gesf2
-                0x080061b8                __gtsf2
-                0x080061c0                __lesf2
-                0x080061c0                __ltsf2
-                0x080061c8                __nesf2
-                0x080061c8                __eqsf2
-                0x080061c8                __cmpsf2
-                0x08006228                __aeabi_cfrcmple
-                0x08006230                __aeabi_cfcmpeq
-                0x08006230                __aeabi_cfcmple
-                0x08006240                __aeabi_fcmpeq
-                0x08006254                __aeabi_fcmplt
-                0x08006268                __aeabi_fcmple
-                0x0800627c                __aeabi_fcmpge
-                0x08006290                __aeabi_fcmpgt
+                0x080052d0       0x10 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
+ .text          0x080052e0      0x378 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_addsubdf3.o)
+                0x080052e0                __aeabi_drsub
+                0x080052e8                __aeabi_dsub
+                0x080052e8                __subdf3
+                0x080052ec                __aeabi_dadd
+                0x080052ec                __adddf3
+                0x08005564                __floatunsidf
+                0x08005564                __aeabi_ui2d
+                0x08005584                __floatsidf
+                0x08005584                __aeabi_i2d
+                0x080055a8                __aeabi_f2d
+                0x080055a8                __extendsfdf2
+                0x080055ec                __floatundidf
+                0x080055ec                __aeabi_ul2d
+                0x080055fc                __floatdidf
+                0x080055fc                __aeabi_l2d
+ .text          0x08005658      0x424 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_muldivdf3.o)
+                0x08005658                __aeabi_dmul
+                0x08005658                __muldf3
+                0x080058ac                __divdf3
+                0x080058ac                __aeabi_ddiv
+ .text          0x08005a7c      0x110 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_cmpdf2.o)
+                0x08005a7c                __gtdf2
+                0x08005a7c                __gedf2
+                0x08005a84                __ltdf2
+                0x08005a84                __ledf2
+                0x08005a8c                __nedf2
+                0x08005a8c                __eqdf2
+                0x08005a8c                __cmpdf2
+                0x08005b08                __aeabi_cdrcmple
+                0x08005b18                __aeabi_cdcmpeq
+                0x08005b18                __aeabi_cdcmple
+                0x08005b28                __aeabi_dcmpeq
+                0x08005b3c                __aeabi_dcmplt
+                0x08005b50                __aeabi_dcmple
+                0x08005b64                __aeabi_dcmpge
+                0x08005b78                __aeabi_dcmpgt
+ .text          0x08005b8c       0x2c c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_unorddf2.o)
+                0x08005b8c                __unorddf2
+                0x08005b8c                __aeabi_dcmpun
+ .text          0x08005bb8       0x50 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_fixdfsi.o)
+                0x08005bb8                __aeabi_d2iz
+                0x08005bb8                __fixdfsi
+ .text          0x08005c08       0x40 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_fixunsdfsi.o)
+                0x08005c08                __aeabi_d2uiz
+                0x08005c08                __fixunsdfsi
+ .text          0x08005c48       0xa0 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_truncdfsf2.o)
+                0x08005c48                __truncdfsf2
+                0x08005c48                __aeabi_d2f
+ .text          0x08005ce8      0x21c c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_addsubsf3.o)
+                0x08005ce8                __aeabi_frsub
+                0x08005cf0                __subsf3
+                0x08005cf0                __aeabi_fsub
+                0x08005cf4                __aeabi_fadd
+                0x08005cf4                __addsf3
+                0x08005e54                __aeabi_ui2f
+                0x08005e54                __floatunsisf
+                0x08005e5c                __aeabi_i2f
+                0x08005e5c                __floatsisf
+                0x08005e78                __aeabi_ul2f
+                0x08005e78                __floatundisf
+                0x08005e88                __aeabi_l2f
+                0x08005e88                __floatdisf
+ .text          0x08005f04      0x2a0 c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_muldivsf3.o)
+                0x08005f04                __mulsf3
+                0x08005f04                __aeabi_fmul
+                0x0800606c                __aeabi_fdiv
+                0x0800606c                __divsf3
+ .text          0x080061a4       0xec c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a(_arm_cmpsf2.o)
+                0x080061a4                __gesf2
+                0x080061a4                __gtsf2
+                0x080061ac                __lesf2
+                0x080061ac                __ltsf2
+                0x080061b4                __nesf2
+                0x080061b4                __eqsf2
+                0x080061b4                __cmpsf2
+                0x08006214                __aeabi_cfrcmple
+                0x0800621c                __aeabi_cfcmpeq
+                0x0800621c                __aeabi_cfcmple
+                0x0800622c                __aeabi_fcmpeq
+                0x08006240                __aeabi_fcmplt
+                0x08006254                __aeabi_fcmple
+                0x08006268                __aeabi_fcmpge
+                0x0800627c                __aeabi_fcmpgt
  .text.rcc_osc_on.part.0
-                0x080062a4       0x10 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006290       0x10 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
  .text.rcc_wait_for_osc_ready
-                0x080062b4       0x64 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x080062b4                rcc_wait_for_osc_ready
+                0x080062a0       0x64 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x080062a0                rcc_wait_for_osc_ready
  .text.rcc_osc_on
-                0x08006318       0x54 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x08006318                rcc_osc_on
+                0x08006304       0x54 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006304                rcc_osc_on
  .text.rcc_set_sysclk_source
-                0x0800636c       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x0800636c                rcc_set_sysclk_source
+                0x08006358       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006358                rcc_set_sysclk_source
  .text.rcc_set_pll_multiplication_factor
-                0x08006380       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x08006380                rcc_set_pll_multiplication_factor
+                0x0800636c       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x0800636c                rcc_set_pll_multiplication_factor
  .text.rcc_set_pll_source
-                0x08006394       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x08006394                rcc_set_pll_source
+                0x08006380       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006380                rcc_set_pll_source
  .text.rcc_set_pllxtpre
-                0x080063a8       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x080063a8                rcc_set_pllxtpre
+                0x08006394       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006394                rcc_set_pllxtpre
  .text.rcc_enable_rtc_clock
-                0x080063bc       0x10 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x080063bc                rcc_enable_rtc_clock
+                0x080063a8       0x10 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x080063a8                rcc_enable_rtc_clock
  .text.rcc_set_rtc_clock_source
-                0x080063cc       0x90 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x080063cc                rcc_set_rtc_clock_source
+                0x080063b8       0x90 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x080063b8                rcc_set_rtc_clock_source
  .text.rcc_set_adcpre
-                0x0800645c       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x0800645c                rcc_set_adcpre
+                0x08006448       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006448                rcc_set_adcpre
  .text.rcc_set_ppre2
-                0x08006470       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x08006470                rcc_set_ppre2
+                0x0800645c       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x0800645c                rcc_set_ppre2
  .text.rcc_set_ppre1
-                0x08006484       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x08006484                rcc_set_ppre1
+                0x08006470       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006470                rcc_set_ppre1
  .text.rcc_set_hpre
-                0x08006498       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x08006498                rcc_set_hpre
+                0x08006484       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006484                rcc_set_hpre
  .text.rcc_clock_setup_in_hse_8mhz_out_72mhz
-                0x080064ac       0x8c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
-                0x080064ac                rcc_clock_setup_in_hse_8mhz_out_72mhz
+                0x08006498       0x8c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
+                0x08006498                rcc_clock_setup_in_hse_8mhz_out_72mhz
  .text.rtc_enter_config_mode
-                0x08006538       0x18 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006538                rtc_enter_config_mode
+                0x08006524       0x18 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x08006524                rtc_enter_config_mode
  .text.rtc_exit_config_mode
-                0x08006550       0x18 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006550                rtc_exit_config_mode
+                0x0800653c       0x18 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x0800653c                rtc_exit_config_mode
  .text.rtc_awake_from_off
-                0x08006568       0x6c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006568                rtc_awake_from_off
+                0x08006554       0x6c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x08006554                rtc_awake_from_off
  .text.rtc_set_alarm_time
-                0x080065d4       0x20 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x080065d4                rtc_set_alarm_time
+                0x080065c0       0x20 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x080065c0                rtc_set_alarm_time
  .text.rtc_set_prescale_val
-                0x080065f4       0x20 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x080065f4                rtc_set_prescale_val
+                0x080065e0       0x20 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x080065e0                rtc_set_prescale_val
  .text.rtc_get_counter_val
-                0x08006614       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006614                rtc_get_counter_val
+                0x08006600       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x08006600                rtc_get_counter_val
  .text.rtc_set_counter_val
-                0x08006628       0x1c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006628                rtc_set_counter_val
+                0x08006614       0x1c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x08006614                rtc_set_counter_val
  .text.rtc_interrupt_enable
-                0x08006644       0x3c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006644                rtc_interrupt_enable
+                0x08006630       0x3c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x08006630                rtc_interrupt_enable
  .text.rtc_interrupt_disable
-                0x08006680       0x3c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x08006680                rtc_interrupt_disable
+                0x0800666c       0x3c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x0800666c                rtc_interrupt_disable
  .text.rtc_clear_flag
-                0x080066bc       0x30 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x080066bc                rtc_clear_flag
+                0x080066a8       0x30 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x080066a8                rtc_clear_flag
  .text.rtc_check_flag
-                0x080066ec       0x30 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
-                0x080066ec                rtc_check_flag
+                0x080066d8       0x30 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rtc.o)
+                0x080066d8                rtc_check_flag
  .text.pwr_disable_backup_domain_write_protect
-                0x0800671c       0x10 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(pwr_common_all.o)
-                0x0800671c                pwr_disable_backup_domain_write_protect
+                0x08006708       0x10 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(pwr_common_all.o)
+                0x08006708                pwr_disable_backup_domain_write_protect
  .text.exti_set_trigger
-                0x0800672c       0x3c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0800672c                exti_set_trigger
+                0x08006718       0x3c .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x08006718                exti_set_trigger
  .text.exti_enable_request
-                0x08006768       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x08006768                exti_enable_request
+                0x08006754       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x08006754                exti_enable_request
  .text.exti_reset_request
-                0x0800677c        0xc .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0800677c                exti_reset_request
+                0x08006768        0xc .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x08006768                exti_reset_request
  .text.flash_set_ws
-                0x08006788       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(flash_common_f01.o)
-                0x08006788                flash_set_ws
+                0x08006774       0x14 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(flash_common_f01.o)
+                0x08006774                flash_set_ws
  .text.reset_handler
-                0x0800679c       0x90 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
-                0x0800679c                reset_handler
- .text          0x0800682c      0x4c8 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
-                0x080068f4                qfp_fsub
-                0x080068fa                qfp_fadd
-                0x0800693c                qfp_fcmp
-                0x08006958                qfp_fmul
-                0x08006968                qfp_fdiv
-                0x080069aa                qfp_fdiv_fast
-                0x080069fa                qfp_fsqrt_fast
-                0x08006a70                qfp_float2int
-                0x08006a72                qfp_float2fix
-                0x08006a9a                qfp_float2uint
-                0x08006a9c                qfp_float2ufix
-                0x08006ab6                qfp_int2float
-                0x08006ab8                qfp_fix2float
-                0x08006ac2                qfp_uint2float
-                0x08006ac4                qfp_ufix2float
-                0x08006b5a                qfp_fsin
-                0x08006b9c                qfp_fcos
-                0x08006ba6                qfp_ftan
-                0x08006bae                qfp_fexp
-                0x08006bde                qfp_fsqrt
-                0x08006c18                qfp_fln
-                0x08006c3c                qfp_fatan2
+                0x08006788       0x90 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
+                0x08006788                reset_handler
+ .text          0x08006818      0x4c8 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
+                0x080068e0                qfp_fsub
+                0x080068e6                qfp_fadd
+                0x08006928                qfp_fcmp
+                0x08006944                qfp_fmul
+                0x08006954                qfp_fdiv
+                0x08006996                qfp_fdiv_fast
+                0x080069e6                qfp_fsqrt_fast
+                0x08006a5c                qfp_float2int
+                0x08006a5e                qfp_float2fix
+                0x08006a86                qfp_float2uint
+                0x08006a88                qfp_float2ufix
+                0x08006aa2                qfp_int2float
+                0x08006aa4                qfp_fix2float
+                0x08006aae                qfp_uint2float
+                0x08006ab0                qfp_ufix2float
+                0x08006b46                qfp_fsin
+                0x08006b88                qfp_fcos
+                0x08006b92                qfp_ftan
+                0x08006b9a                qfp_fexp
+                0x08006bca                qfp_fsqrt
+                0x08006c04                qfp_fln
+                0x08006c28                qfp_fatan2
  .text._ZN5codal3_cm3I2CC2ERNS_3PinES3_
-                0x08006cf4       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
-                0x08006cf4                codal::_cm::I2C::I2C(codal::Pin&, codal::Pin&)
-                0x08006cf4                codal::_cm::I2C::I2C(codal::Pin&, codal::Pin&)
+                0x08006ce0       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
+                0x08006ce0                codal::_cm::I2C::I2C(codal::Pin&, codal::Pin&)
+                0x08006ce0                codal::_cm::I2C::I2C(codal::Pin&, codal::Pin&)
  .text._ZN5codal3_cm3SPI4initEv
-                0x08006d10       0x5c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08006d10                codal::_cm::SPI::init()
+                0x08006cfc       0x5c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08006cfc                codal::_cm::SPI::init()
  .text._ZN5codal3_cm3SPIC2ERNS0_3PinES3_S3_S3_
-                0x08006d6c       0x9c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08006d6c                codal::_cm::SPI::SPI(codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&)
-                0x08006d6c                codal::_cm::SPI::SPI(codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&)
+                0x08006d58       0x9c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08006d58                codal::_cm::SPI::SPI(codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&)
+                0x08006d58                codal::_cm::SPI::SPI(codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&, codal::_cm::Pin&)
  .text._ZN5codal3_cm6SerialD2Ev
-                0x08006e08       0x14 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08006e08                codal::_cm::Serial::~Serial()
-                0x08006e08                codal::_cm::Serial::~Serial()
+                0x08006df4       0x14 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08006df4                codal::_cm::Serial::~Serial()
+                0x08006df4                codal::_cm::Serial::~Serial()
  .text._ZN5codal3_cm6SerialC2ERNS0_3PinES3_hh
-                0x08006e1c       0x4c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08006e1c                codal::_cm::Serial::Serial(codal::_cm::Pin&, codal::_cm::Pin&, unsigned char, unsigned char)
-                0x08006e1c                codal::_cm::Serial::Serial(codal::_cm::Pin&, codal::_cm::Pin&, unsigned char, unsigned char)
+                0x08006e08       0x4c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08006e08                codal::_cm::Serial::Serial(codal::_cm::Pin&, codal::_cm::Pin&, unsigned char, unsigned char)
+                0x08006e08                codal::_cm::Serial::Serial(codal::_cm::Pin&, codal::_cm::Pin&, unsigned char, unsigned char)
  .text._ZN5codal3_cm13tick_callbackEv
-                0x08006e68       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
-                0x08006e68                codal::_cm::tick_callback()
+                0x08006e54       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
+                0x08006e54                codal::_cm::tick_callback()
  .text._ZN5codal3_cm5Timer4initEv
-                0x08006e78       0x18 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
-                0x08006e78                codal::_cm::Timer::init()
+                0x08006e64       0x18 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
+                0x08006e64                codal::_cm::Timer::init()
  .text._ZN5codal3_cm5TimerC2Ev
-                0x08006e90       0x28 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
-                0x08006e90                codal::_cm::Timer::Timer()
-                0x08006e90                codal::_cm::Timer::Timer()
+                0x08006e7c       0x28 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
+                0x08006e7c                codal::_cm::Timer::Timer()
+                0x08006e7c                codal::_cm::Timer::Timer()
  .text.pinmap_peripheral
-                0x08006eb8       0x30 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
-                0x08006eb8                pinmap_peripheral
+                0x08006ea4       0x30 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
+                0x08006ea4                pinmap_peripheral
  .text.pinmap_mode
-                0x08006ee8       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
-                0x08006ee8                pinmap_mode
+                0x08006ed4       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
+                0x08006ed4                pinmap_mode
  .text.pinmap_cnf
-                0x08006f14       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
-                0x08006f14                pinmap_cnf
+                0x08006f00       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
+                0x08006f00                pinmap_cnf
  .text._Z18component_callbackN5codal5EventE
-                0x08006f40       0x58 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalComponent.o)
-                0x08006f40                component_callback(codal::Event)
+                0x08006f2c       0x58 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalComponent.o)
+                0x08006f2c                component_callback(codal::Event)
  .text._ZN5codal14CodalComponent12addComponentEv
-                0x08006f98       0x70 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalComponent.o)
-                0x08006f98                codal::CodalComponent::addComponent()
+                0x08006f84       0x70 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalComponent.o)
+                0x08006f84                codal::CodalComponent::addComponent()
  .text._ZN5codal14CodalComponent15removeComponentEv
-                0x08007008       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalComponent.o)
-                0x08007008                codal::CodalComponent::removeComponent()
+                0x08006ff4       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalComponent.o)
+                0x08006ff4                codal::CodalComponent::removeComponent()
  .text._ZN5codal3I2CC2ERNS_3PinES2_
-                0x08007028        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x08007028                codal::I2C::I2C(codal::Pin&, codal::Pin&)
-                0x08007028                codal::I2C::I2C(codal::Pin&, codal::Pin&)
+                0x08007014        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08007014                codal::I2C::I2C(codal::Pin&, codal::Pin&)
+                0x08007014                codal::I2C::I2C(codal::Pin&, codal::Pin&)
  .text._ZN5codal6SerialC2ERNS_3PinES2_hht
-                0x08007034       0x5c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x08007034                codal::Serial::Serial(codal::Pin&, codal::Pin&, unsigned char, unsigned char, unsigned short)
-                0x08007034                codal::Serial::Serial(codal::Pin&, codal::Pin&, unsigned char, unsigned char, unsigned short)
+                0x08007020       0x5c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x08007020                codal::Serial::Serial(codal::Pin&, codal::Pin&, unsigned char, unsigned char, unsigned short)
+                0x08007020                codal::Serial::Serial(codal::Pin&, codal::Pin&, unsigned char, unsigned char, unsigned short)
  .text._ZN5codal6SerialD2Ev
-                0x08007090       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x08007090                codal::Serial::~Serial()
-                0x08007090                codal::Serial::~Serial()
+                0x0800707c       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x0800707c                codal::Serial::~Serial()
+                0x0800707c                codal::Serial::~Serial()
  .text._ZN5codal10EventModel4sendENS_5EventE
-                0x080070ac       0x14 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080070ac                codal::EventModel::send(codal::Event)
+                0x08007098       0x14 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08007098                codal::EventModel::send(codal::Event)
  .text._ZN5codal10EventModel3addEPNS_8ListenerE
-                0x080070c0        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080070c0                codal::EventModel::add(codal::Listener*)
+                0x080070ac        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080070ac                codal::EventModel::add(codal::Listener*)
  .text._ZN5codal10EventModel6removeEPNS_8ListenerE
-                0x080070c8        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080070c8                codal::EventModel::remove(codal::Listener*)
+                0x080070b4        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080070b4                codal::EventModel::remove(codal::Listener*)
  .text._ZN5codal10MessageBus6removeEPNS_8ListenerE
-                0x080070d0       0x70 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080070d0                codal::MessageBus::remove(codal::Listener*)
+                0x080070bc       0x70 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080070bc                codal::MessageBus::remove(codal::Listener*)
  .text._ZN5codal10MessageBus3addEPNS_8ListenerE
-                0x08007140       0xbc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08007140                codal::MessageBus::add(codal::Listener*)
+                0x0800712c       0xbc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x0800712c                codal::MessageBus::add(codal::Listener*)
  .text._ZN5codal10MessageBusD2Ev
-                0x080071fc       0x78 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080071fc                codal::MessageBus::~MessageBus()
-                0x080071fc                codal::MessageBus::~MessageBus()
+                0x080071e8       0x78 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080071e8                codal::MessageBus::~MessageBus()
+                0x080071e8                codal::MessageBus::~MessageBus()
  .text._ZN5codal10MessageBusC2Ev
-                0x08007274       0xa8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08007274                codal::MessageBus::MessageBus()
-                0x08007274                codal::MessageBus::MessageBus()
+                0x08007260       0xa8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08007260                codal::MessageBus::MessageBus()
+                0x08007260                codal::MessageBus::MessageBus()
  .text._ZN5codal10MessageBus7processERNS_5EventEb
-                0x0800731c       0x84 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x0800731c                codal::MessageBus::process(codal::Event&, bool)
+                0x08007308       0x84 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08007308                codal::MessageBus::process(codal::Event&, bool)
  .text._ZN5codal19allocateNotifyEventEv
-                0x080073a0       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080073a0                codal::allocateNotifyEvent()
+                0x0800738c       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x0800738c                codal::allocateNotifyEvent()
  .text._ZN5codal13ManagedStringC2EPKcs
-                0x080073b0       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x080073b0                codal::ManagedString::ManagedString(char const*, short)
-                0x080073b0                codal::ManagedString::ManagedString(char const*, short)
+                0x0800739c       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x0800739c                codal::ManagedString::ManagedString(char const*, short)
+                0x0800739c                codal::ManagedString::ManagedString(char const*, short)
  .text._ZN5codal13ManagedStringC2Ev
-                0x080073e4        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x080073e4                codal::ManagedString::ManagedString()
-                0x080073e4                codal::ManagedString::ManagedString()
+                0x080073d0        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x080073d0                codal::ManagedString::ManagedString()
+                0x080073d0                codal::ManagedString::ManagedString()
  .text.startup._GLOBAL__sub_I__ZN5codal13ManagedString9initEmptyEv
-                0x080073f0       0x2c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x080073dc       0x2c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
  .text._Z10Blink_mainRN5codal13STM32BluePillE
-                0x0800741c       0x30 .pioenvs\bluepill_f103c8\src\main.o
-                0x0800741c                Blink_main(codal::STM32BluePill&)
+                0x08007408       0x30 .pioenvs\bluepill_f103c8\src\main.o
+                0x08007408                Blink_main(codal::STM32BluePill&)
  .text.startup.main
-                0x0800744c       0x26 .pioenvs\bluepill_f103c8\src\main.o
-                0x0800744c                main
+                0x08007438       0x26 .pioenvs\bluepill_f103c8\src\main.o
+                0x08007438                main
  .text.unity_output_char
-                0x08007472        0x6 .pioenvs\bluepill_f103c8\src\unit_test.o
-                0x08007472                unity_output_char
+                0x0800745e        0x6 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x0800745e                unity_output_char
  .text.debug_write
-                0x08007478       0x16 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x08007478                debug_write
+                0x08007464       0x16 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08007464                debug_write
  .text.debug_print
-                0x0800748e       0x1a .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x0800748e                debug_print
+                0x0800747a       0x1a .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x0800747a                debug_print
  .text.debug_printhex
-                0x080074a8       0x42 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x080074a8                debug_printhex
+                0x08007494       0x42 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08007494                debug_printhex
  .text.debug_printhex_unsigned
-                0x080074ea       0x24 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
-                0x080074ea                debug_printhex_unsigned
- .text.strlen   0x0800750e       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
-                0x0800750e                strlen
- .text.strncat  0x0800751e       0x28 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
-                0x0800751e                strncat
+                0x080074d6       0x24 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x080074d6                debug_printhex_unsigned
+ .text.strlen   0x080074fa       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
+                0x080074fa                strlen
+ .text.strncat  0x0800750a       0x28 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
+                0x0800750a                strncat
  .text.UnityFloatsWithin
-                0x08007546       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08007532       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityDoublesWithin
-                0x0800762a      0x11c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.setUp    0x08007746        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08007746                setUp
+                0x08007616      0x11c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.setUp    0x08007732        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08007732                setUp
  .text.tearDown
-                0x08007748        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08007748                tearDown
+                0x08007734        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08007734                tearDown
  .text.UnityPrintNumberUnsigned
-                0x0800774a       0x34 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800774a                UnityPrintNumberUnsigned
+                0x08007736       0x34 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08007736                UnityPrintNumberUnsigned
  .text.UnityPrintNumber
-                0x0800777e       0x18 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800777e                UnityPrintNumber
+                0x0800776a       0x18 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800776a                UnityPrintNumber
  .text.UnityPrintNumberHex
-                0x08007796       0x2e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08007796                UnityPrintNumberHex
+                0x08007782       0x2e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08007782                UnityPrintNumberHex
  .text.UnityPrint.part.0
-                0x080077c4       0x4c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080077b0       0x4c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityPrint
-                0x08007810        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08007810                UnityPrint
+                0x080077fc        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080077fc                UnityPrint
  .text.UnityPrintNumberByStyle
-                0x08007818       0x3a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08007818                UnityPrintNumberByStyle
+                0x08007804       0x3a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08007804                UnityPrintNumberByStyle
  .text._ZN5codal3Pin15setServoPulseUsEm
-                0x08007852        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007852                codal::Pin::setServoPulseUs(unsigned long)
+                0x0800783e        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x0800783e                codal::Pin::setServoPulseUs(unsigned long)
  .text._ZN5codal3Pin17setAnalogPeriodUsEm
-                0x08007858        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007858                codal::Pin::setAnalogPeriodUs(unsigned long)
+                0x08007844        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08007844                codal::Pin::setAnalogPeriodUs(unsigned long)
  .text._ZN5codal3Pin8drainPinEv
-                0x0800785e        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x0800785e                codal::Pin::drainPin()
+                0x0800784a        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x0800784a                codal::Pin::drainPin()
  .text._ZN5codal3_cm3Pin15getDigitalValueEv
-                0x08007864        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007864                codal::_cm::Pin::getDigitalValue()
+                0x08007850        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08007850                codal::_cm::Pin::getDigitalValue()
  .text._ZN5codal3_cm3Pin15getDigitalValueENS_8PullModeE
-                0x08007868       0x16 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007868                codal::_cm::Pin::getDigitalValue(codal::PullMode)
+                0x08007854       0x16 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08007854                codal::_cm::Pin::getDigitalValue(codal::PullMode)
  .text._ZN5codal3_cm3Pin14getAnalogValueEv
-                0x0800787e        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x0800787e                codal::_cm::Pin::getAnalogValue()
+                0x0800786a        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x0800786a                codal::_cm::Pin::getAnalogValue()
  .text._ZN5codal3_cm3Pin7isInputEv
-                0x08007882        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007882                codal::_cm::Pin::isInput()
+                0x0800786e        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x0800786e                codal::_cm::Pin::isInput()
  .text._ZN5codal3_cm3Pin8isOutputEv
-                0x08007890        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007890                codal::_cm::Pin::isOutput()
+                0x0800787c        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x0800787c                codal::_cm::Pin::isOutput()
  .text._ZN5codal3_cm3Pin9isDigitalEv
-                0x0800789e        0xc .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x0800789e                codal::_cm::Pin::isDigital()
+                0x0800788a        0xc .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x0800788a                codal::_cm::Pin::isDigital()
  .text._ZN5codal3_cm3Pin8isAnalogEv
-                0x080078aa        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x080078aa                codal::_cm::Pin::isAnalog()
+                0x08007896        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08007896                codal::_cm::Pin::isAnalog()
  .text._ZN5codal3_cm3Pin15getAnalogPeriodEv
-                0x080078b8       0x12 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x080078b8                codal::_cm::Pin::getAnalogPeriod()
+                0x080078a4       0x12 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080078a4                codal::_cm::Pin::getAnalogPeriod()
  .text._ZN5codal3_cm3Pin7setPullENS_8PullModeE
-                0x080078ca        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x080078ca                codal::_cm::Pin::setPull(codal::PullMode)
+                0x080078b6        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080078b6                codal::_cm::Pin::setPull(codal::PullMode)
  .text._ZN5codal3_cm3Pin5setupEhh
-                0x080078d0       0x1e .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x080078d0                codal::_cm::Pin::setup(unsigned char, unsigned char)
+                0x080078bc       0x1e .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080078bc                codal::_cm::Pin::setup(unsigned char, unsigned char)
  .text._ZN5codal3_cm3Pin17setAnalogPeriodUsEi
-                0x080078ee       0x12 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x080078ee                codal::_cm::Pin::setAnalogPeriodUs(int)
+                0x080078da       0x12 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080078da                codal::_cm::Pin::setAnalogPeriodUs(int)
  .text._ZN5codal3_cm3Pin15setAnalogPeriodEi
-                0x08007900        0xa .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x08007900                codal::_cm::Pin::setAnalogPeriod(int)
+                0x080078ec        0xa .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080078ec                codal::_cm::Pin::setAnalogPeriod(int)
  .text._ZN5codal3_cm3Pin13disableEventsEv
-                0x0800790a       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x0800790a                codal::_cm::Pin::disableEvents()
+                0x080078f6       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080078f6                codal::_cm::Pin::disableEvents()
  .text._ZN5codal3_cm3Pin7eventOnEi
-                0x0800791a       0x26 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x0800791a                codal::_cm::Pin::eventOn(int)
+                0x08007906       0x26 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08007906                codal::_cm::Pin::eventOn(int)
  .text.target_enable_debug
-                0x08007940        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007940                target_enable_debug
+                0x0800792c        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x0800792c                target_enable_debug
  .text.target_enable_irq
-                0x08007944        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007944                target_enable_irq
+                0x08007930        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007930                target_enable_irq
  .text.target_disable_irq
-                0x08007948        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007948                target_disable_irq
+                0x08007934        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007934                target_disable_irq
  .text.target_wait_for_event
-                0x0800794c        0xa .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x0800794c                target_wait_for_event
+                0x08007938        0xa .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007938                target_wait_for_event
  .text.tcb_allocate
-                0x08007956        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007956                tcb_allocate
+                0x08007942        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007942                tcb_allocate
  .text.tcb_configure_lr
-                0x0800795c        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x0800795c                tcb_configure_lr
+                0x08007948        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007948                tcb_configure_lr
  .text.tcb_configure_sp
-                0x08007960        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007960                tcb_configure_sp
+                0x0800794c        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x0800794c                tcb_configure_sp
  .text.tcb_configure_stack_base
-                0x08007964        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007964                tcb_configure_stack_base
+                0x08007950        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007950                tcb_configure_stack_base
  .text.tcb_get_stack_base
-                0x08007968        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007968                tcb_get_stack_base
+                0x08007954        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007954                tcb_get_stack_base
  .text.get_current_sp
-                0x0800796c        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x0800796c                get_current_sp
+                0x08007958        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007958                get_current_sp
  .text.tcb_get_sp
-                0x08007970        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007970                tcb_get_sp
+                0x0800795c        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x0800795c                tcb_get_sp
  .text.tcb_configure_args
-                0x08007974        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x08007974                tcb_configure_args
- .text._fini    0x0800797c        0x2 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x0800797c                _fini
+                0x08007960        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007960                tcb_configure_args
+ .text._fini    0x08007968        0x2 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08007968                _fini
  .text.__aeabi_atexit
-                0x0800797e        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
-                0x0800797e                __aeabi_atexit
+                0x0800796a        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x0800796a                __aeabi_atexit
  .text._ZN5codal14string_reverseEPc
-                0x08007982       0x2a .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalCompat.o)
-                0x08007982                codal::string_reverse(char*)
+                0x0800796e       0x2a .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalCompat.o)
+                0x0800796e                codal::string_reverse(char*)
  .text._ZN5codal4itoaEiPc
-                0x080079ac       0x50 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalCompat.o)
-                0x080079ac                codal::itoa(int, char*)
+                0x08007998       0x50 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalCompat.o)
+                0x08007998                codal::itoa(int, char*)
  .text._ZN5codal11queue_fiberEPNS_5FiberEPS1_
-                0x080079fc       0x2e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x080079fc                codal::queue_fiber(codal::Fiber*, codal::Fiber**)
+                0x080079e8       0x2e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x080079e8                codal::queue_fiber(codal::Fiber*, codal::Fiber**)
  .text._ZN5codal13dequeue_fiberEPNS_5FiberE
-                0x08007a2a       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007a2a                codal::dequeue_fiber(codal::Fiber*)
+                0x08007a16       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007a16                codal::dequeue_fiber(codal::Fiber*)
  .text._ZN5codal12create_fiberEPFvPvES0_S2_
-                0x08007a5e       0x1e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007a5e                codal::create_fiber(void (*)(void*), void*, void (*)(void*))
+                0x08007a4a       0x1e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007a4a                codal::create_fiber(void (*)(void*), void*, void (*)(void*))
  .text._ZN5codal20fiber_wait_for_eventEtt
-                0x08007a7c       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007a7c                codal::fiber_wait_for_event(unsigned short, unsigned short)
+                0x08007a68       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007a68                codal::fiber_wait_for_event(unsigned short, unsigned short)
  .text._ZN5codal16launch_new_fiberEPFvvES1_
-                0x08007a8e       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007a8e                codal::launch_new_fiber(void (*)(), void (*)())
+                0x08007a7a       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007a7a                codal::launch_new_fiber(void (*)(), void (*)())
  .text._ZN5codal13release_fiberEPv
-                0x08007a9e       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007a9e                codal::release_fiber(void*)
+                0x08007a8a       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007a8a                codal::release_fiber(void*)
  .text._ZN5codal22launch_new_fiber_paramEPFvPvES2_S0_
-                0x08007ab0       0x1a .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007ab0                codal::launch_new_fiber_param(void (*)(void*), void (*)(void*), void*)
+                0x08007a9c       0x1a .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007a9c                codal::launch_new_fiber_param(void (*)(void*), void (*)(void*), void*)
  .text._ZN5codal9idle_taskEv
-                0x08007aca        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
-                0x08007aca                codal::idle_task()
+                0x08007ab6        0xc .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalFiber.o)
+                0x08007ab6                codal::idle_task()
  .text._Z16device_malloc_injR14HeapDefinition
-                0x08007ad6       0x84 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
-                0x08007ad6                device_malloc_in(unsigned int, HeapDefinition&)
+                0x08007ac2       0x84 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
+                0x08007ac2                device_malloc_in(unsigned int, HeapDefinition&)
  .text._ZN5codal8ListenerC2EttPFvNS_5EventEEt
-                0x08007b5a       0x28 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
-                0x08007b5a                codal::Listener::Listener(unsigned short, unsigned short, void (*)(codal::Event), unsigned short)
-                0x08007b5a                codal::Listener::Listener(unsigned short, unsigned short, void (*)(codal::Event), unsigned short)
+                0x08007b46       0x28 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
+                0x08007b46                codal::Listener::Listener(unsigned short, unsigned short, void (*)(codal::Event), unsigned short)
+                0x08007b46                codal::Listener::Listener(unsigned short, unsigned short, void (*)(codal::Event), unsigned short)
  .text._ZN5codal8ListenerD2Ev
-                0x08007b82       0x14 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
-                0x08007b82                codal::Listener::~Listener()
-                0x08007b82                codal::Listener::~Listener()
+                0x08007b6e       0x14 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
+                0x08007b6e                codal::Listener::~Listener()
+                0x08007b6e                codal::Listener::~Listener()
  .text._ZN5codal8Listener5queueENS_5EventE
-                0x08007b96       0x5c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
-                0x08007b96                codal::Listener::queue(codal::Event)
+                0x08007b82       0x5c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
+                0x08007b82                codal::Listener::queue(codal::Event)
  .text._ZN5codal5Timer17disableInterruptsEv
-                0x08007bf2        0xa .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007bf2                codal::Timer::disableInterrupts()
+                0x08007bde        0xa .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007bde                codal::Timer::disableInterrupts()
  .text._ZN5codal5Timer16enableInterruptsEv
-                0x08007bfc        0xa .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007bfc                codal::Timer::enableInterrupts()
+                0x08007be8        0xa .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007be8                codal::Timer::enableInterrupts()
  .text._ZN5codal5Timer13getTimerEventEv
-                0x08007c06       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007c06                codal::Timer::getTimerEvent()
+                0x08007bf2       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007bf2                codal::Timer::getTimerEvent()
  .text._ZN5codal5Timer17releaseTimerEventEPNS_10TimerEventE
-                0x08007c28        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007c28                codal::Timer::releaseTimerEvent(codal::TimerEvent*)
+                0x08007c14        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007c14                codal::Timer::releaseTimerEvent(codal::TimerEvent*)
  .text._ZN5codal5Timer7getTimeEv
-                0x08007c36        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007c36                codal::Timer::getTime()
+                0x08007c22        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007c22                codal::Timer::getTime()
  .text._ZN5codal5Timer9getTimeUsEv
-                0x08007c44        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007c44                codal::Timer::getTimeUs()
+                0x08007c30        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007c30                codal::Timer::getTimeUs()
  .text._ZN5codal5Timer8setEventEmttb
-                0x08007c52       0x66 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007c52                codal::Timer::setEvent(unsigned long, unsigned short, unsigned short, bool)
+                0x08007c3e       0x66 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007c3e                codal::Timer::setEvent(unsigned long, unsigned short, unsigned short, bool)
  .text._ZN5codal5Timer12eventEveryUsEmtt
-                0x08007cb8        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007cb8                codal::Timer::eventEveryUs(unsigned long, unsigned short, unsigned short)
+                0x08007ca4        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007ca4                codal::Timer::eventEveryUs(unsigned long, unsigned short, unsigned short)
  .text._ZN5codal5Timer4syncEm
-                0x08007cc6       0x24 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007cc6                codal::Timer::sync(unsigned long)
+                0x08007cb2       0x24 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007cb2                codal::Timer::sync(unsigned long)
  .text._ZN5codal5Timer7triggerEv
-                0x08007cea       0x92 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007cea                codal::Timer::trigger()
+                0x08007cd6       0x92 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007cd6                codal::Timer::trigger()
  .text._ZN5codal5TimerD2Ev
-                0x08007d7c        0x2 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08007d7c                codal::Timer::~Timer()
-                0x08007d7c                codal::Timer::~Timer()
+                0x08007d68        0x2 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x08007d68                codal::Timer::~Timer()
+                0x08007d68                codal::Timer::~Timer()
  .text._ZN5codal5EventC2Ev
-                0x08007d7e       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
-                0x08007d7e                codal::Event::Event()
-                0x08007d7e                codal::Event::Event()
+                0x08007d6a       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
+                0x08007d6a                codal::Event::Event()
+                0x08007d6a                codal::Event::Event()
  .text._ZN5codal5EventC2EttNS_15EventLaunchModeE
-                0x08007d90       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
-                0x08007d90                codal::Event::Event(unsigned short, unsigned short, codal::EventLaunchMode)
-                0x08007d90                codal::Event::Event(unsigned short, unsigned short, codal::EventLaunchMode)
+                0x08007d7c       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
+                0x08007d7c                codal::Event::Event(unsigned short, unsigned short, codal::EventLaunchMode)
+                0x08007d7c                codal::Event::Event(unsigned short, unsigned short, codal::EventLaunchMode)
  .text._ZN5codal5EventC2EttmNS_15EventLaunchModeE
-                0x08007dac       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
-                0x08007dac                codal::Event::Event(unsigned short, unsigned short, unsigned long, codal::EventLaunchMode)
-                0x08007dac                codal::Event::Event(unsigned short, unsigned short, unsigned long, codal::EventLaunchMode)
+                0x08007d98       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
+                0x08007d98                codal::Event::Event(unsigned short, unsigned short, unsigned long, codal::EventLaunchMode)
+                0x08007d98                codal::Event::Event(unsigned short, unsigned short, unsigned long, codal::EventLaunchMode)
  .text._ZN5codal14EventQueueItemC2ENS_5EventE
-                0x08007dc4       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
-                0x08007dc4                codal::EventQueueItem::EventQueueItem(codal::Event)
-                0x08007dc4                codal::EventQueueItem::EventQueueItem(codal::Event)
+                0x08007db0       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
+                0x08007db0                codal::EventQueueItem::EventQueueItem(codal::Event)
+                0x08007db0                codal::EventQueueItem::EventQueueItem(codal::Event)
  .text._ZN5codal14CodalComponent16periodicCallbackEv
-                0x08007de4        0x2 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08007de4                codal::CodalComponent::periodicCallback()
+                0x08007dd0        0x2 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08007dd0                codal::CodalComponent::periodicCallback()
  .text._ZN5codal14CodalComponent12idleCallbackEv
-                0x08007de6        0x2 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08007de6                codal::CodalComponent::idleCallback()
+                0x08007dd2        0x2 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08007dd2                codal::CodalComponent::idleCallback()
  .text._ZN5codal13STM32BluePill16periodicCallbackEv
-                0x08007de8        0x2 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08007de8                codal::STM32BluePill::periodicCallback()
+                0x08007dd4        0x2 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08007dd4                codal::STM32BluePill::periodicCallback()
  .text._ZN5codal14CodalComponentD0Ev
-                0x08007dea       0x12 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08007dea                codal::CodalComponent::~CodalComponent()
+                0x08007dd6       0x12 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08007dd6                codal::CodalComponent::~CodalComponent()
  .text._ZN5codal13STM32BluePill12idleCallbackEv
-                0x08007dfc        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08007dfc                codal::STM32BluePill::idleCallback()
+                0x08007de8        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08007de8                codal::STM32BluePill::idleCallback()
  .text._ZN5codal13STM32BluePillD0Ev
-                0x08007e00       0x12 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08007e00                codal::STM32BluePill::~STM32BluePill()
+                0x08007dec       0x12 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08007dec                codal::STM32BluePill::~STM32BluePill()
  .text.__cxa_pure_virtual
-                0x08007e12        0x8 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
-                0x08007e12                __cxa_pure_virtual
- .text._Znwj    0x08007e1a        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
-                0x08007e1a                operator new(unsigned int)
- .text._ZdlPv   0x08007e1e        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
-                0x08007e1e                operator delete(void*)
- .text.millis   0x08007e22        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
-                0x08007e22                millis
+                0x08007dfe        0x8 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
+                0x08007dfe                __cxa_pure_virtual
+ .text._Znwj    0x08007e06        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
+                0x08007e06                operator new(unsigned int)
+ .text._ZdlPv   0x08007e0a        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
+                0x08007e0a                operator delete(void*)
+ .text.millis   0x08007e0e        0x4 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
+                0x08007e0e                millis
  .text._ZN13UARTInterfaceC2Ejj
-                0x08007e26        0x2 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
-                0x08007e26                UARTInterface::UARTInterface(unsigned int, unsigned int)
-                0x08007e26                UARTInterface::UARTInterface(unsigned int, unsigned int)
+                0x08007e12        0x2 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
+                0x08007e12                UARTInterface::UARTInterface(unsigned int, unsigned int)
+                0x08007e12                UARTInterface::UARTInterface(unsigned int, unsigned int)
  .text.gpio_set_mode
-                0x08007e28       0x62 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(gpio.o)
-                0x08007e28                gpio_set_mode
+                0x08007e14       0x62 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(gpio.o)
+                0x08007e14                gpio_set_mode
  .text.gpio_set
-                0x08007e8a        0x4 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(gpio_common_all.o)
-                0x08007e8a                gpio_set
+                0x08007e76        0x4 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(gpio_common_all.o)
+                0x08007e76                gpio_set
  .text.gpio_clear
-                0x08007e8e        0x6 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(gpio_common_all.o)
-                0x08007e8e                gpio_clear
+                0x08007e7a        0x6 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(gpio_common_all.o)
+                0x08007e7a                gpio_clear
  .text.usart_recv
-                0x08007e94        0x8 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(usart_common_f124.o)
-                0x08007e94                usart_recv
+                0x08007e80        0x8 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(usart_common_f124.o)
+                0x08007e80                usart_recv
  .text.rcc_periph_clock_enable
-                0x08007e9c       0x1a .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc_common_all.o)
-                0x08007e9c                rcc_periph_clock_enable
+                0x08007e88       0x1a .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc_common_all.o)
+                0x08007e88                rcc_periph_clock_enable
  .text.blocking_handler
-                0x08007eb6        0x2 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
-                0x08007eb6                usart3_isr
-                0x08007eb6                tim7_isr
-                0x08007eb6                adc1_2_isr
-                0x08007eb6                tim1_trg_com_isr
-                0x08007eb6                usb_hp_can_tx_isr
-                0x08007eb6                tim6_isr
-                0x08007eb6                usb_wakeup_isr
-                0x08007eb6                blocking_handler
-                0x08007eb6                tim5_isr
-                0x08007eb6                otg_fs_isr
-                0x08007eb6                spi1_isr
-                0x08007eb6                exti2_isr
-                0x08007eb6                dma1_channel6_isr
-                0x08007eb6                can_rx1_isr
-                0x08007eb6                dma1_channel5_isr
-                0x08007eb6                dma2_channel5_isr
-                0x08007eb6                usart1_isr
-                0x08007eb6                usage_fault_handler
-                0x08007eb6                tim8_trg_com_isr
-                0x08007eb6                can2_rx0_isr
-                0x08007eb6                tim1_brk_isr
-                0x08007eb6                can2_rx1_isr
-                0x08007eb6                tim1_cc_isr
-                0x08007eb6                sdio_isr
-                0x08007eb6                eth_isr
-                0x08007eb6                dma1_channel4_isr
-                0x08007eb6                tim8_brk_isr
-                0x08007eb6                dma2_channel4_5_isr
-                0x08007eb6                pvd_isr
-                0x08007eb6                rcc_isr
-                0x08007eb6                flash_isr
-                0x08007eb6                uart4_isr
-                0x08007eb6                exti15_10_isr
-                0x08007eb6                hard_fault_handler
-                0x08007eb6                exti1_isr
-                0x08007eb6                i2c1_ev_isr
-                0x08007eb6                dma2_channel1_isr
-                0x08007eb6                spi2_isr
-                0x08007eb6                tim8_up_isr
-                0x08007eb6                dma2_channel2_isr
-                0x08007eb6                exti3_isr
-                0x08007eb6                adc3_isr
-                0x08007eb6                tim3_isr
-                0x08007eb6                usb_lp_can_rx0_isr
-                0x08007eb6                i2c2_er_isr
-                0x08007eb6                i2c2_ev_isr
-                0x08007eb6                uart5_isr
-                0x08007eb6                fsmc_isr
-                0x08007eb6                dma1_channel1_isr
-                0x08007eb6                exti4_isr
-                0x08007eb6                mem_manage_handler
-                0x08007eb6                can2_tx_isr
-                0x08007eb6                exti9_5_isr
-                0x08007eb6                dma2_channel3_isr
-                0x08007eb6                dma1_channel7_isr
-                0x08007eb6                tim1_up_isr
-                0x08007eb6                can2_sce_isr
-                0x08007eb6                tim4_isr
-                0x08007eb6                dma1_channel2_isr
-                0x08007eb6                i2c1_er_isr
-                0x08007eb6                can_sce_isr
-                0x08007eb6                tim8_cc_isr
-                0x08007eb6                tamper_isr
-                0x08007eb6                eth_wkup_isr
-                0x08007eb6                bus_fault_handler
-                0x08007eb6                wwdg_isr
-                0x08007eb6                dma1_channel3_isr
-                0x08007eb6                spi3_isr
-                0x08007eb6                tim2_isr
-                0x08007eb6                exti0_isr
+                0x08007ea2        0x2 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
+                0x08007ea2                usart3_isr
+                0x08007ea2                tim7_isr
+                0x08007ea2                adc1_2_isr
+                0x08007ea2                tim1_trg_com_isr
+                0x08007ea2                usb_hp_can_tx_isr
+                0x08007ea2                tim6_isr
+                0x08007ea2                usb_wakeup_isr
+                0x08007ea2                blocking_handler
+                0x08007ea2                tim5_isr
+                0x08007ea2                otg_fs_isr
+                0x08007ea2                spi1_isr
+                0x08007ea2                exti2_isr
+                0x08007ea2                dma1_channel6_isr
+                0x08007ea2                can_rx1_isr
+                0x08007ea2                dma1_channel5_isr
+                0x08007ea2                dma2_channel5_isr
+                0x08007ea2                usart1_isr
+                0x08007ea2                usage_fault_handler
+                0x08007ea2                tim8_trg_com_isr
+                0x08007ea2                can2_rx0_isr
+                0x08007ea2                tim1_brk_isr
+                0x08007ea2                can2_rx1_isr
+                0x08007ea2                tim1_cc_isr
+                0x08007ea2                sdio_isr
+                0x08007ea2                eth_isr
+                0x08007ea2                dma1_channel4_isr
+                0x08007ea2                tim8_brk_isr
+                0x08007ea2                dma2_channel4_5_isr
+                0x08007ea2                pvd_isr
+                0x08007ea2                rcc_isr
+                0x08007ea2                flash_isr
+                0x08007ea2                uart4_isr
+                0x08007ea2                exti15_10_isr
+                0x08007ea2                hard_fault_handler
+                0x08007ea2                exti1_isr
+                0x08007ea2                i2c1_ev_isr
+                0x08007ea2                dma2_channel1_isr
+                0x08007ea2                spi2_isr
+                0x08007ea2                tim8_up_isr
+                0x08007ea2                dma2_channel2_isr
+                0x08007ea2                exti3_isr
+                0x08007ea2                adc3_isr
+                0x08007ea2                tim3_isr
+                0x08007ea2                usb_lp_can_rx0_isr
+                0x08007ea2                i2c2_er_isr
+                0x08007ea2                i2c2_ev_isr
+                0x08007ea2                uart5_isr
+                0x08007ea2                fsmc_isr
+                0x08007ea2                dma1_channel1_isr
+                0x08007ea2                exti4_isr
+                0x08007ea2                mem_manage_handler
+                0x08007ea2                can2_tx_isr
+                0x08007ea2                exti9_5_isr
+                0x08007ea2                dma2_channel3_isr
+                0x08007ea2                dma1_channel7_isr
+                0x08007ea2                tim1_up_isr
+                0x08007ea2                can2_sce_isr
+                0x08007ea2                tim4_isr
+                0x08007ea2                dma1_channel2_isr
+                0x08007ea2                i2c1_er_isr
+                0x08007ea2                can_sce_isr
+                0x08007ea2                tim8_cc_isr
+                0x08007ea2                tamper_isr
+                0x08007ea2                eth_wkup_isr
+                0x08007ea2                bus_fault_handler
+                0x08007ea2                wwdg_isr
+                0x08007ea2                dma1_channel3_isr
+                0x08007ea2                spi3_isr
+                0x08007ea2                tim2_isr
+                0x08007ea2                exti0_isr
  .text.null_handler
-                0x08007eb8        0x2 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
-                0x08007eb8                sv_call_handler
-                0x08007eb8                pend_sv_handler
-                0x08007eb8                debug_monitor_handler
-                0x08007eb8                sys_tick_handler
-                0x08007eb8                nmi_handler
-                0x08007eb8                null_handler
+                0x08007ea4        0x2 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
+                0x08007ea4                sv_call_handler
+                0x08007ea4                pend_sv_handler
+                0x08007ea4                debug_monitor_handler
+                0x08007ea4                sys_tick_handler
+                0x08007ea4                nmi_handler
+                0x08007ea4                null_handler
  .text.nvic_enable_irq
-                0x08007eba       0x1a .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(nvic.o)
-                0x08007eba                nvic_enable_irq
- .text.memcpy   0x08007ed4       0x1c .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcpy.o)
-                0x08007ed4                memcpy
- .text.memset   0x08007ef0       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memset.o)
-                0x08007ef0                memset
+                0x08007ea6       0x1a .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(nvic.o)
+                0x08007ea6                nvic_enable_irq
+ .text.memcpy   0x08007ec0       0x1c .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcpy.o)
+                0x08007ec0                memcpy
+ .text.memset   0x08007edc       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memset.o)
+                0x08007edc                memset
  .text._ZN5codal3_cm3I2C12setFrequencyEm
-                0x08007f00        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
-                0x08007f00                codal::_cm::I2C::setFrequency(unsigned long)
+                0x08007eec        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
+                0x08007eec                codal::_cm::I2C::setFrequency(unsigned long)
  .text._ZN5codal3_cm3I2C5writeEtPhib
-                0x08007f04        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
-                0x08007f04                codal::_cm::I2C::write(unsigned short, unsigned char*, int, bool)
-                0x08007f04                codal::_cm::I2C::read(unsigned short, unsigned char*, int, bool)
+                0x08007ef0        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
+                0x08007ef0                codal::_cm::I2C::write(unsigned short, unsigned char*, int, bool)
+                0x08007ef0                codal::_cm::I2C::read(unsigned short, unsigned char*, int, bool)
  .text._ZN5codal3_cm3I2C12readRegisterEthPhib
-                0x08007f08        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
-                0x08007f08                codal::_cm::I2C::readRegister(unsigned short, unsigned char, unsigned char*, int, bool)
+                0x08007ef4        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
+                0x08007ef4                codal::_cm::I2C::readRegister(unsigned short, unsigned char, unsigned char*, int, bool)
  .text._ZN5codal3_cm3SPI12setFrequencyEm
-                0x08007f0c        0xc .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08007f0c                codal::_cm::SPI::setFrequency(unsigned long)
+                0x08007ef8        0xc .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08007ef8                codal::_cm::SPI::setFrequency(unsigned long)
  .text._ZN5codal3_cm3SPI5writeEi
-                0x08007f18        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08007f18                codal::_cm::SPI::write(int)
+                0x08007f04        0xe .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08007f04                codal::_cm::SPI::write(int)
  .text._ZN5codal3_cm3SPI8transferEPKhmPhm
-                0x08007f26        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08007f26                codal::_cm::SPI::transfer(unsigned char const*, unsigned long, unsigned char*, unsigned long)
+                0x08007f12        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08007f12                codal::_cm::SPI::transfer(unsigned char const*, unsigned long, unsigned char*, unsigned long)
  .text._ZN5codal3_cm3SPI7setModeEii
-                0x08007f2a       0x18 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08007f2a                codal::_cm::SPI::setMode(int, int)
+                0x08007f16       0x18 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08007f16                codal::_cm::SPI::setMode(int, int)
  .text._ZN5codal3_cm16_codal_setup_pinEPNS0_3PinEmPK6PinMap
-                0x08007f42       0x54 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08007f42                codal::_cm::_codal_setup_pin(codal::_cm::Pin*, unsigned long, PinMap const*)
+                0x08007f2e       0x54 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08007f2e                codal::_cm::_codal_setup_pin(codal::_cm::Pin*, unsigned long, PinMap const*)
  .text._ZN5codal3_cm3SPI13startTransferEPKhmPhmPFvPvES5_
-                0x08007f96       0x28 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08007f96                codal::_cm::SPI::startTransfer(unsigned char const*, unsigned long, unsigned char*, unsigned long, void (*)(void*), void*)
+                0x08007f82       0x28 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08007f82                codal::_cm::SPI::startTransfer(unsigned char const*, unsigned long, unsigned char*, unsigned long, void (*)(void*), void*)
  .text._ZN5codal3_cm6Serial15enableInterruptENS_19SerialInterruptTypeE
-                0x08007fbe        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fbe                codal::_cm::Serial::enableInterrupt(codal::SerialInterruptType)
+                0x08007faa        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007faa                codal::_cm::Serial::enableInterrupt(codal::SerialInterruptType)
  .text._ZN5codal3_cm6Serial16disableInterruptENS_19SerialInterruptTypeE
-                0x08007fc2        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fc2                codal::_cm::Serial::disableInterrupt(codal::SerialInterruptType)
+                0x08007fae        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fae                codal::_cm::Serial::disableInterrupt(codal::SerialInterruptType)
  .text._ZN5codal3_cm6Serial11setBaudrateEm
-                0x08007fc6        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fc6                codal::_cm::Serial::setBaudrate(unsigned long)
+                0x08007fb2        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fb2                codal::_cm::Serial::setBaudrate(unsigned long)
  .text._ZN5codal3_cm6Serial13configurePinsERNS_3PinES3_
-                0x08007fca        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fca                codal::_cm::Serial::configurePins(codal::Pin&, codal::Pin&)
+                0x08007fb6        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fb6                codal::_cm::Serial::configurePins(codal::Pin&, codal::Pin&)
  .text._ZN5codal3_cm6Serial4putcEc
-                0x08007fce        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fce                codal::_cm::Serial::putc(char)
+                0x08007fba        0x4 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fba                codal::_cm::Serial::putc(char)
  .text._ZN5codal3_cm6Serial4getcEv
-                0x08007fd2        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fd2                codal::_cm::Serial::getc()
+                0x08007fbe        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fbe                codal::_cm::Serial::getc()
  .text._ZN5codal3_cm6SerialD0Ev
-                0x08007fd8       0x12 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fd8                codal::_cm::Serial::~Serial()
+                0x08007fc4       0x12 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fc4                codal::_cm::Serial::~Serial()
  .text._ZN5codal3_cm6Serial12initialiseRxEv
-                0x08007fea       0x38 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08007fea                codal::_cm::Serial::initialiseRx()
+                0x08007fd6       0x38 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08007fd6                codal::_cm::Serial::initialiseRx()
  .text._ZN5codal3_cm6Serial12circularCopyEPhhS2_tt
-                0x08008022       0x26 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08008022                codal::_cm::Serial::circularCopy(unsigned char*, unsigned char, unsigned char*, unsigned short, unsigned short)
+                0x0800800e       0x26 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x0800800e                codal::_cm::Serial::circularCopy(unsigned char*, unsigned char, unsigned char*, unsigned short, unsigned short)
  .text._ZN5codal3_cm6Serial7eventOnENS_13ManagedStringENS_10SerialModeE
-                0x08008048       0x24 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08008048                codal::_cm::Serial::eventOn(codal::ManagedString, codal::SerialMode)
+                0x08008034       0x24 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08008034                codal::_cm::Serial::eventOn(codal::ManagedString, codal::SerialMode)
  .text._ZN5codal3_cm6Serial9readUntilENS_13ManagedStringENS_10SerialModeE
-                0x0800806c      0x1a6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x0800806c                codal::_cm::Serial::readUntil(codal::ManagedString, codal::SerialMode)
+                0x08008058      0x1a6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08008058                codal::_cm::Serial::readUntil(codal::ManagedString, codal::SerialMode)
  .text._ZN5codal3_cm5Timer9triggerInEm
-                0x08008212        0x2 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
-                0x08008212                codal::_cm::Timer::triggerIn(unsigned long)
+                0x080081fe        0x2 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
+                0x080081fe                codal::_cm::Timer::triggerIn(unsigned long)
  .text._ZN5codal3_cm5Timer11syncRequestEv
-                0x08008214       0x26 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
-                0x08008214                codal::_cm::Timer::syncRequest()
+                0x08008200       0x26 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
+                0x08008200                codal::_cm::Timer::syncRequest()
  .text._ZN5codal3I2C12setFrequencyEm
-                0x0800823a        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x0800823a                codal::I2C::setFrequency(unsigned long)
+                0x08008226        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008226                codal::I2C::setFrequency(unsigned long)
  .text._ZN5codal3I2C5startEv
-                0x08008240        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x08008240                codal::I2C::start()
-                0x08008240                codal::I2C::stop()
+                0x0800822c        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x0800822c                codal::I2C::start()
+                0x0800822c                codal::I2C::stop()
  .text._ZN5codal3I2C5writeEh
-                0x08008246        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x08008246                codal::I2C::write(unsigned char)
-                0x08008246                codal::I2C::read(codal::AcknowledgeType)
+                0x08008232        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008232                codal::I2C::write(unsigned char)
+                0x08008232                codal::I2C::read(codal::AcknowledgeType)
  .text._ZN5codal3I2C13writeRegisterEthh
-                0x0800824c       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x0800824c                codal::I2C::writeRegister(unsigned short, unsigned char, unsigned char)
+                0x08008238       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008238                codal::I2C::writeRegister(unsigned short, unsigned char, unsigned char)
  .text._ZN5codal3I2C5writeEtPhib
-                0x08008268       0x50 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x08008268                codal::I2C::write(unsigned short, unsigned char*, int, bool)
+                0x08008254       0x50 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008254                codal::I2C::write(unsigned short, unsigned char*, int, bool)
  .text._ZN5codal3I2C4readEtPhib
-                0x080082b8       0x64 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x080082b8                codal::I2C::read(unsigned short, unsigned char*, int, bool)
+                0x080082a4       0x64 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x080082a4                codal::I2C::read(unsigned short, unsigned char*, int, bool)
  .text._ZN5codal3I2C5writeEth
-                0x0800831c       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x0800831c                codal::I2C::write(unsigned short, unsigned char)
+                0x08008308       0x1c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008308                codal::I2C::write(unsigned short, unsigned char)
  .text._ZN5codal3I2C12readRegisterEthPhib
-                0x08008338       0x42 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x08008338                codal::I2C::readRegister(unsigned short, unsigned char, unsigned char*, int, bool)
+                0x08008324       0x42 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008324                codal::I2C::readRegister(unsigned short, unsigned char, unsigned char*, int, bool)
  .text._ZN5codal6Serial12initialiseRxEv
-                0x0800837a       0x4c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x0800837a                codal::Serial::initialiseRx()
+                0x08008366       0x4c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x08008366                codal::Serial::initialiseRx()
  .text._ZN5codal6Serial12circularCopyEPhhS1_tt
-                0x080083c6       0x26 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x080083c6                codal::Serial::circularCopy(unsigned char*, unsigned char, unsigned char*, unsigned short, unsigned short)
+                0x080083b2       0x26 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x080083b2                codal::Serial::circularCopy(unsigned char*, unsigned char, unsigned char*, unsigned short, unsigned short)
  .text._ZN5codal6Serial7eventOnENS_13ManagedStringENS_10SerialModeE
-                0x080083ec       0x26 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x080083ec                codal::Serial::eventOn(codal::ManagedString, codal::SerialMode)
+                0x080083d8       0x26 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x080083d8                codal::Serial::eventOn(codal::ManagedString, codal::SerialMode)
  .text._ZN5codal6Serial9readUntilENS_13ManagedStringENS_10SerialModeE
-                0x08008412      0x1a6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x08008412                codal::Serial::readUntil(codal::ManagedString, codal::SerialMode)
+                0x080083fe      0x1a6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x080083fe                codal::Serial::readUntil(codal::ManagedString, codal::SerialMode)
  .text._ZN5codal10MessageBus9elementAtEi
-                0x080085b8       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080085b8                codal::MessageBus::elementAt(int)
+                0x080085a4       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080085a4                codal::MessageBus::elementAt(int)
  .text._ZN5codal22MemberFunctionCallback10methodCallINS_10MessageBusEEEvPvPmNS_5EventE
-                0x080085c8       0x30 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080085c8                void codal::MemberFunctionCallback::methodCall<codal::MessageBus>(void*, unsigned long*, codal::Event)
+                0x080085b4       0x30 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080085b4                void codal::MemberFunctionCallback::methodCall<codal::MessageBus>(void*, unsigned long*, codal::Event)
  .text._Z14async_callbackPv
-                0x080085f8       0x7c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080085f8                async_callback(void*)
+                0x080085e4       0x7c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080085e4                async_callback(void*)
  .text._ZThn8_N5codal10MessageBusD1Ev
-                0x08008674        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08008674                non-virtual thunk to codal::MessageBus::~MessageBus()
+                0x08008660        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08008660                non-virtual thunk to codal::MessageBus::~MessageBus()
  .text._ZN5codal10MessageBusD0Ev
-                0x0800867c       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x0800867c                codal::MessageBus::~MessageBus()
+                0x08008668       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08008668                codal::MessageBus::~MessageBus()
  .text._ZThn8_N5codal10MessageBusD0Ev
-                0x0800868e        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x0800868e                non-virtual thunk to codal::MessageBus::~MessageBus()
+                0x0800867a        0x8 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x0800867a                non-virtual thunk to codal::MessageBus::~MessageBus()
  .text._ZN5codal10MessageBus12dequeueEventEv
-                0x08008696       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08008696                codal::MessageBus::dequeueEvent()
+                0x08008682       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08008682                codal::MessageBus::dequeueEvent()
  .text._ZN5codal10MessageBus21deleteMarkedListenersEv
-                0x080086b8       0x42 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080086b8                codal::MessageBus::deleteMarkedListeners()
+                0x080086a4       0x42 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080086a4                codal::MessageBus::deleteMarkedListeners()
  .text._ZN5codal10MessageBus10queueEventERNS_5EventE
-                0x080086fa       0x5e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x080086fa                codal::MessageBus::queueEvent(codal::Event&)
+                0x080086e6       0x5e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x080086e6                codal::MessageBus::queueEvent(codal::Event&)
  .text._ZN5codal10MessageBus4sendENS_5EventE
-                0x08008758       0x16 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08008758                codal::MessageBus::send(codal::Event)
+                0x08008744       0x16 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08008744                codal::MessageBus::send(codal::Event)
  .text._ZN5codal10MessageBus4idleENS_5EventE
-                0x0800876e       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x0800876e                codal::MessageBus::idle(codal::Event)
+                0x0800875a       0x34 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x0800875a                codal::MessageBus::idle(codal::Event)
  .text._ZN5codal13ManagedStringD2Ev
-                0x080087a2        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x080087a2                codal::ManagedString::~ManagedString()
-                0x080087a2                codal::ManagedString::~ManagedString()
+                0x0800878e        0xe .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x0800878e                codal::ManagedString::~ManagedString()
+                0x0800878e                codal::ManagedString::~ManagedString()
  .text._ZN5codal13ManagedString10initStringEPKci
-                0x080087b0       0x2e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x080087b0                codal::ManagedString::initString(char const*, int)
+                0x0800879c       0x2e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x0800879c                codal::ManagedString::initString(char const*, int)
  .text._ZN5codal13ManagedStringC2Ei
-                0x080087de       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x080087de                codal::ManagedString::ManagedString(int)
-                0x080087de                codal::ManagedString::ManagedString(int)
+                0x080087ca       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x080087ca                codal::ManagedString::ManagedString(int)
+                0x080087ca                codal::ManagedString::ManagedString(int)
  .text._ZN5codal13ManagedStringC2ERKS0_
-                0x08008800       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x08008800                codal::ManagedString::ManagedString(codal::ManagedString const&)
-                0x08008800                codal::ManagedString::ManagedString(codal::ManagedString const&)
+                0x080087ec       0x10 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x080087ec                codal::ManagedString::ManagedString(codal::ManagedString const&)
+                0x080087ec                codal::ManagedString::ManagedString(codal::ManagedString const&)
  .text._ZN5codal13ManagedStringaSERKS0_
-                0x08008810       0x1e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x08008810                codal::ManagedString::operator=(codal::ManagedString const&)
+                0x080087fc       0x1e .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x080087fc                codal::ManagedString::operator=(codal::ManagedString const&)
  .text._ZN5codal13ManagedString6charAtEs
-                0x0800882e       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x0800882e                codal::ManagedString::charAt(short)
+                0x0800881a       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x0800881a                codal::ManagedString::charAt(short)
  .text._ZL16isReadOnlyInlinePN5codal10RefCountedE
-                0x08008846       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o)
+                0x08008832       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o)
  .text._ZN5codal10RefCounted4incrEv
-                0x08008868       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o)
-                0x08008868                codal::RefCounted::incr()
+                0x08008854       0x12 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o)
+                0x08008854                codal::RefCounted::incr()
  .text._ZN5codal10RefCounted4decrEv
-                0x0800887a       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o)
-                0x0800887a                codal::RefCounted::decr()
+                0x08008866       0x22 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o)
+                0x08008866                codal::RefCounted::decr()
  .text._ZN5codal10RefCounted7destroyEv
-                0x0800889c        0x4 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCountedInit.o)
-                0x0800889c                codal::RefCounted::destroy()
+                0x08008888        0x4 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCountedInit.o)
+                0x08008888                codal::RefCounted::destroy()
  .text._ZN5codal10RefCounted4initEv
-                0x080088a0        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCountedInit.o)
-                0x080088a0                codal::RefCounted::init()
+                0x0800888c        0x6 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCountedInit.o)
+                0x0800888c                codal::RefCounted::init()
  .text._ZN5codal22MemberFunctionCallback4fireENS_5EventE
-                0x080088a6       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
-                0x080088a6                codal::MemberFunctionCallback::fire(codal::Event)
+                0x08008892       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
+                0x08008892                codal::MemberFunctionCallback::fire(codal::Event)
  .text._ZN5codal22MemberFunctionCallbackeqERKS0_
-                0x080088be       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
-                0x080088be                codal::MemberFunctionCallback::operator==(codal::MemberFunctionCallback const&)
- .text.memcmp   0x080088de       0x1e .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
-                0x080088de                memcmp
-                0x080088fc                . = ALIGN (0x4)
+                0x080088aa       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
+                0x080088aa                codal::MemberFunctionCallback::operator==(codal::MemberFunctionCallback const&)
+ .text.memcmp   0x080088ca       0x1e .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
+                0x080088ca                memcmp
+                0x080088e8                . = ALIGN (0x4)
  *(SORT_BY_ALIGNMENT(.rodata*))
  .rodata._ZTVN5codal3_cm3PinE
-                0x080088fc       0x54 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
-                0x080088fc                vtable for codal::_cm::Pin
+                0x080088e8       0x54 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x080088e8                vtable for codal::_cm::Pin
  .rodata._ZTVN5codal5TimerE
-                0x08008950       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
-                0x08008950                vtable for codal::Timer
+                0x0800893c       0x18 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
+                0x0800893c                vtable for codal::Timer
  .rodata._ZTVN5codal14CodalComponentE
-                0x08008968       0x1c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08008968                vtable for codal::CodalComponent
+                0x08008954       0x1c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08008954                vtable for codal::CodalComponent
  .rodata._ZTVN5codal13STM32BluePillE
-                0x08008984       0x1c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
-                0x08008984                vtable for codal::STM32BluePill
+                0x08008970       0x1c .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
+                0x08008970                vtable for codal::STM32BluePill
  .rodata.PinMap_SPI_MISO
-                0x080089a0       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
-                0x080089a0                PinMap_SPI_MISO
+                0x0800898c       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
+                0x0800898c                PinMap_SPI_MISO
  .rodata.PinMap_SPI_MOSI
-                0x080089e8       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
-                0x080089e8                PinMap_SPI_MOSI
+                0x080089d4       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
+                0x080089d4                PinMap_SPI_MOSI
  .rodata.PinMap_SPI_NSS
-                0x08008a30       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
-                0x08008a30                PinMap_SPI_NSS
+                0x08008a1c       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
+                0x08008a1c                PinMap_SPI_NSS
  .rodata.PinMap_SPI_SCK
-                0x08008a78       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
-                0x08008a78                PinMap_SPI_SCK
+                0x08008a64       0x48 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePillIO.o)
+                0x08008a64                PinMap_SPI_SCK
  .rodata._ZTVN5codal3_cm3I2CE
-                0x08008ac0       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
-                0x08008ac0                vtable for codal::_cm::I2C
+                0x08008aac       0x2c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
+                0x08008aac                vtable for codal::_cm::I2C
  .rodata._ZTVN5codal3_cm3SPIE
-                0x08008aec       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
-                0x08008aec                vtable for codal::_cm::SPI
+                0x08008ad8       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08008ad8                vtable for codal::_cm::SPI
  .rodata._ZTVN5codal3_cm6SerialE
-                0x08008b08       0x38 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
-                0x08008b08                vtable for codal::_cm::Serial
+                0x08008af4       0x38 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSerial.o)
+                0x08008af4                vtable for codal::_cm::Serial
  .rodata._ZTVN5codal3_cm5TimerE
-                0x08008b40       0x18 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
-                0x08008b40                vtable for codal::_cm::Timer
+                0x08008b2c       0x18 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmTimer.o)
+                0x08008b2c                vtable for codal::_cm::Timer
  .rodata._ZTVN5codal3I2CE
-                0x08008b58       0x2c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
-                0x08008b58                vtable for codal::I2C
+                0x08008b44       0x2c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(I2C.o)
+                0x08008b44                vtable for codal::I2C
  .rodata._ZTVN5codal6SerialE
-                0x08008b84       0x38 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
-                0x08008b84                vtable for codal::Serial
+                0x08008b70       0x38 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Serial.o)
+                0x08008b70                vtable for codal::Serial
  .rodata._ZTVN5codal10EventModelE
-                0x08008bbc       0x14 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08008bbc                vtable for codal::EventModel
+                0x08008ba8       0x14 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08008ba8                vtable for codal::EventModel
  .rodata._ZTVN5codal10MessageBusE
-                0x08008bd0       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
-                0x08008bd0                vtable for codal::MessageBus
+                0x08008bbc       0x3c .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o)
+                0x08008bbc                vtable for codal::MessageBus
  .rodata._ZL9emptyData
-                0x08008c0c        0x4 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x08008bf8        0x4 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
  .rodata._Z10debug_dumpv.str1.1
-                0x08008c10        0xc .pioenvs\bluepill_f103c8\src\main.o
+                0x08008bfc        0xc .pioenvs\bluepill_f103c8\src\main.o
                                   0xd (size before relaxing)
  .rodata.test_nanofloat.str1.1
-                0x08008c1c      0x1d6 .pioenvs\bluepill_f103c8\src\unit_test.o
+                0x08008c08      0x1d6 .pioenvs\bluepill_f103c8\src\unit_test.o
                                 0x1d7 (size before relaxing)
  .rodata._Z11debug_printi.str1.1
-                0x08008df2        0x2 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08008dde        0x2 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
                                   0x4 (size before relaxing)
  .rodata._Z11debug_printj.str1.1
-                0x08008df4        0xb .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08008de0        0xb .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
  .rodata.debug_println.str1.1
-                0x08008dff        0x2 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
+                0x08008deb        0x2 .pioenvs\bluepill_f103c8\lib931\liblogger.a(logger.o)
  .rodata.UnityPrintFloat.str1.1
-                0x08008e01        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008ded        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
                                   0xa (size before relaxing)
  .rodata.UnityStrBreaker
-                0x08008e09       0x18 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008df5       0x18 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrDetail1Name
-                0x08008e21        0xa .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e0d        0xa .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrDetail2Name
-                0x08008e2b        0xb .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e17        0xb .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrExpected
-                0x08008e36        0xb .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e22        0xb .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrFail
-                0x08008e41        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e2d        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrOk
-                0x08008e46        0x3 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e32        0x3 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrPass
-                0x08008e49        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e35        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrResultsFailures
-                0x08008e4e        0xb .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e3a        0xb .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrResultsIgnored
-                0x08008e59        0xa .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e45        0xa .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrResultsTests
-                0x08008e63        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e4f        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrSpacer
-                0x08008e6b        0x3 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e57        0x3 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata.UnityStrWas
-                0x08008e6e        0x6 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08008e5a        0x6 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .rodata._ZN5codal3_cm3Pin15setDigitalValueEi.str1.1
-                0x08008e74       0x42 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
+                0x08008e60       0x42 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
  .rodata.target_panic.str1.1
-                0x08008eb6       0x13 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08008ea2       0x13 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
  .rodata.target_wait.str1.1
-                0x08008ec9       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08008eb5       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
  .rodata.test_codal.str1.1
-                0x08008ed9       0x34 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
+                0x08008ec5       0x34 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
  .rodata.platform_setup.str1.1
-                0x08008f0d       0x13 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
+                0x08008ef9       0x13 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(bluepill.o)
  .rodata.platform_start_timer.str1.1
-                0x08008f20       0x1a .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
+                0x08008f0c       0x1a .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
  .rodata._ZN5codal3_cm3SPI4initEv.str1.1
-                0x08008f3a       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08008f26       0x10 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
  .rodata._ZN5codal3_cm3SPIC2ERNS0_3PinES3_S3_.str1.1
-                0x08008f4a       0x22 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08008f36       0x22 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
                                  0x23 (size before relaxing)
  .rodata._ZN5codal3_cm3SPIC2ERNS0_3PinES3_S3_S3_.str1.1
-                0x08008f6c        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
+                0x08008f58        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
                                  0x10 (size before relaxing)
  .rodata.pinmap_cnf.str1.1
-                0x08008f72       0x19 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
+                0x08008f5e       0x19 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
  .rodata.pinmap_mode.str1.1
-                0x08008f8b       0x1a .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
+                0x08008f77       0x1a .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
  .rodata.pinmap_peripheral.str1.1
-                0x08008fa5       0x20 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
-                0x08008fc8                . = ALIGN (0x4)
- *fill*         0x08008fc5        0x3 
+                0x08008f91       0x20 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPinMap.o)
+                0x08008fb4                . = ALIGN (0x4)
+ *fill*         0x08008fb1        0x3 
 
-.glue_7         0x08008fc8        0x0
- .glue_7        0x08008fc8        0x0 linker stubs
+.glue_7         0x08008fb4        0x0
+ .glue_7        0x08008fb4        0x0 linker stubs
 
-.glue_7t        0x08008fc8        0x0
- .glue_7t       0x08008fc8        0x0 linker stubs
+.glue_7t        0x08008fb4        0x0
+ .glue_7t       0x08008fb4        0x0 linker stubs
 
-.vfp11_veneer   0x08008fc8        0x0
- .vfp11_veneer  0x08008fc8        0x0 linker stubs
+.vfp11_veneer   0x08008fb4        0x0
+ .vfp11_veneer  0x08008fb4        0x0 linker stubs
 
-.v4_bx          0x08008fc8        0x0
- .v4_bx         0x08008fc8        0x0 linker stubs
+.v4_bx          0x08008fb4        0x0
+ .v4_bx         0x08008fb4        0x0 linker stubs
 
-.iplt           0x08008fc8        0x0
- .iplt          0x08008fc8        0x0 asm/CortexContextSwitch.s.o
+.iplt           0x08008fb4        0x0
+ .iplt          0x08008fb4        0x0 asm/CortexContextSwitch.s.o
 
-.rel.dyn        0x08008fc8        0x0
- .rel.iplt      0x08008fc8        0x0 asm/CortexContextSwitch.s.o
+.rel.dyn        0x08008fb4        0x0
+ .rel.iplt      0x08008fb4        0x0 asm/CortexContextSwitch.s.o
 
-.preinit_array  0x08008fc8        0x0
-                0x08008fc8                . = ALIGN (0x4)
-                0x08008fc8                __preinit_array_start = .
+.preinit_array  0x08008fb4        0x0
+                0x08008fb4                . = ALIGN (0x4)
+                0x08008fb4                __preinit_array_start = .
  *(SORT_BY_ALIGNMENT(.preinit_array))
-                0x08008fc8                __preinit_array_end = .
+                0x08008fb4                __preinit_array_end = .
 
-.init_array     0x08008fc8        0xc
-                0x08008fc8                . = ALIGN (0x4)
-                0x08008fc8                __init_array_start = .
+.init_array     0x08008fb4        0xc
+                0x08008fb4                . = ALIGN (0x4)
+                0x08008fb4                __init_array_start = .
  *(SORT_BY_NAME(SORT_BY_ALIGNMENT(.init_array.*)))
  *(SORT_BY_ALIGNMENT(.init_array))
- .init_array    0x08008fc8        0x4 .pioenvs\bluepill_f103c8\src\uart.o
- .init_array    0x08008fcc        0x4 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
- .init_array    0x08008fd0        0x4 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
-                0x08008fd4                __init_array_end = .
+ .init_array    0x08008fb4        0x4 .pioenvs\bluepill_f103c8\src\uart.o
+ .init_array    0x08008fb8        0x4 .pioenvs\bluepill_f103c8\lib492\libuartint.a(uartint.o)
+ .init_array    0x08008fbc        0x4 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o)
+                0x08008fc0                __init_array_end = .
 
-.fini_array     0x08008fd4        0x0
-                0x08008fd4                . = ALIGN (0x4)
-                0x08008fd4                __fini_array_start = .
+.fini_array     0x08008fc0        0x0
+                0x08008fc0                . = ALIGN (0x4)
+                0x08008fc0                __fini_array_start = .
  *(SORT_BY_ALIGNMENT(.fini_array))
  *(SORT_BY_NAME(SORT_BY_ALIGNMENT(.fini_array.*)))
-                0x08008fd4                __fini_array_end = .
+                0x08008fc0                __fini_array_end = .
 
 .ARM.extab
  *(SORT_BY_ALIGNMENT(.ARM.extab*))
 
-.ARM.exidx      0x08008fd4        0x0
-                0x08008fd4                __exidx_start = .
+.ARM.exidx      0x08008fc0        0x0
+                0x08008fc0                __exidx_start = .
  *(SORT_BY_ALIGNMENT(.ARM.exidx*))
-                0x08008fd4                __exidx_end = .
-                0x08008fd4                . = ALIGN (0x4)
-                0x08008fd4                _etext = .
+                0x08008fc0                __exidx_end = .
+                0x08008fc0                . = ALIGN (0x4)
+                0x08008fc0                _etext = .
 
-.data           0x20000000       0x14 load address 0x08008fd4
+.data           0x20000000       0x14 load address 0x08008fc0
                 0x20000000                _data = .
  *(SORT_BY_ALIGNMENT(.data*))
  .data.codal_heap_start
@@ -2970,12 +2971,12 @@ END GROUP
                 0x20000014                . = ALIGN (0x4)
  *fill*         0x20000012        0x2 
                 0x20000014                _edata = .
-                0x08008fd4                _data_loadaddr = LOADADDR (.data)
+                0x08008fc0                _data_loadaddr = LOADADDR (.data)
 
-.igot.plt       0x20000014        0x0 load address 0x08008fe8
+.igot.plt       0x20000014        0x0 load address 0x08008fd4
  .igot.plt      0x20000014        0x0 asm/CortexContextSwitch.s.o
 
-.bss            0x20000018      0x7f0 load address 0x08008fe8
+.bss            0x20000018      0x7f0 load address 0x08008fd4
  *(SORT_BY_ALIGNMENT(.bss*))
  .bss.r         0x20000018        0x8 .pioenvs\bluepill_f103c8\src\unit_test.o
                 0x20000018                r

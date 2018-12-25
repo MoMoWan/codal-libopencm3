@@ -118,20 +118,22 @@ x = -2205.1969; y = 0;          ri = __aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT
 
 void test_aeabi_fdiv(void) {
 xf = 2205.1969; yf = 270.8886; rf = xf / yf; TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105, rf );
-xf = 2205.1969;  yf = 270.8886;   rf = __aeabi_fdiv(x, y);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
-xf = -2205.1969; yf = 270.8886;   rf = __aeabi_fdiv(x, y);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
-xf = 2205.1969;  yf = -270.8886;  rf = __aeabi_fdiv(x, y);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
-xf = -2205.1969; yf = -270.8886;  rf = __aeabi_fdiv(x, y);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
+xf = 2205.1969;  yf = 270.8886;   rf = __aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
+xf = -2205.1969; yf = 270.8886;   rf = __aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
+xf = 2205.1969;  yf = -270.8886;  rf = __aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
+xf = -2205.1969; yf = -270.8886;  rf = __aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
 }
 
 void test_aeabi_d2iz(void) {
+x = 0;          ri = __aeabi_d2iz(x);   TEST_ASSERT_EQUAL_INT( 0                  , ri );
 x = 2205.1969;  ri = __aeabi_d2iz(x);   TEST_ASSERT_EQUAL_INT( 2205               , ri );
 x = -2205.1969; ri = __aeabi_d2iz(x);   TEST_ASSERT_EQUAL_INT( -2205              , ri );
 }
 
 void test_aeabi_d2uiz(void) {
+x = 0;          ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ri );
 x = 2205.1969;  ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 2205               , ru );
-x = -2205.1969; ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 2205               , ru );
+x = -2205.1969; ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ru );
 }
 
 void test_sqrt(void) {
