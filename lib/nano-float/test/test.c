@@ -175,6 +175,13 @@ x = -0;        r = exp(x);      TEST_ASSERT_EQUAL_DOUBLE( 1.000000    , r );
 // x = -Inf;   r = exp(x);      TEST_ASSERT_EQUAL_DOUBLE( 0.000000    , r );
 }
 
+void test_log2(void) {
+x = 65536;      r = log2(x);                  TEST_ASSERT_EQUAL_DOUBLE( 16.000000          , r );
+x = 0.125;      r = log2(x);                  TEST_ASSERT_EQUAL_DOUBLE( -3.000000          , r );
+x = 527;        r = log2(x);                  TEST_ASSERT_EQUAL_DOUBLE( 9.041659           , r );
+x = 1;          r = log2(x);                  TEST_ASSERT_EQUAL_DOUBLE( 0.000000           , r );
+}
+
 void test_log10(void) {
 x = 1000;      r = log10(x);    TEST_ASSERT_EQUAL_DOUBLE( 3.000000    , r );
 x = 0.001;     r = log10(x);    TEST_ASSERT_EQUAL_DOUBLE( -3.000000   , r );
@@ -257,6 +264,45 @@ x = -0.9;      r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 2.690565    , r );
 x = 0.0;       r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 1.570796    , r );
 x = 0.5;       r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 1.047198    , r );
 x = 1;         r = acos(x);     TEST_ASSERT_EQUAL_DOUBLE( 0.000000    , r );
+}
+
+void test_sinh(void) {
+x = 1;          r = sinh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 1.175201           , r );
+x = -1;         r = sinh(x);                  TEST_ASSERT_EQUAL_DOUBLE( -1.175201          , r );
+x = +0;         r = sinh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 0.000000           , r );
+x = -0;         r = sinh(x);                  TEST_ASSERT_EQUAL_DOUBLE( -0.000000          , r );
+}
+
+void test_cosh(void) {
+x = 1;          r = cosh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 1.543081           , r );
+x = -1;         r = cosh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 1.543081           , r );
+x = +0;         r = cosh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 1.000000           , r );
+x = -0;         r = cosh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 1.000000           , r );
+}
+
+void test_tanh(void) {
+x = 1;          r = tanh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 0.761594           , r );
+x = -1;         r = tanh(x);                  TEST_ASSERT_EQUAL_DOUBLE( -0.761594          , r );
+x = +0;         r = tanh(x);                  TEST_ASSERT_EQUAL_DOUBLE( 0.000000           , r );
+x = -0;         r = tanh(x);                  TEST_ASSERT_EQUAL_DOUBLE( -0.000000          , r );
+}
+
+void test_asinh(void) {
+x = 1;          r = asinh(x);                 TEST_ASSERT_EQUAL_DOUBLE( 0.881374           , r );
+x = -1;         r = asinh(x);                 TEST_ASSERT_EQUAL_DOUBLE( -0.881374          , r );
+x = +0;         r = asinh(x);                 TEST_ASSERT_EQUAL_DOUBLE( 0.000000           , r );
+x = -0;         r = asinh(x);                 TEST_ASSERT_EQUAL_DOUBLE( -0.000000          , r );
+}
+
+void test_acosh(void) {
+x = 1;          r = acosh(x);                 TEST_ASSERT_EQUAL_DOUBLE( 0.000000           , r );
+x = 10;         r = acosh(x);                 TEST_ASSERT_EQUAL_DOUBLE( 2.993223           , r );
+}
+
+void test_atanh(void) {
+x = 0;          r = atanh(x);                 TEST_ASSERT_EQUAL_DOUBLE( 0.000000           , r );
+x = -0;         r = atanh(x);                 TEST_ASSERT_EQUAL_DOUBLE( -0.000000          , r );
+x = 0.9;        r = atanh(x);                 TEST_ASSERT_EQUAL_DOUBLE( 1.472219           , r );
 }
 
 void test_trunc(void) {
