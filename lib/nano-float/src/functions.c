@@ -195,7 +195,10 @@ float  __wrap___aeabi_fdiv(float  n, float d)  {
 int __wrap___aeabi_d2iz(double x) { 
     float_usage[USAGE_AEABI_D2IZ]++;
     if (qfp_fcmp(x, 0) == 0) { return 0; }
-    return qfp_float2int(x); 
+    //  qfp_float2int() works like floor().  If x is negative, we add 1 to the result.
+    int xfloored = qfp_float2int(x);
+    if (xfloored < 0) { return xfloored + 1; }
+    return xfloored; 
 }
 //  Unit Tests:
 //  aeabi_d2iz(0) = 0
