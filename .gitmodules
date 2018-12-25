@@ -7,3 +7,9 @@
 [submodule "lib/unity"]
 	path = lib/unity
 	url = https://github.com/ThrowTheSwitch/Unity.git
+[submodule "lib/qfplib"]
+	path = lib/qfplib
+	url = https://github.com/lupyuen/qfplib
+[submodule "lib/newlib"]
+	path = lib/newlib
+	url = https://github.com/lupyuen/newlib
