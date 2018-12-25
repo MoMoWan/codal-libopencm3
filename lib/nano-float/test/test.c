@@ -49,7 +49,7 @@ volatile unsigned xu = 0, yu = 0, ru = 0;  //  For unsigned unit tests.
 
 void test_aeabi_ddiv(void) {
 //  gcc compiles "x / y" to "__aeabi_ddiv(x, y)", which becomes wrapped as "__wrap___aeabi_ddiv(x, y)"
-x = 2205.1969; y = 270.8886; r = x / y; TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105, r );
+x = 2205.1969;  y = 270.8886;   r = x / y; TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105, r );
 x = 2205.1969;  y = 270.8886;   r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105  , r );
 x = -2205.1969; y = 270.8886;   r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -8.140604292687105 , r );
 x = 2205.1969;  y = -270.8886;  r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -8.140604292687105 , r );
@@ -57,7 +57,7 @@ x = -2205.1969; y = -270.8886;  r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQU
 }
 
 void test_aeabi_dmul(void) {
-x = 2205.1969; y = 270.8886; r = x * y; TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534, r );
+x = 2205.1969;  y = 270.8886;   r = x * y; TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534, r );
 x = 2205.1969;  y = 270.8886;   r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , r );
 x = -2205.1969; y = 270.8886;   r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , r );
 x = 2205.1969;  y = -270.8886;  r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , r );
@@ -65,73 +65,73 @@ x = -2205.1969; y = -270.8886;  r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQU
 }
 
 void test_aeabi_dcmpeq(void) {
-x = 2205.1969;  y = 2205.1969;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 2205.1968;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 2205.1970;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 0;          ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1969; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1968; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1970; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = 0;          ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.197;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = 0;          ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
 }
 
 void test_aeabi_dcmplt(void) {
-x = 2205.1969;  y = 2205.1969;  ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 2205.1968;  ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 2205.1970;  ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 0;          ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1969; ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1968; ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1970; ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = 0;          ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.197;  ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmplt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
 }
 
 void test_aeabi_dcmple(void) {
-x = 2205.1969;  y = 2205.1969;  ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 2205.1968;  ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 2205.1970;  ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 0;          ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1969; ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1968; ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1970; ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = 0;          ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.197;  ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmple(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
 }
 
 void test_aeabi_dcmpge(void) {
-x = 2205.1969;  y = 2205.1969;  ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 2205.1968;  ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 2205.1970;  ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 0;          ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1969; ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1968; ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1970; ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = 0;          ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.197;  ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmpge(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
 }
 
 void test_aeabi_dcmpgt(void) {
-x = 2205.1969;  y = 2205.1969;  ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 2205.1968;  ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 2205.1970;  ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 0;          ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1969; ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1968; ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1970; ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = 0;          ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.197;  ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmpgt(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
 }
 
 void test_aeabi_dcmpun(void) {
-x = 2205.1969;  y = 2205.1969;  ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = 2205.1969;  y = 2205.1968;  ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 2205.1970;  ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = 2205.1969;  y = 0;          ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1969; ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.1969; y = -2205.1968; ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = -2205.1970; ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
-x = -2205.1969; y = 0;          ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 2205.197;  ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
+x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
 }
 
 void test_aeabi_fdiv(void) {
-xf = 2205.1969; yf = 270.8886; rf = xf / yf; TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105, rf );
+xf = 2205.1969;  yf = 270.8886;   rf = xf / yf; TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105, rf );
 xf = 2205.1969;  yf = 270.8886;   rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
 xf = -2205.1969; yf = 270.8886;   rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
 xf = 2205.1969;  yf = -270.8886;  rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );

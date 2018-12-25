@@ -1,4 +1,5 @@
 //  Rewrite standard C math functions with qfplib to reduce ROM size.
+//  Note: qfp_float2int() works like floor(), not like trunc(), so negative numbers are affected.
 #include <stdint.h>
 #include <math.h>
 #include <qfplib.h>
@@ -85,14 +86,14 @@ int __wrap___aeabi_dcmpeq(double x, double y) {
         ? 1 : 0;
 }
 //  Unit Tests:
-//  aeabi_dcmpeq(2205.1969, 2205.1969) = 1
-//  aeabi_dcmpeq(2205.1969, 2205.1968) = 0
-//  aeabi_dcmpeq(2205.1969, 2205.1970) = 0
-//  aeabi_dcmpeq(2205.1969, 0) = 0
-//  aeabi_dcmpeq(-2205.1969, -2205.1969) = 1
-//  aeabi_dcmpeq(-2205.1969, -2205.1968) = 0
-//  aeabi_dcmpeq(-2205.1969, -2205.1970) = 0
-//  aeabi_dcmpeq(-2205.1969, 0) = 0
+//  aeabi_dcmpeq(2205.196, 2205.196) = 1
+//  aeabi_dcmpeq(2205.196, 2205.195) = 0
+//  aeabi_dcmpeq(2205.196, 2205.197) = 0
+//  aeabi_dcmpeq(2205.196, 0) = 0
+//  aeabi_dcmpeq(-2205.196, -2205.196) = 1
+//  aeabi_dcmpeq(-2205.196, -2205.195) = 0
+//  aeabi_dcmpeq(-2205.196, -2205.197) = 0
+//  aeabi_dcmpeq(-2205.196, 0) = 0
 
 //  result (1, 0) denotes (<, ?>=) [2], use for C <
 int __wrap___aeabi_dcmplt(double x, double y) {
@@ -101,14 +102,14 @@ int __wrap___aeabi_dcmplt(double x, double y) {
         ? 1 : 0;
 }
 //  Unit Tests:
-//  aeabi_dcmplt(2205.1969, 2205.1969) = 0
-//  aeabi_dcmplt(2205.1969, 2205.1968) = 0
-//  aeabi_dcmplt(2205.1969, 2205.1970) = 1
-//  aeabi_dcmplt(2205.1969, 0) = 0
-//  aeabi_dcmplt(-2205.1969, -2205.1969) = 0
-//  aeabi_dcmplt(-2205.1969, -2205.1968) = 1
-//  aeabi_dcmplt(-2205.1969, -2205.1970) = 0
-//  aeabi_dcmplt(-2205.1969, 0) = 1
+//  aeabi_dcmplt(2205.196, 2205.196) = 0
+//  aeabi_dcmplt(2205.196, 2205.195) = 0
+//  aeabi_dcmplt(2205.196, 2205.197) = 1
+//  aeabi_dcmplt(2205.196, 0) = 0
+//  aeabi_dcmplt(-2205.196, -2205.196) = 0
+//  aeabi_dcmplt(-2205.196, -2205.195) = 1
+//  aeabi_dcmplt(-2205.196, -2205.197) = 0
+//  aeabi_dcmplt(-2205.196, 0) = 1
 
 //  result (1, 0) denotes (<=, ?>) [2], use for C <=
 int __wrap___aeabi_dcmple(double x, double y) { 
@@ -117,14 +118,14 @@ int __wrap___aeabi_dcmple(double x, double y) {
         ? 0 : 1; 
 }
 //  Unit Tests:
-//  aeabi_dcmple(2205.1969, 2205.1969) = 1
-//  aeabi_dcmple(2205.1969, 2205.1968) = 0
-//  aeabi_dcmple(2205.1969, 2205.1970) = 1
-//  aeabi_dcmple(2205.1969, 0) = 0
-//  aeabi_dcmple(-2205.1969, -2205.1969) = 1
-//  aeabi_dcmple(-2205.1969, -2205.1968) = 1
-//  aeabi_dcmple(-2205.1969, -2205.1970) = 0
-//  aeabi_dcmple(-2205.1969, 0) = 1
+//  aeabi_dcmple(2205.196, 2205.196) = 1
+//  aeabi_dcmple(2205.196, 2205.195) = 0
+//  aeabi_dcmple(2205.196, 2205.197) = 1
+//  aeabi_dcmple(2205.196, 0) = 0
+//  aeabi_dcmple(-2205.196, -2205.196) = 1
+//  aeabi_dcmple(-2205.196, -2205.195) = 1
+//  aeabi_dcmple(-2205.196, -2205.197) = 0
+//  aeabi_dcmple(-2205.196, 0) = 1
 
 //  result (1, 0) denotes (>=, ?<) [2], use for C >=
 int __wrap___aeabi_dcmpge(double x, double y) { 
@@ -133,14 +134,14 @@ int __wrap___aeabi_dcmpge(double x, double y) {
         ? 0 : 1; 
 }
 //  Unit Tests:
-//  aeabi_dcmpge(2205.1969, 2205.1969) = 1
-//  aeabi_dcmpge(2205.1969, 2205.1968) = 1
-//  aeabi_dcmpge(2205.1969, 2205.1970) = 0
-//  aeabi_dcmpge(2205.1969, 0) = 1
-//  aeabi_dcmpge(-2205.1969, -2205.1969) = 1
-//  aeabi_dcmpge(-2205.1969, -2205.1968) = 0
-//  aeabi_dcmpge(-2205.1969, -2205.1970) = 1
-//  aeabi_dcmpge(-2205.1969, 0) = 0
+//  aeabi_dcmpge(2205.196, 2205.196) = 1
+//  aeabi_dcmpge(2205.196, 2205.195) = 1
+//  aeabi_dcmpge(2205.196, 2205.197) = 0
+//  aeabi_dcmpge(2205.196, 0) = 1
+//  aeabi_dcmpge(-2205.196, -2205.196) = 1
+//  aeabi_dcmpge(-2205.196, -2205.195) = 0
+//  aeabi_dcmpge(-2205.196, -2205.197) = 1
+//  aeabi_dcmpge(-2205.196, 0) = 0
 
 //  result (1, 0) denotes (>, ?<=) [2], use for C >
 int __wrap___aeabi_dcmpgt(double x, double y) { 
@@ -149,14 +150,14 @@ int __wrap___aeabi_dcmpgt(double x, double y) {
         ? 1 : 0; 
 }
 //  Unit Tests:
-//  aeabi_dcmpgt(2205.1969, 2205.1969) = 0
-//  aeabi_dcmpgt(2205.1969, 2205.1968) = 1
-//  aeabi_dcmpgt(2205.1969, 2205.1970) = 0
-//  aeabi_dcmpgt(2205.1969, 0) = 1
-//  aeabi_dcmpgt(-2205.1969, -2205.1969) = 0
-//  aeabi_dcmpgt(-2205.1969, -2205.1968) = 0
-//  aeabi_dcmpgt(-2205.1969, -2205.1970) = 1
-//  aeabi_dcmpgt(-2205.1969, 0) = 0
+//  aeabi_dcmpgt(2205.196, 2205.196) = 0
+//  aeabi_dcmpgt(2205.196, 2205.195) = 1
+//  aeabi_dcmpgt(2205.196, 2205.197) = 0
+//  aeabi_dcmpgt(2205.196, 0) = 1
+//  aeabi_dcmpgt(-2205.196, -2205.196) = 0
+//  aeabi_dcmpgt(-2205.196, -2205.195) = 0
+//  aeabi_dcmpgt(-2205.196, -2205.197) = 1
+//  aeabi_dcmpgt(-2205.196, 0) = 0
 
 //  result (1, 0) denotes (?, <=>) [2], use for C99 isunordered()
 int __wrap___aeabi_dcmpun(double x, double y) { 
@@ -165,14 +166,14 @@ int __wrap___aeabi_dcmpun(double x, double y) {
         ? 0 : 1;
 }
 //  Unit Tests:
-//  aeabi_dcmpun(2205.1969, 2205.1969) = 0
-//  aeabi_dcmpun(2205.1969, 2205.1968) = 1
-//  aeabi_dcmpun(2205.1969, 2205.1970) = 1
-//  aeabi_dcmpun(2205.1969, 0) = 1
-//  aeabi_dcmpun(-2205.1969, -2205.1969) = 0
-//  aeabi_dcmpun(-2205.1969, -2205.1968) = 1
-//  aeabi_dcmpun(-2205.1969, -2205.1970) = 1
-//  aeabi_dcmpun(-2205.1969, 0) = 1
+//  aeabi_dcmpun(2205.196, 2205.196) = 0
+//  aeabi_dcmpun(2205.196, 2205.195) = 1
+//  aeabi_dcmpun(2205.196, 2205.197) = 1
+//  aeabi_dcmpun(2205.196, 0) = 1
+//  aeabi_dcmpun(-2205.196, -2205.196) = 0
+//  aeabi_dcmpun(-2205.196, -2205.195) = 1
+//  aeabi_dcmpun(-2205.196, -2205.197) = 1
+//  aeabi_dcmpun(-2205.196, 0) = 1
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 4, Standard single precision floating-point arithmetic helper functions
