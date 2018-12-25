@@ -23,6 +23,18 @@ extern float  __aeabi_fdiv(float  n, float d);
 extern int __aeabi_d2iz(double x);
 extern unsigned __aeabi_d2uiz(double x);
 
+extern double __wrap___aeabi_ddiv(double n, double d);
+extern double __wrap___aeabi_dmul(double x, double y);
+extern int __wrap___aeabi_dcmpeq(double x, double y);
+extern int __wrap___aeabi_dcmplt(double x, double y);
+extern int __wrap___aeabi_dcmple(double x, double y);
+extern int __wrap___aeabi_dcmpge(double x, double y);
+extern int __wrap___aeabi_dcmpgt(double x, double y);
+extern int __wrap___aeabi_dcmpun(double x, double y);
+extern float  __wrap___aeabi_fdiv(float  n, float d);
+extern int __wrap___aeabi_d2iz(double x);
+extern unsigned __wrap___aeabi_d2uiz(double x);
+
 extern uint8_t *get_float_usage(uint16_t *size);
 volatile double x = 0, y = 0, r = 0;    //  Must use variables x and y because compiler will optimise all constants.
 volatile float xf = 0, yf = 0, rf = 0;  //  For float unit tests.
@@ -131,7 +143,7 @@ x = -2205.1969; ri = __aeabi_d2iz(x);   TEST_ASSERT_EQUAL_INT( -2205            
 }
 
 void test_aeabi_d2uiz(void) {
-x = 0;          ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ri );
+x = 0;          ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ru );
 x = 2205.1969;  ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 2205               , ru );
 x = -2205.1969; ru = __aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ru );
 }
@@ -339,7 +351,7 @@ int test_nanofloat(void) {
             debug_printhex(i);
         }
         if (!no_usage) { debug_print("All functions called"); }
-        debug_println("\nUsage: ");
+        debug_print("\nUsage: ");
         for (i = 1; i < size; i++) {
             if (float_usage[i] == 0) { continue; }
             debug_printhex(i); debug_print(" > "); debug_printhex(float_usage[i]); debug_print(" / ");
