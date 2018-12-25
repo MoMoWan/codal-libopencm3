@@ -20,6 +20,7 @@ void target_set_tick_callback(void (*timer_callback0)());
 void target_enter_sleep_mode(void);
 void target_enter_deep_sleep_stop_mode(void);
 void target_enter_deep_sleep_standby_mode(void);
+uint32_t target_in_isr(void);
 
 #ifdef __cplusplus
 }

@@ -93,6 +93,14 @@ void stm32bluepill_dmesg_flush() {
 #endif
 }
 
+// From pxt-common-packages/libs/base/pxtbase.h:
+// #define PXT_IN_ISR() (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk)
+
+uint32_t target_in_isr(void) {
+    //  Return true if CPU is in ISR now.
+    return SCB_ICSR & SCB_ICSR_VECTACTIVE;
+}
+
 #define SET_BIT(var, bit)   { var |= bit; }   //  Set the specified bit of var to 1, e.g. SET_BIT(SCB_SCR, SCB_SCR_SLEEPDEEP) sets bit SCB_SCR_SLEEPDEEP of SCB_SCR to 1.
 #define CLEAR_BIT(var, bit) { var &= ~bit; }  //  Set the specified bit of var to 0, e.g. CLEAR_BIT(SCB_SCR, SCB_SCR_SLEEPDEEP) sets bit SCB_SCR_SLEEPDEEP of SCB_SCR to 0.
 
