@@ -7,6 +7,7 @@
 #include <unity.h>
 #include <logger.h>
 #include <math.h>
+#undef log2
 #define M_LN10		2.30258509299404568402  //  Natural log of 10
 #define M_PI_2		1.57079632679489661923  //  Pi divided by 2
 #define pi (M_PI_2 * 2)

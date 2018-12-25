@@ -671,8 +671,8 @@ double atanh(double x) {
     if (qfp_fcmp(x, 0) == 0) { return x; }
 
     //  If the argument is ±1, ±∞ is returned
-    if (qfp_fcmp(x, 1) == 0) { return infinity(); }
-    if (qfp_fcmp(x, -1) == 0) { return -infinity(); }
+    if (qfp_fcmp(x, 1) == 0) { return INFINITY; }
+    if (qfp_fcmp(x, -1) == 0) { return -INFINITY; }
 
     //  if |arg| > 1, NaN is returned
     if (qfp_fcmp(x, 1) > 0) { return NAN; }
