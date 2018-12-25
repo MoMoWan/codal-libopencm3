@@ -108,7 +108,7 @@ int __wrap___aeabi_dcmplt(double x, double y) {
 //  aeabi_dcmplt(-2205.1969, -2205.1969) = 0
 //  aeabi_dcmplt(-2205.1969, -2205.1968) = 1
 //  aeabi_dcmplt(-2205.1969, -2205.1970) = 0
-//  aeabi_dcmplt(-2205.1969, 0) = 0
+//  aeabi_dcmplt(-2205.1969, 0) = 1
 
 //  result (1, 0) denotes (<=, ?>) [2], use for C <=
 int __wrap___aeabi_dcmple(double x, double y) { 
@@ -124,7 +124,7 @@ int __wrap___aeabi_dcmple(double x, double y) {
 //  aeabi_dcmple(-2205.1969, -2205.1969) = 1
 //  aeabi_dcmple(-2205.1969, -2205.1968) = 1
 //  aeabi_dcmple(-2205.1969, -2205.1970) = 0
-//  aeabi_dcmple(-2205.1969, 0) = 0
+//  aeabi_dcmple(-2205.1969, 0) = 1
 
 //  result (1, 0) denotes (>=, ?<) [2], use for C >=
 int __wrap___aeabi_dcmpge(double x, double y) { 
