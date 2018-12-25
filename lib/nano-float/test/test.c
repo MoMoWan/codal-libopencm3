@@ -49,7 +49,7 @@ volatile unsigned xu = 0, yu = 0, ru = 0;  //  For unsigned unit tests.
 
 void test_aeabi_ddiv(void) {
 //  gcc compiles "x / y" to "__aeabi_ddiv(x, y)", which becomes wrapped as "__wrap___aeabi_ddiv(x, y)"
-x = 2205.1969;  y = 270.8886;   r = x / y; TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105, r );
+x = 2205.1969;  y = 270.8886;   r = x / y;                       TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105, r );
 x = 2205.1969;  y = 270.8886;   r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105  , r );
 x = -2205.1969; y = 270.8886;   r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -8.140604292687105 , r );
 x = 2205.1969;  y = -270.8886;  r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -8.140604292687105 , r );
@@ -57,7 +57,8 @@ x = -2205.1969; y = -270.8886;  r = __wrap___aeabi_ddiv(x, y);   TEST_ASSERT_EQU
 }
 
 void test_aeabi_dmul(void) {
-x = 2205.1969;  y = 270.8886;   r = x * y; TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534, r );
+//  gcc compiles "x * y" to "__aeabi_dmul(x, y)", which becomes wrapped as "__wrap___aeabi_dmul(x, y)"
+x = 2205.1969;  y = 270.8886;   r = x * y;                       TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534, r );
 x = 2205.1969;  y = 270.8886;   r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , r );
 x = -2205.1969; y = 270.8886;   r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , r );
 x = 2205.1969;  y = -270.8886;  r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , r );
@@ -131,7 +132,8 @@ x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmpun(x, y); TEST_ASSERT_EQUA
 }
 
 void test_aeabi_fdiv(void) {
-xf = 2205.1969;  yf = 270.8886;   rf = xf / yf; TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105, rf );
+//  gcc compiles "xf / yf" to "__aeabi_fdiv(xf, yf)", which becomes wrapped as "__wrap___aeabi_fdiv(xf, yf)"
+xf = 2205.1969;  yf = 270.8886;   rf = xf / yf;                       TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105, rf );
 xf = 2205.1969;  yf = 270.8886;   rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
 xf = -2205.1969; yf = 270.8886;   rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
 xf = 2205.1969;  yf = -270.8886;  rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( -8.140604292687105 , rf );
