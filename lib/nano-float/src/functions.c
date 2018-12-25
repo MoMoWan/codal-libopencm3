@@ -23,6 +23,7 @@ enum float_usage_index {
     USAGE_SQRT,
     USAGE_LOG,
     USAGE_EXP,
+    USAGE_LOG2,
     USAGE_LOG10,
     USAGE_POW,
     USAGE_LDEXP,
@@ -33,6 +34,12 @@ enum float_usage_index {
     USAGE_ATAN,
     USAGE_ASIN,
     USAGE_ACOS,
+    USAGE_SINH,
+    USAGE_COSH,
+    USAGE_TANH,
+    USAGE_ASINH,
+    USAGE_ACOSH,
+    USAGE_ATANH,
     USAGE_TRUNC,
     USAGE_FLOOR,
     USAGE_CEIL,
@@ -259,6 +266,23 @@ double exp(double x) {
 // exp(-0) = 1.000000
 //// exp(-Inf) = 0.000000
 
+//  log2(x) = ln(x) / ln(2)
+#undef log2
+double log2(double x) { 
+    float_usage[USAGE_LOG2]++;
+    return qfp_fmul(
+        qfp_fln(x),
+        1.0 / _M_LN2  //  Constant
+    ); 
+}
+// Unit Tests:
+// log2(65536) = 16.000000
+// log2(0.125) = -3.000000
+// log2(527) = 9.041659
+// log2(1) = 0.000000
+//// log2(+Inf) = inf
+//// log2(0) = -inf
+
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::log10(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:904: undefined reference to `log10'
 
@@ -479,14 +503,14 @@ double acos(double x) {
     if (qfp_fcmp(x, -1) == 0) { return M_PI_2 * 2.0; }
 
     //  Must call atan2 instead of qfp_fatan2 in case the values are 0.
-    return 2 * atan2(
+    return 2.0f * atan2(
         qfp_fsqrt_fast(
             qfp_fsub( 
-                1,
+                1.0f,
                 qfp_fmul( x , x ) 
             )
         ),
-        qfp_fadd( 1 , x )
+        qfp_fadd( 1.0f , x )
     );
 }
 // Unit Tests:
@@ -496,6 +520,176 @@ double acos(double x) {
 // acos(0.5) = 1.047198 
 // acos(1) = 0.000000
 //// acos(1.1) = nan
+
+//  From https://en.wikipedia.org/wiki/Hyperbolic_function
+
+//  Computes hyperbolic sine of arg.
+//  0.5 * { e^x - e^{-x} }
+double sinh(double x) {
+    float_usage[USAGE_SINH]++;
+    //  if the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If the argument is ±0, it is returned unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If the argument is ±∞, it is returned unmodified
+    if (isinf(x)) { return x; }
+
+    return 0.5f * qfp_fsub(
+        qfp_fexp( x ),
+        qfp_fexp( -x )
+    );
+}
+// Unit Tests:
+// sinh(1) = 1.175201
+// sinh(-1)=-1.175201
+// sinh(+0) = 0.000000
+// sinh(-0)=-0.000000
+//// sinh(710.5) = inf
+
+//  Computes the hyperbolic cosine of arg.
+//  0.5 * { e^x + e^{-x} }
+double cosh(double x) {
+    float_usage[USAGE_COSH]++;
+    //  if the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+    
+    //  If the argument is ±0, 1 is returned
+    if (qfp_fcmp(x, 0) == 0) { return 1; }
+
+    //  If the argument is ±∞, return +∞
+    if (isinf(x)) { return x; }  //  TODO: Handle -∞
+
+    return 0.5f * qfp_fadd(
+        qfp_fexp( x ),
+        qfp_fexp( -x )
+    );
+}
+// Unit Tests:
+// cosh(1) = 1.543081
+// cosh(-1)= 1.543081
+// cosh(+0) = 1.000000
+// cosh(-0) = 1.000000
+//// cosh(710.5) = inf
+
+//  Computes the hyperbolic tangent of arg.
+//  { e^{2x} - 1 } / { e^{2x} + 1 }
+double tanh(double x) {
+    float_usage[USAGE_TANH]++;
+    //  if the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If the argument is ±0, ±0 is returned
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If the argument is ±∞, return ±1
+    if (isinf(x)) { return 1; }  //  TODO: Handle -1
+
+    float e2x = qfp_fexp( 2.0f * x );  //  e^{2x}
+    return qfp_fdiv_fast(
+        e2x - 1.0f,
+        e2x + 1.0f
+    );
+}
+// Unit Tests:
+// tanh(1) = 0.761594
+// tanh(-1) = -0.761594
+// tanh(+0) = 0.000000
+// tanh(-0) = -0.000000
+
+//  From https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions
+
+//  Computes the inverse hyperbolic sine of arg.
+//  ln ( x + sqrt{ x^2 + 1 } )
+double asinh(double x) {
+    float_usage[USAGE_ASINH]++;
+    //  if the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If the argument is ±0, it is returned unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If the argument is ±∞, it is returned unmodified
+    if (isinf(x)) { return x; }
+
+    return qfp_fln(
+        qfp_fadd(
+            x,
+            qfp_fsqrt_fast(
+                1.0f + qfp_fmul( x, x )
+            )
+        )
+    );
+}
+// Unit Tests:
+// asinh(1) = 0.881374
+// asinh(-1) = -0.881374
+// asinh(+0) = 0.000000
+// asinh(-0) = -0.000000
+
+//  Computes the inverse hyperbolic cosine of arg.
+//  ln ( x + sqrt{ x^2 - 1 } )
+double acosh(double x) {
+    float_usage[USAGE_ACOSH]++;
+    //  if the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If the argument is less than 1, NaN is returned
+    if (qfp_fcmp(x, 1) < 0) { return NAN; }
+
+    //  If the argument is 1, 0 is returned
+    if (qfp_fcmp(x, 1) == 0) { return 0; }
+
+    //  If the argument is +∞, it is returned unmodified
+    if (isinf(x)) { return x; }
+
+    return qfp_fln(
+        qfp_fadd(
+            x,
+            qfp_fsqrt_fast(
+                -1.0f + qfp_fmul( x, x )
+            )
+        )
+    );
+}
+// Unit Tests:
+// acosh(1) = 0.000000
+// acosh(10) = 2.993223
+//// acosh(DBL_MAX) = 710.475860
+//// acosh(Inf) = inf
+//// acosh(0.5) = -nan
+
+//  Computes the inverse hyperbolic tangent of arg.
+//  0.5 * ln ( {1+x} / {1-x} ) 
+double atanh(double x) {
+    float_usage[USAGE_ATANH]++;
+    //  if the argument is NaN, NaN is returned
+    if (isnan(x)) { return NAN; }
+
+    //  If the argument is 0, it is returned unmodified
+    if (qfp_fcmp(x, 0) == 0) { return x; }
+
+    //  If the argument is ±1, ±∞ is returned
+    if (qfp_fcmp(x, 1) == 0) { return infinity(); }
+    if (qfp_fcmp(x, -1) == 0) { return -infinity(); }
+
+    //  if |arg| > 1, NaN is returned
+    if (qfp_fcmp(x, 1) > 0) { return NAN; }
+    if (qfp_fcmp(x, -1) < 0) { return NAN; }
+
+    return 0.5f * qfp_fln(
+        qfp_fdiv_fast(
+            qfp_fadd( 1.0f , x ),
+            qfp_fsub( 1.0f , x )            
+        )
+    );
+}
+// Unit Tests:
+// atanh(0) = 0.000000
+// atanh(-0) = -0.000000
+// atanh(0.9) = 1.472219
+//// atanh(-1) = -inf
 
 // CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/core.cpp.o: In function `Math_::trunc(pxt::TValueStruct*)':
 // /src/pxtapp/base/core.cpp:934: undefined reference to `trunc'
@@ -641,6 +835,33 @@ double fabs(double x) {
 //  Computes the floating-point remainder of the division operation x/y
 //  i.e. x - n*y, where the value n is the integral value nearest the exact value x/y
 //  double remainder(double x, double y)
-//  double cosh(double x)
-//  double sinh(double x)
-//  double tanh(double x)
+
+/*
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::log2(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:10: 
+undefined reference to `log2'
+
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::tanh(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:14: 
+undefined reference to `tanh'
+
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::sinh(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:16: 
+undefined reference to `sinh'
+
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::cosh(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:18: 
+undefined reference to `cosh'
+
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::atanh(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:20: 
+undefined reference to `atanh'
+
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::asinh(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:22: 
+undefined reference to `asinh'
+
+/opt/gcc-arm-none-eabi-8-2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld: CMakeFiles/STM32_BLUE_PILL.dir/pxtapp/base/advmath.cpp.o: in function `Math_::acosh(pxt::TValueStruct*)':
+/mnt/c/maker.makecode.com/pxt-maker/libs/stm32bluepill/built/dockercodal/pxtapp/base/advmath.cpp:24: 
+undefined reference to `acosh'
+*/

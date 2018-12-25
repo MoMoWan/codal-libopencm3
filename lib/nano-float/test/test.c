@@ -322,6 +322,7 @@ int test_nanofloat(void) {
     RUN_TEST(test_sqrt); debug_flush();
     RUN_TEST(test_log); debug_flush();
     RUN_TEST(test_exp); debug_flush();
+    RUN_TEST(test_log2); debug_flush();
     RUN_TEST(test_log10); debug_flush();
     RUN_TEST(test_pow); debug_flush();
     RUN_TEST(test_ldexp); debug_flush();
@@ -332,6 +333,12 @@ int test_nanofloat(void) {
     RUN_TEST(test_atan); debug_flush();
     RUN_TEST(test_asin); debug_flush();
     RUN_TEST(test_acos); debug_flush();
+    RUN_TEST(test_sinh); debug_flush();
+    RUN_TEST(test_cosh); debug_flush();
+    RUN_TEST(test_tanh); debug_flush();
+    RUN_TEST(test_asinh); debug_flush();
+    RUN_TEST(test_acosh); debug_flush();
+    RUN_TEST(test_atanh); debug_flush();
     RUN_TEST(test_trunc); debug_flush();
     RUN_TEST(test_floor); debug_flush();
     RUN_TEST(test_ceil); debug_flush();
