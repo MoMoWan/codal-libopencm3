@@ -72,7 +72,7 @@ x = 2205.196;  y = 0;         ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUA
 x = -2205.196; y = -2205.196; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
 x = -2205.196; y = -2205.195; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
 x = -2205.196; y = -2205.197; ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
-x = -2205.196; y = 0;          ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
+x = -2205.196; y = 0;         ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
 }
 
 void test_aeabi_dcmplt(void) {
