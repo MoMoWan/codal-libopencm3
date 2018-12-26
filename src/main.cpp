@@ -17,6 +17,7 @@ using namespace codal;
 
 extern "C" int test_nanofloat(void);
 void Blink_main(codal::STM32BluePill& bluepill);
+static void debug_dump(codal::STM32BluePill& bluepill, const char *msg);
 
 int main() {
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
@@ -34,24 +35,25 @@ int main() {
     Blink_main(bluepill);
 }
 
-void debug_dump() {
-    debug_print("t "); debug_print((size_t) millis()); 
-    debug_print(", alarm "); debug_print((size_t) platform_alarm_count()); 
-    debug_println(""); debug_flush();
-}
-
 void Blink_main(codal::STM32BluePill& bluepill) {
-    debug_dump();
+    debug_dump(bluepill, "set led");
 	bluepill.io.led.setDigitalValue(0);
+
+    debug_dump(bluepill, "target wait");
+    target_wait_us(1000000);  //  Test the timer.
+
+    debug_dump(bluepill, "sleep");
+    bluepill.sleep(10);       //  Test the CODAL scheduler.
 
 	int state = 1;
     int counter = 0;
+    debug_dump(bluepill, "loop");
 	while(1) {    
         //  Blink the LED and pause 1 second.
 		bluepill.io.led.setDigitalValue(state);
-        bluepill.sleep(1000);
+        debug_dump(bluepill, "sleep");
+        bluepill.sleep(10);  //  Was 1000
         state = !state;
-        debug_dump();
 
         //  Test Deep Sleep Standby Mode.
         counter++;
@@ -65,43 +67,11 @@ void Blink_main(codal::STM32BluePill& bluepill) {
     }
 }
 
-#ifdef NOTUSED
-//  From /framework-libopencm3/lib/cm3/vector.c
-#include <libopencm3/cm3/scb.h>
-/* Symbols exported by the linker script(s): */
-extern unsigned _data_loadaddr, _edata, _ebss;
-typedef void (*funcp_t) (void);
-extern funcp_t __preinit_array_start, __preinit_array_end;
-extern funcp_t __init_array_start, __init_array_end;
-extern funcp_t __fini_array_start, __fini_array_end;
-void custom_reset_handler() {
-    volatile unsigned *src, *dest;
-	funcp_t *fp;
-
-	for (src = &_data_loadaddr, dest = (volatile unsigned *) &_data;
-		dest < &_edata;
-		src++, dest++) {
-		*dest = *src;
-	}
-
-	while (dest < &_ebss) {
-		*dest++ = 0;
-	}
-
-	/* Ensure 8-byte alignment of stack pointer on interrupts */
-	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
-	SCB_CCR |= SCB_CCR_STKALIGN;
-
-	/* might be provided by platform specific vector.c */
-	// pre_main();
-
-	/* Constructors. */
-	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
-		(*fp)();
-	}
-	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
-		(*fp)();
-	}
+static void debug_dump(codal::STM32BluePill& bluepill, const char *msg) {
+    debug_print(msg);
+    debug_print(" t "); debug_print((size_t) millis()); 
+    debug_print(", ms "); debug_print((size_t) bluepill.timer.getTime()); 
+    debug_print(", us "); debug_print((size_t) bluepill.timer.getTimeUs()); 
+    debug_print(", alarm "); debug_print((size_t) platform_alarm_count()); 
+    debug_println(""); debug_flush();
 }
-
-#endif  //  NOTUSED

@@ -28,6 +28,7 @@ static bool initialised = false;
 static void (*tick_callback)() = NULL;
 
 void target_set_tick_callback(void (*tick_callback0)()) {
+    //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
     tick_callback = tick_callback0;
 }
 
@@ -167,7 +168,7 @@ void target_disable_irq() {
 }
 
 void target_wait_for_event() {
-  	//debug_println("----target_wait_for_event"); //debug_print(".");
+  	//  debug_println("----target_wait_for_event"); // debug_print(".");
     stm32bluepill_dmesg_flush();
     __asm("wfe");  //  Allow CPU to go to sleep.
 }

@@ -417,7 +417,7 @@ int test_nanofloat(void) {
         debug_println(""); debug_flush();
     }
     //  Crash and exit QEMU.
-    rtc_awake_from_off(LSE);
+    //  rtc_awake_from_off(LSE);
     return fails;
 }
 

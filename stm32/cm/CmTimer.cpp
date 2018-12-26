@@ -43,6 +43,7 @@ namespace codal
         }
 
         void Timer::init() {
+            debug_println("timer init"); ////
             this->prev = millis();
             target_set_tick_callback(tick_callback);
 #ifdef TODO
@@ -64,7 +65,7 @@ namespace codal
 
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
             //  TODO: Set alarm for millis() + t.  If alarm is already set and alarm > millis() and alarm < millis() + t, don't set alarm.
-            //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
+            debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
 #ifdef TODO
             if (t < 20)
                 t = 20;
@@ -92,7 +93,7 @@ namespace codal
             this->prev = curr;
             this->sync(delta * 1000);  //  Sync expects microseconds.
             target_enable_irq();            
-            // debug_print("Timer::syncRequest "); debug_println((size_t) delta * 1000);
+            //  debug_print("timer sync "); debug_println((size_t) delta * 1000);
         }
 
         extern "C" void wait_us(uint32_t us) {
