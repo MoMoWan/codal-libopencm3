@@ -77,7 +77,7 @@ BEGIN_EXTERN_C  //  Allows functions below to be called by C and C++ code.
 void enable_debug(void);    //  Enable display of debug messages.
 void disable_debug(void);   //  Disable display of debug messages.
 void platform_setup(void);  //  Initialise the Arduino or STM32 platform.
-void platform_start_timer(void (*tickFunc0)(void));  //  Start the Arduino or STM32 Timer to generate interrupt ticks for cocoOS to perform task switching.
+void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void));  //  Start the Arduino or STM32 Timer to generate interrupt ticks for cocoOS to perform task switching.
 
 void led_setup(void);   //  Initialise the onboard LED.
 void led_on(void);      //  Switch the onboard LED on.

@@ -9,7 +9,7 @@ extern "C" {  //  Allows functions below to be called by C and C++ code.
 void enable_debug(void);    //  Enable ARM Semihosting for displaying debug messages.
 void disable_debug(void);   //  Disable ARM Semihosting for displaying debug messages.
 void platform_setup(void);  //  Initialise the STM32 Blue Pill platform.
-void platform_start_timer(void (*tickFunc0)(void));  //  Start the STM32 Blue Pill Timer to generate interrupt ticks for cocoOS to perform task switching.
+void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void));  //  Start the STM32 Blue Pill Timer to generate interrupt ticks for cocoOS to perform task switching.
 uint32_t millis(void);  //  Number of elapsed millisecond ticks. Compatible with Arduino.
 
 void platform_set_alarm(uint32_t millisec);  //  Set alarm for millisec milliseconds elapsed since startup.

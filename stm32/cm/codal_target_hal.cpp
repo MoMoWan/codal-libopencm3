@@ -26,15 +26,26 @@ extern "C" void test_codal();
 void stm32bluepill_dmesg_flush();
 static bool initialised = false;
 static void (*tick_callback)() = NULL;
+static void (*alarm_callback)() = NULL;
 
 void target_set_tick_callback(void (*tick_callback0)()) {
     //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
     tick_callback = tick_callback0;
 }
 
+void target_set_alarm_callback(void (*alarm_callback0)()) {
+    //  The callback is normally set to CMTimer::alarm_callback(), which calls Timer::trigger() to resume suspended tasks.
+    alarm_callback = alarm_callback0;
+}
+
 static void timer_tick() {
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
+}
+
+static void timer_alarm() {
+    //  If Codal Timer exists, update the timer.
+    if (alarm_callback) { alarm_callback(); }
 }
 
 void target_enable_debug(void) {
@@ -61,7 +72,7 @@ void target_init(void) {
     // init_irqs();  //  Init the interrupt routines.
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
-    platform_start_timer(timer_tick);
+    platform_start_timer(timer_tick, timer_alarm);
 
     //  Display the dmesg log when idle.
     codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);

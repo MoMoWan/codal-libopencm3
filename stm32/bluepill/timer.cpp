@@ -32,19 +32,23 @@ const rcc_osc clock_source = RCC_HSE;
 //  Set the clock prescaling value, so that we will get a tick interrupt every 1 millisecond. Dependent on LSE or HSE clock selection.
 #ifdef USE_RCC_LSE
 const uint32_t prescale = 32;        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
+// const uint32_t prescale = 32700;  //  For RCC_LSE: 1 second tick
 #else
 const uint32_t prescale = 62;        //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
 // const uint32_t prescale = 62500;  //  For RCC_HSE: 1 second tick
 #endif  //  USE_RCC_LSE
 
-//  This is the tick function we will call every millisecond.  
-//  Usually points to os_tick() in cocoOS.
-static void (*tickFunc)(void) = NULL;
-static volatile uint32_t tickCount = 0;  //  Number of millisecond ticks elapsed.
+static void (*tickFunc)(void) = NULL;     //  This is the tick function we will call every millisecond.  
+static void (*alarmFunc)(void) = NULL;    //  This is the alarm function we will upon getting an RTC alarm.
+static volatile uint32_t tickCount = 0;   //  Number of millisecond ticks elapsed.
 static volatile uint32_t alarmCount = 0;  //  Number of alarms elapsed.
 
 static void rtc_setup(void) {
 	//  Setup RTC interrupts for tick and alarm wakeup.
+	rcc_enable_rtc_clock();
+	rtc_interrupt_disable(RTC_SEC);
+	rtc_interrupt_disable(RTC_ALR);
+	rtc_interrupt_disable(RTC_OW);
 
 	//  Note: Older versions of rtc_awake_from_off() and rtc_auto_awake() cause qemu to crash with error
 	//  "hardware error: you are must enter to configuration mode for write in any registre" in hw\timer\stm32_rtc.c
@@ -57,21 +61,15 @@ static void rtc_setup(void) {
 #else
 	//  rtc_auto_awake() will not reset the RTC when you press the RST button.
 	//  It will also continue to count while the MCU is held in reset. If
-	//  you want it to reset, comment out the above and use the following:
+	//  you want it to reset, use custom_rtc_awake_from_off()
 	custom_rtc_awake_from_off(clock_source);  //  This will enable RTC.
 	rtc_set_prescale_val(prescale);
 #endif  //  AUTO_AWAKE
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
-
-	//  RTC should already be enabled in rtc_awake_from_off().
-	rcc_enable_rtc_clock();
-	rtc_interrupt_disable(RTC_SEC);
-	rtc_interrupt_disable(RTC_ALR);
-	rtc_interrupt_disable(RTC_OW);
 	
-	rtc_set_counter_val(1);  //  Start counting millisecond ticks from 1 so we won't trigger alarm.
-	rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1.
-	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup.
+	rtc_set_counter_val(0);              //  Start counting millisecond ticks from 0.
+	rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
+	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup via the interrupt.
 	exti_enable_request(EXTI17);
 
 	nvic_enable_irq(NVIC_RTC_IRQ);        //  Enable RTC tick interrupt processing.
@@ -86,9 +84,10 @@ static void rtc_setup(void) {
 	cm_enable_interrupts();
 }
 
-void platform_start_timer(void (*tickFunc0)(void)) {
+void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
     //  Start the STM32 Timer to generate interrupt ticks to perform task switching.
-  	tickFunc = tickFunc0;  //  Allow tickFunc to be modified at every call to platform_start_timer().
+  	tickFunc = tickFunc0;    //  Allow tickFunc to be modified at every call to platform_start_timer().
+  	alarmFunc = alarmFunc0;  //  Allow alarmFunc to be modified at every call to platform_start_timer().
 	
 	//  But system timer will only be started once.
 	static bool timerStarted = false;
@@ -99,7 +98,8 @@ void platform_start_timer(void (*tickFunc0)(void)) {
 }
 
 void platform_set_alarm(uint32_t millisec) {
-	//  Set alarm for millisec milliseconds from now.
+	//  Set alarm for millisec milliseconds elapsed since startup.
+	//  debug_print("alarm set "); debug_print((size_t) millisec); debug_println(""); ////
 	rtc_set_alarm_time(millisec);
 	//  TODO: rtc_enable_alarm()
 }
@@ -115,22 +115,30 @@ void rtc_isr(void) {
 		//  We hit an RTC tick interrupt.
 		rtc_clear_flag(RTC_SEC);
 		tickCount++;
-		//  Call the tick function os_tick() to perform multitasking.
+		//  Call the tick function.
 		if (tickFunc != NULL) { tickFunc(); }
 		return;
 	}
+#ifdef NOTUSED  //  Alarm handled by rtc_alarm_isr()
 	if (rtc_check_flag(RTC_ALR)) {
 		//  We hit an RTC alarm interrupt.
 		rtc_clear_flag(RTC_ALR);
+		alarmCount++;
+		//  Call the alarm function.
+		if (alarmFunc != NULL) { alarmFunc(); }
 		return;
 	}
+#endif  //  NOTUSED
 }
 
 void rtc_alarm_isr(void) {
 	//  Interrupt Service Routine for RTC Alarm Wakeup.  Don't call any I/O functions here.
-	alarmCount++;
+	//  The RTC alarm appears as EXTI 17 which must be reset independently of the RTC alarm flag.
 	exti_reset_request(EXTI17);
 	rtc_clear_flag(RTC_ALR);
+	alarmCount++;
+	//  Call the alarm function.
+	if (alarmFunc != NULL) { alarmFunc(); }
 }
 
 uint32_t millis(void) {

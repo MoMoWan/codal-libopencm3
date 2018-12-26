@@ -39,8 +39,13 @@ namespace codal
 
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
-            //  TODO: Trigger every 4 milliseconds instead.
-            debug_print("."); debug_flush(); ////
+            //  TODO: Remove this if alarm is working.
+            if (!Timer::instance) { return; }  //  No timer to trigger.
+            Timer::instance->trigger();
+        }
+
+        void alarm_callback() {
+            //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
             if (!Timer::instance) { return; }  //  No timer to trigger.
             Timer::instance->trigger();
         }
@@ -49,6 +54,7 @@ namespace codal
             debug_println("timer init"); ////
             this->prev = millis();
             target_set_tick_callback(tick_callback);
+            target_set_alarm_callback(alarm_callback);
 #ifdef TODO
             TimHandle.Instance = TIM5;
 
@@ -68,7 +74,8 @@ namespace codal
 
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
             //  TODO: Set alarm for millis() + t.  If alarm is already set and alarm > millis() and alarm < millis() + t, don't set alarm.
-            debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
+            //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
+            platform_set_alarm(millis() + t);
 #ifdef TODO
             if (t < 20)
                 t = 20;
