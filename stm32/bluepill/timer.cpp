@@ -70,7 +70,7 @@ static void rtc_setup(void) {
 	rtc_interrupt_disable(RTC_OW);
 	
 	rtc_set_counter_val(1);  //  Start counting millisecond ticks from 1 so we won't trigger alarm.
-	rtc_set_alarm_time(0);   //  Reset alarm to 0.
+	rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup.
 	exti_enable_request(EXTI17);
 
@@ -94,11 +94,12 @@ void platform_start_timer(void (*tickFunc0)(void)) {
 	static bool timerStarted = false;
 	if (timerStarted) { return; }
 	timerStarted = true;
+	debug_println("platform_start_timer"); ////
 	rtc_setup();
 }
 
 void platform_set_alarm(uint32_t millisec) {
-	//  Set alarm for millisec milliseconds elapsed since startup.
+	//  Set alarm for millisec milliseconds from now.
 	rtc_set_alarm_time(millisec);
 	//  TODO: rtc_enable_alarm()
 }
@@ -142,7 +143,12 @@ uint32_t millis(void) {
 
 uint32_t platform_alarm_count(void) {
 	//  Return the number of alarms triggered since startup.
-	return alarmCount;
+	return alarmCount;  //  For testing whether alarm ISR was called.
+}
+
+uint32_t platform_tick_count(void) {
+	//  Return the number of alarms triggered since startup.  Less accurate, excludes ARM Semihosting time.
+	return tickCount;  //  For testing whether tick ISR was called.
 }
 
 //  Latest version of rtc_awake_from_off() from https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/f1/rtc.c

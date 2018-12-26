@@ -39,7 +39,10 @@ namespace codal
 
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
-            if (Timer::instance) { Timer::instance->trigger(); }
+            //  TODO: Trigger every 4 milliseconds instead.
+            debug_print("."); debug_flush(); ////
+            if (!Timer::instance) { return; }  //  No timer to trigger.
+            Timer::instance->trigger();
         }
 
         void Timer::init() {

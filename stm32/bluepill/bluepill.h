@@ -2,9 +2,6 @@
 #ifndef BLUEPILL_H_
 #define BLUEPILL_H_
 #include <stdint.h>  //  For uint32_t
-////#include <libopencm3/stm32/spi.h>    //  For SPI port definitions e.g. SPI1
-////#include <libopencm3/stm32/i2c.h>    //  For I2C port definitions e.g. I2C1
-////#include <libopencm3/stm32/usart.h>  //  For USART port definitions e.g. USART1
 #ifdef __cplusplus
 extern "C" {  //  Allows functions below to be called by C and C++ code.
 #endif
@@ -18,6 +15,7 @@ uint32_t millis(void);  //  Number of elapsed millisecond ticks. Compatible with
 void platform_set_alarm(uint32_t millisec);  //  Set alarm for millisec milliseconds elapsed since startup.
 uint32_t platform_get_alarm(void);           //  Get alarm time.
 uint32_t platform_alarm_count(void);         //  Number of alarms triggered since startup.
+uint32_t platform_tick_count(void);          //  Number of times the tick ISR was triggered since startup.
 
 void led_setup(void);   //  Initialise the onboard LED.
 void led_on(void);      //  Switch the onboard LED on.
