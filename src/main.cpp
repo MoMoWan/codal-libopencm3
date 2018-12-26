@@ -40,10 +40,10 @@ void Blink_main(codal::STM32BluePill& bluepill) {
 	bluepill.io.led.setDigitalValue(0);
 
     debug_dump(bluepill, "target wait");
-    target_wait_us(1000000);  //  Test the timer.
+    target_wait_us(1000000);  //  Test the RTC.
 
     debug_dump(bluepill, "sleep");
-    bluepill.sleep(10);       //  Test the CODAL scheduler.
+    bluepill.sleep(1000);     //  Test the CODAL scheduler.
 
 	int state = 1;
     int counter = 0;
@@ -52,7 +52,7 @@ void Blink_main(codal::STM32BluePill& bluepill) {
         //  Blink the LED and pause 1 second.
 		bluepill.io.led.setDigitalValue(state);
         debug_dump(bluepill, "sleep");
-        bluepill.sleep(10);  //  Was 1000
+        bluepill.sleep(1000);
         state = !state;
 
         //  Test Deep Sleep Standby Mode.
