@@ -122,9 +122,18 @@ SECTIONS
 	/* Bootloader Items: libopencm3, bootloader, bluepill, platform */
 	.boot_text : {  /* Bootloader Code */
 		*(.vectors)	/* Vector table */
-		*liblibopencm3.a:          (.text*)	/* libopencm3 code goes into bootrom (CODAL build) */
-		*libFrameworkLibOpenCM3.a: (.text*)	/* libopencm3 code goes into bootrom (PlatformIO build) */
-		*libbootloader.a:          (.text*) /* bootloader code goes into bootrom */
+
+		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
+		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
+		*libunity.a:          		(.text*) /* Unit Test */
+		*libqfplib.a:          		(.text*) /* Math Library */
+		*libnano-float.a:          	(.text*) /* Math Library Replacement */
+		*libnewlib.a:          		(.text*) /* C Library Replacement */
+		*liblogger.a:          		(.text*) /* Logger */
+		*libbluepill.a:          	(.text*) /* Low Level Functions */
+		*libbootloader.a:          	(.text*) /* Bootloader */
+		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
+
 		. = ALIGN(4);
 		*(.rodata*)	/* Read-only data */
 		. = ALIGN(4);
