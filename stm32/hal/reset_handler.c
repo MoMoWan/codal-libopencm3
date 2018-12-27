@@ -3,7 +3,8 @@
 #include <libopencm3/cm3/scb.h>
 
 /* Symbols exported by the linker script(s): */
-extern unsigned _data_loadaddr, _data, _edata, _ebss, _stack;
+extern unsigned _data_loadaddr, _data, _edata, _ebss, _stack;  //  For firmware rom and ram sections.
+extern unsigned _boot_data_loadaddr, _boot_data, _boot_edata, _boot_ebss;  //  For bootloader rom and ram sections.
 typedef void (*funcp_t) (void);
 extern funcp_t __preinit_array_start, __preinit_array_end;
 extern funcp_t __init_array_start, __init_array_end;
@@ -22,26 +23,30 @@ void pre_main() {
     target_init();               //  Init the STM32 platform, which calls the bootloader.  If the bootloader decides to launch the firmware, this function will not return.
 
     //  Run the unit tests if any.
+	//  TODO: Don't run unit test in bootloader, because we will run out of space in bootrom.
     run_unit_test();	
 }
 
 void __attribute__ ((naked)) reset_handler(void) {
-	volatile unsigned *src, *dest;
+	//  This is called when the Blue Pill starts.  We copy the data sections from ROM to RAM, and clear the BSS sections to null.
+	volatile unsigned *src, *dest, *boot_dest;
 	funcp_t *fp;
 
-	//  Copy data section from ROM to RAM.
-	//  TODO: Handle bootloader and firmware.
+	//  Copy data section from ROM to RAM.  Handle bootloader and firmware.
+	for (src = &_boot_data_loadaddr, boot_dest = &_boot_data;
+		boot_dest < &_boot_edata;  //  Bootloader
+		src++, boot_dest++) {
+		*boot_dest = *src;
+	}
 	for (src = &_data_loadaddr, dest = &_data;
-		dest < &_edata;
+		dest < &_edata;  //  Firmware
 		src++, dest++) {
 		*dest = *src;
 	}
 
-	//  Init variables in BSS section to null.
-	//  TODO: Handle bootloader and firmware.
-	while (dest < &_ebss) {
-		*dest++ = 0;
-	}
+	//  Init variables in BSS section to null.  Handle bootloader and firmware.
+	while (boot_dest < &_boot_ebss) { *boot_dest++ = 0; }
+	while (dest < &_ebss) { *dest++ = 0; }
 
 	/* Ensure 8-byte alignment of stack pointer on interrupts */
 	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
@@ -50,8 +55,7 @@ void __attribute__ ((naked)) reset_handler(void) {
 	//  Perform our platform initialisation.
 	pre_main();
 
-	//  Call C++ constructors.
-	//  TODO: Handle bootloader and firmware.
+	//  Call C++ constructors for firmware.  We don't allow our low-level STM32 functions to have C++ constructors.
 	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
 		(*fp)();
 	}
