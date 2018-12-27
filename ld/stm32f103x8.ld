@@ -4,12 +4,12 @@
 MEMORY
 {
 	/* Available ROM is 64K (0x10000). Reserve lower part for bootloader, upper part for firmware. */
-	bootrom (rx)  : ORIGIN = 0x08000000,          LENGTH = 32K
-	rom     (rx)  : ORIGIN = 0x08000000 + 0x8000, LENGTH = 32K
+	bootrom (rx)  : ORIGIN = 0x08000000,          LENGTH = 20K
+	rom     (rx)  : ORIGIN = 0x08000000 + 0x5000, LENGTH = 44K
 
 	/* Available RAM is 20K (0x5000). Reserve lower part for bootloader, upper part for firmware. */
-	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 10K
-	ram     (rwx) : ORIGIN = 0x20000000 + 0x2800, LENGTH = 10K
+	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH =  8K
+	ram     (rwx) : ORIGIN = 0x20000000 + 0x2000, LENGTH = 12K
 
 	/* Heap and Stack start after Firmware RAM, so we should keep Bootloader RAM small */
 }
