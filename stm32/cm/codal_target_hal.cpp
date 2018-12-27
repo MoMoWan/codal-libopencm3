@@ -11,6 +11,7 @@
 #include <libopencm3/stm32/pwr.h>
 #include <newlib-force.h>  //  Force newlib to be included for build
 #include <nano-float.h>    //  Force nano-float to be included for build
+#include <bootloader.h>
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
@@ -63,8 +64,9 @@ void target_init(void) {
     if (initialised) { return; }  //  Already initialised, skip.
     initialised = true;
 
-    //  enable_debug();   //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-    //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
+    //  Start the bootloader.  This function will not return if the bootloader decides to jump to the application.
+    /* int status = */
+    bootloader_start();
 
     //  Init the platform, cocoOS and create any system objects.
     platform_setup();  //  STM32 platform setup.

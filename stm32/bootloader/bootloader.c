@@ -27,7 +27,7 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include <libopencm3/stm32/gpio.h>
 #include <bluepill.h>
 #include <logger.h>
-#include "dapboot.h"
+#include "bootloader.h"
 #include "target.h"
 #include "usb_conf.h"
 #include "dfu.h"
@@ -71,7 +71,8 @@ static void jump_to_application(void) {
 uint32_t msTimer;
 extern int msc_started;
 
-int target_start_bootloader(void) {
+int bootloader_start(void) {
+    //  Start the bootloader and jump to the loaded application.
     bool appValid = false;
 #ifdef SKIP_BOOTLOADER
     appValid = validate_application();

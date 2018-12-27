@@ -25,7 +25,7 @@
 #include "usb_conf.h"
 #include "dfu_defs.h"
 #include "target.h"
-#include "dapboot.h"
+#include "bootloader.h"
 #include "config.h"
 
 #ifdef INTF_DFU
