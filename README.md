@@ -81,6 +81,10 @@ https://medium.com/coinmonks/connect-stm32-blue-pill-to-sigfox-28c6f91bddc1?sour
 }
 ```
 
+## Exporting Symbols
+
+TODO: `"-Wl,--just-symbols=bootloader.sym"`
+
 ## Codal Build Log
 
 ```cmd

@@ -1,0 +1,31 @@
+{
+    "name": "bootloader",
+    "platform": "ststm32",
+    "board": "bluepill_f103c8",
+    "framework": "libopencm3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lupyuen/bluepill-bootloader"
+    },
+    "description": "MakeCode USB bootloader for STM32 Blue Pill devices that supports HF2, WebUSB and USB CDC",
+    "build": {        
+        "unflags": [
+            "-fno-rtti",
+            "-fno-threadsafe-statics"
+        ],
+        "flags": [
+            "-I stm32f103",
+            "-I stm32f103/generic",
+            "-D UF2_FAMILY=0x5ee21072",
+            "-D HAVE_LED=1",
+            "-D LED_GPIO_PORT=GPIOC",
+            "-D LED_GPIO_PIN=GPIO13",
+            "-D LED_OPEN_DRAIN=1",
+            "-D USES_GPIOC=1"
+        ],
+        "srcFilter": [
+            "+<*.[ch]>",
+            "+<stm32f103/*.[ch]>"
+        ]
+    }
+}
