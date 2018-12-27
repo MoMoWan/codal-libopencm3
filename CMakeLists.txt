@@ -120,7 +120,7 @@ RECURSIVE_FIND_FILE(STM32_C   "${STM32_DIR}" "*.c")   # c files in bootloader
 LIST(
     APPEND 
     STM32_SRC
-    STM32_C
+    ${STM32_C}
     "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s"
 )
 # MODEL_INCLUDE_DIRS will be exposed to the main application.
