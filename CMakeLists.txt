@@ -108,6 +108,8 @@ RECURSIVE_FIND_FILE(BOOST_SRC "${BOOST_DIR}*/src" "*.cpp")
 set(STM32_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stm32")
 message("STM32_DIR: ${STM32_DIR}")
 
+set(STM32_INC "${STM32_DIR}")
+
 ###############################################################################
 # stm32/logger
 
@@ -141,8 +143,11 @@ set(BOOTLOADER_DIR "${STM32_DIR}/bootloader")
 message("BOOTLOADER_DIR: ${BOOTLOADER_DIR}")
 
 # find bootloader sources and headers.
-RECURSIVE_FIND_DIR(BOOTLOADER_INC  "${BOOTLOADER_DIR}" "*.h")
-RECURSIVE_FIND_FILE(BOOTLOADER_SRC "${BOOTLOADER_DIR}" "*.c")
+set(BOOTLOADER_INC
+    "${BOOTLOADER_DIR}/stm32f103" 
+    "${BOOTLOADER_DIR}/stm32f103/generic" 
+)
+SOURCE_FILES(BOOTLOADER_SRC "${BOOTLOADER_DIR}" "*.c")
 
 # create bootloader library.
 add_library(bootloader ${BOOTLOADER_SRC})
@@ -154,7 +159,7 @@ set(HAL_DIR "${STM32_DIR}/hal")
 message("HAL_DIR: ${HAL_DIR}")
 
 # find hal sources and headers.
-RECURSIVE_FIND_DIR(HAL_INC  "${HAL_DIR}"   "*.h")
+set(HAL_INC "${HAL_DIR}")
 RECURSIVE_FIND_FILE(HAL_SRC "${HAL_DIR}"   "*.cpp")
 RECURSIVE_FIND_FILE(HAL_C   "${HAL_DIR}"   "*.c")
 LIST(
@@ -165,17 +170,17 @@ LIST(
 )
 
 # create hal object files (.o) instead of library (.a)
-add_library(hal OBJECT ${HAL_SRC})
+# add_library(hal OBJECT ${HAL_SRC})
+add_library(hal ${HAL_SRC})
 
 # add_library(... $<TARGET_OBJECTS:hal> ...)
 
 # ENABLE_EXPORTS must be enabled to allow .o files to be linked with an executable
 set(ENABLE_EXPORTS ON)
 
-add_executable(
-    ${device.device}
-    $<TARGET_OBJECTS:hal>
-)
+#"${HAL_DIR}/reset_handler.c"
+#"${HAL_DIR}/codal_target_hal.cpp"
+#"${HAL_DIR}/unit_test.c"
 
 ###############################################################################
 # stm32/model
@@ -409,8 +414,8 @@ message("TOP_LEVEL_SOURCE_FILES: ${TOP_LEVEL_SOURCE_FILES}")
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
 # set linker script
-set(CMAKE_LINKER_FLAGS     "${CMAKE_LINKER_FLAGS}     -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
+set(CMAKE_LINKER_FLAGS     "${CMAKE_LINKER_FLAGS}     reset_handler.o codal_target_hal.o unit_test.o -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} reset_handler.o codal_target_hal.o unit_test.o -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # "stm32/bootloader" requires "-std=gnu11" flag or it will fail for Unicode strings like u"..."
@@ -428,6 +433,7 @@ include_directories(
     ${STM32_INC}
     ${LOGGER_INC}
     ${BLUEPILL_INC}
+    ${BOOTLOADER_INC}
     ${HAL_INC}
     ${ADCINT_INC}
     ${I2CINT_INC}
@@ -454,7 +460,10 @@ target_link_libraries(
     logger
     bluepill
     bootloader
-    # hal
+    hal
+    # "${HAL_DIR}/reset_handler.o"
+    # "${HAL_DIR}/codal_target_hal.o"
+    # "${HAL_DIR}/unit_test.o"
     adcint
     i2cint
     porting
