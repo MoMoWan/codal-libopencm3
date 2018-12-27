@@ -163,13 +163,6 @@ set(
 set(LIBOPENCM3_DIR "${LIB_DIR}/libopencm3")
 message("LIBOPENCM3_DIR: ${LIBOPENCM3_DIR}")
 
-# clone libopencm3 into codal/libraries/codal-libopencm3/libopencm3
-# TODO: "--branch" "${LIBOPENCM3_VERSION}" "--single-branch"
-# execute_process(
-#     WORKING_DIRECTORY "${LIB_DIR}" 
-#     COMMAND "git" "clone" "https://github.com/libopencm3/libopencm3" 
-#     OUTPUT_VARIABLE git_clone_libopencm3)
-
 # patch nvic.h, vector_nvic.c, which are auto-generated.  TODO: Allow other platforms besides STM32F1
 set(LIBOPENCM3_PATCH "${PATCHES_DIR}/libopencm3")
 set(PATCH_NVIC "include/libopencm3/stm32/f1/nvic.h")
@@ -202,14 +195,12 @@ execute_process(WORKING_DIRECTORY "${LIBOPENCM3_DIR}" COMMAND "rm" "lib/stm32/co
 
 # find libopencm3 sources and headers.   TODO: Allow other platforms besides STM32F1
 set(LIBOPENCM3_INC "${LIBOPENCM3_DIR}/include")
-# RECURSIVE_FIND_FILE(LIBOPENCM3_CM3 "${LIBOPENCM3_DIR}/lib/cm3" "*.c")
 set(
     LIBOPENCM3_CM3
     "${LIBOPENCM3_DIR}/lib/cm3/nvic.c"
     "${LIBOPENCM3_DIR}/lib/cm3/vector.c"
 )
 RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
-# RECURSIVE_FIND_FILE(LIBOPENCM3_F1 "${LIBOPENCM3_DIR}/lib/stm32/f1" "*.c")
 set(
     LIBOPENCM3_F1
     "${LIBOPENCM3_DIR}/lib/stm32/f1/adc.c"
@@ -246,7 +237,6 @@ set(
     "${CODAL_LIBOPENCM3_DIR}"
 )
 message("TOP_LEVEL_INCLUDE_DIRS: ${TOP_LEVEL_INCLUDE_DIRS}")
-# RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CODAL_LIBOPENCM3_DIR}" "*.cpp")
 set(
     TOP_LEVEL_SOURCE_FILES
     "${CODAL_LIBOPENCM3_DIR}/sensor_display.cpp"
@@ -265,6 +255,9 @@ string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
+
+# "stm32/bootloader" requires "-std=gnu11" flag or it will fail for Unicode strings like u"..."
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
 
 # include directories
 include_directories(    
