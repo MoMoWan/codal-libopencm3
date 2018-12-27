@@ -60,8 +60,6 @@ Archive member included to satisfy reference by file (symbol)
                               .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o) (platform_start_timer)
 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o)
                               .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o) (bootloader_start)
-.pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
-                              .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o) (target_get_serial_number)
 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(target_stm32f103.o)
                               .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o) (target_set_led)
 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(usb_conf.o)
@@ -139,7 +137,7 @@ c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-
 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(vector.o)
                               (reset_handler)
 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(scb.o)
-                              .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o) (scb_reset_system)
+                              .pioenvs\bluepill_f103c8\lib443\libbootloader.a(target_stm32f103.o) (scb_reset_system)
 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(nvic.o)
                               .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o) (nvic_enable_irq)
 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(assert.o)
@@ -820,20 +818,6 @@ Discarded input sections
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o)
  .text.validate_application
                 0x00000000       0x1c .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o)
- .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .text.target_get_serial_number
-                0x00000000        0x8 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .text.target_log
-                0x00000000        0x2 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .text.target_manifest_app
-                0x00000000        0x6 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .text.target_pre_main
-                0x00000000        0x2 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .comment       0x00000000       0x7f .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
- .ARM.attributes
-                0x00000000       0x33 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(dummy.o)
  .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(target_stm32f103.o)
  .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(target_stm32f103.o)
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(target_stm32f103.o)
@@ -1628,8 +1612,8 @@ LOAD .pioenvs\bluepill_f103c8\libc64\libnano-float.a
 LOAD .pioenvs\bluepill_f103c8\lib24c\libcm.a
 LOAD .pioenvs\bluepill_f103c8\libff7\libbluepill.a
 LOAD .pioenvs\bluepill_f103c8\lib443\libbootloader.a
-LOAD .pioenvs\bluepill_f103c8\lib257\libsimulator.a
 LOAD .pioenvs\bluepill_f103c8\lib743\libspiint.a
+LOAD .pioenvs\bluepill_f103c8\lib257\libsimulator.a
 LOAD .pioenvs\bluepill_f103c8\lib59a\libi2cint.a
 LOAD .pioenvs\bluepill_f103c8\libe9f\libporting.a
 LOAD .pioenvs\bluepill_f103c8\lib6b9\libboost_config.a

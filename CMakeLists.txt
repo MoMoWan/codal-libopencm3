@@ -201,7 +201,7 @@ set(
     "${LIBOPENCM3_DIR}/lib/cm3/vector.c"
 )
 RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
-set(
+set(  # source files for STM32F1*
     LIBOPENCM3_F1
     "${LIBOPENCM3_DIR}/lib/stm32/f1/adc.c"
     "${LIBOPENCM3_DIR}/lib/stm32/f1/dac.c"
@@ -216,12 +216,21 @@ set(
     # vector_nvic.c should not be compiled directly, causes error "aliased to undefined symbol 'blocking_handler'"
     # "${LIBOPENCM3_DIR}"/lib/stm32/f1/vector_nvic.c
 )
+set(  # source files for usb
+    LIBOPENCM3_USB
+    "${LIBOPENCM3_DIR}/lib/stm32/common/st_usbfs_core.c"
+    "${LIBOPENCM3_DIR}/lib/stm32/st_usbfs_v1.c"
+    "${LIBOPENCM3_DIR}/lib/usb/usb.c"
+    "${LIBOPENCM3_DIR}/lib/usb/usb_control.c"
+    "${LIBOPENCM3_DIR}/lib/usb/usb_standard.c"
+)
 
 # create libopencm3 library.
 add_library(libopencm3 
     ${LIBOPENCM3_CM3}
     ${LIBOPENCM3_COMMON}
     ${LIBOPENCM3_F1}
+    ${LIBOPENCM3_USB}
 )
 
 ###############################################################################
