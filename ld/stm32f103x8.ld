@@ -1,4 +1,27 @@
-/* Linker script for STM32 Blue Pill Bootloader + Firmware: STM32F103x8, 64k flash, 20k RAM. */
+/* Linker script for STM32 Blue Pill Bootloader + Firmware: STM32F103x8, 64k flash, 20k RAM. 
+Bootloader resides in low memory (always accessible) and consists of these modules:
+libopencm3
+cocoos
+qfplib
+nano-float
+newlib
+logger
+bluepill
+bootloader
+hal (except unit test)
+
+Firmware resides in high memory and consists of these modules:
+adcint
+i2cint
+porting
+simulator
+spiint
+uartint
+cm
+model
+main
+unity
+unit test */
 
 /* Define memory regions. */
 MEMORY

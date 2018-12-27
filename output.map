@@ -2020,6 +2020,7 @@ Linker script and memory map
  .text.st_usbfs_ep_stall_get
                 0x08001922       0x38 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(st_usbfs_core.o)
                 0x08001922                st_usbfs_ep_stall_get
+ *libcocoos.a:(SORT_BY_ALIGNMENT(.text*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.text*))
  *fill*         0x0800195a        0x2 
  .text.os_event_init
@@ -2370,6 +2371,7 @@ Linker script and memory map
                 0x08004024                st_usbfs_v1_usb_driver
  .rodata.chars.4166
                 0x08004058       0x11 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(desig.o)
+ *libcocoos.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libqfplib.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libnano-float.a:(SORT_BY_ALIGNMENT(.rodata*))
@@ -3547,6 +3549,7 @@ Linker script and memory map
  .data.rcc_apb2_frequency
                 0x2000000c        0x4 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(rcc.o)
                 0x2000000c                rcc_apb2_frequency
+ *libcocoos.a:(SORT_BY_ALIGNMENT(.data*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.data*))
  *libqfplib.a:(SORT_BY_ALIGNMENT(.data*))
  *libnano-float.a:(SORT_BY_ALIGNMENT(.data*))
@@ -3601,6 +3604,7 @@ Linker script and memory map
                 0x20000128        0x1 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
  *liblibopencm3.a:(SORT_BY_ALIGNMENT(.bss*))
  *libFrameworkLibOpenCM3.a:(SORT_BY_ALIGNMENT(.bss*))
+ *libcocoos.a:(SORT_BY_ALIGNMENT(.bss*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.bss*))
  *fill*         0x20000129        0x3 
  .bss.msgQList  0x2000012c       0x20 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
@@ -3673,6 +3677,7 @@ Linker script and memory map
  COMMON         0x2000098c      0x100 .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a(st_usbfs_core.o)
                 0x2000098c                st_usbfs_dev
                 0x20000a84                st_usbfs_force_nak
+ *libcocoos.a:(SORT_BY_ALIGNMENT(COMMON))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(COMMON))
  COMMON         0x20000a8c        0x3 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
                 0x20000a8c                running_tid
@@ -3813,9 +3818,6 @@ LOAD .pioenvs\bluepill_f103c8\lib400\libmodel.a
 LOAD .pioenvs\bluepill_f103c8\lib257\libsimulator.a
 LOAD .pioenvs\bluepill_f103c8\lib743\libspiint.a
 LOAD .pioenvs\bluepill_f103c8\lib59a\libi2cint.a
-LOAD .pioenvs\bluepill_f103c8\libe9f\libporting.a
-LOAD .pioenvs\bluepill_f103c8\lib167\libBME280.a
-LOAD .pioenvs\bluepill_f103c8\lib7c6\libadcint.a
 LOAD .pioenvs\bluepill_f103c8\lib6b9\libboost_config.a
 LOAD .pioenvs\bluepill_f103c8\libd55\libboost_static_assert.a
 LOAD .pioenvs\bluepill_f103c8\lib43c\libboost_type_traits.a
@@ -3830,6 +3832,9 @@ LOAD .pioenvs\bluepill_f103c8\lib337\libboost_parameter.a
 LOAD .pioenvs\bluepill_f103c8\lib3f0\libboost_iterator.a
 LOAD .pioenvs\bluepill_f103c8\libcaf\libboost_lockfree.a
 LOAD .pioenvs\bluepill_f103c8\lib492\libuartint.a
+LOAD .pioenvs\bluepill_f103c8\libe9f\libporting.a
+LOAD .pioenvs\bluepill_f103c8\lib167\libBME280.a
+LOAD .pioenvs\bluepill_f103c8\lib7c6\libadcint.a
 LOAD c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m\libgcc.a
 LOAD .pioenvs\bluepill_f103c8\libFrameworkLibOpenCM3.a
 END GROUP
