@@ -73,10 +73,12 @@ SECTIONS
 {
 	/* Bootloader and Firmware ROM */
 
+	/* Bootloader Items: libopencm3, bootloader, bluepill, platform */
 	.boot_text : {  /* Bootloader Code */
 		*(.vectors)	/* Vector table */
-		liblibopencm3.a:*(.text*)	/* Program code */
-		libFrameworkLibOpenCM3.a:*(.text*)	/* Program code */
+		*liblibopencm3.a:          (.text*)	/* libopencm3 code goes into bootrom (CODAL build) */
+		*libFrameworkLibOpenCM3.a: (.text*)	/* libopencm3 code goes into bootrom (PlatformIO build) */
+		*libbootloader.a:          (.text*) /* bootloader code goes into bootrom */
 		. = ALIGN(4);
 		*(.rodata*)	/* Read-only data */
 		. = ALIGN(4);
