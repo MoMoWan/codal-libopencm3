@@ -19,12 +19,18 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
-//  Firmware starts here, after the bootloader.
-#define APP_BASE_ADDRESS 0x08004000
-//  Assume 64KB of ROM, don't override.
-#define FLASH_SIZE_OVERRIDE 0x10000
-#define FLASH_PAGE_SIZE  1024
-#define DFU_UPLOAD_AVAILABLE 1
+//  Specific settings for Blue Pill.
+#define UF2_FAMILY      0x5ee21072 
+#define HAVE_LED        1 
+#define LED_GPIO_PORT   GPIOC 
+#define LED_GPIO_PIN    GPIO13 
+#define LED_OPEN_DRAIN  1 
+#define USES_GPIOC      1
+
+#define APP_BASE_ADDRESS    0x08004000 //  Firmware starts here, after the bootloader.
+#define FLASH_SIZE_OVERRIDE 0x10000    //  Assume 64KB of ROM, don't override to 128 KB.
+#define FLASH_PAGE_SIZE     1024
+#define DFU_UPLOAD_AVAILABLE   1
 #define DFU_DOWNLOAD_AVAILABLE 1
 
 #ifndef HAVE_LED

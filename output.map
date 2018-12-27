@@ -12,10 +12,6 @@ Archive member included to satisfy reference by file (symbol)
                               .pioenvs\bluepill_f103c8\src\main.o (codal::Timer::getTime())
 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
                               .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o) (codal::Event::Event())
-.pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                              .pioenvs\bluepill_f103c8\src\unit_test.o (UnityAssertEqualNumber)
-.pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                              .pioenvs\bluepill_f103c8\src\unit_test.o (get_float_usage)
 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
                               .pioenvs\bluepill_f103c8\src\wisol.o (event_create)
 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
@@ -44,6 +40,10 @@ Archive member included to satisfy reference by file (symbol)
                               .pioenvs\bluepill_f103c8\src\aggregate.o (strncpy)
 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strstr.o)
                               .pioenvs\bluepill_f103c8\src\wisol.o (strstr)
+.pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                              .pioenvs\bluepill_f103c8\src\unit_test.o (UnityAssertEqualNumber)
+.pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                              .pioenvs\bluepill_f103c8\src\unit_test.o (get_float_usage)
 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
                               .pioenvs\bluepill_f103c8\src\main.o (codal::_cm::Pin::setDigitalValue(int))
 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
@@ -164,14 +164,14 @@ c:/users/guppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-
                               .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(RefCounted.o) (codal::RefCounted::destroy())
 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
                               .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MessageBus.o) (codal::MemberFunctionCallback::fire(codal::Event))
-.pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
-                              .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o) (qfp_fadd)
 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
                               .pioenvs\bluepill_f103c8\lib443\libbootloader.a(ghostfat.o) (memcmp)
 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memmove.o)
                               .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalDmesg.o) (memmove)
 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strcmp.o)
                               .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(ManagedString.o) (strcmp)
+.pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
+                              .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o) (qfp_fadd)
 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
                               .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o) (codal::_cm::I2C::I2C(codal::Pin&, codal::Pin&))
 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmSPI.o)
@@ -443,104 +443,6 @@ Discarded input sections
  .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
  .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
- .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.suiteSetUp
-                0x00000000        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.suiteTearDown
-                0x00000000        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityIsOneArrayNull
-                0x00000000       0x38 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityPrintExpectedAndActualStrings
-                0x00000000       0x5c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityPrintLen
-                0x00000000       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityPrintMask
-                0x00000000       0x2a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertBits
-                0x00000000       0x5c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertGreaterOrLessOrEqualNumber
-                0x00000000       0xc0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualIntArray
-                0x00000000      0x108 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualFloatArray
-                0x00000000       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertFloatSpecial
-                0x00000000      0x130 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualDoubleArray
-                0x00000000       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertDoubleSpecial
-                0x00000000      0x168 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertNumbersWithin
-                0x00000000       0x98 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualString
-                0x00000000       0x60 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualStringLen
-                0x00000000       0xb0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualStringArray
-                0x00000000       0xd8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAssertEqualMemory
-                0x00000000      0x108 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityNumToPtr
-                0x00000000       0x1c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityFloatToPtr
-                0x00000000        0xc .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityDoubleToPtr
-                0x00000000       0x10 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityFail
-                0x00000000       0x74 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityIgnore
-                0x00000000       0x3c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata        0x00000000       0x10 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .bss.UnityQuickCompare
-                0x00000000        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrByte
-                0x00000000        0x7 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrDelta
-                0x00000000       0x1a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrDet
-                0x00000000        0xc .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrElement
-                0x00000000        0xa .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrErr64
-                0x00000000       0x1e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrErrDouble
-                0x00000000       0x20 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrErrFloat
-                0x00000000       0x1e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrGt
-                0x00000000       0x15 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrIgnore
-                0x00000000        0x7 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrInf
-                0x00000000        0x9 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrInvalidFloatTrait
-                0x00000000       0x14 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrLt
-                0x00000000       0x12 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrMemory
-                0x00000000       0x12 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrNaN
-                0x00000000        0x4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrNegInf
-                0x00000000       0x12 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrNot
-                0x00000000        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrNull
-                0x00000000        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrNullPointerForActual
-                0x00000000       0x19 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrNullPointerForExpected
-                0x00000000       0x1d .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrOrEqual
-                0x00000000        0xd .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .rodata.UnityStrPointless
-                0x00000000       0x37 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
- .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
- .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
- .text.fabs     0x00000000       0x74 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
  .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
@@ -721,6 +623,104 @@ Discarded input sections
  .comment       0x00000000       0x7f .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strstr.o)
  .ARM.attributes
                 0x00000000       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strstr.o)
+ .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.suiteSetUp
+                0x00000000        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.suiteTearDown
+                0x00000000        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityIsOneArrayNull
+                0x00000000       0x38 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityPrintExpectedAndActualStrings
+                0x00000000       0x5c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityPrintLen
+                0x00000000       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityPrintMask
+                0x00000000       0x2a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertBits
+                0x00000000       0x5c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertGreaterOrLessOrEqualNumber
+                0x00000000       0xc0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualIntArray
+                0x00000000      0x108 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualFloatArray
+                0x00000000       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertFloatSpecial
+                0x00000000      0x130 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualDoubleArray
+                0x00000000       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertDoubleSpecial
+                0x00000000      0x168 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertNumbersWithin
+                0x00000000       0x98 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualString
+                0x00000000       0x60 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualStringLen
+                0x00000000       0xb0 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualStringArray
+                0x00000000       0xd8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAssertEqualMemory
+                0x00000000      0x108 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityNumToPtr
+                0x00000000       0x1c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityFloatToPtr
+                0x00000000        0xc .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityDoubleToPtr
+                0x00000000       0x10 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityFail
+                0x00000000       0x74 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityIgnore
+                0x00000000       0x3c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata        0x00000000       0x10 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .bss.UnityQuickCompare
+                0x00000000        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrByte
+                0x00000000        0x7 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrDelta
+                0x00000000       0x1a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrDet
+                0x00000000        0xc .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrElement
+                0x00000000        0xa .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrErr64
+                0x00000000       0x1e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrErrDouble
+                0x00000000       0x20 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrErrFloat
+                0x00000000       0x1e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrGt
+                0x00000000       0x15 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrIgnore
+                0x00000000        0x7 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrInf
+                0x00000000        0x9 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrInvalidFloatTrait
+                0x00000000       0x14 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrLt
+                0x00000000       0x12 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrMemory
+                0x00000000       0x12 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrNaN
+                0x00000000        0x4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrNegInf
+                0x00000000       0x12 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrNot
+                0x00000000        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrNull
+                0x00000000        0x5 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrNullPointerForActual
+                0x00000000       0x19 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrNullPointerForExpected
+                0x00000000       0x1d .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrOrEqual
+                0x00000000        0xd .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .rodata.UnityStrPointless
+                0x00000000       0x37 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+ .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+ .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+ .text.fabs     0x00000000       0x74 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .group         0x00000000        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
  .group         0x00000000        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
  .group         0x00000000        0x8 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
@@ -1461,8 +1461,6 @@ Discarded input sections
  .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
  .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
- .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
- .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
  .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
  .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
@@ -1480,6 +1478,8 @@ Discarded input sections
  .comment       0x00000000       0x7f .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strcmp.o)
  .ARM.attributes
                 0x00000000       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strcmp.o)
+ .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
+ .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
  .text          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
  .data          0x00000000        0x0 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
  .bss           0x00000000        0x0 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
@@ -1620,31 +1620,31 @@ LOAD .pioenvs\bluepill_f103c8\src\wstring.o
 START GROUP
 LOAD .pioenvs\bluepill_f103c8\lib931\liblogger.a
 LOAD .pioenvs\bluepill_f103c8\lib635\libcodal-core.a
+LOAD .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a
+LOAD .pioenvs\bluepill_f103c8\liba13\libnewlib.a
 LOAD .pioenvs\bluepill_f103c8\lib0e4\libunity.a
 LOAD .pioenvs\bluepill_f103c8\lib46d\libqfplib.a
 LOAD .pioenvs\bluepill_f103c8\libc64\libnano-float.a
-LOAD .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a
-LOAD .pioenvs\bluepill_f103c8\liba13\libnewlib.a
 LOAD .pioenvs\bluepill_f103c8\lib24c\libcm.a
 LOAD .pioenvs\bluepill_f103c8\libff7\libbluepill.a
 LOAD .pioenvs\bluepill_f103c8\lib443\libbootloader.a
 LOAD .pioenvs\bluepill_f103c8\lib257\libsimulator.a
 LOAD .pioenvs\bluepill_f103c8\lib743\libspiint.a
-LOAD .pioenvs\bluepill_f103c8\libf2c\libboost_preprocessor.a
+LOAD .pioenvs\bluepill_f103c8\lib59a\libi2cint.a
+LOAD .pioenvs\bluepill_f103c8\libe9f\libporting.a
 LOAD .pioenvs\bluepill_f103c8\lib6b9\libboost_config.a
 LOAD .pioenvs\bluepill_f103c8\libd55\libboost_static_assert.a
 LOAD .pioenvs\bluepill_f103c8\lib43c\libboost_type_traits.a
+LOAD .pioenvs\bluepill_f103c8\libf2c\libboost_preprocessor.a
 LOAD .pioenvs\bluepill_f103c8\lib95e\libboost_assert.a
 LOAD .pioenvs\bluepill_f103c8\libb77\libboost_core.a
-LOAD .pioenvs\bluepill_f103c8\lib0fe\libboost_utility.a
-LOAD .pioenvs\bluepill_f103c8\lib2eb\libboost_predef.a
-LOAD .pioenvs\bluepill_f103c8\libffd\libboost_mpl.a
 LOAD .pioenvs\bluepill_f103c8\libb93\libboost_detail.a
-LOAD .pioenvs\bluepill_f103c8\lib337\libboost_parameter.a
+LOAD .pioenvs\bluepill_f103c8\lib2eb\libboost_predef.a
+LOAD .pioenvs\bluepill_f103c8\lib0fe\libboost_utility.a
+LOAD .pioenvs\bluepill_f103c8\libffd\libboost_mpl.a
 LOAD .pioenvs\bluepill_f103c8\lib3f0\libboost_iterator.a
+LOAD .pioenvs\bluepill_f103c8\lib337\libboost_parameter.a
 LOAD .pioenvs\bluepill_f103c8\libcaf\libboost_lockfree.a
-LOAD .pioenvs\bluepill_f103c8\lib59a\libi2cint.a
-LOAD .pioenvs\bluepill_f103c8\libe9f\libporting.a
 LOAD .pioenvs\bluepill_f103c8\lib492\libuartint.a
 LOAD .pioenvs\bluepill_f103c8\lib167\libBME280.a
 LOAD .pioenvs\bluepill_f103c8\lib7c6\libadcint.a
@@ -1892,129 +1892,129 @@ END GROUP
  .text._ZN5codal5Event4fireEv
                 0x08004074       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
                 0x08004074                codal::Event::fire()
- .text.UnityTestResultsBegin
-                0x08004094       0x30 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityTestResultsFailBegin
-                0x080040c4       0x24 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityAddMsgIfSpecified
-                0x080040e8       0x50 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.UnityConcludeTest
-                0x08004138       0x44 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08004138                UnityConcludeTest
- .text.UnityAssertEqualNumber
-                0x0800417c       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800417c                UnityAssertEqualNumber
- .text.UnityAssertFloatsWithin
-                0x080041d4       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x080041d4                UnityAssertFloatsWithin
- .text.UnityAssertDoublesWithin
-                0x0800422c       0x60 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800422c                UnityAssertDoublesWithin
- .text.UnityDefaultTestRun
-                0x0800428c       0x2c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800428c                UnityDefaultTestRun
- .text.UnityBegin
-                0x080042b8       0x20 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x080042b8                UnityBegin
- .text.UnityEnd
-                0x080042d8       0x74 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x080042d8                UnityEnd
- .text.get_float_usage
-                0x0800434c        0xc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x0800434c                get_float_usage
- .text.__wrap___aeabi_ddiv
-                0x08004358       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004358                __wrap___aeabi_ddiv
- .text.__wrap___aeabi_dmul
-                0x08004388       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004388                __wrap___aeabi_dmul
- .text.__wrap___aeabi_dcmpeq
-                0x080043b8       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080043b8                __wrap___aeabi_dcmpeq
- .text.__wrap___aeabi_dcmplt
-                0x080043ec       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080043ec                __wrap___aeabi_dcmplt
- .text.__wrap___aeabi_dcmple
-                0x0800441c       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x0800441c                __wrap___aeabi_dcmple
- .text.__wrap___aeabi_dcmpge
-                0x08004450       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004450                __wrap___aeabi_dcmpge
- .text.__wrap___aeabi_dcmpgt
-                0x08004480       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004480                __wrap___aeabi_dcmpgt
- .text.__wrap___aeabi_dcmpun
-                0x080044b4       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080044b4                __wrap___aeabi_dcmpun
- .text.__wrap___aeabi_fdiv
-                0x080044e8       0x10 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080044e8                __wrap___aeabi_fdiv
- .text.__wrap___aeabi_d2iz
-                0x080044f8       0x2c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080044f8                __wrap___aeabi_d2iz
- .text.__wrap___aeabi_d2uiz
-                0x08004524       0x38 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004524                __wrap___aeabi_d2uiz
- .text.sqrt     0x0800455c       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x0800455c                sqrt
- .text.log      0x08004578       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004578                log
- .text.exp      0x08004594       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004594                exp
- .text.log2     0x080045b0       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080045b0                log2
- .text.log10    0x080045d8       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080045d8                log10
- .text.pow      0x08004600       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004600                pow
- .text.ldexp    0x08004688       0x40 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004688                ldexp
- .text.sin      0x080046c8       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080046c8                sin
- .text.cos      0x080046e4       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080046e4                cos
- .text.tan      0x08004718       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004718                tan
- .text.atan2    0x08004734       0x50 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004734                atan2
- .text.atan     0x08004784       0xa8 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004784                atan
- .text.asin     0x0800482c       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x0800482c                asin
- .text.sinh     0x080048b4       0x94 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080048b4                sinh
- .text.cosh     0x08004948       0x9c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004948                cosh
- .text.tanh     0x080049e4       0xac .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x080049e4                tanh
- .text.asinh    0x08004a90       0x94 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004a90                asinh
- .text.acosh    0x08004b24       0xac .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004b24                acosh
- .text.atanh    0x08004bd0       0xbc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004bd0                atanh
- .text.trunc    0x08004c8c       0x80 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004c8c                trunc
- .text.floor    0x08004d0c       0x7c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004d0c                floor
- .text.ceil     0x08004d88       0x80 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004d88                ceil
- .text.fmod     0x08004e08      0x148 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
-                0x08004e08                fmod
  .text.os_event_init
-                0x08004f50        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
-                0x08004f50                os_event_init
- .text.os_init  0x08004f5c       0x34 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
-                0x08004f5c                os_init
+                0x08004094        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
+                0x08004094                os_event_init
+ .text.os_init  0x080040a0       0x34 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
+                0x080040a0                os_init
  .text.os_msgQ_init
-                0x08004f90       0x24 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x08004f90                os_msgQ_init
+                0x080040d4       0x24 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x080040d4                os_msgQ_init
  .text.os_sem_init
-                0x08004fb4        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
-                0x08004fb4                os_sem_init
+                0x080040f8        0xc .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
+                0x080040f8                os_sem_init
  .text.os_task_init
-                0x08004fc0       0x40 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
-                0x08004fc0                os_task_init
+                0x08004104       0x40 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
+                0x08004104                os_task_init
+ .text.UnityTestResultsBegin
+                0x08004144       0x30 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityTestResultsFailBegin
+                0x08004174       0x24 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityAddMsgIfSpecified
+                0x08004198       0x50 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.UnityConcludeTest
+                0x080041e8       0x44 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080041e8                UnityConcludeTest
+ .text.UnityAssertEqualNumber
+                0x0800422c       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800422c                UnityAssertEqualNumber
+ .text.UnityAssertFloatsWithin
+                0x08004284       0x58 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08004284                UnityAssertFloatsWithin
+ .text.UnityAssertDoublesWithin
+                0x080042dc       0x60 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x080042dc                UnityAssertDoublesWithin
+ .text.UnityDefaultTestRun
+                0x0800433c       0x2c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800433c                UnityDefaultTestRun
+ .text.UnityBegin
+                0x08004368       0x20 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08004368                UnityBegin
+ .text.UnityEnd
+                0x08004388       0x74 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08004388                UnityEnd
+ .text.get_float_usage
+                0x080043fc        0xc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080043fc                get_float_usage
+ .text.__wrap___aeabi_ddiv
+                0x08004408       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004408                __wrap___aeabi_ddiv
+ .text.__wrap___aeabi_dmul
+                0x08004438       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004438                __wrap___aeabi_dmul
+ .text.__wrap___aeabi_dcmpeq
+                0x08004468       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004468                __wrap___aeabi_dcmpeq
+ .text.__wrap___aeabi_dcmplt
+                0x0800449c       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x0800449c                __wrap___aeabi_dcmplt
+ .text.__wrap___aeabi_dcmple
+                0x080044cc       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080044cc                __wrap___aeabi_dcmple
+ .text.__wrap___aeabi_dcmpge
+                0x08004500       0x30 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004500                __wrap___aeabi_dcmpge
+ .text.__wrap___aeabi_dcmpgt
+                0x08004530       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004530                __wrap___aeabi_dcmpgt
+ .text.__wrap___aeabi_dcmpun
+                0x08004564       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004564                __wrap___aeabi_dcmpun
+ .text.__wrap___aeabi_fdiv
+                0x08004598       0x10 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004598                __wrap___aeabi_fdiv
+ .text.__wrap___aeabi_d2iz
+                0x080045a8       0x2c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080045a8                __wrap___aeabi_d2iz
+ .text.__wrap___aeabi_d2uiz
+                0x080045d4       0x38 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080045d4                __wrap___aeabi_d2uiz
+ .text.sqrt     0x0800460c       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x0800460c                sqrt
+ .text.log      0x08004628       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004628                log
+ .text.exp      0x08004644       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004644                exp
+ .text.log2     0x08004660       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004660                log2
+ .text.log10    0x08004688       0x28 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004688                log10
+ .text.pow      0x080046b0       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080046b0                pow
+ .text.ldexp    0x08004738       0x40 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004738                ldexp
+ .text.sin      0x08004778       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004778                sin
+ .text.cos      0x08004794       0x34 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004794                cos
+ .text.tan      0x080047c8       0x1c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080047c8                tan
+ .text.atan2    0x080047e4       0x50 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080047e4                atan2
+ .text.atan     0x08004834       0xa8 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004834                atan
+ .text.asin     0x080048dc       0x88 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080048dc                asin
+ .text.sinh     0x08004964       0x94 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004964                sinh
+ .text.cosh     0x080049f8       0x9c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x080049f8                cosh
+ .text.tanh     0x08004a94       0xac .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004a94                tanh
+ .text.asinh    0x08004b40       0x94 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004b40                asinh
+ .text.acosh    0x08004bd4       0xac .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004bd4                acosh
+ .text.atanh    0x08004c80       0xbc .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004c80                atanh
+ .text.trunc    0x08004d3c       0x80 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004d3c                trunc
+ .text.floor    0x08004dbc       0x7c .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004dbc                floor
+ .text.ceil     0x08004e38       0x80 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004e38                ceil
+ .text.fmod     0x08004eb8      0x148 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x08004eb8                fmod
  .text._ZN5codal3_cm3Pin14setAnalogValueEi
                 0x08005000       0x1c .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
                 0x08005000                codal::_cm::Pin::setAnalogValue(int)
@@ -2691,42 +2691,42 @@ END GROUP
                 0x08009dae       0x20 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
                 0x08009dae                codal::EventQueueItem::EventQueueItem(codal::Event)
                 0x08009dae                codal::EventQueueItem::EventQueueItem(codal::Event)
+ .text.memcpy   0x08009dce       0x1c .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcpy.o)
+                0x08009dce                memcpy
+ .text.memset   0x08009dea       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memset.o)
+                0x08009dea                memset
+ .text.strlen   0x08009dfa       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
+                0x08009dfa                strlen
+ .text.strncat  0x08009e0a       0x28 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
+                0x08009e0a                strncat
+ .text.strncpy  0x08009e32       0x2a .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncpy.o)
+                0x08009e32                strncpy
  .text.UnityFloatsWithin
-                0x08009dce       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x08009e5c       0xe4 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityDoublesWithin
-                0x08009eb2      0x11c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .text.setUp    0x08009fce        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08009fce                setUp
+                0x08009f40      0x11c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .text.setUp    0x0800a05c        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a05c                setUp
  .text.tearDown
-                0x08009fd0        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08009fd0                tearDown
+                0x0800a05e        0x2 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a05e                tearDown
  .text.UnityPrintNumberUnsigned
-                0x08009fd2       0x34 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x08009fd2                UnityPrintNumberUnsigned
+                0x0800a060       0x34 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a060                UnityPrintNumberUnsigned
  .text.UnityPrintNumber
-                0x0800a006       0x18 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800a006                UnityPrintNumber
+                0x0800a094       0x18 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a094                UnityPrintNumber
  .text.UnityPrintNumberHex
-                0x0800a01e       0x2e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800a01e                UnityPrintNumberHex
+                0x0800a0ac       0x2e .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a0ac                UnityPrintNumberHex
  .text.UnityPrint.part.0
-                0x0800a04c       0x4c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a0da       0x4c .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .text.UnityPrint
-                0x0800a098        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800a098                UnityPrint
+                0x0800a126        0x8 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a126                UnityPrint
  .text.UnityPrintNumberByStyle
-                0x0800a0a0       0x3a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
-                0x0800a0a0                UnityPrintNumberByStyle
- .text.memcpy   0x0800a0da       0x1c .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcpy.o)
-                0x0800a0da                memcpy
- .text.memset   0x0800a0f6       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memset.o)
-                0x0800a0f6                memset
- .text.strlen   0x0800a106       0x10 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
-                0x0800a106                strlen
- .text.strncat  0x0800a116       0x28 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
-                0x0800a116                strncat
- .text.strncpy  0x0800a13e       0x2a .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncpy.o)
-                0x0800a13e                strncpy
+                0x0800a12e       0x3a .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x0800a12e                UnityPrintNumberByStyle
  .text._ZN5codal3Pin15setServoPulseUsEm
                 0x0800a168        0x6 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
                 0x0800a168                codal::Pin::setServoPulseUs(unsigned long)
@@ -3682,13 +3682,13 @@ END GROUP
  .bss.heap_count
                 0x20000e5d        0x1 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalHeapAllocator.o)
                 0x20000e5d                heap_count
- .bss.float_usage
-                0x20000e5e       0x25 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
- .bss.nEvents   0x20000e83        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
- .bss.nQueues   0x20000e84        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
+ .bss.nEvents   0x20000e5e        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
+ .bss.nQueues   0x20000e5f        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
  .bss.nSemaphores
-                0x20000e85        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
- .bss.nTasks    0x20000e86        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
+                0x20000e60        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
+ .bss.nTasks    0x20000e61        0x1 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
+ .bss.float_usage
+                0x20000e62       0x25 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .bss._ZL11initialised
                 0x20000e87        0x1 .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
  .bss._ZL12debugEnabled
@@ -3756,29 +3756,29 @@ OUTPUT(.pioenvs\bluepill_f103c8\firmware.elf elf32-littlearm)
  .ARM.attributes
                 0x000001b9       0x33 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
  .ARM.attributes
-                0x000001ec       0x33 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+                0x000001ec       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
  .ARM.attributes
-                0x0000021f       0x33 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
+                0x0000021f       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
  .ARM.attributes
-                0x00000252       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
+                0x00000252       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
  .ARM.attributes
-                0x00000285       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
+                0x00000285       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
  .ARM.attributes
-                0x000002b8       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x000002b8       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
  .ARM.attributes
-                0x000002eb       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_sem.o)
+                0x000002eb       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcpy.o)
  .ARM.attributes
-                0x0000031e       0x33 .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_task.o)
+                0x0000031e       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memset.o)
  .ARM.attributes
-                0x00000351       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcpy.o)
+                0x00000351       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
  .ARM.attributes
-                0x00000384       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memset.o)
+                0x00000384       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
  .ARM.attributes
-                0x000003b7       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
+                0x000003b7       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncpy.o)
  .ARM.attributes
-                0x000003ea       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
+                0x000003ea       0x33 .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
  .ARM.attributes
-                0x0000041d       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncpy.o)
+                0x0000041d       0x33 .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .ARM.attributes
                 0x00000450       0x33 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
  .ARM.attributes
@@ -3888,9 +3888,9 @@ OUTPUT(.pioenvs\bluepill_f103c8\firmware.elf elf32-littlearm)
  .ARM.attributes
                 0x00000e19       0x33 .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(MemberFunctionCallback.o)
  .ARM.attributes
-                0x00000e4c       0x21 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
+                0x00000e4c       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
  .ARM.attributes
-                0x00000e6d       0x33 .pioenvs\bluepill_f103c8\liba13\libnewlib.a(memcmp.o)
+                0x00000e7f       0x21 .pioenvs\bluepill_f103c8\lib46d\libqfplib.a(qfplib.o)
  .ARM.attributes
                 0x00000ea0       0x33 .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmI2C.o)
  .ARM.attributes
@@ -3915,8 +3915,6 @@ OUTPUT(.pioenvs\bluepill_f103c8\firmware.elf elf32-littlearm)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(CodalListener.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Timer.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib635\libcodal-core.a(Event.o)
- .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
- .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_event.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_kernel.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\libd0a\libcocoOS_5.0.3.a(os_msgqueue.o)
@@ -3927,6 +3925,8 @@ OUTPUT(.pioenvs\bluepill_f103c8\firmware.elf elf32-littlearm)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strlen.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncat.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\liba13\libnewlib.a(strncpy.o)
+ .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib0e4\libunity.a(unity.o)
+ .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\libc64\libnano-float.a(functions.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib24c\libcm.a(CmPin.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\lib24c\libcm.a(codal_target_hal.o)
  .comment       0x0000007e       0x7f .pioenvs\bluepill_f103c8\libff7\libbluepill.a(STM32BluePill.o)
