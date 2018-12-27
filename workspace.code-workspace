@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "/Users/Luppy/bluepill-bootloader"
+		},
+		{
+			"path": "stm32/bootloader"
 		}
 	],
 	"settings": {
