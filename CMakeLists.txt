@@ -109,29 +109,171 @@ RECURSIVE_FIND_FILE(BOOST_SRC "${BOOST_DIR}*/src" "*.cpp")
 # stm32
 
 set(STM32_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stm32")
-set(STM32_BLUEPILL_DIR "${STM32_DIR}/bluepill")
-set(STM32_CM_DIR "${STM32_DIR}/cm")
 message("STM32_DIR: ${STM32_DIR}")
 
-# find stm32 sources and headers.
-RECURSIVE_FIND_DIR(STM32_INC  "${STM32_DIR}" "*.h")
-RECURSIVE_FIND_FILE(STM32_SRC "${STM32_DIR}" "*.cpp") # cpp files
-RECURSIVE_FIND_FILE(STM32_C   "${STM32_DIR}" "*.c")   # c files in bootloader
+###############################################################################
+# stm32/logger
+
+set(LOGGER_DIR "${STM32_DIR}/logger")
+message("LOGGER_DIR: ${LOGGER_DIR}")
+
+# find logger sources and headers.
+RECURSIVE_FIND_DIR(LOGGER_INC  "${LOGGER_DIR}" "*.h")
+RECURSIVE_FIND_FILE(LOGGER_SRC "${LOGGER_DIR}" "*.cpp")
+
+# create logger library.
+add_library(logger ${LOGGER_SRC})
+
+###############################################################################
+# stm32/bluepill
+
+set(BLUEPILL_DIR "${STM32_DIR}/bluepill")
+message("BLUEPILL_DIR: ${BLUEPILL_DIR}")
+
+# find bluepill sources and headers.
+RECURSIVE_FIND_DIR(BLUEPILL_INC  "${BLUEPILL_DIR}" "*.h")
+RECURSIVE_FIND_FILE(BLUEPILL_SRC "${BLUEPILL_DIR}" "*.cpp")
+
+# create bluepill library.
+add_library(bluepill ${BLUEPILL_SRC})
+
+###############################################################################
+# stm32/bootloader
+
+set(BOOTLOADER_DIR "${STM32_DIR}/bootloader")
+message("BOOTLOADER_DIR: ${BOOTLOADER_DIR}")
+
+# find bootloader sources and headers.
+RECURSIVE_FIND_DIR(BOOTLOADER_INC  "${BOOTLOADER_DIR}" "*.h")
+RECURSIVE_FIND_FILE(BOOTLOADER_SRC "${BOOTLOADER_DIR}" "*.c")
+
+# create bootloader library.
+add_library(bootloader ${BOOTLOADER_SRC})
+
+###############################################################################
+# stm32/hal
+
+set(HAL_DIR "${STM32_DIR}/hal")
+message("HAL_DIR: ${HAL_DIR}")
+
+# find hal sources and headers.
+RECURSIVE_FIND_DIR(HAL_INC  "${HAL_DIR}"   "*.h")
+RECURSIVE_FIND_FILE(HAL_SRC "${HAL_DIR}"   "*.cpp")
+RECURSIVE_FIND_FILE(HAL_C   "${HAL_DIR}"   "*.c")
 LIST(
     APPEND 
-    STM32_SRC
-    ${STM32_C}
+    HAL_SRC
+    ${HAL_C}
     "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s"
 )
-# MODEL_INCLUDE_DIRS will be exposed to the main application.
-set(
-    MODEL_INCLUDE_DIRS 
-    "${STM32_BLUEPILL_DIR}"
-    "${STM32_CM_DIR}"
-)
 
-# create stm32 library.
-add_library(stm32 ${STM32_SRC})
+# create hal object files (.o) instead of library (.a)
+add_library(hal OBJECT ${HAL_SRC})
+# add_library(... $<TARGET_OBJECTS:hal> ...)
+
+###############################################################################
+# stm32/model
+
+set(MODEL_DIR "${STM32_DIR}/model")
+message("MODEL_DIR: ${MODEL_DIR}")
+
+# find model sources and headers.
+RECURSIVE_FIND_DIR(MODEL_INC  "${MODEL_DIR}" "*.h")
+RECURSIVE_FIND_FILE(MODEL_SRC "${MODEL_DIR}" "*.cpp")
+
+# create model library.
+add_library(model ${MODEL_SRC})
+
+###############################################################################
+# stm32/cm
+
+set(CM_DIR "${STM32_DIR}/cm")
+message("CM_DIR: ${CM_DIR}")
+
+# find cm sources and headers.
+RECURSIVE_FIND_DIR(CM_INC  "${CM_DIR}" "*.h")
+RECURSIVE_FIND_FILE(CM_SRC "${CM_DIR}" "*.cpp")
+
+# create cm library.
+add_library(cm ${CM_SRC})
+
+###############################################################################
+# stm32/adcint
+
+set(ADCINT_DIR "${STM32_DIR}/adcint")
+message("ADCINT_DIR: ${ADCINT_DIR}")
+
+# find adcint sources and headers.
+RECURSIVE_FIND_DIR(ADCINT_INC  "${ADCINT_DIR}" "*.h")
+RECURSIVE_FIND_FILE(ADCINT_SRC "${ADCINT_DIR}" "*.cpp")
+
+# create adcint library.
+add_library(adcint ${ADCINT_SRC})
+
+###############################################################################
+# stm32/i2cint
+
+set(I2CINT_DIR "${STM32_DIR}/i2cint")
+message("I2CINT_DIR: ${I2CINT_DIR}")
+
+# find i2cint sources and headers.
+RECURSIVE_FIND_DIR(I2CINT_INC  "${I2CINT_DIR}" "*.h")
+RECURSIVE_FIND_FILE(I2CINT_SRC "${I2CINT_DIR}" "*.cpp")
+
+# create i2cint library.
+add_library(i2cint ${I2CINT_SRC})
+
+###############################################################################
+# stm32/porting
+
+set(PORTING_DIR "${STM32_DIR}/porting")
+message("PORTING_DIR: ${PORTING_DIR}")
+
+# find porting sources and headers.
+RECURSIVE_FIND_DIR(PORTING_INC  "${PORTING_DIR}" "*.h")
+RECURSIVE_FIND_FILE(PORTING_SRC "${PORTING_DIR}" "*.cpp")
+
+# create porting library.
+add_library(porting ${PORTING_SRC})
+
+###############################################################################
+# stm32/simulator
+
+set(SIMULATOR_DIR "${STM32_DIR}/simulator")
+message("SIMULATOR_DIR: ${SIMULATOR_DIR}")
+
+# find simulator sources and headers.
+RECURSIVE_FIND_DIR(SIMULATOR_INC  "${SIMULATOR_DIR}" "*.h")
+RECURSIVE_FIND_FILE(SIMULATOR_SRC "${SIMULATOR_DIR}" "*.cpp")
+
+# create simulator library.
+add_library(simulator ${SIMULATOR_SRC})
+
+###############################################################################
+# stm32/spiint
+
+set(SPIINT_DIR "${STM32_DIR}/spiint")
+message("SPIINT_DIR: ${SPIINT_DIR}")
+
+# find spiint sources and headers.
+RECURSIVE_FIND_DIR(SPIINT_INC  "${SPIINT_DIR}" "*.h")
+RECURSIVE_FIND_FILE(SPIINT_SRC "${SPIINT_DIR}" "*.cpp")
+
+# create spiint library.
+add_library(spiint ${SPIINT_SRC})
+
+###############################################################################
+# stm32/uartint
+
+set(UARTINT_DIR "${STM32_DIR}/uartint")
+message("UARTINT_DIR: ${UARTINT_DIR}")
+
+# find uartint sources and headers.
+RECURSIVE_FIND_DIR(UARTINT_INC  "${UARTINT_DIR}" "*.h")
+RECURSIVE_FIND_FILE(UARTINT_SRC "${UARTINT_DIR}" "*.cpp")
+
+# create uartint library.
+add_library(uartint ${UARTINT_SRC})
 
 ###############################################################################
 # newlib
@@ -260,26 +402,37 @@ message("TOP_LEVEL_SOURCE_FILES: ${TOP_LEVEL_SOURCE_FILES}")
 
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
-# linker addresses
-set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
+# set linker script
+set(CMAKE_LINKER_FLAGS     "${CMAKE_LINKER_FLAGS}     -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # "stm32/bootloader" requires "-std=gnu11" flag or it will fail for Unicode strings like u"..."
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
 
-# include directories
+# include directories, skip bootloader because ghostfat.h conflicts with Codal.
 include_directories(    
     ${INCLUDE_DIRS} 
     ${TOP_LEVEL_INCLUDE_DIRS}
     ${CODAL_CORE_INC}
-    ${NANOFLOAT_INC}
+    ${LIBOPENCM3_INC}
     ${COCOOS_INC}
+    ${QFPLIB_INC}
+    ${NANOFLOAT_INC}
+    ${STM32_INC}
+    ${LOGGER_INC}
+    ${BLUEPILL_INC}
+    ${HAL_INC}
+    ${ADCINT_INC}
+    ${I2CINT_INC}
+    ${PORTING_INC}
+    ${SIMULATOR_INC}
+    ${SPIINT_INC}
+    ${UARTINT_INC}
+    ${CM_INC}
+    ${MODEL_INC}
     ${BME280_INC}
     ${BOOST_INC}
-    ${STM32_INC}
-    ${LIBOPENCM3_INC}
-    ${QFPLIB_INC}
     ${LIB_DIR}
 )
 
@@ -287,14 +440,46 @@ include_directories(
 target_link_libraries(
     codal-libopencm3
     codal-core
-    nano-float
-    cocoos
-    bme280
-    stm32
     libopencm3
-    newlib
+    cocoos
     qfplib
+    nano-float
+    newlib
+    logger
+    bluepill
+    bootloader
+    hal
+    adcint
+    i2cint
+    porting
+    simulator
+    spiint 
+    uartint
+    cm
+    model
+    bme280
+)
+
+# MODEL_INCLUDE_DIRS will be exposed to the main application.
+set(
+    MODEL_INCLUDE_DIRS 
+    "${LOGGER_DIR}"
+    "${BLUEPILL_DIR}"
+    "${HAL_DIR}"
+    "${ADCINT_DIR}"
+    "${I2CINT_DIR}"
+    "${PORTING_DIR}"
+    "${SIMULATOR_DIR}"
+    "${SPIINT_DIR}"
+    "${UARTINT_DIR}"
+    "${CM_DIR}"
+    "${MODEL_DIR}"
 )
 
 # expose it to parent cmake.
-target_include_directories(codal-libopencm3 PUBLIC ${MODEL_INCLUDE_DIRS} ${TOP_LEVEL_INCLUDE_DIRS})
+target_include_directories(
+    codal-libopencm3 
+    PUBLIC 
+    ${MODEL_INCLUDE_DIRS} 
+    ${TOP_LEVEL_INCLUDE_DIRS}
+)

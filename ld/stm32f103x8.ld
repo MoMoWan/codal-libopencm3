@@ -14,10 +14,10 @@ MEMORY
 	/* Heap and Stack start after Firmware RAM, so we should keep Bootloader RAM small */
 }
 
-/* Enforce emmition of the vector table. */
+/* Force vector table to be linked in. */
 EXTERN(vector_table)
 
-/* Define the entry point of the output file. */
+/* Execution starts at reset_handler() function in stm32/hal/reset_handler.c. */
 ENTRY(reset_handler)
 
 /* Define sections in the executable file, by selecting input files (.o) and archives (.a)
@@ -37,7 +37,9 @@ SECTIONS
 
 		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
+		*libcocoos.a:				(.text*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.text*) /* cocoOS (PlatformIO build) */
+
 		*libqfplib.a:          		(.text*) /* Math Library */
 		*libnano-float.a:          	(.text*) /* Math Library Replacement */
 		*libnewlib.a:          		(.text*) /* C Library Replacement */
@@ -52,7 +54,9 @@ SECTIONS
 
 		*liblibopencm3.a:          	(.rodata*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.rodata*) /* libopencm3 (PlatformIO build) */
+		*libcocoos.a:				(.rodata*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.rodata*) /* cocoOS (PlatformIO build) */
+
 		*libqfplib.a:          		(.rodata*) /* Math Library */
 		*libnano-float.a:          	(.rodata*) /* Math Library Replacement */
 		*libnewlib.a:          		(.rodata*) /* C Library Replacement */
@@ -150,7 +154,9 @@ SECTIONS
 
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
+		*libcocoos.a:				(.data*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.data*) /* cocoOS (PlatformIO build) */
+
 		*libqfplib.a:          		(.data*) /* Math Library */
 		*libnano-float.a:          	(.data*) /* Math Library Replacement */
 		*libnewlib.a:          		(.data*) /* C Library Replacement */
@@ -176,13 +182,15 @@ SECTIONS
 
 	.boot_bss : {   /*  Bootloader Variables */
 
-		/*  Bootloader read-write zero initialized data  */
+		/*  Bootloader Variables Init With 0 (BSS)  */
 		:*reset_handler.o			(.bss*) /* Reset Handler */
 		:*codal_target_hal.o		(.bss*) /* CODAL HAL */
 
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
+		*libcocoos.a:				(.bss*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.bss*) /* cocoOS (PlatformIO build) */
+
 		*libqfplib.a:          		(.bss*) /* Math Library */
 		*libnano-float.a:          	(.bss*) /* Math Library Replacement */
 		*libnewlib.a:          		(.bss*) /* C Library Replacement */
@@ -191,13 +199,15 @@ SECTIONS
 		*libbootloader.a:          	(.bss*) /* Bootloader */
 		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
 
-		/*  Common Variables  */
+		/*  Bootloader Common Variables  */
 		:*reset_handler.o			(COMMON) /* Reset Handler */
 		:*codal_target_hal.o		(COMMON) /* CODAL HAL */
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */
+		*libcocoos.a:				(COMMON) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(COMMON) /* cocoOS (PlatformIO build) */
+		
 		*libqfplib.a:          		(COMMON) /* Math Library */
 		*libnano-float.a:          	(COMMON) /* Math Library Replacement */
 		*libnewlib.a:          		(COMMON) /* C Library Replacement */
@@ -213,11 +223,13 @@ SECTIONS
 		boot_end = .; /* Previously below */
 	} >bootram
 
-	.bss : {        /*  Firmware Variables  */
+	.bss : {       
+		/*  Firmware Variables Init With 0 (BSS)  */
 		*libunity.a:          		(.bss*) /* Unit Test */
 		:*unit_test.o			    (.bss*)  /* Unit Test zero initialized data (if any) */
 		*							(.bss*)	 /* Other Firmware read-write zero initialized data */
 
+		/*  Firmware Common Variables  */
 		*libunity.a:          		(COMMON) /* Unit Test */
 		:*unit_test.o			    (COMMON) /* Unit Test (if any) */
 		*							(COMMON) /* Other Firmware common variables */
