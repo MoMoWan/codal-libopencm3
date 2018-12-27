@@ -10,9 +10,6 @@ message("VERBOSE: $ENV{VERBOSE}")
 # apply codal build settings
 include("${CODAL_UTILS_LOCATION}")
 
-# configure version of libopencm3 to clone.
-set(LIBOPENCM3_VERSION "53347c266bb86f99b74c5f028c4c0f0c24d66b83") # Nov 6, 2018
-
 # CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
 # build the libraries in the "lib" folder.
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib")
@@ -169,7 +166,16 @@ LIST(
 
 # create hal object files (.o) instead of library (.a)
 add_library(hal OBJECT ${HAL_SRC})
+
 # add_library(... $<TARGET_OBJECTS:hal> ...)
+
+# ENABLE_EXPORTS must be enabled to allow .o files to be linked with an executable
+set(ENABLE_EXPORTS ON)
+
+add_executable(
+    ${device.device}
+    $<TARGET_OBJECTS:hal>
+)
 
 ###############################################################################
 # stm32/model
@@ -448,7 +454,7 @@ target_link_libraries(
     logger
     bluepill
     bootloader
-    hal
+    # hal
     adcint
     i2cint
     porting
