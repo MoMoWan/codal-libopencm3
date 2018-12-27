@@ -1,10 +1,7 @@
 //  Main Application for PlatformIO build.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
 //  TODO: Sync with samples/main.cpp
-#include <newlib-force.h>  //  Force newlib to be included for build
-#include <qfplib.h>        //  Force qfplib to be included for build
-#include <nano-float.h>    //  Force nano-float to be included for build
-#include "STM32BluePill.h"
 #include <logger.h>
+#include <STM32BluePill.h>
 
 #ifdef PLATFORMIO    //  If building on PlatformIO...
 #include "i2cint.h"  //  Force I2C Interface to be included for PlatformIO build.
@@ -15,20 +12,11 @@
 
 using namespace codal;
 
-extern "C" int test_nanofloat(void);
 void Blink_main(codal::STM32BluePill& bluepill);
 static void debug_dump(codal::STM32BluePill& bluepill, const char *msg);
 
 int main() {
-    //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
-    target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
-    //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
-    target_init();               //  Init the STM32 platform.
-
-#ifdef UNIT_TEST
-    test_nanofloat();
-#endif
-
+    //  This main() function will be wrapped by the linker.  The actual main() function is in stm32/hal/main.cpp.
     //  Blue Pill constructor will generate debug messages, so we construct after enabling debug.
     STM32BluePill bluepill;
     bluepill.init();
