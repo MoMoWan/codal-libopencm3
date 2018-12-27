@@ -148,6 +148,8 @@ set(BOOTLOADER_INC
     "${BOOTLOADER_DIR}/stm32f103/generic" 
 )
 SOURCE_FILES(BOOTLOADER_SRC "${BOOTLOADER_DIR}" "*.c")
+SOURCE_FILES(BOOTLOADER_STM32F103 "${BOOTLOADER_DIR}/stm32f103" "*.c")
+LIST(APPEND BOOTLOADER_SRC ${BOOTLOADER_STM32F103})
 
 # create bootloader library.
 add_library(bootloader ${BOOTLOADER_SRC})
@@ -414,8 +416,8 @@ message("TOP_LEVEL_SOURCE_FILES: ${TOP_LEVEL_SOURCE_FILES}")
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
 # set linker script
-set(CMAKE_LINKER_FLAGS     "${CMAKE_LINKER_FLAGS}     reset_handler.o codal_target_hal.o unit_test.o -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} reset_handler.o codal_target_hal.o unit_test.o -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
+set(CMAKE_LINKER_FLAGS     "${CMAKE_LINKER_FLAGS}     -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\"" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
 
 # "stm32/bootloader" requires "-std=gnu11" flag or it will fail for Unicode strings like u"..."
