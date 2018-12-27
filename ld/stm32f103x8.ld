@@ -37,7 +37,7 @@ SECTIONS
 
 		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
-		*libunity.a:          		(.text*) /* Unit Test */
+		*libcocoOS_?.?.?.a:			(.text*) /* cocoOS (PlatformIO build) */
 		*libqfplib.a:          		(.text*) /* Math Library */
 		*libnano-float.a:          	(.text*) /* Math Library Replacement */
 		*libnewlib.a:          		(.text*) /* C Library Replacement */
@@ -49,11 +49,10 @@ SECTIONS
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
 		*reset_handler.o			(.rodata*) /* Reset Handler */
 		*codal_target_hal.o			(.rodata*) /* CODAL HAL */
-		*unit_test.o			    (.rodata*) /* Unit Test (if any) */
 
 		*liblibopencm3.a:          	(.rodata*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.rodata*) /* libopencm3 (PlatformIO build) */
-		*libunity.a:          		(.rodata*) /* Unit Test */
+		*libcocoOS_?.?.?.a:			(.rodata*) /* cocoOS (PlatformIO build) */
 		*libqfplib.a:          		(.rodata*) /* Math Library */
 		*libnano-float.a:          	(.rodata*) /* Math Library Replacement */
 		*libnewlib.a:          		(.rodata*) /* C Library Replacement */
@@ -67,10 +66,14 @@ SECTIONS
 
 	.text : {       /* Firmware */
 		*(.vectors)	/* Vector table */
-		:*unit_test.o	(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
-		*				(.text*)   /* Other Firmware Code */
+		*libunity.a:          		(.text*) /* Unit Test */
+		:*unit_test.o				(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
+		*							(.text*)   /* Other Firmware Code */
+
 		. = ALIGN(4);
-		*				(.rodata*) /* Firmware Read-only data */
+		*libunity.a:          		(.rodata*) /* Unit Test */
+		:*unit_test.o			    (.rodata*) /* Unit Test (if any) */
+		*							(.rodata*) /* Other Firmware Read-only data */
 		. = ALIGN(4);
 	} >rom
 
@@ -84,8 +87,9 @@ SECTIONS
 	.preinit_array : { /* Firmware Constructors */
 		. = ALIGN(4);
 		__preinit_array_start = .;
-		KEEP (:*unit_test.o		(.preinit_array)) /* Unit Test Constructors (if any) */
-		KEEP (*					(.preinit_array)) /* Other Firmware Constructors */
+		KEEP (*libunity.a:			(.preinit_array)) /* Unit Test Constructors (if any) */
+		KEEP (:*unit_test.o			(.preinit_array)) /* Unit Test Constructors (if any) */
+		KEEP (*						(.preinit_array)) /* Other Firmware Constructors */
 		__preinit_array_end = .;
 	} >rom
 
@@ -101,9 +105,11 @@ SECTIONS
 	.init_array : { /* Firmware Constructors */
 		. = ALIGN(4);
 		__init_array_start = .;
+		KEEP (*libunity.a:		(SORT_BY_NAME (.init_array.*))) /* Unit Test Constructors (if any) */
 		KEEP (:*unit_test.o		(SORT_BY_NAME (.init_array.*))) /* Unit Test Constructors (if any) */
 		KEEP (*					(SORT_BY_NAME (.init_array.*))) /* Other Firmware Constructors. */
 
+		KEEP (*libunity.a:		(.init_array)) /* Unit Test Constructors (if any) */
 		KEEP (:*unit_test.o		(.init_array)) /* Unit Test Constructors (if any) */
 		KEEP (*					(.init_array)) /* Other Firmware Constructors. */
 		__init_array_end = .;
@@ -144,7 +150,7 @@ SECTIONS
 
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
-		*libunity.a:          		(.data*) /* Unit Test */
+		*libcocoOS_?.?.?.a:			(.data*) /* cocoOS (PlatformIO build) */
 		*libqfplib.a:          		(.data*) /* Math Library */
 		*libnano-float.a:          	(.data*) /* Math Library Replacement */
 		*libnewlib.a:          		(.data*) /* C Library Replacement */
@@ -160,6 +166,7 @@ SECTIONS
 
 	.data : {        /* Firmware Data  */
 		_data = .;
+		*libunity.a:          		(.data*) /* Unit Test */
 		:*unit_test.o			    (.data*) /* Unit Test (if any) */
 		*							(.data*) /* Other Firmware read-write initialized data */
 		. = ALIGN(4);
@@ -175,7 +182,7 @@ SECTIONS
 
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
-		*libunity.a:          		(.bss*) /* Unit Test */
+		*libcocoOS_?.?.?.a:			(.bss*) /* cocoOS (PlatformIO build) */
 		*libqfplib.a:          		(.bss*) /* Math Library */
 		*libnano-float.a:          	(.bss*) /* Math Library Replacement */
 		*libnewlib.a:          		(.bss*) /* C Library Replacement */
@@ -190,7 +197,7 @@ SECTIONS
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */
-		*libunity.a:          		(COMMON) /* Unit Test */
+		*libcocoOS_?.?.?.a:			(COMMON) /* cocoOS (PlatformIO build) */
 		*libqfplib.a:          		(COMMON) /* Math Library */
 		*libnano-float.a:          	(COMMON) /* Math Library Replacement */
 		*libnewlib.a:          		(COMMON) /* C Library Replacement */
@@ -207,9 +214,11 @@ SECTIONS
 	} >bootram
 
 	.bss : {        /*  Firmware Variables  */
+		*libunity.a:          		(.bss*) /* Unit Test */
 		:*unit_test.o			    (.bss*)  /* Unit Test zero initialized data (if any) */
 		*							(.bss*)	 /* Other Firmware read-write zero initialized data */
 
+		*libunity.a:          		(COMMON) /* Unit Test */
 		:*unit_test.o			    (COMMON) /* Unit Test (if any) */
 		*							(COMMON) /* Other Firmware common variables */
 

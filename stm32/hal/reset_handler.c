@@ -57,12 +57,15 @@ void __attribute__ ((naked)) reset_handler(void) {
 	pre_main();
 
 	//  Call C++ constructors for firmware.  We don't allow our low-level STM32 functions to have C++ constructors.
+	//  TODO: Don't call if we are booting into bootloader, not firmware.
+	/*
 	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
 		(*fp)();
 	}
 	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
 		(*fp)();
 	}
+	*/
 
 	/* Call the application's entry point. */
 	main();
