@@ -32,6 +32,10 @@ SECTIONS
 		*(.vectors)	/* Vector table */
 
 		/* Bootloader Code */
+		:*reset_handler.o			(.text*) /* Reset Handler */
+		:*codal_target_hal.o		(.text*) /* CODAL HAL */
+		:*unit_test.o			    (.text*) /* Unit Test (if any) */
+
 		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
 		*libunity.a:          		(.text*) /* Unit Test */
@@ -44,6 +48,10 @@ SECTIONS
 		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
 
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
+		*reset_handler.o			(.rodata*) /* Reset Handler */
+		*codal_target_hal.o			(.rodata*) /* CODAL HAL */
+		*unit_test.o			    (.rodata*) /* Unit Test (if any) */
+
 		*liblibopencm3.a:          	(.rodata*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.rodata*) /* libopencm3 (PlatformIO build) */
 		*libunity.a:          		(.rodata*) /* Unit Test */
@@ -69,6 +77,10 @@ SECTIONS
 	.boot_preinit_array : { /* Bootloader Constructors */
 		. = ALIGN(4);
 		__boot_preinit_array_start = .;  /*  We use KEEP to force these symbols to be linked, otherwise they will be removed because they are not referenced */
+		KEEP (:*reset_handler.o				(.preinit_array)) /* Reset Handler */
+		KEEP (:*codal_target_hal.o			(.preinit_array)) /* CODAL HAL */
+		KEEP (:*unit_test.o			    	(.preinit_array)) /* Unit Test (if any) */
+
 		KEEP (*liblibopencm3.a:          	(.preinit_array)) /* libopencm3 (CODAL build) */
 		KEEP (*libFrameworkLibOpenCM3.a: 	(.preinit_array)) /* libopencm3 (PlatformIO build) */
 		KEEP (*libunity.a:          		(.preinit_array)) /* Unit Test */
@@ -91,28 +103,8 @@ SECTIONS
 
 	.boot_init_array : { /* Bootloader Constructors */
 		. = ALIGN(4);
-		__boot_init_array_start = .;
-		KEEP (*liblibopencm3.a:          	(SORT_BY_NAME (.init_array.*))) /* libopencm3 (CODAL build) */
-		KEEP (*libFrameworkLibOpenCM3.a: 	(SORT_BY_NAME (.init_array.*))) /* libopencm3 (PlatformIO build) */
-		KEEP (*libunity.a:          		(SORT_BY_NAME (.init_array.*))) /* Unit Test */
-		KEEP (*libqfplib.a:          		(SORT_BY_NAME (.init_array.*))) /* Math Library */
-		KEEP (*libnano-float.a:          	(SORT_BY_NAME (.init_array.*))) /* Math Library Replacement */
-		KEEP (*libnewlib.a:          		(SORT_BY_NAME (.init_array.*))) /* C Library Replacement */
-		KEEP (*liblogger.a:          		(SORT_BY_NAME (.init_array.*))) /* Logger */
-		KEEP (*libbluepill.a:          	    (SORT_BY_NAME (.init_array.*))) /* Low Level Functions */
-		KEEP (*libbootloader.a:          	(SORT_BY_NAME (.init_array.*))) /* Bootloader */
-		KEEP (*libhal.a:          		    (SORT_BY_NAME (.init_array.*))) /* Hardware Adaptation Layer */
-
-		KEEP (*liblibopencm3.a:          	(.init_array)) /* libopencm3 (CODAL build) */
-		KEEP (*libFrameworkLibOpenCM3.a: 	(.init_array)) /* libopencm3 (PlatformIO build) */
-		KEEP (*libunity.a:          		(.init_array)) /* Unit Test */
-		KEEP (*libqfplib.a:          		(.init_array)) /* Math Library */
-		KEEP (*libnano-float.a:          	(.init_array)) /* Math Library Replacement */
-		KEEP (*libnewlib.a:          		(.init_array)) /* C Library Replacement */
-		KEEP (*liblogger.a:          		(.init_array)) /* Logger */
-		KEEP (*libbluepill.a:          	    (.init_array)) /* Low Level Functions */
-		KEEP (*libbootloader.a:          	(.init_array)) /* Bootloader */
-		KEEP (*libhal.a:          		    (.init_array)) /* Hardware Adaptation Layer */
+		__boot_init_array_start = .; 
+		/* No constructors for our low-level bootloader functions, otherwise it may cause a loop */
 		__boot_init_array_end = .;
 
 		. = ALIGN(4);  /* Previously below */
@@ -157,6 +149,10 @@ SECTIONS
 		_boot_data = .;
 
 		/* Bootloader read-write initialized data */
+		:*reset_handler.o			(.data*) /* Reset Handler */
+		:*codal_target_hal.o		(.data*) /* CODAL HAL */
+		:*unit_test.o			    (.data*) /* Unit Test (if any) */
+
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
 		*libunity.a:          		(.data*) /* Unit Test */
@@ -183,7 +179,11 @@ SECTIONS
 
 	.boot_bss : {   /*  Bootloader Variables */
 
-		/*  Bootloader read-write zero initialized data */
+		/*  Bootloader read-write zero initialized data  */
+		:*reset_handler.o			(.data*) /* Reset Handler */
+		:*codal_target_hal.o		(.data*) /* CODAL HAL */
+		:*unit_test.o			    (.data*) /* Unit Test (if any) */
+
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
 		*libunity.a:          		(.bss*) /* Unit Test */
@@ -194,6 +194,11 @@ SECTIONS
 		*libbluepill.a:          	(.bss*) /* Low Level Functions */
 		*libbootloader.a:          	(.bss*) /* Bootloader */
 		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
+
+		/*  Common Variables  */
+		:*reset_handler.o			(COMMON) /* Reset Handler */
+		:*codal_target_hal.o		(COMMON) /* CODAL HAL */
+		:*unit_test.o			    (COMMON) /* Unit Test (if any) */
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */
