@@ -34,7 +34,6 @@ SECTIONS
 		/* Bootloader Code */
 		:*reset_handler.o			(.text*) /* Reset Handler */
 		:*codal_target_hal.o		(.text*) /* CODAL HAL */
-		:*unit_test.o			    (.text*) /* Unit Test (if any) */
 
 		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
@@ -68,36 +67,25 @@ SECTIONS
 
 	.text : {       /* Firmware */
 		*(.vectors)	/* Vector table */
-		*(.text*)	/* Firmware Code */
+		:*unit_test.o	(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
+		*				(.text*)   /* Other Firmware Code */
 		. = ALIGN(4);
-		*(.rodata*)	/* Firmware Read-only data */
+		*				(.rodata*) /* Firmware Read-only data */
 		. = ALIGN(4);
 	} >rom
 
 	.boot_preinit_array : { /* Bootloader Constructors */
 		. = ALIGN(4);
 		__boot_preinit_array_start = .;  /*  We use KEEP to force these symbols to be linked, otherwise they will be removed because they are not referenced */
-		KEEP (:*reset_handler.o				(.preinit_array)) /* Reset Handler */
-		KEEP (:*codal_target_hal.o			(.preinit_array)) /* CODAL HAL */
-		KEEP (:*unit_test.o			    	(.preinit_array)) /* Unit Test (if any) */
-
-		KEEP (*liblibopencm3.a:          	(.preinit_array)) /* libopencm3 (CODAL build) */
-		KEEP (*libFrameworkLibOpenCM3.a: 	(.preinit_array)) /* libopencm3 (PlatformIO build) */
-		KEEP (*libunity.a:          		(.preinit_array)) /* Unit Test */
-		KEEP (*libqfplib.a:          		(.preinit_array)) /* Math Library */
-		KEEP (*libnano-float.a:          	(.preinit_array)) /* Math Library Replacement */
-		KEEP (*libnewlib.a:          		(.preinit_array)) /* C Library Replacement */
-		KEEP (*liblogger.a:          		(.preinit_array)) /* Logger */
-		KEEP (*libbluepill.a:          	    (.preinit_array)) /* Low Level Functions */
-		KEEP (*libbootloader.a:          	(.preinit_array)) /* Bootloader */
-		KEEP (*libhal.a:          		    (.preinit_array)) /* Hardware Adaptation Layer */
+		/* No constructors for our low-level bootloader functions, otherwise it may cause a loop */
 		__boot_preinit_array_end = .;
 	} >bootrom
 
 	.preinit_array : { /* Firmware Constructors */
 		. = ALIGN(4);
 		__preinit_array_start = .;
-		KEEP (*(.preinit_array))
+		KEEP (:*unit_test.o		(.preinit_array)) /* Unit Test Constructors (if any) */
+		KEEP (*					(.preinit_array)) /* Other Firmware Constructors */
 		__preinit_array_end = .;
 	} >rom
 
@@ -106,7 +94,6 @@ SECTIONS
 		__boot_init_array_start = .; 
 		/* No constructors for our low-level bootloader functions, otherwise it may cause a loop */
 		__boot_init_array_end = .;
-
 		. = ALIGN(4);  /* Previously below */
 		_boot_etext = .;
 	} >bootrom
@@ -114,8 +101,11 @@ SECTIONS
 	.init_array : { /* Firmware Constructors */
 		. = ALIGN(4);
 		__init_array_start = .;
-		KEEP (*(SORT_BY_NAME (.init_array.*)))
-		KEEP (*(.init_array))
+		KEEP (:*unit_test.o		(SORT_BY_NAME (.init_array.*))) /* Unit Test Constructors (if any) */
+		KEEP (*					(SORT_BY_NAME (.init_array.*))) /* Other Firmware Constructors. */
+
+		KEEP (:*unit_test.o		(.init_array)) /* Unit Test Constructors (if any) */
+		KEEP (*					(.init_array)) /* Other Firmware Constructors. */
 		__init_array_end = .;
 
 		. = ALIGN(4);  /* Previously below */
@@ -151,7 +141,6 @@ SECTIONS
 		/* Bootloader read-write initialized data */
 		:*reset_handler.o			(.data*) /* Reset Handler */
 		:*codal_target_hal.o		(.data*) /* CODAL HAL */
-		:*unit_test.o			    (.data*) /* Unit Test (if any) */
 
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
@@ -171,7 +160,8 @@ SECTIONS
 
 	.data : {        /* Firmware Data  */
 		_data = .;
-		*(.data*)	 /* Firmware read-write initialized data */
+		:*unit_test.o			    (.data*) /* Unit Test (if any) */
+		*							(.data*) /* Other Firmware read-write initialized data */
 		. = ALIGN(4);
 		_edata = .;
 	} >ram AT >rom   /* Stored in rom but copied to ram at startup  */
@@ -180,9 +170,8 @@ SECTIONS
 	.boot_bss : {   /*  Bootloader Variables */
 
 		/*  Bootloader read-write zero initialized data  */
-		:*reset_handler.o			(.data*) /* Reset Handler */
-		:*codal_target_hal.o		(.data*) /* CODAL HAL */
-		:*unit_test.o			    (.data*) /* Unit Test (if any) */
+		:*reset_handler.o			(.bss*) /* Reset Handler */
+		:*codal_target_hal.o		(.bss*) /* CODAL HAL */
 
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
@@ -198,7 +187,6 @@ SECTIONS
 		/*  Common Variables  */
 		:*reset_handler.o			(COMMON) /* Reset Handler */
 		:*codal_target_hal.o		(COMMON) /* CODAL HAL */
-		:*unit_test.o			    (COMMON) /* Unit Test (if any) */
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */
@@ -219,8 +207,12 @@ SECTIONS
 	} >bootram
 
 	.bss : {        /*  Firmware Variables  */
-		*(.bss*)	/*  Read-write zero initialized data */
-		*(COMMON)
+		:*unit_test.o			    (.bss*)  /* Unit Test zero initialized data (if any) */
+		*							(.bss*)	 /* Other Firmware read-write zero initialized data */
+
+		:*unit_test.o			    (COMMON) /* Unit Test (if any) */
+		*							(COMMON) /* Other Firmware common variables */
+
 		. = ALIGN(4);
 		_ebss = .;
 
