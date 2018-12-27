@@ -71,7 +71,7 @@ static void jump_to_application(void) {
 uint32_t msTimer;
 extern int msc_started;
 
-int main(void) {
+int target_start_bootloader(void) {
     bool appValid = false;
 #ifdef SKIP_BOOTLOADER
     appValid = validate_application();
