@@ -17,8 +17,8 @@
             "-I stm32f103",
             "-I stm32f103/generic"        ],
         "srcFilter": [
-            "+<*.[ch]>",
-            "+<stm32f103/*.[ch]>"
+            "+<*.c>",
+            "+<stm32f103/*.c>"
         ]
     }
 }

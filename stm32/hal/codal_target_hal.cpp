@@ -11,7 +11,7 @@
 #include <libopencm3/stm32/pwr.h>
 #include <newlib-force.h>  //  Force newlib to be included for build
 #include <nano-float.h>    //  Force nano-float to be included for build
-#include <bootloader.h>
+#include <bootloader/bootloader.h>
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
