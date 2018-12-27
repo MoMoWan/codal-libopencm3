@@ -358,6 +358,7 @@ set(
 RECURSIVE_FIND_FILE(LIBOPENCM3_COMMON "${LIBOPENCM3_DIR}/lib/stm32/common" "*.c")
 set(  # source files for STM32F1*
     LIBOPENCM3_F1
+    "${LIBOPENCM3_DIR}/lib/stm32/desig.c"
     "${LIBOPENCM3_DIR}/lib/stm32/f1/adc.c"
     "${LIBOPENCM3_DIR}/lib/stm32/f1/dac.c"
     "${LIBOPENCM3_DIR}/lib/stm32/f1/dma.c"
