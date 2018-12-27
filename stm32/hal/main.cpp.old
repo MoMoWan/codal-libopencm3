@@ -3,7 +3,7 @@
 #include <platform_includes.h>
 
 extern "C" int __wrap_main(void);
-extern "C" int test_nanofloat(void);
+extern "C" int run_unit_test(void);
 
 extern "C" int main(void) {
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
@@ -11,10 +11,8 @@ extern "C" int main(void) {
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     target_init();               //  Init the STM32 platform, which calls the bootloader.  If the bootloader decides to launch the firmware, this function will not return.
 
-#ifdef UNIT_TEST
     //  Run the unit tests if any.
-    test_nanofloat();
-#endif
+    run_unit_test();
 
     //  Call the wrapped main().
     int status = __wrap_main();

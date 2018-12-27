@@ -1,0 +1,22 @@
+{
+    "name": "hal",
+    "platform": "ststm32",
+    "board": "bluepill_f103c8",
+    "framework": "libopencm3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lupyuen/codal-libopencm3"
+    },
+    "description": "CODAL Hardware Adaptation Layer for STM32 Blue Pill.  Adapts the `bluepill` low level functions to CODAL.  Called by the CODAL Model Library.  'hal' produces .o files that are linked directly into the bootloader and firmware.",
+    "build": {
+        "libArchive": false,
+        "unflags": [
+        ],
+        "flags": [
+        ],
+        "srcFilter": [
+            "+<*.c>",
+            "+<*.cpp>"
+        ]
+    }
+}

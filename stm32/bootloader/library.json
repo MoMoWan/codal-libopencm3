@@ -5,7 +5,7 @@
     "framework": "libopencm3",
     "repository": {
         "type": "git",
-        "url": "https://github.com/lupyuen/bluepill-bootloader"
+        "url": "https://github.com/lupyuen/codal-libopencm3"
     },
     "description": "MakeCode USB bootloader for STM32 Blue Pill devices that supports HF2, WebUSB and USB CDC",
     "build": {        
