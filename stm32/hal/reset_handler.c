@@ -1,9 +1,10 @@
 //  We provide our own implementation of reset_handler() so that Blue Pill bootloader and firmware will be initialised in the right sequence.
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/cm3/vector.c
 #include <libopencm3/cm3/scb.h>
+#include "platform_includes.h"
 
 /* Symbols exported by the linker script(s): */
-extern unsigned _data_loadaddr, _data, _edata, _ebss, _stack;  //  For firmware rom and ram sections.
+extern unsigned _data_loadaddr, _edata, _ebss;  //  For firmware rom and ram sections.
 extern unsigned _boot_data_loadaddr, _boot_data, _boot_edata, _boot_ebss;  //  For bootloader rom and ram sections.
 typedef void (*funcp_t) (void);
 extern funcp_t __preinit_array_start, __preinit_array_end;
