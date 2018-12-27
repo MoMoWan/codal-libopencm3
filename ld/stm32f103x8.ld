@@ -22,8 +22,15 @@
 /* Define memory regions. */
 MEMORY
 {
-	rom (rx) : ORIGIN = 0x08000000, LENGTH = 64K
-	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
+	/* ROM is 64K (0x10000). Reserve lower part for bootloader. */
+	bootrom (rx)  : ORIGIN = 0x08000000,          LENGTH = 32K
+	rom     (rx)  : ORIGIN = 0x08000000 + 0x8000, LENGTH = 32K
+
+	/* RAM is 20K (0x5000). Reserve lower part for bootloader. */
+	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 10K
+	ram     (rwx) : ORIGIN = 0x20000000 + 0x2800, LENGTH = 10K
+
+	/* Heap and Stack start after Firmware RAM, so we should keep Bootloader RAM small */
 }
 
 /* Include the common ld script. */
@@ -57,9 +64,25 @@ EXTERN (vector_table)
 ENTRY(reset_handler)
 
 /* Define sections. */
+/*
+`archive:file' matches file within archive 
+`archive:' matches the whole archive 
+`:file' matches file but not one in an archive
+*/
 SECTIONS
 {
-	.text : {
+	/* Bootloader and Firmware ROM */
+
+	.boot_text : {  /* Bootloader Code */
+		*(.vectors)	/* Vector table */
+		liblibopencm3.a:*(.text*)	/* Program code */
+		libFrameworkLibOpenCM3.a:*(.text*)	/* Program code */
+		. = ALIGN(4);
+		*(.rodata*)	/* Read-only data */
+		. = ALIGN(4);
+	} >bootrom
+
+	.text : {       /* Firmware Code */
 		*(.vectors)	/* Vector table */
 		*(.text*)	/* Program code */
 		. = ALIGN(4);
@@ -67,58 +90,103 @@ SECTIONS
 		. = ALIGN(4);
 	} >rom
 
-	/* C++ Static constructors/destructors, also used for __attribute__
-	 * ((constructor)) and the likes */
-	.preinit_array : {
+	.boot_preinit_array : { /* Bootloader Constructors */
+		. = ALIGN(4);
+		__boot_preinit_array_start = .;
+		KEEP (*(.preinit_array))
+		__boot_preinit_array_end = .;
+	} >bootrom
+
+	.preinit_array : { /* Firmware Constructors */
 		. = ALIGN(4);
 		__preinit_array_start = .;
 		KEEP (*(.preinit_array))
 		__preinit_array_end = .;
 	} >rom
-	.init_array : {
+
+	.boot_init_array : { /* Bootloader Constructors */
+		. = ALIGN(4);
+		__boot_init_array_start = .;
+		KEEP (*(SORT_BY_NAME (.init_array.*)))  /* Sort by name */
+		KEEP (*(.init_array))
+		__boot_init_array_end = .;
+
+		. = ALIGN(4);  /* Previously below */
+		_boot_etext = .;
+	} >bootrom
+
+	.init_array : { /* Firmware Constructors */
 		. = ALIGN(4);
 		__init_array_start = .;
-		KEEP (*(SORT(.init_array.*)))
+		KEEP (*(SORT_BY_NAME (.init_array.*)))
 		KEEP (*(.init_array))
 		__init_array_end = .;
+
+		. = ALIGN(4);  /* Previously below */
+		_etext = .;
 	} >rom
-	.fini_array : {
-		. = ALIGN(4);
-		__fini_array_start = .;
-		KEEP (*(.fini_array))
-		KEEP (*(SORT(.fini_array.*)))
-		__fini_array_end = .;
-	} >rom
+
+	/* Not needed because we don't call C++ destructors.
+		.fini_array : {
+			. = ALIGN(4);
+			__fini_array_start = .;
+			KEEP (*(.fini_array))
+			KEEP (*(SORT(.fini_array.*)))
+			__fini_array_end = .;
+		} >rom
+	*/
 
 	/*
 	 * Another section used by C++ stuff, appears when using newlib with
 	 * 64bit (long long) printf support
 	 */
-	.ARM.extab : {
-		*(.ARM.extab*)
-	} >rom
-	.ARM.exidx : {
-		__exidx_start = .;
-		*(.ARM.exidx*)
-		__exidx_end = .;
-	} >rom
+	/* Removed because we don't need C++ exception unwinding. From https://answers.launchpad.net/gcc-arm-embedded/+question/271294
+		.ARM.extab : {
+			*(.ARM.extab*)
+		} >bootrom
+		.ARM.exidx : {
+			__exidx_start = .;
+			*(.ARM.exidx*)
+			__exidx_end = .;
+		} >rom
+	*/
 
-	. = ALIGN(4);
-	_etext = .;
+	/* Bootloader and Firmware RAM */
 
-	.data : {
+	.boot_data : {          /* Bootloader Data  */
+		_boot_data = .;
+		*(.data*)	        /* Read-write initialized data */
+		. = ALIGN(4);
+		_boot_edata = .;
+	} >bootram AT >bootrom  /* Stored in bootrom but copied to bootram at startup  */
+	_boot_data_loadaddr = LOADADDR(.boot_data);
+
+	.data : {        /* Firmware Data  */
 		_data = .;
-		*(.data*)	/* Read-write initialized data */
+		*(.data*)	 /* Read-write initialized data */
 		. = ALIGN(4);
 		_edata = .;
-	} >ram AT >rom
+	} >ram AT >rom   /* Stored in rom but copied to ram at startup  */
 	_data_loadaddr = LOADADDR(.data);
 
-	.bss : {
-		*(.bss*)	/* Read-write zero initialized data */
+	.boot_bss : {   /*  Bootloader Variables */
+		*(.bss*)	/*  Read-write zero initialized data */
+		*(COMMON)
+		. = ALIGN(4);
+		_boot_ebss = .;
+
+		. = ALIGN(4);
+		boot_end = .; /* Previously below */
+	} >bootram
+
+	.bss : {        /*  Firmware Variables  */
+		*(.bss*)	/*  Read-write zero initialized data */
 		*(COMMON)
 		. = ALIGN(4);
 		_ebss = .;
+
+		. = ALIGN(4);
+		end = .;    /* Previously below */
 	} >ram
 
 	/*
@@ -126,14 +194,11 @@ SECTIONS
 	 * You may need to fix this if you're using C++.
 	 */
 	/*  TODO: Disabled
-	/DISCARD/ : { *(.eh_frame) }
+		/DISCARD/ : { *(.eh_frame) }
 	*/
 
-	. = ALIGN(4);
-	end = .;
 }
 
+/* Heap and Stack start after Firmware RAM, so we should keep Bootloader RAM small */
+
 PROVIDE(_stack = ORIGIN(ram) + LENGTH(ram));
-
-
-
