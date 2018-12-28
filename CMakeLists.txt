@@ -10,6 +10,9 @@ message("VERBOSE: $ENV{VERBOSE}")
 # apply codal build settings
 include("${CODAL_UTILS_LOCATION}")
 
+# set the build for min size, i.e. -Os -DNDEBUG
+set(CMAKE_BUILD_TYPE MinSizeRel PARENT_SCOPE)
+
 # CMAKE_CURRENT_SOURCE_DIR is codal/libraries/codal-libopencm3
 # build the libraries in the "lib" folder.
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib")
