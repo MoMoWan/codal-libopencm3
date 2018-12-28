@@ -28,7 +28,7 @@ void pre_main() {
     run_unit_test();	
 }
 
-void __attribute__ ((naked)) reset_handler(void) {
+void __attribute__ ((naked)) target_reset_handler(void) {
 	//  This is called when the Blue Pill starts.  We copy the data sections from ROM to RAM, and clear the BSS sections to null.
 	volatile unsigned *src, *dest, *boot_dest;
 	funcp_t *fp;
