@@ -67,6 +67,7 @@ SECTIONS
 		*libcocoos.a:				(.text*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.text*) /* cocoOS (PlatformIO build) */
 
+		*libgcc.a:          		(.text*) /* C Library */
 		*libqfplib.a:          		(.text*) /* Math Library */
 		*libnano-float.a:          	(.text*) /* Math Library Replacement */
 		*libnewlib.a:          		(.text*) /* C Library Replacement */
@@ -87,6 +88,7 @@ SECTIONS
 		*libcocoos.a:				(.rodata*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.rodata*) /* cocoOS (PlatformIO build) */
 
+		*libgcc.a:          		(.rodata*) /* C Library */
 		*libqfplib.a:          		(.rodata*) /* Math Library */
 		*libnano-float.a:          	(.rodata*) /* Math Library Replacement */
 		*libnewlib.a:          		(.rodata*) /* C Library Replacement */
@@ -190,6 +192,7 @@ SECTIONS
 		*libcocoos.a:				(.data*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.data*) /* cocoOS (PlatformIO build) */
 
+		*libgcc.a:          		(.data*) /* C Library */
 		*libqfplib.a:          		(.data*) /* Math Library */
 		*libnano-float.a:          	(.data*) /* Math Library Replacement */
 		*libnewlib.a:          		(.data*) /* C Library Replacement */
@@ -227,6 +230,7 @@ SECTIONS
 		*libcocoos.a:				(.bss*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.bss*) /* cocoOS (PlatformIO build) */
 
+		*libgcc.a:          		(.bss*) /* C Library */
 		*libqfplib.a:          		(.bss*) /* Math Library */
 		*libnano-float.a:          	(.bss*) /* Math Library Replacement */
 		*libnewlib.a:          		(.bss*) /* C Library Replacement */
@@ -247,6 +251,7 @@ SECTIONS
 		*libcocoos.a:				(COMMON) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(COMMON) /* cocoOS (PlatformIO build) */
 		
+		*libgcc.a:          		(COMMON) /* C Library */
 		*libqfplib.a:          		(COMMON) /* Math Library */
 		*libnano-float.a:          	(COMMON) /* Math Library Replacement */
 		*libnewlib.a:          		(COMMON) /* C Library Replacement */
