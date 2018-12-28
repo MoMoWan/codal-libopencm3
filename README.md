@@ -85,6 +85,12 @@ https://medium.com/coinmonks/connect-stm32-blue-pill-to-sigfox-28c6f91bddc1?sour
 
 TODO: `"-Wl,--just-symbols=bootloader.sym"`
 
+```bash
+cd build
+cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=MinSizeRel
+make
+```
+
 ## Codal Build Log
 
 ```cmd
