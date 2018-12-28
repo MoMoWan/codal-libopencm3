@@ -6,40 +6,11 @@
 #include <stdarg.h>  //  For va_list
 #include <math.h>    //  For sin()
 #include <stdlib.h>  //  For malloc()
-// #include "stm32.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void target_enable_debug(void);  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-void target_disable_debug(void);  //  Disable display of debug messages.  For use in production devices.
-void target_init(void);
-void target_panic(int statusCode);
-void target_set_tick_callback(void (*timer_callback0)());
-void target_set_alarm_callback(void (*alarm_callback0)());
-void target_enter_sleep_mode(void);
-void target_enter_deep_sleep_stop_mode(void);
-void target_enter_deep_sleep_standby_mode(void);
-void target_dmesg_flush(void);
-uint32_t target_in_isr(void);
-
-#ifdef __cplusplus
-}
-#endif
-
-#define CODAL_ASSERT(cond)                                                                         \
-    if (!(cond))                                                                                   \
-    target_panic(909)
-
-#define MBED_ASSERT CODAL_ASSERT
-#define MBED_ERROR(msg) CODAL_ASSERT(0)
-#define MBED_WEAK __attribute__((weak))
 
 #ifdef PLATFORMIO  //  Define target symbols only for PlatformIO build, not Codal build.
 ////  TODO: Sync with target.json. Based on https://github.com/mmoskal/codal-generic-f103re/blob/master/target.json
 
-//  Sync with linker def: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
+//  Sync with linker def: ld/stm32f103x8.ld
 //  TODO: Should use _data and _stack but codal-core build fails because they are undefined.
 //  #define DEVICE_SRAM_BASE &_data   //  Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
 //  #define DEVICE_SRAM_END  &_stack  //  Based on STM32F103C8, SRAM=0x20000000 to 0x20005000 (20KB)
@@ -74,6 +45,84 @@ uint32_t target_in_isr(void);
 #define BOOTLOADER_START_ADDR 0x08000000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
 #define BOOTLOADER_END_ADDR   0x08004000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
 #endif  //  PLATFORMIO
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+//  TODO: Sync with lib/codal-core/inc/core/codal_target_hal.h
+void target_enable_irq();
+
+void target_disable_irq();
+
+void target_reset();
+
+void target_wait(unsigned long milliseconds);
+
+void target_wait_us(unsigned long us);
+
+int target_seed_random(uint32_t rand);
+
+int target_random(int max);
+
+uint32_t target_get_serial();
+
+void target_wait_for_event();
+
+void target_panic(int statusCode);
+
+PROCESSOR_WORD_TYPE fiber_initial_stack_base();
+/**
+     * Configures the link register of the given tcb to have the value function.
+     *
+     * @param tcb The tcb to modify
+     * @param function the function the link register should point to.
+     */
+void tcb_configure_lr(void* tcb, PROCESSOR_WORD_TYPE function);
+
+void* tcb_allocate();
+
+/**
+     * Configures the link register of the given tcb to have the value function.
+     *
+     * @param tcb The tcb to modify
+     * @param function the function the link register should point to.
+     */
+void tcb_configure_sp(void* tcb, PROCESSOR_WORD_TYPE sp);
+
+void tcb_configure_stack_base(void* tcb, PROCESSOR_WORD_TYPE stack_base);
+
+PROCESSOR_WORD_TYPE tcb_get_stack_base(void* tcb);
+
+PROCESSOR_WORD_TYPE get_current_sp();
+
+PROCESSOR_WORD_TYPE tcb_get_sp(void* tcb);
+
+void tcb_configure_args(void* tcb, PROCESSOR_WORD_TYPE ep, PROCESSOR_WORD_TYPE cp, PROCESSOR_WORD_TYPE pm);
+
+//  Additional Functions for Blue Pill.
+void target_enable_debug(void);  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+void target_disable_debug(void);  //  Disable display of debug messages.  For use in production devices.
+void target_init(void);
+void target_set_tick_callback(void (*timer_callback0)());
+void target_set_alarm_callback(void (*alarm_callback0)());
+void target_enter_sleep_mode(void);
+void target_enter_deep_sleep_stop_mode(void);
+void target_enter_deep_sleep_standby_mode(void);
+void target_dmesg_flush(void);
+uint32_t target_in_isr(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#define CODAL_ASSERT(cond)                                                                         \
+    if (!(cond))                                                                                   \
+    target_panic(909)
+
+#define MBED_ASSERT CODAL_ASSERT
+#define MBED_ERROR(msg) CODAL_ASSERT(0)
+#define MBED_WEAK __attribute__((weak))
 
 extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
 extern PROCESSOR_WORD_TYPE _stack;  //  Start of Stack segment (grows downwards).

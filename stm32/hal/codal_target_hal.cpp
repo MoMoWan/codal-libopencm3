@@ -188,7 +188,7 @@ void target_disable_irq() {
 
 void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // debug_print(".");
-    stm32bluepill_dmesg_flush();
+    target_dmesg_flush();
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
 
