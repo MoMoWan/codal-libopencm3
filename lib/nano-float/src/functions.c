@@ -256,6 +256,36 @@ float __wrap___aeabi_fmul(float a, float b) {
 //  aeabi_fmul(-2205.1969, -270.8886) = 597362.70096534
 
 ///////////////////////////////////////////////////////////////////////////////
+//  Table 6, Standard floating-point to integer conversions
+
+//  double to integer C-style conversion. "z" means round towards 0.
+int __wrap___aeabi_d2iz(double x) { 
+    float_usage[USAGE_AEABI_D2IZ]++;
+    if (qfp_fcmp(x, 0) == 0) { return 0; }
+    //  qfp_float2int() works like floor().  If x is negative, we add 1 to the result.
+    int xfloored = qfp_float2int(x);
+    if (xfloored < 0) { return xfloored + 1; }
+    return xfloored; 
+}
+//  Unit Tests:
+//  aeabi_d2iz(0) = 0
+//  aeabi_d2iz(2205.1969) = 2205
+//  aeabi_d2iz(-2205.1969) = -2205
+
+//  double to unsigned C-style conversion. "z" means round towards 0.
+unsigned __wrap___aeabi_d2uiz(double x) { 
+    float_usage[USAGE_AEABI_D2UIZ]++;
+    if (qfp_fcmp(x, 0) == 0) { return 0; }
+    if (qfp_fcmp(x, 0) < 0) { return 0; }
+    return qfp_float2uint(x); 
+}
+//  Unit Tests:
+//  aeabi_d2iz(0) = 0
+//  aeabi_d2uiz(2205.1969) = 2205
+//  aeabi_d2uiz(-2205.1969) = 0
+
+
+///////////////////////////////////////////////////////////////////////////////
 //  GNU C Library Routines for floating point emulation
 //  From https://gcc.gnu.org/onlinedocs/gccint/Soft-float-library-routines.html
 
@@ -298,35 +328,6 @@ float __wrap___divsf3 (float a, float b) {
 //  divsf3(-2205.1969, 270.8886) = -8.140604292687105
 //  divsf3(2205.1969, -270.8886) = -8.140604292687105
 //  divsf3(-2205.1969, -270.8886) = 8.140604292687105
-
-///////////////////////////////////////////////////////////////////////////////
-//  Table 6, Standard floating-point to integer conversions
-
-//  double to integer C-style conversion. "z" means round towards 0.
-int __wrap___aeabi_d2iz(double x) { 
-    float_usage[USAGE_AEABI_D2IZ]++;
-    if (qfp_fcmp(x, 0) == 0) { return 0; }
-    //  qfp_float2int() works like floor().  If x is negative, we add 1 to the result.
-    int xfloored = qfp_float2int(x);
-    if (xfloored < 0) { return xfloored + 1; }
-    return xfloored; 
-}
-//  Unit Tests:
-//  aeabi_d2iz(0) = 0
-//  aeabi_d2iz(2205.1969) = 2205
-//  aeabi_d2iz(-2205.1969) = -2205
-
-//  double to unsigned C-style conversion. "z" means round towards 0.
-unsigned __wrap___aeabi_d2uiz(double x) { 
-    float_usage[USAGE_AEABI_D2UIZ]++;
-    if (qfp_fcmp(x, 0) == 0) { return 0; }
-    if (qfp_fcmp(x, 0) < 0) { return 0; }
-    return qfp_float2uint(x); 
-}
-//  Unit Tests:
-//  aeabi_d2iz(0) = 0
-//  aeabi_d2uiz(2205.1969) = 2205
-//  aeabi_d2uiz(-2205.1969) = 0
 
 ///////////////////////////////////////////////////////////////////////////////
 //  <math.h> Functions

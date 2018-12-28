@@ -79,6 +79,20 @@ x = 2205.1969;  y = -270.8886;  r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQU
 x = -2205.1969; y = -270.8886;  r = __wrap___aeabi_dmul(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , r );
 }
 
+void test_aeabi_dadd(void) {   
+x = 2205.1969;  y = 270.8886;  r = __wrap___aeabi_dadd(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 2476.0855          , r );
+x = -2205.1969; y = 270.8886;  r = __wrap___aeabi_dadd(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -1934.3083         , r );
+x = 2205.1969;  y = -270.8886; r = __wrap___aeabi_dadd(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 1934.3083          , r );
+x = -2205.1969; y = -270.8886; r = __wrap___aeabi_dadd(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -2476.0855         , r );
+}
+
+void test_aeabi_dsub(void) {    
+x = 2205.1969;  y = 270.8886;  r = __wrap___aeabi_dsub(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 1934.3083          , r );
+x = -2205.1969; y = 270.8886;  r = __wrap___aeabi_dsub(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -2476.0855         , r );
+x = 2205.1969;  y = -270.8886; r = __wrap___aeabi_dsub(x, y);   TEST_ASSERT_EQUAL_DOUBLE( 2476.0855          , r );
+x = -2205.1969; y = -270.8886; r = __wrap___aeabi_dsub(x, y);   TEST_ASSERT_EQUAL_DOUBLE( -1934.3083         , r ); 
+}
+
 void test_aeabi_dcmpeq(void) {
 x = 2205.196;  y = 2205.196;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 1                  , ri );
 x = 2205.196;  y = 2205.195;  ri = __wrap___aeabi_dcmpeq(x, y); TEST_ASSERT_EQUAL_INT( 0                  , ri );
@@ -154,6 +168,27 @@ xf = 2205.1969;  yf = -270.8886;  rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSER
 xf = -2205.1969; yf = -270.8886;  rf = __wrap___aeabi_fdiv(xf, yf);   TEST_ASSERT_EQUAL_FLOAT( 8.140604292687105  , rf );
 }
 
+void test_aeabi_fadd(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___aeabi_fadd(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( 2476.0855          , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___aeabi_fadd(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( -1934.3083         , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___aeabi_fadd(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( 1934.3083          , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___aeabi_fadd(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( -2476.0855         , rf );
+}
+
+void test_aeabi_fsub(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___aeabi_fsub(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( 1934.3083          , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___aeabi_fsub(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( -2476.0855         , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___aeabi_fsub(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( 2476.0855          , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___aeabi_fsub(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( -1934.3083         , rf );
+}
+
+void test_aeabi_fmul(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___aeabi_fmul(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___aeabi_fmul(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___aeabi_fmul(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___aeabi_fmul(xf, yf);   TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , rf );
+}
+
 void test_aeabi_d2iz(void) {
 x = 0;          ri = __wrap___aeabi_d2iz(x);   TEST_ASSERT_EQUAL_INT( 0                  , ri );
 x = 2205.1969;  ri = __wrap___aeabi_d2iz(x);   TEST_ASSERT_EQUAL_INT( 2205               , ri );
@@ -164,6 +199,34 @@ void test_aeabi_d2uiz(void) {
 x = 0;          ru = __wrap___aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ru );
 x = 2205.1969;  ru = __wrap___aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 2205               , ru );
 x = -2205.1969; ru = __wrap___aeabi_d2uiz(x);  TEST_ASSERT_EQUAL_UINT( 0                  , ru );
+}
+
+void test_addsf3(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___addsf3(xf, yf);       TEST_ASSERT_EQUAL_DOUBLE( 2476.0855          , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___addsf3(xf, yf);       TEST_ASSERT_EQUAL_DOUBLE( -1934.3083         , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___addsf3(xf, yf);       TEST_ASSERT_EQUAL_DOUBLE( 1934.3083          , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___addsf3(xf, yf);       TEST_ASSERT_EQUAL_DOUBLE( -2476.0855         , rf );
+}
+
+void test_subsf3(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___subsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( 1934.3083          , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___subsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( -2476.0855         , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___subsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( 2476.0855          , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___subsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( -1934.3083         , rf );
+}
+
+void test_mulsf3(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___mulsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___mulsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___mulsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( -597362.70096534   , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___mulsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( 597362.70096534    , rf );
+}
+
+void test_divsf3(void) {
+xf = 2205.1969;  yf = 270.8886;  rf = __wrap___divsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105  , rf );
+xf = -2205.1969; yf = 270.8886;  rf = __wrap___divsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( -8.140604292687105 , rf );
+xf = 2205.1969;  yf = -270.8886; rf = __wrap___divsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( -8.140604292687105 , rf );
+xf = -2205.1969; yf = -270.8886; rf = __wrap___divsf3(xf, yf);         TEST_ASSERT_EQUAL_DOUBLE( 8.140604292687105  , rf );
 }
 
 void test_sqrt(void) {
