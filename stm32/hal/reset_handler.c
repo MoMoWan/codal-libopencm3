@@ -18,7 +18,6 @@ extern funcp_t __fini_array_start, __fini_array_end;
 void main(void);
 void blocking_handler(void);
 void null_handler(void);
-int run_unit_test(void);
 
 void pre_main() {
 	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
