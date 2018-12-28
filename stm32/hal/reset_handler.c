@@ -2,6 +2,9 @@
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/cm3/vector.c
 #include <libopencm3/cm3/scb.h>
 #include "platform_includes.h"
+#ifdef UNIT_TEST
+#include <unittest/unittest.h>
+#endif  //  UNIT_TEST
 
 /* Symbols exported by the linker script(s): */
 extern unsigned _data_loadaddr, _edata, _ebss;  //  For firmware rom and ram sections.
@@ -23,9 +26,10 @@ void pre_main() {
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     target_init();               //  Init the STM32 platform, which calls the bootloader.  If the bootloader decides to launch the firmware, this function will not return.
 
-    //  Run the unit tests if any.
-	//  TODO: Don't run unit test in bootloader, because we will run out of space in bootrom.
-    //  run_unit_test();	
+#ifdef UNIT_TEST
+    //  Run the unit tests if any.  Don't run unit test in bootloader, because we will run out of space in bootrom.
+    run_unit_test();	
+#endif  //  UNIT_TEST
 }
 
 void reset_handler(void) {

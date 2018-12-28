@@ -503,14 +503,17 @@ double acos(double x) {
     if (qfp_fcmp(x, -1) == 0) { return M_PI_2 * 2.0; }
 
     //  Must call atan2 instead of qfp_fatan2 in case the values are 0.
-    return 2.0f * atan2(
-        qfp_fsqrt_fast(
-            qfp_fsub( 
-                1.0f,
-                qfp_fmul( x , x ) 
-            )
-        ),
-        qfp_fadd( 1.0f , x )
+    return qfp_fmul(
+        2.0f,
+        atan2(
+            qfp_fsqrt_fast(
+                qfp_fsub( 
+                    1.0f,
+                    qfp_fmul( x , x ) 
+                )
+            ),
+            qfp_fadd( 1.0f , x )
+        )
     );
 }
 // Unit Tests:
@@ -536,9 +539,12 @@ double sinh(double x) {
     //  If the argument is ±∞, it is returned unmodified
     if (isinf(x)) { return x; }
 
-    return 0.5f * qfp_fsub(
-        qfp_fexp( x ),
-        qfp_fexp( -x )
+    return qfp_fmul(
+        0.5f, 
+        qfp_fsub(
+            qfp_fexp( x ),
+            qfp_fexp( -x )
+        )
     );
 }
 // Unit Tests:
@@ -561,9 +567,12 @@ double cosh(double x) {
     //  If the argument is ±∞, return +∞
     if (isinf(x)) { return x; }  //  TODO: Handle -∞
 
-    return 0.5f * qfp_fadd(
-        qfp_fexp( x ),
-        qfp_fexp( -x )
+    return qfp_fmul(
+        0.5f, 
+        qfp_fadd(
+            qfp_fexp( x ),
+            qfp_fexp( -x )
+        )
     );
 }
 // Unit Tests:
@@ -586,10 +595,15 @@ double tanh(double x) {
     //  If the argument is ±∞, return ±1
     if (isinf(x)) { return 1; }  //  TODO: Handle -1
 
-    float e2x = qfp_fexp( 2.0f * x );  //  e^{2x}
+    float e2x = qfp_fexp(  //  e^{2x}
+        qfp_fmul(
+            2.0f,
+            x 
+        )
+    );
     return qfp_fdiv_fast(
-        e2x - 1.0f,
-        e2x + 1.0f
+        qfp_fsub( e2x, 1.0f ),
+        qfp_fadd( e2x, 1.0f )
     );
 }
 // Unit Tests:
@@ -616,8 +630,11 @@ double asinh(double x) {
     return qfp_fln(
         qfp_fadd(
             x,
-            qfp_fsqrt_fast(
-                1.0f + qfp_fmul( x, x )
+            qfp_fsqrt_fast(  //  sqrt{ x^2 + 1 }
+                qfp_fadd(
+                    qfp_fmul( x, x ),
+                    1.0f
+                )
             )
         )
     );
@@ -647,8 +664,11 @@ double acosh(double x) {
     return qfp_fln(
         qfp_fadd(
             x,
-            qfp_fsqrt_fast(
-                -1.0f + qfp_fmul( x, x )
+            qfp_fsqrt_fast(  //  sqrt{ x^2 - 1 }
+                qfp_fsub(
+                    qfp_fmul( x, x ),
+                    1.0f
+                )
             )
         )
     );
@@ -678,11 +698,14 @@ double atanh(double x) {
     if (qfp_fcmp(x, 1) > 0) { return NAN; }
     if (qfp_fcmp(x, -1) < 0) { return NAN; }
 
-    return 0.5f * qfp_fln(
-        qfp_fdiv_fast(
-            qfp_fadd( 1.0f , x ),
-            qfp_fsub( 1.0f , x )            
-        )
+    return qfp_fmul(
+        0.5f,
+        qfp_fln(  //  ln ( {1+x} / {1-x} ) 
+            qfp_fdiv_fast(
+                qfp_fadd( 1.0f , x ),
+                qfp_fsub( 1.0f , x )            
+            )
+        ) 
     );
 }
 // Unit Tests:
@@ -797,10 +820,10 @@ double fmod(double x, double y) {
     double yabs = fabs(y);
     // Was: double result = remainder(fabs(x), (y = fabs(y)));
     double n = trunc(qfp_fdiv_fast(xabs, yabs));
-    double result = qfp_fsub(xabs, qfp_fmul(n, yabs));  //  x - n*y, always positive
+    float result = qfp_fsub(xabs, qfp_fmul(n, yabs));  //  x - n*y, always positive
 
     // Was: if (signbit(result)) result += y;
-    if (qfp_fcmp(result, 0) < 0) { result += yabs; }
+    if (qfp_fcmp(result, 0) < 0) { result = qfp_fadd( result , yabs ); }
 
     // Composes a floating point value with the magnitude of result and the sign of x.
     // Was: return copysign(result, x);

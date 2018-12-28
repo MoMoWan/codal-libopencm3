@@ -171,14 +171,13 @@ LIST(
     "${CMAKE_CURRENT_SOURCE_DIR}/asm/CortexContextSwitch.s"
 )
 
-# create hal object files (.o) instead of library (.a)
-# add_library(hal OBJECT ${HAL_SRC})
 add_library(hal ${HAL_SRC})
-
-# add_library(... $<TARGET_OBJECTS:hal> ...)
 
 # ENABLE_EXPORTS must be enabled to allow .o files to be linked with an executable
 set(ENABLE_EXPORTS ON)
+
+# create hal object files (.o) instead of library (.a). TODO: add_library(... $<TARGET_OBJECTS:hal> ...)
+add_library(hal_obj OBJECT ${HAL_SRC})
 
 #"${HAL_DIR}/reset_handler.c"
 #"${HAL_DIR}/codal_target_hal.cpp"
@@ -469,9 +468,7 @@ target_link_libraries(
     bluepill
     bootloader
     hal
-    # "${HAL_DIR}/reset_handler.o"
-    # "${HAL_DIR}/codal_target_hal.o"
-    # "${HAL_DIR}/unit_test.o"
+    hal_obj
     adcint
     i2cint
     porting

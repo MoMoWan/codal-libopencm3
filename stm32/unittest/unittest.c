@@ -1,6 +1,7 @@
-//  Include the unit test cases.
+//  Unit Test
+#include "unittest.h"
 
-#ifdef UNIT_TEST
+#ifdef UNIT_TEST  //  Include the unit test cases.
 #include "../../lib/nano-float/test/test.c"
 #endif  //  UNIT_TEST
 

@@ -1,9 +1,4 @@
 //  HAL for STM32 Blue Pill. Based on https://github.com/mmoskal/codal-generic-f103re/blob/master/source/codal_target_hal.cpp
-#include "stm32.h"
-#include "codal_target_hal.h"
-#include "CodalDmesg.h"
-#include "CodalCompat.h"
-#include "CodalHeapAllocator.h"
 #include <string.h>
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/scb.h>
@@ -15,6 +10,7 @@
 #include <cocoos.h>
 #include <bluepill.h>
 #include <logger.h>
+#include "platform_includes.h"
 
 //  Blue Pill Memory Layout: ~/.platformio/packages/framework-libopencm3/lib/stm32/f1/stm32f103x8.ld
 //  RAM Layout: [Start of RAM] [Data] [BSS] [Codal Heap] grows--> (empty) <--grows [Stack] [End of RAM]
@@ -71,15 +67,15 @@ void target_init(void) {
     //  Init the platform, cocoOS and create any system objects.
     platform_setup();  //  STM32 platform setup.
     os_init();         //  Init cocoOS before creating any multitasking objects.
-    // init_irqs();  //  Init the interrupt routines.
+    // TODO: init_irqs();  //  Init the interrupt routines.
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
     platform_start_timer(timer_tick, timer_alarm);
 
     //  Display the dmesg log when idle.
-    codal_dmesg_set_flush_fn(stm32bluepill_dmesg_flush);
+    //  TODO: codal_dmesg_set_flush_fn(target_dmesg_flush);
 
-    //  Seed our random number generator
+    //  TODO: Seed our random number generator
     //  seedRandom();
 }
 
@@ -94,7 +90,17 @@ void target_reset() {
 #endif  //  TODO
 }
 
-void stm32bluepill_dmesg_flush() {
+#if DEVICE_DMESG_BUFFER_SIZE > 0
+//  TODO: Sync with lib/codal-core/inc/core/CodalDmesg.h
+struct CodalLogStore
+{
+    uint32_t ptr;
+    char buffer[DEVICE_DMESG_BUFFER_SIZE];
+};
+extern struct CodalLogStore codalLogStore;
+#endif  //  DEVICE_DMESG_BUFFER_SIZE
+
+void target_dmesg_flush() {
 #if DEVICE_DMESG_BUFFER_SIZE > 0
     //  Flush the dmesg log to the debug console.
     if (codalLogStore.ptr > 0 && initialised) {
@@ -104,7 +110,7 @@ void stm32bluepill_dmesg_flush() {
         codalLogStore.ptr = 0;
         debug_flush();
     }
-#endif
+#endif  //  DEVICE_DMESG_BUFFER_SIZE
 }
 
 // From pxt-common-packages/libs/base/pxtbase.h:
@@ -207,11 +213,15 @@ void target_wait_us(unsigned long us) {
 }
 
 int target_seed_random(uint32_t rand) {
-    return codal::seed_random(rand);
+    //  TODO: return codal::seed_random(rand);
+    debug_println("----target_seed_random");
+    return 0;
 }
 
 int target_random(int max) {
-    return codal::random(max);
+    //  TODO: return codal::random(max);
+    debug_println("----target_random");
+    return 0;
 }
 
 /*
@@ -226,14 +236,18 @@ int target_random(int max) {
 #define STM32_UUID ((uint32_t *)0x1FFF7A10)
 uint32_t target_get_serial() {
     // uuid[1] is the wafer number plus the lot number, need to check the uniqueness of this...
+    debug_println("----target_get_serial");
     return (uint32_t)STM32_UUID[1];
 }
 
 extern "C" void assert_failed(uint8_t* file, uint32_t line) {
+    debug_print("*** assert failed: ");  // debug_print(file); 
+    debug_print((size_t) line);
+    debug_println(""); debug_flush();
     target_panic(920);
 }
 
-__attribute__((weak))
+// __attribute__((weak))
 void target_panic(int statusCode) {
 	//  TODO
     target_disable_irq();

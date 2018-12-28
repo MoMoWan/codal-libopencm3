@@ -6,7 +6,7 @@
 #include <stdarg.h>  //  For va_list
 #include <math.h>    //  For sin()
 #include <stdlib.h>  //  For malloc()
-#include "stm32.h"
+// #include "stm32.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,6 +21,7 @@ void target_set_alarm_callback(void (*alarm_callback0)());
 void target_enter_sleep_mode(void);
 void target_enter_deep_sleep_stop_mode(void);
 void target_enter_deep_sleep_standby_mode(void);
+void target_dmesg_flush(void);
 uint32_t target_in_isr(void);
 
 #ifdef __cplusplus

@@ -9,7 +9,7 @@
     },
     "description": "CODAL Hardware Adaptation Layer for STM32 Blue Pill.  Adapts the `bluepill` low level functions to CODAL.  Called by the CODAL Model Library.  'hal' produces .o files that are linked directly into the bootloader and firmware.",
     "build": {
-        "libArchive": true,
+        "libArchive": false,
         "unflags": [
         ],
         "flags": [
