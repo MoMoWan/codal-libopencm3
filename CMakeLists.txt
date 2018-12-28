@@ -468,7 +468,7 @@ target_link_libraries(
     bluepill
     bootloader
     hal
-    hal_obj
+    # hal_obj
     adcint
     i2cint
     porting
