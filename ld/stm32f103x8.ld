@@ -49,27 +49,21 @@ ENTRY(reset_handler)
 	`:file' matches file but not one in an archive */
 SECTIONS
 {
-	/DISCARD/ : { 
-		*zzzliblibopencm3.a:          	(.text.reset_handler) /* libopencm3 (CODAL build) */
-		*zzzlibFrameworkLibOpenCM3.a: 	(.text.reset_handler) /* libopencm3 (PlatformIO build) */
-	}
-
 	/* Bootloader and Firmware ROM */
 
 	.boot_text : {  /* Bootloader ROM */
 		*                           (.vectors) /* Vector table */
 
 		/* Bootloader Code */
+		:*reset_handler*			(.text*) /* Reset Handler (CODAL build) */
 		*libhal.a:*reset_handler*	(.text*) /* Reset Handler */
+		:*codal_target_hal*			(.text*) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(.text*) /* CODAL HAL */
-		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
 		:*CortexContextSwitch*	    (.text*) /* Context Switch (PlaformIO build) */
+		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
 
-     	*liblibopencm3.a:(EXCLUDE_FILE (*vector*.o) .text*)
-     	*libFrameworkLibOpenCM3.a:(EXCLUDE_FILE (*vector*.o) .text*)
-
-		*zzzliblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
-		*zzzlibFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
+		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
+		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
 		*libcocoos.a:				(.text*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.text*) /* cocoOS (PlatformIO build) */
 
@@ -81,10 +75,12 @@ SECTIONS
 		*libbootloader.a:          	(.text*) /* Bootloader */
 
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
+		:*reset_handler*			(.rodata*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.rodata*) /* Reset Handler */
+		:*codal_target_hal*			(.rodata*) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(.rodata*) /* CODAL HAL */
-		*libhal.a:          		(.rodata*) /* Hardware Adaptation Layer */
 		:*CortexContextSwitch*	    (.rodata*) /* Context Switch (PlaformIO build) */
+		*libhal.a:          		(.rodata*) /* Hardware Adaptation Layer */
 
 		*liblibopencm3.a:          	(.rodata*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.rodata*) /* libopencm3 (PlatformIO build) */
@@ -182,10 +178,12 @@ SECTIONS
 		_boot_data = .;
 
 		/* Bootloader read-write initialized data */
+		:*reset_handler*			(.data*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.data*) /* Reset Handler */
+		:*codal_target_hal*			(.data*) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(.data*) /* CODAL HAL */
-		*libhal.a:          		(.data*) /* Hardware Adaptation Layer */
 		:*CortexContextSwitch.* 	(.data*) /* Context Switch (PlaformIO build) */
+		*libhal.a:          		(.data*) /* Hardware Adaptation Layer */
 
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
@@ -217,10 +215,12 @@ SECTIONS
 	.boot_bss : {   /*  Bootloader Variables */
 
 		/*  Bootloader Variables Init With 0 (BSS)  */
+		:*reset_handler*			(.bss*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.bss*) /* Reset Handler */
+		:*codal_target_hal*			(.bss*) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(.bss*) /* CODAL HAL */
-		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
 		:*CortexContextSwitch*  	(.bss*) /* Context Switch (PlaformIO build) */
+		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
 
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
@@ -235,10 +235,12 @@ SECTIONS
 		*libbootloader.a:          	(.bss*) /* Bootloader */
 
 		/*  Bootloader Common Variables  */
+		:*reset_handler*			(COMMON) /* Reset Handler */
 		*libhal.a:*reset_handler*	(COMMON) /* Reset Handler */
+		:*codal_target_hal*			(COMMON) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(COMMON) /* CODAL HAL */
-		*libhal.a:          		(COMMON) /* Hardware Adaptation Layer */
 		:*CortexContextSwitch*  	(COMMON) /* Context Switch (PlaformIO build) */
+		*libhal.a:          		(COMMON) /* Hardware Adaptation Layer */
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */

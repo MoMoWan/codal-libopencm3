@@ -414,11 +414,14 @@ message("TOP_LEVEL_SOURCE_FILES: ${TOP_LEVEL_SOURCE_FILES}")
 ###############################################################################
 # global settings
 
+# CMAKE_CURRENT_BINARY_DIR = ~/codal/build/libraries/codal-libopencm3
+message("CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
 string(TOLOWER "${CODAL_TARGET_PROCESSOR}" TARGET_PROCESSOR)
 
-# set linker script.  We wrap and use a custom reset_handler() in stm32/hal/reset_handler.c to init the bootloader and firmware.
+# set linker script.  Must specify reset_handler to avoid linking in reset_handler from libopencm3/vector.c
 set(LINKER_SCRIPT " -T\"${CMAKE_CURRENT_LIST_DIR}/ld/stm32f103x8.ld\" ")
-set(LINKER_OBJ    " -Wl,reset_handler.o ")
+set(LINKER_OBJ    " -Wl,\"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/hal.dir/stm32/hal/reset_handler.c.o\" ")
+
 set(CMAKE_LINKER_FLAGS     "${CMAKE_LINKER_FLAGS}     ${LINKER_OBJ} ${LINKER_SCRIPT}" PARENT_SCOPE)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_OBJ} ${LINKER_SCRIPT}" PARENT_SCOPE)
 set(CMAKE_SYSTEM_PROCESSOR "armv7-m" PARENT_SCOPE)
