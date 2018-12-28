@@ -11,6 +11,8 @@ enum float_usage_index {
     FIRST_USAGE_INDEX = 0,
     USAGE_AEABI_DDIV,
     USAGE_AEABI_DMUL,
+    USAGE_AEABI_DADD,
+    USAGE_AEABI_DSUB,
     USAGE_AEABI_DCMPEQ,
     USAGE_AEABI_DCMPLT,
     USAGE_AEABI_DCMPLE,
@@ -18,8 +20,15 @@ enum float_usage_index {
     USAGE_AEABI_DCMPGT,
     USAGE_AEABI_DCMPUN,
     USAGE_AEABI_FDIV,
+    USAGE_AEABI_FADD,
+    USAGE_AEABI_FSUB,
+    USAGE_AEABI_FMUL,
     USAGE_AEABI_D2IZ,
     USAGE_AEABI_D2UIZ,
+    USAGE_ADDSF3,
+    USAGE_SUBSF3,
+    USAGE_MULSF3,
+    USAGE_DIVSF3,
     USAGE_SQRT,
     USAGE_LOG,
     USAGE_EXP,
@@ -77,6 +86,26 @@ double __wrap___aeabi_dmul(double x, double y) {
 //  aeabi_dmul(-2205.1969, 270.8886) = -597362.70096534
 //  aeabi_dmul(2205.1969, -270.8886) = -597362.70096534
 //  aeabi_dmul(-2205.1969, -270.8886) = 597362.70096534
+
+double __wrap___aeabi_dadd(double a, double b) {
+    float_usage[USAGE_AEABI_DADD]++;
+    return qfp_fadd( a , b );
+}
+//  Unit Tests:
+//  aeabi_dadd(2205.1969, 270.8886) = 2476.0855
+//  aeabi_dadd(-2205.1969, 270.8886) = -1934.3083
+//  aeabi_dadd(2205.1969, -270.8886) = 1934.3083
+//  aeabi_dadd(-2205.1969, -270.8886) = -2476.0855
+
+double __wrap___aeabi_dsub(double a, double b) {
+    float_usage[USAGE_AEABI_DSUB]++;
+    return qfp_fsub( a , b );
+}
+//  Unit Tests:
+//  aeabi_dsub(2205.1969, 270.8886) = 1934.3083
+//  aeabi_dsub(-2205.1969, 270.8886) = -2476.0855
+//  aeabi_dsub(2205.1969, -270.8886) = 2476.0855
+//  aeabi_dsub(-2205.1969, -270.8886) = -1934.3083
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 3, double precision floating-point comparison helper functions
@@ -188,13 +217,87 @@ int __wrap___aeabi_dcmpun(double x, double y) {
 //  single-precision division, n / d
 float  __wrap___aeabi_fdiv(float  n, float d)  { 
     float_usage[USAGE_AEABI_FDIV]++;
-    return qfp_fdiv_fast(n, d); 
+    return qfp_fdiv_fast( n , d ); 
 }
 //  Unit Tests:
 //  aeabi_fdiv(2205.1969, 270.8886) = 8.140604292687105
 //  aeabi_fdiv(-2205.1969, 270.8886) = -8.140604292687105
 //  aeabi_fdiv(2205.1969, -270.8886) = -8.140604292687105
 //  aeabi_fdiv(-2205.1969, -270.8886) = 8.140604292687105
+
+float __wrap___aeabi_fadd(float a, float b) {
+    float_usage[USAGE_AEABI_FADD]++;
+    return qfp_fadd( a , b );
+}
+//  Unit Tests:
+//  aeabi_fadd(2205.1969, 270.8886) = 2476.0855
+//  aeabi_fadd(-2205.1969, 270.8886) = -1934.3083
+//  aeabi_fadd(2205.1969, -270.8886) = 1934.3083
+//  aeabi_fadd(-2205.1969, -270.8886) = -2476.0855
+
+float __wrap___aeabi_fsub(float a, float b) {
+    float_usage[USAGE_AEABI_FSUB]++;
+    return qfp_fsub( a , b );
+}
+//  Unit Tests:
+//  aeabi_fsub(2205.1969, 270.8886) = 1934.3083
+//  aeabi_fsub(-2205.1969, 270.8886) = -2476.0855
+//  aeabi_fsub(2205.1969, -270.8886) = 2476.0855
+//  aeabi_fsub(-2205.1969, -270.8886) = -1934.3083
+
+float __wrap___aeabi_fmul(float a, float b) {
+    float_usage[USAGE_AEABI_FMUL]++;
+    return qfp_fmul( a , b );
+}
+//  Unit Tests:
+//  aeabi_fmul(2205.1969, 270.8886) = 597362.70096534
+//  aeabi_fmul(-2205.1969, 270.8886) = -597362.70096534
+//  aeabi_fmul(2205.1969, -270.8886) = -597362.70096534
+//  aeabi_fmul(-2205.1969, -270.8886) = 597362.70096534
+
+///////////////////////////////////////////////////////////////////////////////
+//  GNU C Library Routines for floating point emulation
+//  From https://gcc.gnu.org/onlinedocs/gccint/Soft-float-library-routines.html
+
+float __wrap___addsf3(float a, float b) {
+    float_usage[USAGE_ADDSF3]++;
+    return qfp_fadd( a , b );
+}
+//  Unit Tests:
+//  addsf3(2205.1969, 270.8886) = 2476.0855
+//  addsf3(-2205.1969, 270.8886) = -1934.3083
+//  addsf3(2205.1969, -270.8886) = 1934.3083
+//  addsf3(-2205.1969, -270.8886) = -2476.0855
+
+float __wrap___subsf3(float a, float b) {
+    float_usage[USAGE_SUBSF3]++;
+    return qfp_fsub( a , b );
+}
+//  Unit Tests:
+//  subsf3(2205.1969, 270.8886) = 1934.3083
+//  subsf3(-2205.1969, 270.8886) = -2476.0855
+//  subsf3(2205.1969, -270.8886) = 2476.0855
+//  subsf3(-2205.1969, -270.8886) = -1934.3083
+
+float __wrap___mulsf3(float a, float b) {
+    float_usage[USAGE_MULSF3]++;
+    return qfp_fmul( a , b );
+}
+//  Unit Tests:
+//  mulsf3(2205.1969, 270.8886) = 597362.70096534
+//  mulsf3(-2205.1969, 270.8886) = -597362.70096534
+//  mulsf3(2205.1969, -270.8886) = -597362.70096534
+//  mulsf3(-2205.1969, -270.8886) = 597362.70096534
+
+float __wrap___divsf3 (float a, float b) {
+    float_usage[USAGE_DIVSF3]++;
+    return qfp_fdiv_fast( a , b );
+}
+//  Unit Tests:
+//  divsf3(2205.1969, 270.8886) = 8.140604292687105
+//  divsf3(-2205.1969, 270.8886) = -8.140604292687105
+//  divsf3(2205.1969, -270.8886) = -8.140604292687105
+//  divsf3(-2205.1969, -270.8886) = 8.140604292687105
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Table 6, Standard floating-point to integer conversions

@@ -28,15 +28,28 @@ extern unsigned __aeabi_d2uiz(double x);
 //  The above function names wrapped via "-Wl,-wrap,__aeabi..." in newlib/CMakeLists.txt:
 extern double __wrap___aeabi_ddiv(double n, double d);
 extern double __wrap___aeabi_dmul(double x, double y);
+extern double __wrap___aeabi_dadd(double a, double b);
+extern double __wrap___aeabi_dsub(double a, double b);
+
 extern int __wrap___aeabi_dcmpeq(double x, double y);
 extern int __wrap___aeabi_dcmplt(double x, double y);
 extern int __wrap___aeabi_dcmple(double x, double y);
 extern int __wrap___aeabi_dcmpge(double x, double y);
 extern int __wrap___aeabi_dcmpgt(double x, double y);
 extern int __wrap___aeabi_dcmpun(double x, double y);
-extern float  __wrap___aeabi_fdiv(float  n, float d);
-extern int __wrap___aeabi_d2iz(double x);
+
+extern float    __wrap___aeabi_fdiv(float n, float d);
+extern float    __wrap___aeabi_fadd(float a, float b);
+extern float    __wrap___aeabi_fsub(float a, float b);
+extern float    __wrap___aeabi_fmul(float a, float b);
+
+extern int      __wrap___aeabi_d2iz(double x);
 extern unsigned __wrap___aeabi_d2uiz(double x);
+
+extern float __wrap___addsf3(float a, float b);
+extern float __wrap___subsf3(float a, float b);
+extern float __wrap___mulsf3(float a, float b);
+extern float __wrap___divsf3(float a, float b);
 
 extern uint8_t *get_float_usage(uint16_t *size);  //  Number of times each function was called.  For checking test coverage.
 volatile double x = 0, y = 0, r = 0;       //  Must use variables x and y because compiler will optimise all constants.
@@ -356,6 +369,8 @@ int test_nanofloat(void) {
 
     RUN_TEST(test_aeabi_ddiv); debug_flush();
     RUN_TEST(test_aeabi_dmul); debug_flush();
+    RUN_TEST(test_aeabi_dadd); debug_flush();
+    RUN_TEST(test_aeabi_dsub); debug_flush();
     RUN_TEST(test_aeabi_dcmpeq); debug_flush();
     RUN_TEST(test_aeabi_dcmplt); debug_flush();
     RUN_TEST(test_aeabi_dcmple); debug_flush();
@@ -363,8 +378,16 @@ int test_nanofloat(void) {
     RUN_TEST(test_aeabi_dcmpgt); debug_flush();
     RUN_TEST(test_aeabi_dcmpun); debug_flush();
     RUN_TEST(test_aeabi_fdiv); debug_flush();
+    RUN_TEST(test_aeabi_fmul); debug_flush();
+    RUN_TEST(test_aeabi_fadd); debug_flush();
+    RUN_TEST(test_aeabi_fsub); debug_flush();
     RUN_TEST(test_aeabi_d2iz); debug_flush();
     RUN_TEST(test_aeabi_d2uiz); debug_flush();
+
+    RUN_TEST(test_addsf3); debug_flush();
+    RUN_TEST(test_subsf3); debug_flush();
+    RUN_TEST(test_mulsf3); debug_flush();
+    RUN_TEST(test_divsf3); debug_flush();
 
     RUN_TEST(test_sqrt); debug_flush();
     RUN_TEST(test_log); debug_flush();
