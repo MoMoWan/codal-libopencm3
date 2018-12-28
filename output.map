@@ -19,7 +19,7 @@ Archive member included to satisfy reference by file (symbol)
 .pioenvs\bluepill_f103c8\libff7\libbluepill.a(timer.o)
                               .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o (platform_start_timer)
 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o)
-                              .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o (bootloader_start)
+                              .pioenvs\bluepill_f103c8\libff2\hal\reset_handler.o (bootloader_start)
 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(target_stm32f103.o)
                               .pioenvs\bluepill_f103c8\lib443\libbootloader.a(bootloader.o) (target_set_led)
 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(usb_conf.o)
@@ -1618,24 +1618,24 @@ Linker script and memory map
                 0x08000150       0x9c .pioenvs\bluepill_f103c8\libff2\hal\reset_handler.o
                 0x08000150                reset_handler
  .text.pre_main
-                0x080001ec       0x12 .pioenvs\bluepill_f103c8\libff2\hal\reset_handler.o
+                0x080001ec       0x16 .pioenvs\bluepill_f103c8\libff2\hal\reset_handler.o
                 0x080001ec                pre_main
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(.text*))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.text*))
- *fill*         0x080001fe        0x2 
+ *fill*         0x08000202        0x2 
  .text._ZL10timer_tickv
-                0x08000200       0x10 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
+                0x08000204       0x10 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
  .text._ZL11timer_alarmv
-                0x08000210       0x10 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
+                0x08000214       0x10 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
  .text.target_set_tick_callback
-                0x08000220        0xc .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
-                0x08000220                target_set_tick_callback
+                0x08000224        0xc .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
+                0x08000224                target_set_tick_callback
  .text.target_set_alarm_callback
-                0x0800022c        0xc .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
-                0x0800022c                target_set_alarm_callback
+                0x08000230        0xc .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
+                0x08000230                target_set_alarm_callback
  .text.target_init
-                0x08000238       0x34 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
-                0x08000238                target_init
+                0x0800023c       0x30 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
+                0x0800023c                target_init
  .text.target_dmesg_flush
                 0x0800026c       0x38 .pioenvs\bluepill_f103c8\libff2\hal\codal_target_hal.o
                 0x0800026c                target_dmesg_flush

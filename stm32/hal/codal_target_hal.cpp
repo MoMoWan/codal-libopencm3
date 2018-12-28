@@ -60,10 +60,6 @@ void target_init(void) {
     if (initialised) { return; }  //  Already initialised, skip.
     initialised = true;
 
-    //  Start the bootloader.  This function will not return if the bootloader decides to jump to the application.
-    /* int status = */
-    bootloader_start();
-
     //  Init the platform, cocoOS and create any system objects.
     platform_setup();  //  STM32 platform setup.
     os_init();         //  Init cocoOS before creating any multitasking objects.

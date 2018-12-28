@@ -1,6 +1,7 @@
 //  We provide our own implementation of reset_handler() so that Blue Pill bootloader and firmware will be initialised in the right sequence.
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/cm3/vector.c
 #include <libopencm3/cm3/scb.h>
+#include <bootloader/bootloader.h>
 #include "platform_includes.h"
 #ifdef UNIT_TEST
 #include <unittest/unittest.h>
@@ -20,7 +21,7 @@ void null_handler(void);
 int run_unit_test(void);
 
 void pre_main() {
-	//  Init the STM32 platform and start the timer.
+	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
     target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
@@ -30,6 +31,10 @@ void pre_main() {
     //  Run the unit tests if any.  Don't run unit test in bootloader, because we will run out of space in bootrom.
     run_unit_test();	
 #endif  //  UNIT_TEST
+
+    //  Start the bootloader.  This function will not return if the bootloader decides to jump to the application.
+    /* int status = */
+    bootloader_start();
 }
 
 void reset_handler(void) {
