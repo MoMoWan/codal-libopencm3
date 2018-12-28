@@ -40,8 +40,8 @@ MEMORY
 /* Force vector table to be linked in. */
 EXTERN(vector_table)
 
-/* Execution starts at target_reset_handler() function in stm32/hal/reset_handler.c. */
-ENTRY(target_reset_handler)
+/* Execution starts at reset_handler() function in stm32/hal/reset_handler.c. */
+ENTRY(reset_handler)
 
 /* Define sections in the executable file, by selecting input files (.o) and archives (.a)
 	`archive:file' matches file within archive 
