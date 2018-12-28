@@ -40,8 +40,8 @@ MEMORY
 /* Force vector table to be linked in. */
 EXTERN(vector_table)
 
-/* Execution starts at reset_handler() function in stm32/hal/reset_handler.c. */
-ENTRY(reset_handler)
+/* Execution starts at the wrapped reset_handler() function in stm32/hal/reset_handler.c. */
+ENTRY(__wrap_reset_handler)
 
 /* Define sections in the executable file, by selecting input files (.o) and archives (.a)
 	`archive:file' matches file within archive 
@@ -55,8 +55,10 @@ SECTIONS
 		*(.vectors)	/* Vector table */
 
 		/* Bootloader Code */
-		:*reset_handler.o			(.text*) /* Reset Handler */
-		:*codal_target_hal.o		(.text*) /* CODAL HAL */
+		*libhal.a:*reset_handler.o	(.text*) /* Reset Handler */
+		*libhal.a:*codal_target_hal.o(.text*) /* CODAL HAL */
+		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
+		:*CortexContextSwitch.s.o	(.text*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
@@ -69,11 +71,12 @@ SECTIONS
 		*liblogger.a:          		(.text*) /* Logger */
 		*libbluepill.a:          	(.text*) /* Low Level Functions */
 		*libbootloader.a:          	(.text*) /* Bootloader */
-		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
 
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
-		*reset_handler.o			(.rodata*) /* Reset Handler */
-		*codal_target_hal.o			(.rodata*) /* CODAL HAL */
+		*libhal.a:*reset_handler.o	(.rodata*) /* Reset Handler */
+		*libhal.a:*codal_target_hal.o(.rodata*) /* CODAL HAL */
+		*libhal.a:          		(.rodata*) /* Hardware Adaptation Layer */
+		:*CortexContextSwitch.s.o	(.rodata*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.rodata*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.rodata*) /* libopencm3 (PlatformIO build) */
@@ -86,7 +89,6 @@ SECTIONS
 		*liblogger.a:          		(.rodata*) /* Logger */
 		*libbluepill.a:          	(.rodata*) /* Low Level Functions */
 		*libbootloader.a:          	(.rodata*) /* Bootloader */
-		*libhal.a:          		(.rodata*) /* Hardware Adaptation Layer */
 
 		. = ALIGN(4);
 	} >bootrom
@@ -172,8 +174,10 @@ SECTIONS
 		_boot_data = .;
 
 		/* Bootloader read-write initialized data */
-		:*reset_handler.o			(.data*) /* Reset Handler */
-		:*codal_target_hal.o		(.data*) /* CODAL HAL */
+		*libhal.a:*reset_handler.o	(.data*) /* Reset Handler */
+		*libhal.a:*codal_target_hal.o(.data*) /* CODAL HAL */
+		*libhal.a:          		(.data*) /* Hardware Adaptation Layer */
+		:*CortexContextSwitch.s.o	(.data*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
@@ -186,7 +190,6 @@ SECTIONS
 		*liblogger.a:          		(.data*) /* Logger */
 		*libbluepill.a:          	(.data*) /* Low Level Functions */
 		*libbootloader.a:          	(.data*) /* Bootloader */
-		*libhal.a:          		(.data*) /* Hardware Adaptation Layer */
 
 		. = ALIGN(4);
 		_boot_edata = .;
@@ -206,8 +209,10 @@ SECTIONS
 	.boot_bss : {   /*  Bootloader Variables */
 
 		/*  Bootloader Variables Init With 0 (BSS)  */
-		:*reset_handler.o			(.bss*) /* Reset Handler */
-		:*codal_target_hal.o		(.bss*) /* CODAL HAL */
+		*libhal.a:*reset_handler.o	(.bss*) /* Reset Handler */
+		*libhal.a:*codal_target_hal.o(.bss*) /* CODAL HAL */
+		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
+		:*CortexContextSwitch.s.o	(.bss*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
@@ -220,11 +225,12 @@ SECTIONS
 		*liblogger.a:          		(.bss*) /* Logger */
 		*libbluepill.a:          	(.bss*) /* Low Level Functions */
 		*libbootloader.a:          	(.bss*) /* Bootloader */
-		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
 
 		/*  Bootloader Common Variables  */
-		:*reset_handler.o			(COMMON) /* Reset Handler */
-		:*codal_target_hal.o		(COMMON) /* CODAL HAL */
+		*libhal.a:*reset_handler.o	(COMMON) /* Reset Handler */
+		*libhal.a:*codal_target_hal.o(COMMON) /* CODAL HAL */
+		*libhal.a:          		(COMMON) /* Hardware Adaptation Layer */
+		:*CortexContextSwitch.s.o	(COMMON) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */
@@ -237,7 +243,6 @@ SECTIONS
 		*liblogger.a:          		(COMMON) /* Logger */
 		*libbluepill.a:          	(COMMON) /* Low Level Functions */
 		*libbootloader.a:          	(COMMON) /* Bootloader */
-		*libhal.a:          		(COMMON) /* Hardware Adaptation Layer */
 
 		. = ALIGN(4);
 		_boot_ebss = .;
