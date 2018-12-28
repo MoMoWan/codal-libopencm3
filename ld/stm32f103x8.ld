@@ -41,7 +41,7 @@ MEMORY
 EXTERN(vector_table)
 
 /* Execution starts at the wrapped reset_handler() function in stm32/hal/reset_handler.c. */
-ENTRY(__wrap_reset_handler)
+ENTRY(reset_handler)
 
 /* Define sections in the executable file, by selecting input files (.o) and archives (.a)
 	`archive:file' matches file within archive 
@@ -49,19 +49,27 @@ ENTRY(__wrap_reset_handler)
 	`:file' matches file but not one in an archive */
 SECTIONS
 {
+	/DISCARD/ : { 
+		*zzzliblibopencm3.a:          	(.text.reset_handler) /* libopencm3 (CODAL build) */
+		*zzzlibFrameworkLibOpenCM3.a: 	(.text.reset_handler) /* libopencm3 (PlatformIO build) */
+	}
+
 	/* Bootloader and Firmware ROM */
 
-	.boot_text : {  /* Bootloader */
-		*(.vectors)	/* Vector table */
+	.boot_text : {  /* Bootloader ROM */
+		*                           (.vectors) /* Vector table */
 
 		/* Bootloader Code */
-		*libhal.a:*reset_handler.o	(.text*) /* Reset Handler */
-		*libhal.a:*codal_target_hal.o(.text*) /* CODAL HAL */
+		*libhal.a:*reset_handler*	(.text*) /* Reset Handler */
+		*libhal.a:*codal_target_hal*(.text*) /* CODAL HAL */
 		*libhal.a:          		(.text*) /* Hardware Adaptation Layer */
-		:*CortexContextSwitch.s.o	(.text*) /* Context Switch (PlaformIO build) */
+		:*CortexContextSwitch*	    (.text*) /* Context Switch (PlaformIO build) */
 
-		*liblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
-		*libFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
+     	*liblibopencm3.a:(EXCLUDE_FILE (*vector*.o) .text*)
+     	*libFrameworkLibOpenCM3.a:(EXCLUDE_FILE (*vector*.o) .text*)
+
+		*zzzliblibopencm3.a:          	(.text*) /* libopencm3 (CODAL build) */
+		*zzzlibFrameworkLibOpenCM3.a: 	(.text*) /* libopencm3 (PlatformIO build) */
 		*libcocoos.a:				(.text*) /* cocoOS (CODAL build) */
 		*libcocoOS_?.?.?.a:			(.text*) /* cocoOS (PlatformIO build) */
 
@@ -73,10 +81,10 @@ SECTIONS
 		*libbootloader.a:          	(.text*) /* Bootloader */
 
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
-		*libhal.a:*reset_handler.o	(.rodata*) /* Reset Handler */
-		*libhal.a:*codal_target_hal.o(.rodata*) /* CODAL HAL */
+		*libhal.a:*reset_handler*	(.rodata*) /* Reset Handler */
+		*libhal.a:*codal_target_hal*(.rodata*) /* CODAL HAL */
 		*libhal.a:          		(.rodata*) /* Hardware Adaptation Layer */
-		:*CortexContextSwitch.s.o	(.rodata*) /* Context Switch (PlaformIO build) */
+		:*CortexContextSwitch*	    (.rodata*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.rodata*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.rodata*) /* libopencm3 (PlatformIO build) */
@@ -93,9 +101,9 @@ SECTIONS
 		. = ALIGN(4);
 	} >bootrom
 
-	.text : {       /* Firmware */
-		*(.vectors)	/* Vector table */
-		*libunity.a:          		(.text*) /* Unit Test */
+	.text : {       /* Firmware ROM */
+		*                           (.vectors) /* Vector table */
+		*libunity.a:          		(.text*)   /* Unit Test */
 		:*unit_test.o				(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
 		*							(.text*)   /* Other Firmware Code */
 
@@ -170,14 +178,14 @@ SECTIONS
 
 	/* Bootloader and Firmware RAM */
 
-	.boot_data : {          /* Bootloader */
+	.boot_data : {          /* Bootloader RAM */
 		_boot_data = .;
 
 		/* Bootloader read-write initialized data */
-		*libhal.a:*reset_handler.o	(.data*) /* Reset Handler */
-		*libhal.a:*codal_target_hal.o(.data*) /* CODAL HAL */
+		*libhal.a:*reset_handler*	(.data*) /* Reset Handler */
+		*libhal.a:*codal_target_hal*(.data*) /* CODAL HAL */
 		*libhal.a:          		(.data*) /* Hardware Adaptation Layer */
-		:*CortexContextSwitch.s.o	(.data*) /* Context Switch (PlaformIO build) */
+		:*CortexContextSwitch.* 	(.data*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.data*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.data*) /* libopencm3 (PlatformIO build) */
@@ -209,10 +217,10 @@ SECTIONS
 	.boot_bss : {   /*  Bootloader Variables */
 
 		/*  Bootloader Variables Init With 0 (BSS)  */
-		*libhal.a:*reset_handler.o	(.bss*) /* Reset Handler */
-		*libhal.a:*codal_target_hal.o(.bss*) /* CODAL HAL */
+		*libhal.a:*reset_handler*	(.bss*) /* Reset Handler */
+		*libhal.a:*codal_target_hal*(.bss*) /* CODAL HAL */
 		*libhal.a:          		(.bss*) /* Hardware Adaptation Layer */
-		:*CortexContextSwitch.s.o	(.bss*) /* Context Switch (PlaformIO build) */
+		:*CortexContextSwitch*  	(.bss*) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(.bss*) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(.bss*) /* libopencm3 (PlatformIO build) */
@@ -227,10 +235,10 @@ SECTIONS
 		*libbootloader.a:          	(.bss*) /* Bootloader */
 
 		/*  Bootloader Common Variables  */
-		*libhal.a:*reset_handler.o	(COMMON) /* Reset Handler */
-		*libhal.a:*codal_target_hal.o(COMMON) /* CODAL HAL */
+		*libhal.a:*reset_handler*	(COMMON) /* Reset Handler */
+		*libhal.a:*codal_target_hal*(COMMON) /* CODAL HAL */
 		*libhal.a:          		(COMMON) /* Hardware Adaptation Layer */
-		:*CortexContextSwitch.s.o	(COMMON) /* Context Switch (PlaformIO build) */
+		:*CortexContextSwitch*  	(COMMON) /* Context Switch (PlaformIO build) */
 
 		*liblibopencm3.a:          	(COMMON) /* libopencm3 (CODAL build) */
 		*libFrameworkLibOpenCM3.a: 	(COMMON) /* libopencm3 (PlatformIO build) */

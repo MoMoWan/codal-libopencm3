@@ -28,7 +28,7 @@ void pre_main() {
     //  run_unit_test();	
 }
 
-void __attribute__ ((naked)) __wrap_reset_handler(void) {
+void reset_handler(void) {
 	//  This is called when the Blue Pill starts.  We copy the data sections from ROM to RAM, and clear the BSS sections to null.  
 	//  The wrapping is done by the linker option "-Wl,-wrap,reset_handler".  The vector table points to the wrapped function.
 	volatile unsigned *src, *dest, *boot_dest;
