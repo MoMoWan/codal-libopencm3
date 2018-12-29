@@ -52,6 +52,7 @@ SECTIONS
 	/* Bootloader and Firmware ROM */
 
 	.boot_text : {  /* Bootloader ROM */
+		_boot_text = .;				/* We will use _boot_text to determine the start of the bootloader. */
 		*                           (.vectors) /* Vector table */
 
 		/* Bootloader Code */
@@ -97,10 +98,13 @@ SECTIONS
 		*libbootloader.a:          	(.rodata*) /* Bootloader */
 
 		. = ALIGN(4);
+		_boot_etext = .;			/* End of bootloader code. */
 	} >bootrom
 
 	.text : {       /* Firmware ROM */
-		* 							(.text.startup.main)  /* Application Startup */
+		. = ALIGN(4);
+		_text = .;					/* We will use _text to determine where to jump to start the application. */
+		* 							(.text.startup.main)  /* Application Startup must appear first. Bootloader will jump here. */
 		*libunity.a:          		(.text*)   /* Unit Test */
 		:*unit_test.o				(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
 		*							(.text*)   /* Other Firmware Code */

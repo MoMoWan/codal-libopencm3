@@ -1602,6 +1602,7 @@ Linker script and memory map
 
 
 .boot_text      0x0000000008000000     0x5a18
+                0x0000000008000000                _boot_text = .
  *(SORT_BY_ALIGNMENT(.vectors))
  .vectors       0x0000000008000000      0x150 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
                 0x0000000008000000                vector_table
@@ -2636,8 +2637,11 @@ Linker script and memory map
                 0x00000000080059c0                infoUf2File
                 0x0000000008005a18                . = ALIGN (0x4)
  *fill*         0x0000000008005a15        0x3 
+                0x0000000008005a18                _boot_etext = .
 
 .text           0x0000000008006000     0x7a64
+                0x0000000008006000                . = ALIGN (0x4)
+                0x0000000008006000                _text = .
  *(SORT_BY_ALIGNMENT(.text.startup.main))
  .text.startup.main
                 0x0000000008006000       0x1a .pioenvs/bluepill_f103c8/src/main.o
@@ -3912,26 +3916,26 @@ LOAD .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a
 LOAD .pioenvs/bluepill_f103c8/lib739/libcm.a
 LOAD .pioenvs/bluepill_f103c8/lib2eb/libmodel.a
 LOAD .pioenvs/bluepill_f103c8/lib533/libunittest.a
-LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/lib23b/libboost_config.a
-LOAD .pioenvs/bluepill_f103c8/libf3d/libboost_assert.a
-LOAD .pioenvs/bluepill_f103c8/lib3c5/libboost_core.a
+LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/lib186/libboost_static_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib047/libboost_type_traits.a
-LOAD .pioenvs/bluepill_f103c8/libd30/libboost_utility.a
+LOAD .pioenvs/bluepill_f103c8/libf3d/libboost_assert.a
+LOAD .pioenvs/bluepill_f103c8/lib3c5/libboost_core.a
 LOAD .pioenvs/bluepill_f103c8/lib95e/libboost_detail.a
+LOAD .pioenvs/bluepill_f103c8/libd30/libboost_utility.a
 LOAD .pioenvs/bluepill_f103c8/lib64e/libboost_predef.a
 LOAD .pioenvs/bluepill_f103c8/libe2b/libboost_mpl.a
-LOAD .pioenvs/bluepill_f103c8/libcea/libboost_parameter.a
 LOAD .pioenvs/bluepill_f103c8/lib609/libboost_iterator.a
+LOAD .pioenvs/bluepill_f103c8/libcea/libboost_parameter.a
 LOAD .pioenvs/bluepill_f103c8/lib7b0/libboost_lockfree.a
 LOAD .pioenvs/bluepill_f103c8/libc3f/libsimulator.a
 LOAD .pioenvs/bluepill_f103c8/lib91e/libspiint.a
 LOAD .pioenvs/bluepill_f103c8/libea2/libi2cint.a
 LOAD .pioenvs/bluepill_f103c8/lib9ba/libporting.a
 LOAD .pioenvs/bluepill_f103c8/libdc9/libBME280.a
-LOAD .pioenvs/bluepill_f103c8/lib33e/libuartint.a
 LOAD .pioenvs/bluepill_f103c8/lib573/libadcint.a
+LOAD .pioenvs/bluepill_f103c8/lib33e/libuartint.a
 LOAD /Users/Luppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m/libgcc.a
 LOAD .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a
 END GROUP
