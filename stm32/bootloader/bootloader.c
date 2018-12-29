@@ -37,11 +37,18 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include "uf2.h"
 #include "backup.h"
 
+static enum StartupMode {
+    APPLICATION_MODE = 0,
+    BOOTLOADER_MODE,
+} startup_mode = APPLICATION_MODE;
+
 static inline void __set_MSP(uint32_t topOfMainStack) {
     asm("msr msp, %0" : : "r" (topOfMainStack));
 }
 
 bool validate_application(void) {
+    //  Return true if there is a valid application in firmware.
+    //  TODO
     if ((*(volatile uint32_t *)APP_BASE_ADDRESS & 0x2FFE0000) == 0x20000000) {
         return true;
     }
@@ -68,87 +75,113 @@ static void jump_to_application(void) {
     while (1);
 }
 
-uint32_t msTimer;
 extern int msc_started;
+static usbd_device* usbd_dev = NULL;
+
+static void get_serial_number(void) {
+    char serial[USB_SERIAL_NUM_LENGTH+1];
+    serial[0] = '\0';
+    debug_println("target_get_serial_number");  // debug_flush();
+    target_get_serial_number(serial, USB_SERIAL_NUM_LENGTH);
+
+    debug_println("usb_set_serial_number");  // debug_flush();
+    usb_set_serial_number(serial);
+}
+
+static void poll_loop(void) {
+    //  Loop forever polling for USB requests.  Never returns.
+    debug_println("usbd polling...");  debug_flush();  ////
+    target_gpio_setup();       //  Initialize GPIO/LEDs if needed
+    // test_backup();          //  Test backup.
+    uint32_t cycleCount = 0;        
+    uint32_t flushCount = 1;
+    uint32_t msTimer = 0;
+    while (1) {
+        cycleCount++;
+        if (cycleCount >= 700) {
+            msTimer++;
+            cycleCount = 0;
+            int v = msTimer % 500;
+            target_set_led(v < 50);
+#ifdef INTF_MSC
+            ghostfat_1ms();
+#endif  //  INTF_MSC
+            if (appValid && !msc_started && msTimer > 1000) {
+                //  If app is valid, jump to app.
+                debug_println("target_manifest_app");  debug_flush();
+                target_manifest_app();
+            }
+            if (flushCount++ % 50000 == 0) { debug_flush(); }  //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
+        }
+        usbd_poll(usbd_dev);
+    }    
+}
+
+void bootloader_poll(void) {
+    //  Run bootloader in background via polling.
+    if (!usbd_dev) { return; }
+	usbd_poll(usbd_dev);
+}
 
 int bootloader_start(void) {
     //  Start the bootloader and jump to the loaded application.
+    if (usbd_dev) { return 1; }  // Already started, quit.
+
+    //  Check the startup mode.
     bool appValid = false;
-#ifdef SKIP_BOOTLOADER
     appValid = validate_application();
+    if (target_get_force_bootloader() || !appValid) {
+        //  Go to Bootloader Mode if we were requested to run as bootloader, or no valid app exists.
+        startup_mode = BOOTLOADER_MODE;
+    } else {
+        startup_mode = APPLICATION_MODE;
+    }
+
+    enable_debug();       //  Uncomment to allow display of debug messages in development devices via Arm Semihosting. NOTE: This will hang if no Semihosting debugger is attached (e.g. ST Link).
+    //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
+    platform_setup();     //  STM32 platform setup.
+    debug_println("----bootloader");  // debug_flush();    
+
+    get_serial_number();
+    debug_println("usb_setup");  // debug_flush();
+    usbd_dev = usb_setup();
+
+    //  If we are in Application Mode, run in background via bootloader_poll().
+    if (startup_mode == APPLICATION_MODE) { return 0; }
+
+    //  If we are in Bootloader Mode, poll forever here.
+    poll_loop();
+    return -1;  //  Never comes here.
+}
+
+#ifdef NOTUSED
     if (appValid && target_get_force_app()) {
          jump_to_application();
          return 0;
     }
-#endif  //  SKIP_BOOTLOADER         
-    
-    enable_debug();       //  Uncomment to allow display of debug messages in development devices via Arm Semihosting. NOTE: This will hang if no Semihosting debugger is attached (e.g. ST Link).
-    //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
-    platform_setup();     //  STM32 platform setup.
-    debug_println("----bootloader");  // debug_flush();
-    
-    //  target_clock_setup();  //  Clock already setup in platform_setup()
-    target_gpio_setup();       //  Initialize GPIO/LEDs if needed
-    // test_backup();          //  Test backup.
 
-    debug_println("target_get_force_bootloader");  // debug_flush();
-    if (target_get_force_bootloader() || !appValid) {        
-        {  //  Setup USB
-            char serial[USB_SERIAL_NUM_LENGTH+1];
-            serial[0] = '\0';
-            debug_println("target_get_serial_number");  // debug_flush();
-            target_get_serial_number(serial, USB_SERIAL_NUM_LENGTH);
-
-            debug_println("usb_set_serial_number");  // debug_flush();
-            usb_set_serial_number(serial);
-        }
-        debug_println("usb_setup");  // debug_flush();
-        usbd_device* usbd_dev = usb_setup();
-        debug_println("usbd polling...");  debug_flush();  ////
-        uint32_t cycleCount = 0;        
-        uint32_t flushCount = 1;
-        while (1) {
-            cycleCount++;
-            if (cycleCount >= 700) {
-                msTimer++;
-                cycleCount = 0;
-
-                int v = msTimer % 500;
-                target_set_led(v < 50);
-#ifdef INTF_MSC
-                ghostfat_1ms();
-#endif  //  INTF_MSC
-                if (appValid && !msc_started && msTimer > 1000) {
-                    debug_println("target_manifest_app");  debug_flush();
-                    target_manifest_app();
-                }
-                if (flushCount++ % 50000 == 0) { debug_flush(); }  //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
-            }
-            usbd_poll(usbd_dev);
-        }
+    if (target_get_force_bootloader() || !appValid) {    
+        poll_loop();    
     } else {
         debug_println("jump_to_application");  debug_flush();
         jump_to_application();
     }    
-    return 0;
-}
 
-#ifdef NOTUSED
-static void test_backup(void) {
-    //  Test whether RTC backup registers are written correctly.
-    //  static const uint32_t CMD_BOOT = 0x544F4F42UL;
-    //  backup_write(BKP0, CMD_BOOT);  //  Uncomment to force booting to bootloader.
+    static void test_backup(void) {
+        //  Test whether RTC backup registers are written correctly.
+        //  static const uint32_t CMD_BOOT = 0x544F4F42UL;
+        //  backup_write(BKP0, CMD_BOOT);  //  Uncomment to force booting to bootloader.
 
-    uint32_t val = backup_read(BKP0);
-    debug_print("read bkp0 "); debug_print_unsigned((size_t) val); debug_println(""); debug_flush();
+        uint32_t val = backup_read(BKP0);
+        debug_print("read bkp0 "); debug_print_unsigned((size_t) val); debug_println(""); debug_flush();
 
-    enum BackupRegister reg = BKP1;
-    uint32_t cmd = backup_read(reg);
-    debug_print("test_backup read "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
-    cmd++;
-    backup_write(reg, cmd);
-    debug_print("test_backup write "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
-    cmd = backup_read(reg);
-    debug_print("test_backup read again "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
-}
+        enum BackupRegister reg = BKP1;
+        uint32_t cmd = backup_read(reg);
+        debug_print("test_backup read "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
+        cmd++;
+        backup_write(reg, cmd);
+        debug_print("test_backup write "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
+        cmd = backup_read(reg);
+        debug_print("test_backup read again "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
+    }
 #endif  //  NOTUSED

@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "stm32/bootloader"
+		},
+		{
+			"path": "C:/uf2-stm32f"
 		}
 	],
 	"settings": {
