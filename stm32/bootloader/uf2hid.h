@@ -14,7 +14,7 @@ struct HF2_BININFO_Result {
     uint32_t flash_num_pages;
     uint32_t max_message_size;
     uint32_t uf2_family;
-};
+} __attribute__((packed));
 
 #define HF2_CMD_INFO 0x0002
 // no arguments
@@ -33,33 +33,35 @@ struct HF2_BININFO_Result {
 struct HF2_WRITE_FLASH_PAGE_Command {
     uint32_t target_addr;
     uint32_t data[0];
-};
+} __attribute__((packed));
 // no result
 
 #define HF2_CMD_CHKSUM_PAGES 0x0007
 struct HF2_CHKSUM_PAGES_Command {
     uint32_t target_addr;
     uint32_t num_pages;
-};
+} __attribute__((packed));
+
 struct HF2_CHKSUM_PAGES_Result {
     uint16_t chksums[0 /* num_pages */];
-};
+} __attribute__((packed));
 
 #define HF2_CMD_READ_WORDS 0x0008
 struct HF2_READ_WORDS_Command {
     uint32_t target_addr;
     uint32_t num_words;
-};
+} __attribute__((packed));
+
 struct HF2_READ_WORDS_Result {
     uint32_t words[0 /* num_words */];
-};
+} __attribute__((packed));
 
 #define HF2_CMD_WRITE_WORDS 0x0009
 struct HF2_WRITE_WORDS_Command {
     uint32_t target_addr;
     uint32_t num_words;
     uint32_t words[0 /* num_words */];
-};
+} __attribute__((packed));
 // no result
 
 #define HF2_CMD_DMESG 0x0010
@@ -70,11 +72,11 @@ struct HF2_WRITE_WORDS_Command {
 struct HF2_MURMUR3_Command {
     uint32_t target_addr;
     uint32_t num_words;
-};
+} __attribute__((packed));
 struct HF2_MURMUR3_Result {
     uint32_t checksum0;
     uint32_t checksum1;
-};
+} __attribute__((packed));
 
 typedef struct {
     uint32_t command_id;
@@ -92,7 +94,7 @@ typedef struct {
         uint16_t data16[0];
         uint32_t data32[0];
     };
-} HF2_Command;
+} __attribute__((packed)) HF2_Command;
 
 typedef struct {
     union {
@@ -114,7 +116,7 @@ typedef struct {
         uint16_t data16[0];
         uint32_t data32[0];
     };
-} HF2_Response;
+} __attribute__((packed)) HF2_Response;
 
 #define HF2_FLAG_SERIAL_OUT 0x80
 #define HF2_FLAG_SERIAL_ERR 0xC0

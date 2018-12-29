@@ -37,22 +37,8 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include "uf2.h"
 #include "backup.h"
 
-static enum StartupMode {
-    APPLICATION_MODE = 0,
-    BOOTLOADER_MODE,
-} startup_mode = APPLICATION_MODE;
-
 static inline void __set_MSP(uint32_t topOfMainStack) {
     asm("msr msp, %0" : : "r" (topOfMainStack));
-}
-
-bool validate_application(void) {
-    //  Return true if there is a valid application in firmware.
-    //  TODO
-    if ((*(volatile uint32_t *)APP_BASE_ADDRESS & 0x2FFE0000) == 0x20000000) {
-        return true;
-    }
-    return false;
 }
 
 static void jump_to_application(void) __attribute__ ((noreturn));
@@ -106,36 +92,32 @@ static void poll_loop(void) {
 #ifdef INTF_MSC
             ghostfat_1ms();
 #endif  //  INTF_MSC
-            if (appValid && !msc_started && msTimer > 1000) {
-                //  If app is valid, jump to app.
-                debug_println("target_manifest_app");  debug_flush();
-                target_manifest_app();
-            }
+
+            //  TODO: If a valid application has just been flashed, restart and run it.
             if (flushCount++ % 50000 == 0) { debug_flush(); }  //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
         }
         usbd_poll(usbd_dev);
     }    
 }
 
-void bootloader_poll(void) {
+#ifdef NOTUSED
+    if (appValid && !msc_started && msTimer > 1000) {
+        //  If app is valid, jump to app.
+        debug_println("target_manifest_app");  debug_flush();
+        target_manifest_app();
+    }
+#endif // NOTUSED
+
+int bootloader_poll(void) {
     //  Run bootloader in background via polling.
-    if (!usbd_dev) { return; }
+    if (!usbd_dev) { return -1; }
 	usbd_poll(usbd_dev);
+    return 0;
 }
 
 int bootloader_start(void) {
     //  Start the bootloader and jump to the loaded application.
     if (usbd_dev) { return 1; }  // Already started, quit.
-
-    //  Check the startup mode.
-    bool appValid = false;
-    appValid = validate_application();
-    if (target_get_force_bootloader() || !appValid) {
-        //  Go to Bootloader Mode if we were requested to run as bootloader, or no valid app exists.
-        startup_mode = BOOTLOADER_MODE;
-    } else {
-        startup_mode = APPLICATION_MODE;
-    }
 
     enable_debug();       //  Uncomment to allow display of debug messages in development devices via Arm Semihosting. NOTE: This will hang if no Semihosting debugger is attached (e.g. ST Link).
     //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
@@ -147,7 +129,7 @@ int bootloader_start(void) {
     usbd_dev = usb_setup();
 
     //  If we are in Application Mode, run in background via bootloader_poll().
-    if (startup_mode == APPLICATION_MODE) { return 0; }
+    if (target_get_startup_mode() == APPLICATION_MODE) { return 0; }
 
     //  If we are in Bootloader Mode, poll forever here.
     poll_loop();

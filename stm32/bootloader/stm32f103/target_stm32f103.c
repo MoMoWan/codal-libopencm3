@@ -52,6 +52,30 @@ _Static_assert((FLASH_BASE + FLASH_SIZE_OVERRIDE >= APP_BASE_ADDRESS),
 
 static const uint32_t CMD_BOOT = 0x544F4F42UL;
 static const uint32_t CMD_APP = 0x3f82722aUL;
+static enum StartupMode startup_mode = UNKNOWN_MODE;
+
+static bool validate_application(void) {
+    //  Return true if there is a valid application in firmware.
+    //  TODO
+    if ((*(volatile uint32_t *)APP_BASE_ADDRESS & 0x2FFE0000) == 0x20000000) {
+        return true;
+    }
+    return false;
+}
+
+enum StartupMode target_get_startup_mode(void) {
+    //  Get the startup mode: Bootloader or Application.
+    if (startup_mode != UNKNOWN_MODE) { return startup_mode; }
+    bool appValid = false;
+    appValid = validate_application();
+    if (target_get_force_bootloader() || !appValid) {
+        //  Go to Bootloader Mode if we were requested to run as bootloader, or no valid app exists.
+        startup_mode = BOOTLOADER_MODE;
+    } else {
+        startup_mode = APPLICATION_MODE;
+    }
+    return startup_mode;
+}
 
 //#define USE_HSI 1
 
@@ -173,11 +197,20 @@ const usbd_driver* target_usb_init(void) {
 }
 
 void target_manifest_app(void) {
+    //  Restart into Application Mode to run the application.
     backup_write(BKP0, CMD_APP);
     scb_reset_system();
 }
 
+void target_manifest_bootloader(void) {
+    //  Restart into Bootloader Mode to run the bootloader.
+    backup_write(BKP0, CMD_BOOT);
+    scb_reset_system();
+}
+
 bool target_get_force_app(void) {
+    //  Return true if we should run the application at startup.
+    //  Note: Should not be called twice because it changes the backup registers.
     if (backup_read(BKP0) == CMD_APP) {
         backup_write(BKP0, 0);
         return true;        
@@ -186,6 +219,8 @@ bool target_get_force_app(void) {
 }
 
 bool target_get_force_bootloader(void) {
+    //  Return true if we should run the bootloader at startup.
+    //  Note: Should not be called twice because it changes the backup registers.
     bool force = true;
     /* Check the RTC backup register */
     uint32_t cmd = backup_read(BKP0);

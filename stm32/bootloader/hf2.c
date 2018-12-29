@@ -16,6 +16,7 @@
 #include "uf2hid.h"
 #include "uf2cfg.h"
 #include "hf2.h"
+#include "target.h"
 #ifdef INTF_HF2
 
 #define CONTROL_CALLBACK_TYPE_STANDARD (USB_REQ_TYPE_STANDARD | USB_REQ_TYPE_INTERFACE)
@@ -27,21 +28,22 @@
 #define VALID_FLASH_ADDR(addr, sz) (USER_FLASH_START <= (addr) && (addr) + (sz) <= USER_FLASH_END)
 ////#define HF2_BUF_SIZE 1024 + 16
 #define HF2_BUF_SIZE FLASH_PAGE_SIZE + 64 //// TODO: devices will typically limit it to the native flash page size + 64 bytes
-#define HF2_PAGE_SIZE 256  //  MakeCode fails to flash if page size is not the same as file page size: U.assert(b.payloadSize == this.pageSize)
+#define HF2_PAGE_SIZE 256  //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
 #define usb_assert assert
 #define LOG(s) debug_println(s)
 
 typedef struct {
     uint16_t size;
     union {
-        uint8_t buf[HF2_BUF_SIZE];
+        uint8_t  buf[HF2_BUF_SIZE];
         uint32_t buf32[HF2_BUF_SIZE / 4];
         uint16_t buf16[HF2_BUF_SIZE / 2];
         HF2_Command cmd;
         HF2_Response resp;
     };
-} HF2_Buffer;
+} __attribute__((packed)) HF2_Buffer;
 
+//  TODO: Confirm size
 HF2_Buffer pkt;
 
 const uint8_t *dataToSend;
@@ -92,8 +94,6 @@ static void send_hf2_response(int size) {
 
 extern const char infoUf2File[];
 
-#define MURMUR3 0
-
 #define checkDataSize(str, add) assert(sz == 8 + sizeof(cmd->str) + (add), "*** ERROR: checkDataSize failed")
 
 static void assert(bool assertion, const char *msg) {
@@ -101,30 +101,31 @@ static void assert(bool assertion, const char *msg) {
     debug_print("*** ERROR: "); debug_println(msg); debug_flush();
 }
 
+#define MURMUR3 0
 #if MURMUR3
-static void murmur3_core_2(const void *data, uint32_t len, uint32_t *dst) {
-    // compute two hashes with different seeds in parallel, hopefully reducing
-    // collisions
-    uint32_t h0 = 0x2F9BE6CC;
-    uint32_t h1 = 0x1EC3A6C8;
-    const uint32_t *data32 = (const uint32_t *)data;
-    while (len--) {
-        uint32_t k = *data32++;
-        k *= 0xcc9e2d51;
-        k = (k << 15) | (k >> 17);
-        k *= 0x1b873593;
+    static void murmur3_core_2(const void *data, uint32_t len, uint32_t *dst) {
+        // compute two hashes with different seeds in parallel, hopefully reducing
+        // collisions
+        uint32_t h0 = 0x2F9BE6CC;
+        uint32_t h1 = 0x1EC3A6C8;
+        const uint32_t *data32 = (const uint32_t *)data;
+        while (len--) {
+            uint32_t k = *data32++;
+            k *= 0xcc9e2d51;
+            k = (k << 15) | (k >> 17);
+            k *= 0x1b873593;
 
-        h0 ^= k;
-        h1 ^= k;
-        h0 = (h0 << 13) | (h0 >> 19);
-        h1 = (h1 << 13) | (h1 >> 19);
-        h0 = (h0 * 5) + 0xe6546b64;
-        h1 = (h1 * 5) + 0xe6546b64;
+            h0 ^= k;
+            h1 ^= k;
+            h0 = (h0 << 13) | (h0 >> 19);
+            h1 = (h1 << 13) | (h1 >> 19);
+            h0 = (h0 * 5) + 0xe6546b64;
+            h1 = (h1 * 5) + 0xe6546b64;
+        }
+
+        dst[0] = h0;
+        dst[1] = h1;
     }
-
-    dst[0] = h0;
-    dst[1] = h1;
-}
 #endif
 
 static void handle_command() {
@@ -163,24 +164,28 @@ static void handle_command() {
         return;
 
     case HF2_CMD_RESET_INTO_APP:
-        //  TODO: Flush flash
+        //  Restart into application.
         debug_println("hf2 rst app"); // debug_flush(); ////
-#ifdef TODO
-        resetIntoApp();
-#endif  //  TODO
-        break;
+        send_hf2_response(0);
+        target_manifest_app();  //  Never returns.
+        return;
+
     case HF2_CMD_RESET_INTO_BOOTLOADER:
-        //  TODO: Flush flash
+        //  Restart into bootloader.
         debug_println("hf2 rst boot"); // debug_flush(); ////
-#ifdef TODO
-        resetIntoBootloader();
-#endif  //  TODO
-        break;
+        send_hf2_response(0);
+        target_manifest_bootloader();  //  Never returns.
+        return;
+
     case HF2_CMD_START_FLASH:
-        // userspace app should reboot into bootloader on this command; we just ignore it
-        // userspace can also call hf2_handover() here
+        //  If we are in Application Mode, restart to Bootloader Mode.
         debug_println("hf2 start"); // debug_flush(); ////
-        break;
+        send_hf2_response(0);
+        if (target_get_startup_mode() == APPLICATION_MODE) {
+            target_manifest_bootloader();  //  Never returns.
+        }
+        return;
+
     case HF2_CMD_WRITE_FLASH_PAGE:
         // first send ACK and then start writing, while getting the next packet
         debug_println("hf2 write"); // debug_flush(); ////
@@ -191,6 +196,7 @@ static void handle_command() {
                         (const uint8_t *)cmd->write_flash_page.data, 256);
         }
         return;
+
     case HF2_CMD_READ_WORDS:
         debug_println("hf2 read"); // debug_flush(); ////
         checkDataSize(read_words, 0);
@@ -198,6 +204,7 @@ static void handle_command() {
         memcpy(resp->data32, (void *)cmd->read_words.target_addr, tmp << 2);
         send_hf2_response(tmp << 2);
         return;
+
 #if MURMUR3
     case HF2_CMD_MURMUR3:
         debug_println("hf2 murmur"); // debug_flush(); ////
