@@ -100,7 +100,7 @@ SECTIONS
 	} >bootrom
 
 	.text : {       /* Firmware ROM */
-		*                           (.vectors) /* Vector table */
+		* 							(.text.startup.main)  /* Application Startup */
 		*libunity.a:          		(.text*)   /* Unit Test */
 		:*unit_test.o				(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
 		*							(.text*)   /* Other Firmware Code */
