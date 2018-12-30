@@ -39,7 +39,7 @@
 #define DEVICE_DEFAULT_PULLMODE PullMode::None
 #define DEVICE_PANIC_HEAP_FULL 1
 #define DEVICE_DMESG 1
-#define DEVICE_DMESG_BUFFER_SIZE 1024
+#define DEVICE_DMESG_BUFFER_SIZE 256  //  Was 1024
 #define CODAL_DEBUG CODAL_DEBUG_DISABLED
 #define DEVICE_USB 0  //  TODO: Previously 1.  Disable flashing by USB.  Requires UF2 to be included for build.
 #define BOOTLOADER_START_ADDR 0x08000000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld

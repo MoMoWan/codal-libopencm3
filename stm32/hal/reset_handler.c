@@ -78,7 +78,7 @@ void reset_handler(void) {
 	}
 
     //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
-    bootloader_start();
+    ////bootloader_start();
 
 	//  If we return here, that means we are running in Application Mode.
 	//  Call the application's entry point. application_start() is always located at a fixed address (_text) so we can change the application easily.

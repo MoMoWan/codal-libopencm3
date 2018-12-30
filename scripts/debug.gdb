@@ -53,7 +53,7 @@ file .pioenvs/bluepill_f103c8/firmware.elf
 # Set breakpoint at the main() function.
 # break main
 
-# Run the program and stop at the main() function.
+# Run the program and stop at the next breakpoint.
 # continue
 
 # Remove the breakpoint at the main() function.

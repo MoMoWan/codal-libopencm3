@@ -74,8 +74,8 @@ namespace codal
 
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
             //  TODO: Set alarm for millis() + t.  If alarm is already set and alarm > millis() and alarm < millis() + t, don't set alarm.
-            //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
-            platform_set_alarm(millis() + t);
+            debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
+            ////platform_set_alarm(millis() + t);
 #ifdef TODO
             if (t < 20)
                 t = 20;
