@@ -35,6 +35,9 @@
 		},
 		{
 			"path": "/Users/Luppy/.platformio/platforms/ststm32"
+		},
+		{
+			"path": "C:/Users/guppy/.platformio/platforms"
 		}
 	],
 	"settings": {

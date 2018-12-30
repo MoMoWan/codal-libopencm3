@@ -8,7 +8,7 @@ newlib
 logger
 bluepill
 bootloader
-hal (except unit test)
+hal
 
 Application resides in high memory and consists of these modules:
 adcint
@@ -23,22 +23,29 @@ main
 unity
 unit test */
 
+/* Define constants that may be changed to give more or less space to each region */
+
+_bootrom_size = 24K;  /* Size of Bootloader ROM (code + constant data) */
+
+_bootram_size = 5K;   /* Size of Bootloader RAM */
+
+_bootbuf_size = /* Size of the Bootloader buffers... */
+	1090 + 		/* flashBuf from stm32/bootloader/ghostfat.c */
+	1024 + 		/* pkt from stm32/bootloader/hf2.c */
+	2;     		/* Align to 4 bytes */
+
 /* Define memory regions. */
 MEMORY
 {
 	/* Available ROM is 64K (0x10000). Reserve lower part for Bootloader, upper part for Application. */
-	bootrom (rx)  : ORIGIN = 0x08000000,          LENGTH = 24K
-	rom     (rx)  : ORIGIN = 0x08000000 + 0x6000, LENGTH = 40K
+	bootrom (rx)  : ORIGIN = 0x08000000,                 LENGTH = _bootrom_size
+	rom     (rx)  : ORIGIN = 0x08000000 + _bootrom_size, LENGTH = 64K - _bootrom_size
 
 	/* Available RAM is 20K (0x5000). Reserve lower part for Bootloader, middle part for Application,
 	   upper part for Bootloader flash buffers (not used in Application Mode). */
-	/*
-	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 10K
-	ram     (rwx) : ORIGIN = 0x20000000 + 0x2800, LENGTH = 10K
-	*/
-	bootram (rwx) : ORIGIN = 0x20000000,               LENGTH = 5K
-	ram     (rwx) : ORIGIN = 0x20000000 + 0x1400,      LENGTH = 15K - 1090 - 1024
-	bootbuf (rwx) : ORIGIN = 0x20005000 - 1090 - 1024, LENGTH = 1090 + 1024
+	bootram (rwx) : ORIGIN = 0x20000000,                 LENGTH = _bootram_size
+	ram     (rwx) : ORIGIN = 0x20000000 + _bootram_size, LENGTH = 20K - _bootram_size - _bootbuf_size
+	bootbuf (rwx) : ORIGIN = 0x20005000 - _bootbuf_size, LENGTH = _bootbuf_size
 
 	/* Heap and Stack start after the used part of Application RAM, so we should keep Bootloader RAM small */
 }
