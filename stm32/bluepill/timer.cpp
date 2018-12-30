@@ -101,9 +101,7 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds elapsed since startup.
 	debug_print("alarm set "); debug_print((size_t) millisec); debug_println(""); ////
-	cm_disable_interrupts();
 	custom_rtc_set_alarm_time(millisec);
-	cm_disable_interrupts();
 	debug_println("alarm done"); debug_flush(); ////
 	//  TODO: rtc_enable_alarm()
 }
