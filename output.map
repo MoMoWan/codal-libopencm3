@@ -3364,15 +3364,18 @@ Linker script and memory map
                 0x20002700                . = ALIGN (0x4)
  *fill*         0x200026fd        0x3 
                 0x20002700                _ebss = .
-                0x20002700                . = ALIGN (0x4)
-                0x20002700                end = .
 
-.bootbuf        0x200047bc      0x842
- *(SORT_BY_ALIGNMENT(.bootbuf*))
- .bootbuf       0x200047bc      0x400 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(ghostfat.o)
+.boot_buf       0x200047bc      0x844
+ *(SORT_BY_ALIGNMENT(.boot_buf*))
+ .boot_buf      0x200047bc      0x400 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(ghostfat.o)
                 0x200047bc                flashBuf
- .bootbuf       0x20004bbc      0x442 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
+ .boot_buf      0x20004bbc      0x442 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
                 0x20004bbc                pkt
+                0x20005000                . = ALIGN (0x4)
+ *fill*         0x20004ffe        0x2 
+                0x20005000                _eboot_buf = .
+                0x20005000                . = ALIGN (0x4)
+                0x20005000                end = .
                 0x20005000                PROVIDE (_stack, (ORIGIN (bootbuf) + LENGTH (bootbuf)))
                 0x200047bc                PROVIDE (_boot_stack, (ORIGIN (ram) + LENGTH (ram)))
 LOAD asm/CortexContextSwitch.s.o

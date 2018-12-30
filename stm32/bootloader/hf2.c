@@ -43,7 +43,7 @@ typedef struct {
 } __attribute__((packed)) HF2_Buffer;
 
 //  TODO: Use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
-__attribute__ ((section(".bootbuf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
+__attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
 HF2_Buffer pkt;  // Size should be 1090 bytes.
 
 const uint8_t *dataToSend;

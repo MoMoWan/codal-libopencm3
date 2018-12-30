@@ -387,19 +387,22 @@ SECTIONS
 		*							(COMMON) /* Application common variables */
 
 		. = ALIGN(4);
-		_ebss = .;
+		_ebss = .;      /* End of BSS section */
 	} >ram
 
-	.bootbuf : {
+	.boot_buf (NOLOAD) : {
 		/*  bootbuf contains large buffers used by Bootloader for flashing the ROM.
-			In Application Mode, we repurpose bootbuf as stack space.  */
-		*                           (.bootbuf*) /* pkt and flashBuf from Bootloader */
+			In Application Mode, we repurpose boot_buf as stack space.  
+			NOLOAD is needed so that arm-none-eabi-objcopy will not output the boot_buf section.
+			To check the section attributes: arm-none-eabi-readelf -S .pioenvs/bluepill_f103c8/firmware.elf
+		*/
+		*                           (.boot_buf*) /* pkt and flashBuf from Bootloader */
 
 		. = ALIGN(4);
-		_ebootbuf = .;
+		_eboot_buf = .;  /* End of bootbuf region */
 
 		. = ALIGN(4);
-		end = .;    /* End of the RAM region */
+		end = .;         /* End of the RAM */
 	} >bootbuf
 
 	/*
