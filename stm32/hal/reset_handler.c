@@ -10,6 +10,9 @@
 /* Symbols exported by the linker script(s): */
 extern unsigned _boot_data_loadaddr, _boot_data, _boot_edata, _boot_ebss;  //  For bootloader rom and ram sections.
 typedef void (*funcp_t) (void);
+funcp_t __boot_preinit_array_start, __boot_preinit_array_end;  //  Bootloader C++ constructors.
+funcp_t __boot_init_array_start, __boot_init_array_end;		 //  Bootloader C++ constructors.
+funcp_t __boot_fini_array_start, __boot_fini_array_end;		 //  Bootloader C++ destructors.
 
 void application_start(void);
 void blocking_handler(void);
@@ -26,11 +29,6 @@ void pre_main() {
     //  Run the unit tests if any.  Don't run unit test in bootloader, because we will run out of space in bootrom.
     run_unit_test();	
 #endif  //  UNIT_TEST
-
-    //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
-    bootloader_start();
-
-	//  If we return here, that means we are running in Application Mode.  After this call main().
 }
 
 void reset_handler(void) {
@@ -56,29 +54,30 @@ void reset_handler(void) {
 	//  Perform our platform initialisation.  pre_main() will not return if bootloader decides to run in Bootloader Mode.
 	pre_main();
 
-#ifdef NOTUSED
-	//  We don't allow our low-level STM32 functions to have C++ constructors, so we don't call them.
+	//  TODO: We should not allow our low-level STM32 functions to have C++ constructors.
 	//  Application constructors will be called by application_start().
 	//  TODO: Fix these bootloader constructors:
 	// .init_array    0x0000000008009778        0x4 .pioenvs/bluepill_f103c8/src/uart.o
  	// .init_array    0x000000000800977c        0x4 .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
  	// .init_array    0x0000000008009780        0x4 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
-	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
+	for (fp = &__boot_preinit_array_start; fp < &__boot_preinit_array_end; fp++) {
 		(*fp)();
 	}
-	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
+	for (fp = &__boot_init_array_start; fp < &__boot_init_array_end; fp++) {
 		(*fp)();
 	}
-#endif  //  NOTUSED
 
+    //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
+    bootloader_start();
+
+	//  If we return here, that means we are running in Application Mode.
 	//  Call the application's entry point. application_start() is always located at a fixed address (_text) so we can change the application easily.
 	application_start();
 
-#ifdef NOTUSED
-	//  We don't allow our low-level STM32 functions to have C++ destructors, so we don't call them.
-	for (fp = &__fini_array_start; fp < &__fini_array_end; fp++) {
+	//  TODO: We should not allow our low-level STM32 functions to have C++ destructors.
+	//  Application destructors will be called by application_start().
+	for (fp = &__boot_fini_array_start; fp < &__boot_fini_array_end; fp++) {
 		(*fp)();
 	}
-#endif  //  NOTUSED
 
 }

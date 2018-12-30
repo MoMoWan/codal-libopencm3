@@ -10,14 +10,21 @@
 #include "unity.h"   //  Force Unity unit test to be included for PlatformIO build.
 #endif  //  PLATFORMIO
 
+int bss_test;                   //  Test whether BSS Section is loaded correctly.
+int data_test = 0x12345678;     //  Test whether Data Section is loaded correctly.
+
 using namespace codal;
 
 void Blink_main(codal::STM32BluePill& bluepill);
 static void debug_dump(codal::STM32BluePill& bluepill, const char *msg);
 
 int main() {
-    //  This main() function will be wrapped by the linker.  The actual main() function is in stm32/hal/main.cpp.
-    //  Blue Pill constructor will generate debug messages, so we construct after enabling debug.
+    if (bss_test != 0x0 || data_test != 0x12345678) {
+        debug_print("*** bss/data failed, bss_test = "); debug_printhex_unsigned(bss_test);
+        debug_print(", data_test = "); debug_printhex_unsigned(data_test);
+        for(;;) {}
+    }
+    //  Blue Pill constructor will generate debug messages, make sure that the target has been initialised.
     STM32BluePill bluepill;
     bluepill.init();
     Blink_main(bluepill);

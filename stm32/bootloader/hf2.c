@@ -54,12 +54,31 @@ typedef union {
     HF2_Command cmd;
     HF2_Response resp;
 } __attribute__((packed)) test_union;
-
+typedef union {
+    uint8_t  buf[HF2_BUF_SIZE];
+} __attribute__((packed)) test_union1;
+typedef union {
+    uint32_t buf32[HF2_BUF_SIZE / 4];
+} __attribute__((packed)) test_union2;
+typedef union {
+    uint16_t buf16[HF2_BUF_SIZE / 2];
+} __attribute__((packed)) test_union3;
+typedef union {
+    HF2_Command cmd;
+} __attribute__((packed)) test_union4;
+typedef union {
+    HF2_Response resp;
+} __attribute__((packed)) test_union5;
 void dump_pkt() {
     debug_print("HF2_Buffer "); debug_printhex_unsigned(sizeof(HF2_Buffer));
     debug_print(" , HF2_Command "); debug_printhex_unsigned(sizeof(HF2_Command));
     debug_print(" , HF2_Response "); debug_printhex_unsigned(sizeof(HF2_Response));
     debug_print(" , test_union "); debug_printhex_unsigned(sizeof(test_union));
+    debug_print(" , test_union1 "); debug_printhex_unsigned(sizeof(test_union1));
+    debug_print(" , test_union2 "); debug_printhex_unsigned(sizeof(test_union2));
+    debug_print(" , test_union3 "); debug_printhex_unsigned(sizeof(test_union3));
+    debug_print(" , test_union4 "); debug_printhex_unsigned(sizeof(test_union4));
+    debug_print(" , test_union5 "); debug_printhex_unsigned(sizeof(test_union5));
     debug_println(""); debug_flush();
 }
 ////

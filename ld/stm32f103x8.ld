@@ -117,21 +117,79 @@ SECTIONS
 	.boot_preinit_array : { /* Bootloader Constructors */
 		. = ALIGN(4);
 		__boot_preinit_array_start = .;  /*  We use KEEP to force these symbols to be linked, otherwise they will be removed because they are not referenced */
-		/* No constructors for our low-level bootloader functions, otherwise it may cause a loop */
+		/* TODO: Should not allow constructors for our low-level bootloader functions, otherwise it may cause a loop */
+		KEEP (:*reset_handler*				(.preinit_array)) /* Reset Handler (CODAL build) */
+		KEEP (*libhal.a:*reset_handler*		(.preinit_array)) /* Reset Handler */
+		KEEP (:*codal_target_hal*			(.preinit_array)) /* CODAL HAL */
+		KEEP (*libhal.a:*codal_target_hal*	(.preinit_array)) /* CODAL HAL */
+		KEEP (:*CortexContextSwitch*	    (.preinit_array)) /* Context Switch (PlaformIO build) */
+		KEEP (*libhal.a:          			(.preinit_array)) /* Hardware Adaptation Layer */
+
+		KEEP (*liblibopencm3.a:          	(.preinit_array)) /* libopencm3 (CODAL build) */
+		KEEP (*libFrameworkLibOpenCM3.a: 	(.preinit_array)) /* libopencm3 (PlatformIO build) */
+		KEEP (*libcocoos.a:					(.preinit_array)) /* cocoOS (CODAL build) */
+		KEEP (*libcocoOS_?.?.?.a:			(.preinit_array)) /* cocoOS (PlatformIO build) */
+
+		KEEP (*libgcc.a:          			(.preinit_array)) /* C Library */
+		KEEP (*libqfplib.a:          		(.preinit_array)) /* Math Library */
+		KEEP (*libnano-float.a:          	(.preinit_array)) /* Math Library Replacement */
+		KEEP (*libnewlib.a:          		(.preinit_array)) /* C Library Replacement */
+		KEEP (*liblogger.a:          		(.preinit_array)) /* Logger */
+		KEEP (*libbluepill.a:          		(.preinit_array)) /* Low Level Functions */
+		KEEP (*libbootloader.a:          	(.preinit_array)) /* Bootloader */
 		__boot_preinit_array_end = .;
 	} >bootrom
 
 	.preinit_array : { /* Application Constructors */
 		. = ALIGN(4);
 		__preinit_array_start = .;
-		KEEP (*						(.preinit_array)) /* Application Constructors */
+		KEEP (*								(.preinit_array)) /* Application Constructors */
 		__preinit_array_end = .;
 	} >rom
 
 	.boot_init_array : { /* Bootloader Constructors */
 		. = ALIGN(4);
 		__boot_init_array_start = .; 
-		/* No constructors for our low-level bootloader functions, otherwise it may cause a loop */
+		/* TODO: Should not allow constructors for our low-level bootloader functions, otherwise it may cause a loop */
+		KEEP (:*reset_handler*				(SORT_BY_NAME (.init_array.*))) /* Reset Handler (CODAL build) */
+		KEEP (*libhal.a:*reset_handler*		(SORT_BY_NAME (.init_array.*))) /* Reset Handler */
+		KEEP (:*codal_target_hal*			(SORT_BY_NAME (.init_array.*))) /* CODAL HAL */
+		KEEP (*libhal.a:*codal_target_hal*	(SORT_BY_NAME (.init_array.*))) /* CODAL HAL */
+		KEEP (:*CortexContextSwitch*	    (SORT_BY_NAME (.init_array.*))) /* Context Switch (PlaformIO build) */
+		KEEP (*libhal.a:          			(SORT_BY_NAME (.init_array.*))) /* Hardware Adaptation Layer */
+
+		KEEP (*liblibopencm3.a:          	(SORT_BY_NAME (.init_array.*))) /* libopencm3 (CODAL build) */
+		KEEP (*libFrameworkLibOpenCM3.a: 	(SORT_BY_NAME (.init_array.*))) /* libopencm3 (PlatformIO build) */
+		KEEP (*libcocoos.a:					(SORT_BY_NAME (.init_array.*))) /* cocoOS (CODAL build) */
+		KEEP (*libcocoOS_?.?.?.a:			(SORT_BY_NAME (.init_array.*))) /* cocoOS (PlatformIO build) */
+
+		KEEP (*libgcc.a:          			(SORT_BY_NAME (.init_array.*))) /* C Library */
+		KEEP (*libqfplib.a:          		(SORT_BY_NAME (.init_array.*))) /* Math Library */
+		KEEP (*libnano-float.a:          	(SORT_BY_NAME (.init_array.*))) /* Math Library Replacement */
+		KEEP (*libnewlib.a:          		(SORT_BY_NAME (.init_array.*))) /* C Library Replacement */
+		KEEP (*liblogger.a:          		(SORT_BY_NAME (.init_array.*))) /* Logger */
+		KEEP (*libbluepill.a:          		(SORT_BY_NAME (.init_array.*))) /* Low Level Functions */
+		KEEP (*libbootloader.a:          	(SORT_BY_NAME (.init_array.*))) /* Bootloader */
+
+		KEEP (:*reset_handler*				(.init_array)) /* Reset Handler (CODAL build) */
+		KEEP (*libhal.a:*reset_handler*		(.init_array)) /* Reset Handler */
+		KEEP (:*codal_target_hal*			(.init_array)) /* CODAL HAL */
+		KEEP (*libhal.a:*codal_target_hal*	(.init_array)) /* CODAL HAL */
+		KEEP (:*CortexContextSwitch*	    (.init_array)) /* Context Switch (PlaformIO build) */
+		KEEP (*libhal.a:          			(.init_array)) /* Hardware Adaptation Layer */
+
+		KEEP (*liblibopencm3.a:          	(.init_array)) /* libopencm3 (CODAL build) */
+		KEEP (*libFrameworkLibOpenCM3.a: 	(.init_array)) /* libopencm3 (PlatformIO build) */
+		KEEP (*libcocoos.a:					(.init_array)) /* cocoOS (CODAL build) */
+		KEEP (*libcocoOS_?.?.?.a:			(.init_array)) /* cocoOS (PlatformIO build) */
+
+		KEEP (*libgcc.a:          			(.init_array)) /* C Library */
+		KEEP (*libqfplib.a:          		(.init_array)) /* Math Library */
+		KEEP (*libnano-float.a:          	(.init_array)) /* Math Library Replacement */
+		KEEP (*libnewlib.a:          		(.init_array)) /* C Library Replacement */
+		KEEP (*liblogger.a:          		(.init_array)) /* Logger */
+		KEEP (*libbluepill.a:          		(.init_array)) /* Low Level Functions */
+		KEEP (*libbootloader.a:          	(.init_array)) /* Bootloader */
 		__boot_init_array_end = .;
 		. = ALIGN(4);  /* Previously below */
 		_boot_etext = .;
@@ -148,8 +206,52 @@ SECTIONS
 		_etext = .;
 	} >rom
 
-	/* Not needed because we don't call C++ destructors. We provide a dummy __fini_array_start, __fini_array_end to satisfy libopencm3/vector.c */
-	.fini_array : {
+	.boot_fini_array : { /* Bootloader Destructors. There should be no destructors in Bootloader. */
+		. = ALIGN(4);
+		__boot_fini_array_start = .;
+		KEEP (:*reset_handler*				(.fini_array)) /* Reset Handler (CODAL build) */
+		KEEP (*libhal.a:*reset_handler*		(.fini_array)) /* Reset Handler */
+		KEEP (:*codal_target_hal*			(.fini_array)) /* CODAL HAL */
+		KEEP (*libhal.a:*codal_target_hal*	(.fini_array)) /* CODAL HAL */
+		KEEP (:*CortexContextSwitch*	    (.fini_array)) /* Context Switch (PlaformIO build) */
+		KEEP (*libhal.a:          			(.fini_array)) /* Hardware Adaptation Layer */
+
+		KEEP (*liblibopencm3.a:          	(.fini_array)) /* libopencm3 (CODAL build) */
+		KEEP (*libFrameworkLibOpenCM3.a: 	(.fini_array)) /* libopencm3 (PlatformIO build) */
+		KEEP (*libcocoos.a:					(.fini_array)) /* cocoOS (CODAL build) */
+		KEEP (*libcocoOS_?.?.?.a:			(.fini_array)) /* cocoOS (PlatformIO build) */
+
+		KEEP (*libgcc.a:          			(.fini_array)) /* C Library */
+		KEEP (*libqfplib.a:          		(.fini_array)) /* Math Library */
+		KEEP (*libnano-float.a:          	(.fini_array)) /* Math Library Replacement */
+		KEEP (*libnewlib.a:          		(.fini_array)) /* C Library Replacement */
+		KEEP (*liblogger.a:          		(.fini_array)) /* Logger */
+		KEEP (*libbluepill.a:          		(.fini_array)) /* Low Level Functions */
+		KEEP (*libbootloader.a:          	(.fini_array)) /* Bootloader */
+
+		KEEP (:*reset_handler*				(SORT (.fini_array.*))) /* Reset Handler (CODAL build) */
+		KEEP (*libhal.a:*reset_handler*		(SORT (.fini_array.*))) /* Reset Handler */
+		KEEP (:*codal_target_hal*			(SORT (.fini_array.*))) /* CODAL HAL */
+		KEEP (*libhal.a:*codal_target_hal*	(SORT (.fini_array.*))) /* CODAL HAL */
+		KEEP (:*CortexContextSwitch*	    (SORT (.fini_array.*))) /* Context Switch (PlaformIO build) */
+		KEEP (*libhal.a:          			(SORT (.fini_array.*))) /* Hardware Adaptation Layer */
+
+		KEEP (*liblibopencm3.a:          	(SORT (.fini_array.*))) /* libopencm3 (CODAL build) */
+		KEEP (*libFrameworkLibOpenCM3.a: 	(SORT (.fini_array.*))) /* libopencm3 (PlatformIO build) */
+		KEEP (*libcocoos.a:					(SORT (.fini_array.*))) /* cocoOS (CODAL build) */
+		KEEP (*libcocoOS_?.?.?.a:			(SORT (.fini_array.*))) /* cocoOS (PlatformIO build) */
+
+		KEEP (*libgcc.a:          			(SORT (.fini_array.*))) /* C Library */
+		KEEP (*libqfplib.a:          		(SORT (.fini_array.*))) /* Math Library */
+		KEEP (*libnano-float.a:          	(SORT (.fini_array.*))) /* Math Library Replacement */
+		KEEP (*libnewlib.a:          		(SORT (.fini_array.*))) /* C Library Replacement */
+		KEEP (*liblogger.a:          		(SORT (.fini_array.*))) /* Logger */
+		KEEP (*libbluepill.a:          		(SORT (.fini_array.*))) /* Low Level Functions */
+		KEEP (*libbootloader.a:          	(SORT (.fini_array.*))) /* Bootloader */
+		__boot_fini_array_end = .;
+	} >bootrom
+
+	.fini_array : { /* Application Destructors. */
 		. = ALIGN(4);
 		__fini_array_start = .;
 		KEEP (*					(.fini_array))         /* Application Destructors. */
@@ -197,7 +299,7 @@ SECTIONS
 
 		. = ALIGN(4);
 		_boot_edata = .;
-	} >bootram AT >bootrom  /* Stored in bootrom but copied to bootram at startup  */
+	} >bootram AT >bootrom  /* Stored in bootrom but copied to bootram at startup by reset_handler()  */
 	_boot_data_loadaddr = LOADADDR(.boot_data);
 
 	.data : {        /* Application Data  */
@@ -205,7 +307,7 @@ SECTIONS
 		*							(.data*) /* Application read-write initialized data */
 		. = ALIGN(4);
 		_edata = .;
-	} >ram AT >rom   /* Stored in rom but copied to ram at startup  */
+	} >ram AT >rom   /* Stored in rom but copied to ram at startup by application_start()  */
 	_data_loadaddr = LOADADDR(.data);
 
 	.boot_bss : {   /*  Bootloader Variables */
