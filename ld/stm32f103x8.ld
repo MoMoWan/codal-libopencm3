@@ -49,6 +49,11 @@ ENTRY(reset_handler)
 	`:file' matches file but not one in an archive */
 SECTIONS
 {
+	/DISCARD/ : {  /* Discard the impure data from newlib, which occupies 1 KB. */
+		*(.data.impure_data)
+		*(.data._impure_ptr)
+	}
+
 	/* Bootloader and Application ROM */
 
 	.boot_text : {  /* Bootloader ROM */
