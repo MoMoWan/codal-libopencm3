@@ -51,23 +51,24 @@ namespace codal
 
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
-            if (!Timer::instance) { return; }  //  No timer to trigger.
-            //  Handle tick.
-            ////Timer::instance->trigger();
             sem_ISR_signal(timer_semaphore); 
+
+            //  Handle tick.
+            ////if (!Timer::instance) { return; }  //  No timer to trigger.
+            ////Timer::instance->trigger();
         }
 
         void alarm_callback() {
             //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
+            sem_ISR_signal(timer_semaphore); 
 #ifdef NOTUSED
             if (trigger_period > 0) { 
                 //  If the trigger period was set, repeat the alarm.
                 platform_set_alarm(millis() + trigger_period);
             }
 #endif  //  NOTUSED
-            if (!Timer::instance) { return; }  //  No timer to trigger.
+            ////if (!Timer::instance) { return; }  //  No timer to trigger.
             ////Timer::instance->trigger();
-            sem_ISR_signal(timer_semaphore); 
         }
 
         void Timer::init() {
