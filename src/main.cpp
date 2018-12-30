@@ -15,9 +15,10 @@ using namespace codal;
 void Blink_main(codal::STM32BluePill& bluepill);
 static void debug_dump(codal::STM32BluePill& bluepill, const char *msg);
 
+//  Blue Pill constructor will generate debug messages, make sure that the target has been initialised.
+STM32BluePill bluepill;
+
 int main() {
-    //  Blue Pill constructor will generate debug messages, make sure that the target has been initialised.
-    STM32BluePill bluepill;
     bluepill.init();
     Blink_main(bluepill);
 }

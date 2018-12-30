@@ -45,14 +45,14 @@ static void timer_tick() {  //  TODO: Check if timer is ticking.
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
     //  If bootloader is running in background, call it to handle USB requests.
-    if (bootloader_callback) { bootloader_callback(); }
+    ////if (bootloader_callback) { bootloader_callback(); }
 }
 
 static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     //  If bootloader is running in background, call it to handle USB requests.
-    if (bootloader_callback) { bootloader_callback(); }
+    ////if (bootloader_callback) { bootloader_callback(); }
 }
 
 void target_enable_debug(void) {
