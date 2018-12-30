@@ -4,7 +4,7 @@
 #include <logger.h>
 
 extern "C" {  //  Symbols exported by the linker script(s):
-	unsigned _data_loadaddr, _data, _edata, _ebss;  //  For Application rom and ram sections.
+	volatile unsigned int _data_loadaddr, _data, _edata, _ebss;  //  For Application rom and ram sections.
 	typedef void (*funcp_t) (void);
 	funcp_t __preinit_array_start, __preinit_array_end;  //  Application C++ constructors.
 	funcp_t __init_array_start, __init_array_end;		 //  Application C++ constructors.
@@ -31,7 +31,7 @@ extern "C" void application_start(void) {
 	funcp_t *fp;
 
 	//  Copy Application data section from ROM to RAM.
-	for (src = (volatile unsigned int*) _data_loadaddr, dest = (volatile unsigned int*) &_data;  //  Somehow in C++ we should use _data_loadaddr and not &_data_loadaddr.
+	for (src = &_data_loadaddr, dest = &_data;
 		dest < &_edata;
 		src++, dest++) {
 		*dest = *src;

@@ -9296,26 +9296,26 @@ LOAD .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a
 LOAD .pioenvs/bluepill_f103c8/lib739/libcm.a
 LOAD .pioenvs/bluepill_f103c8/lib2eb/libmodel.a
 LOAD .pioenvs/bluepill_f103c8/lib533/libunittest.a
-LOAD .pioenvs/bluepill_f103c8/libc3f/libsimulator.a
 LOAD .pioenvs/bluepill_f103c8/lib91e/libspiint.a
+LOAD .pioenvs/bluepill_f103c8/libc3f/libsimulator.a
 LOAD .pioenvs/bluepill_f103c8/libea2/libi2cint.a
 LOAD .pioenvs/bluepill_f103c8/lib9ba/libporting.a
 LOAD .pioenvs/bluepill_f103c8/lib23b/libboost_config.a
+LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/lib186/libboost_static_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib047/libboost_type_traits.a
-LOAD .pioenvs/bluepill_f103c8/lib64e/libboost_predef.a
-LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/libf3d/libboost_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib3c5/libboost_core.a
-LOAD .pioenvs/bluepill_f103c8/lib95e/libboost_detail.a
 LOAD .pioenvs/bluepill_f103c8/libd30/libboost_utility.a
+LOAD .pioenvs/bluepill_f103c8/lib64e/libboost_predef.a
 LOAD .pioenvs/bluepill_f103c8/libe2b/libboost_mpl.a
+LOAD .pioenvs/bluepill_f103c8/lib95e/libboost_detail.a
 LOAD .pioenvs/bluepill_f103c8/libcea/libboost_parameter.a
 LOAD .pioenvs/bluepill_f103c8/lib609/libboost_iterator.a
 LOAD .pioenvs/bluepill_f103c8/lib7b0/libboost_lockfree.a
 LOAD .pioenvs/bluepill_f103c8/lib33e/libuartint.a
-LOAD .pioenvs/bluepill_f103c8/lib573/libadcint.a
 LOAD .pioenvs/bluepill_f103c8/libdc9/libBME280.a
+LOAD .pioenvs/bluepill_f103c8/lib573/libadcint.a
 LOAD .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a
 END GROUP
 OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
@@ -10074,7 +10074,7 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_str     0x00000000000d096c      0x1bf .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(I2C.o)
                                        0xaa60 (size before relaxing)
 
-.debug_loc      0x0000000000000000    0x10143
+.debug_loc      0x0000000000000000    0x10153
  .debug_loc     0x0000000000000000      0x207 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .debug_loc     0x0000000000000207       0xe7 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  .debug_loc     0x00000000000002ee       0xfd .pioenvs/bluepill_f103c8/src/main.o
@@ -10109,45 +10109,45 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_loc     0x0000000000006853      0x1ca .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Event.o)
  .debug_loc     0x0000000000006a1d      0x2c0 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalCompat.o)
  .debug_loc     0x0000000000006cdd      0x867 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPin.o)
- .debug_loc     0x0000000000007544       0xec .pioenvs/bluepill_f103c8/lib739/libcm.a(application.o)
- .debug_loc     0x0000000000007630      0x309 .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePill.o)
- .debug_loc     0x0000000000007939       0x29 .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePillIO.o)
- .debug_loc     0x0000000000007962      0x6fc .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
- .debug_loc     0x000000000000805e       0x77 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
- .debug_loc     0x00000000000080d5       0x8b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
- .debug_loc     0x0000000000008160      0x14b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
- .debug_loc     0x00000000000082ab      0x293 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
- .debug_loc     0x000000000000853e      0x24b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
- .debug_loc     0x0000000000008789       0xa5 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
- .debug_loc     0x000000000000882e       0x21 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
- .debug_loc     0x000000000000884f      0x106 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
- .debug_loc     0x0000000000008955      0x14a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
- .debug_loc     0x0000000000008a9f      0x1e9 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
- .debug_loc     0x0000000000008c88       0x9c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
- .debug_loc     0x0000000000008d24      0x444 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
- .debug_loc     0x0000000000009168      0x440 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
- .debug_loc     0x00000000000095a8     0x131e .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
- .debug_loc     0x000000000000a8c6      0x178 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
- .debug_loc     0x000000000000aa3e       0xc7 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
- .debug_loc     0x000000000000ab05       0x21 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
- .debug_loc     0x000000000000ab26      0x142 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
- .debug_loc     0x000000000000ac68      0x82d .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
- .debug_loc     0x000000000000b495       0x7e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
- .debug_loc     0x000000000000b513       0xb8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_loc     0x000000000000b5cb       0x6c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
- .debug_loc     0x000000000000b637      0x1eb .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
- .debug_loc     0x000000000000b822     0x124c .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Serial.o)
- .debug_loc     0x000000000000ca6e      0xaf5 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MessageBus.o)
- .debug_loc     0x000000000000d563      0x81a .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
- .debug_loc     0x000000000000dd7d      0x1a4 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCounted.o)
- .debug_loc     0x000000000000df21       0x21 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCountedInit.o)
- .debug_loc     0x000000000000df42       0xbc .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MemberFunctionCallback.o)
- .debug_loc     0x000000000000dffe      0x101 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmI2C.o)
- .debug_loc     0x000000000000e0ff      0x596 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSPI.o)
- .debug_loc     0x000000000000e695     0x10e7 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSerial.o)
- .debug_loc     0x000000000000f77c      0x105 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmTimer.o)
- .debug_loc     0x000000000000f881      0x317 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPinMap.o)
- .debug_loc     0x000000000000fb98      0x5ab .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(I2C.o)
+ .debug_loc     0x0000000000007544       0xfc .pioenvs/bluepill_f103c8/lib739/libcm.a(application.o)
+ .debug_loc     0x0000000000007640      0x309 .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePill.o)
+ .debug_loc     0x0000000000007949       0x29 .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePillIO.o)
+ .debug_loc     0x0000000000007972      0x6fc .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
+ .debug_loc     0x000000000000806e       0x77 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
+ .debug_loc     0x00000000000080e5       0x8b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
+ .debug_loc     0x0000000000008170      0x14b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
+ .debug_loc     0x00000000000082bb      0x293 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+ .debug_loc     0x000000000000854e      0x24b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+ .debug_loc     0x0000000000008799       0xa5 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
+ .debug_loc     0x000000000000883e       0x21 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
+ .debug_loc     0x000000000000885f      0x106 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
+ .debug_loc     0x0000000000008965      0x14a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
+ .debug_loc     0x0000000000008aaf      0x1e9 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+ .debug_loc     0x0000000000008c98       0x9c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+ .debug_loc     0x0000000000008d34      0x444 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+ .debug_loc     0x0000000000009178      0x440 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+ .debug_loc     0x00000000000095b8     0x131e .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+ .debug_loc     0x000000000000a8d6      0x178 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
+ .debug_loc     0x000000000000aa4e       0xc7 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
+ .debug_loc     0x000000000000ab15       0x21 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
+ .debug_loc     0x000000000000ab36      0x142 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
+ .debug_loc     0x000000000000ac78      0x82d .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+ .debug_loc     0x000000000000b4a5       0x7e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
+ .debug_loc     0x000000000000b523       0xb8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_loc     0x000000000000b5db       0x6c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
+ .debug_loc     0x000000000000b647      0x1eb .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
+ .debug_loc     0x000000000000b832     0x124c .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Serial.o)
+ .debug_loc     0x000000000000ca7e      0xaf5 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MessageBus.o)
+ .debug_loc     0x000000000000d573      0x81a .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
+ .debug_loc     0x000000000000dd8d      0x1a4 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCounted.o)
+ .debug_loc     0x000000000000df31       0x21 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCountedInit.o)
+ .debug_loc     0x000000000000df52       0xbc .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MemberFunctionCallback.o)
+ .debug_loc     0x000000000000e00e      0x101 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmI2C.o)
+ .debug_loc     0x000000000000e10f      0x596 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSPI.o)
+ .debug_loc     0x000000000000e6a5     0x10e7 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSerial.o)
+ .debug_loc     0x000000000000f78c      0x105 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmTimer.o)
+ .debug_loc     0x000000000000f891      0x317 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPinMap.o)
+ .debug_loc     0x000000000000fba8      0x5ab .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(I2C.o)
 
 .debug_ranges   0x0000000000000000     0x2070
  .debug_ranges  0x0000000000000000      0x128 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
