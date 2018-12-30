@@ -32,8 +32,9 @@ const rcc_osc clock_source = RCC_HSE;
 
 //  Set the clock prescaling value, so that we will get a tick interrupt every 1 millisecond. Dependent on LSE or HSE clock selection.
 #ifdef USE_RCC_LSE
-const uint32_t prescale = 32;        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
-// const uint32_t prescale = 327;    //  For RCC_LSE: 10 millisecond tick
+////const uint32_t prescale = 32;        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
+// 
+const uint32_t prescale = 327;    //  For RCC_LSE: 10 millisecond tick
 #else
 const uint32_t prescale = 62;        //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
 // const uint32_t prescale = 62500;  //  For RCC_HSE: 1 second tick

@@ -22,8 +22,7 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 */
-
-
+#include <logger.h>
 #include "STM32BluePill.h"
 #include "Timer.h"
 
@@ -48,6 +47,7 @@ STM32BluePill::STM32BluePill() :
     //  Clear our status
     status = 0;
     device_instance = this;
+    debug_println("bluepill construct"); debug_flush(); ////
 }
 
 void STM32BluePill::enableDebug() { target_enable_debug(); }
@@ -74,27 +74,32 @@ int STM32BluePill::init()
         return DEVICE_NOT_SUPPORTED;
     status |= DEVICE_INITIALIZED;
 
-    //  Blue Pill specific initialisation...
-    target_init();
+    //  Blue Pill specific initialisation... Already done in reset_handler().
+    //  target_init();
+    debug_println("bluepill init scheduler"); debug_flush(); ////
 
     //  Codal initialisation...
     //  Bring up fiber scheduler.
     scheduler_init(messageBus);
+    debug_println("bluepill init components"); debug_flush(); ////
+
     for(int i = 0; i < DEVICE_COMPONENT_COUNT; i++)
     {
         if(CodalComponent::components[i])
             CodalComponent::components[i]->init();
     }
     status |= DEVICE_COMPONENT_STATUS_IDLE_TICK;
+    debug_println("bluepill init ok"); debug_flush(); ////
     return DEVICE_OK;
 }
 
 /**
   * A periodic callback invoked by the fiber scheduler idle thread.
-  * We use this for any low priority, backgrounf housekeeping.
+  * We use this for any low priority, background housekeeping.
   *
   */
 void STM32BluePill::idleCallback() {
+    //  TODO: Poll USB.
     codal_dmesg_flush();
 }
 

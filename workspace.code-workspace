@@ -32,6 +32,9 @@
 		},
 		{
 			"path": "C:/uf2-stm32f"
+		},
+		{
+			"path": "/Users/Luppy/.platformio/platforms/ststm32"
 		}
 	],
 	"settings": {
