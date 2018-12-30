@@ -18,6 +18,9 @@ void application_start(void);
 void blocking_handler(void);
 void null_handler(void);
 
+int hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
+int hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.
+
 void pre_main() {
 	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
@@ -25,6 +28,12 @@ void pre_main() {
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     target_init();               //  Init the STM32 platform.
 
+	//  Test whether Bootloader BSS and Data Sections are loaded correctly.
+    if (hal_bss_test != 0x0 || hal_data_test != 0x87654321) {
+        debug_print("*** hal bss/data failed, bss_test = "); debug_printhex_unsigned(hal_bss_test);
+        debug_print(", data_test = "); debug_printhex_unsigned(hal_data_test);
+        for(;;) {}
+    }
 #ifdef UNIT_TEST
     //  Run the unit tests if any.  Don't run unit test in bootloader, because we will run out of space in bootrom.
     run_unit_test();	
