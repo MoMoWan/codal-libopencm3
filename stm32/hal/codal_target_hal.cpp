@@ -42,6 +42,8 @@ void target_set_bootloader_callback(int (*bootloader_callback0)()) {
 }
 
 static void timer_tick() {  //  TODO: Check if timer is ticking.
+    //  Call cocoOS at every tick.
+    os_tick();
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
     //  If bootloader is running in background, call it to handle USB requests.
@@ -66,6 +68,27 @@ void target_disable_debug(void) {
     disable_debug();  
 }
 
+////  TODO
+static void os_schedule( void ) {
+
+    running_tid = NO_TID;
+
+#ifdef ROUND_ROBIN
+    /* Find next ready task */
+    running_tid = os_task_next_ready_task();
+#else
+    /* Find the highest prio task ready to run */
+    running_tid = os_task_highest_prio_ready_task();   
+#endif
+    
+    if ( running_tid != NO_TID ) {
+        os_task_run();
+    }
+    else {
+        os_cbkSleep();
+    }
+}
+
 void target_init(void) {
     //  Blue Pill specific initialisation...
     if (initialised) { return; }  //  Already initialised, skip.
@@ -84,6 +107,9 @@ void target_init(void) {
 
     //  TODO: Seed our random number generator
     //  seedRandom();
+
+    // os_start(); ////
+    os_schedule();
 }
 
 void target_reset() {

@@ -5,6 +5,7 @@
 #include "codal_target_hal.h"
 #include <bluepill.h>
 #include <logger.h>
+#include <cocoos.h>
 
 namespace codal
 {
@@ -12,6 +13,18 @@ namespace codal
     {
         Timer *Timer::instance;
         static CODAL_TIMESTAMP trigger_period;
+
+        ////
+        static struct TimerContext {
+        } context;
+        static struct TimerMsg {
+            Msg_t super;                          //  Required for all cocoOS messages.
+        } msg;
+        #define MSG_POOL_SIZE 2
+        static TimerMsg msg_pool[MSG_POOL_SIZE];  //  Pool of sensor data messages for the task message queue.
+        static Sem_t timer_semaphore;
+        static void timer_task(void);
+        ////
 
         Timer::Timer() : codal::Timer() {
             instance = this;
@@ -41,6 +54,7 @@ namespace codal
             if (!Timer::instance) { return; }  //  No timer to trigger.
             //  Handle tick.
             ////Timer::instance->trigger();
+            sem_ISR_signal(timer_semaphore); 
         }
 
         void alarm_callback() {
@@ -53,13 +67,25 @@ namespace codal
 #endif  //  NOTUSED
             if (!Timer::instance) { return; }  //  No timer to trigger.
             ////Timer::instance->trigger();
+            sem_ISR_signal(timer_semaphore); 
         }
 
         void Timer::init() {
             debug_println("timer init"); ////
             this->prev = millis();
+            timer_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
+
             target_set_tick_callback(tick_callback);
             target_set_alarm_callback(alarm_callback);
+
+            uint8_t task_id = task_create(
+                timer_task,   //  Task will run this function.
+                &context,  //  task_get_data() will be set to the display object.
+                20,             //  Priority 20 = lower priority than UART task
+                (Msg_t *) msg_pool,  //  Pool to be used for storing the queue of messages.
+                MSG_POOL_SIZE,     //  Size of queue pool.
+                sizeof(TimerMsg));   //  Size of queue message.
+
 #ifdef TODO
             TimHandle.Instance = TIM5;
 
@@ -115,6 +141,20 @@ namespace codal
         extern "C" void wait_us(uint32_t us) {
             target_wait_us(us);
         }
+
+        ////
+        static void timer_task(void) {
+            task_open();  //  Start of the task. Must be matched with task_close().  
+            for (;;) {
+                // msg_receive(os_get_running_tid(), &msg);
+                sem_wait(timer_semaphore);
+                if (!Timer::instance) { continue; }  //  No timer to trigger.
+                Timer::instance->trigger();
+            }
+            task_close();  //  End of the task. Should not come here.
+        }
+        ////
+
     }  //  namespace _cm
 
 } // namespace codal
