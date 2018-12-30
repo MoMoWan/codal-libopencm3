@@ -59,7 +59,7 @@ static enum StartupMode startup_mode = UNKNOWN_MODE;
 static bool validate_application(void) {
     //  Return true if there is a valid application in firmware.  The first byte should be 0xb5, the "push" instruction.
     uint32_t first_word = *(volatile uint32_t *)APP_BASE_ADDRESS;
-    if ((first_word & & 0xff) == 0xb5) {
+    if ((first_word & 0xff) == 0xb5) {
         debug_println("app exists");
         return true;
     }
