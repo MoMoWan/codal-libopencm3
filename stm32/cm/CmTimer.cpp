@@ -30,7 +30,6 @@ namespace codal
             instance = this;
             this->prev = 0;
             trigger_period = 0;
-            init();
         }
 
         extern "C" void TIM5_IRQHandler() {

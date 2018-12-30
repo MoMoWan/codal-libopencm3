@@ -38,6 +38,12 @@
 		},
 		{
 			"path": "C:/Users/guppy/.platformio/platforms"
+		},
+		{
+			"path": "/Users/Luppy/codal-stm32"
+		},
+		{
+			"path": "/Users/Luppy/codal-stm32-iot-node"
 		}
 	],
 	"settings": {
