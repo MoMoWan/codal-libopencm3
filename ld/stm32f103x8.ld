@@ -388,15 +388,18 @@ SECTIONS
 
 		. = ALIGN(4);
 		_ebss = .;
-
-		. = ALIGN(4);
-		end = .;    /* Previously below */
 	} >ram
 
 	.bootbuf : {
 		/*  bootbuf contains large buffers used by Bootloader for flashing the ROM.
 			In Application Mode, we repurpose bootbuf as stack space.  */
 		*                           (.bootbuf*) /* pkt and flashBuf from Bootloader */
+
+		. = ALIGN(4);
+		_ebootbuf = .;
+
+		. = ALIGN(4);
+		end = .;    /* End of the RAM region */
 	} >bootbuf
 
 	/*

@@ -54,6 +54,9 @@
         {
             "label": "🔗 Emulate STM32 Blue Pill",
             "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "windows": {
                 "command": "bash",
                 "args": [
@@ -90,6 +93,9 @@
         {
             "label": "🐛 Emulate STM32 Blue Pill (Debug)",
             "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "windows": {
                 "command": "bash",
                 "args": [
