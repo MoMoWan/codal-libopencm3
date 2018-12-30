@@ -1,4 +1,4 @@
-/* Linker script for STM32 Blue Pill Bootloader + Firmware: STM32F103x8, 64k flash, 20k RAM. 
+/* Linker script for STM32 Blue Pill Bootloader + Application: STM32F103x8, 64k flash, 20k RAM. 
 Bootloader resides in low memory (always accessible) and consists of these modules:
 libopencm3
 cocoos
@@ -10,7 +10,7 @@ bluepill
 bootloader
 hal (except unit test)
 
-Firmware resides in high memory and consists of these modules:
+Application resides in high memory and consists of these modules:
 adcint
 i2cint
 porting
@@ -26,15 +26,15 @@ unit test */
 /* Define memory regions. */
 MEMORY
 {
-	/* Available ROM is 64K (0x10000). Reserve lower part for bootloader, upper part for firmware. */
+	/* Available ROM is 64K (0x10000). Reserve lower part for bootloader, upper part for Application. */
 	bootrom (rx)  : ORIGIN = 0x08000000,          LENGTH = 24K
 	rom     (rx)  : ORIGIN = 0x08000000 + 0x6000, LENGTH = 40K
 
-	/* Available RAM is 20K (0x5000). Reserve lower part for bootloader, upper part for firmware. */
+	/* Available RAM is 20K (0x5000). Reserve lower part for bootloader, upper part for Application. */
 	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 10K
 	ram     (rwx) : ORIGIN = 0x20000000 + 0x2800, LENGTH = 10K
 
-	/* Heap and Stack start after Firmware RAM, so we should keep Bootloader RAM small */
+	/* Heap and Stack start after Application RAM, so we should keep Bootloader RAM small */
 }
 
 /* Force vector table to be linked in. */
@@ -49,7 +49,7 @@ ENTRY(reset_handler)
 	`:file' matches file but not one in an archive */
 SECTIONS
 {
-	/* Bootloader and Firmware ROM */
+	/* Bootloader and Application ROM */
 
 	.boot_text : {  /* Bootloader ROM */
 		_boot_text = .;				/* We will use _boot_text to determine the start of the bootloader. */
@@ -101,19 +101,15 @@ SECTIONS
 		_boot_etext = .;			/* End of bootloader code. */
 	} >bootrom
 
-	.text : {       /* Firmware ROM */
+	.text : {       /* Application ROM */
 		. = ALIGN(4);
 		_text = .;					/* We will use _text to determine where to jump to start the application. */
 		* 							(.text.application_start)  /* application_start() must appear first. reset_handler() will jump here. */
-		* 							(.text.startup.main)       /* Followed by main() */
-		*libunity.a:          		(.text*)   /* Unit Test */
-		:*unit_test.o				(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
-		*							(.text*)   /* Other Firmware Code */
+		* 							(.text.main)       		   /* Followed by main() */
+		*							(.text*)   				   /* Other Application Code, including unit tests */
 
 		. = ALIGN(4);
-		*libunity.a:          		(.rodata*) /* Unit Test */
-		:*unit_test.o			    (.rodata*) /* Unit Test (if any) */
-		*							(.rodata*) /* Other Firmware Read-only data */
+		*							(.rodata*) /* Application Read-only data */
 		. = ALIGN(4);
 	} >rom
 
@@ -124,12 +120,10 @@ SECTIONS
 		__boot_preinit_array_end = .;
 	} >bootrom
 
-	.preinit_array : { /* Firmware Constructors */
+	.preinit_array : { /* Application Constructors */
 		. = ALIGN(4);
 		__preinit_array_start = .;
-		KEEP (*libunity.a:			(.preinit_array)) /* Unit Test Constructors (if any) */
-		KEEP (:*unit_test.o			(.preinit_array)) /* Unit Test Constructors (if any) */
-		KEEP (*						(.preinit_array)) /* Other Firmware Constructors */
+		KEEP (*						(.preinit_array)) /* Application Constructors */
 		__preinit_array_end = .;
 	} >rom
 
@@ -142,16 +136,11 @@ SECTIONS
 		_boot_etext = .;
 	} >bootrom
 
-	.init_array : { /* Firmware Constructors */
+	.init_array : { /* Application Constructors */
 		. = ALIGN(4);
 		__init_array_start = .;
-		KEEP (*libunity.a:		(SORT_BY_NAME (.init_array.*))) /* Unit Test Constructors (if any) */
-		KEEP (:*unit_test.o		(SORT_BY_NAME (.init_array.*))) /* Unit Test Constructors (if any) */
-		KEEP (*					(SORT_BY_NAME (.init_array.*))) /* Other Firmware Constructors. */
-
-		KEEP (*libunity.a:		(.init_array)) /* Unit Test Constructors (if any) */
-		KEEP (:*unit_test.o		(.init_array)) /* Unit Test Constructors (if any) */
-		KEEP (*					(.init_array)) /* Other Firmware Constructors. */
+		KEEP (*					(SORT_BY_NAME (.init_array.*))) /* Application Constructors. */
+		KEEP (*					(.init_array)) 					/* Application Constructors. */
 		__init_array_end = .;
 
 		. = ALIGN(4);  /* Previously below */
@@ -162,8 +151,8 @@ SECTIONS
 	.fini_array : {
 		. = ALIGN(4);
 		__fini_array_start = .;
-		/* KEEP (*(.fini_array)) */
-		/* KEEP (*(SORT(.fini_array.*))) */
+		KEEP (*					(.fini_array))         /* Application Destructors. */
+		KEEP (*					(SORT(.fini_array.*))) /* Application Destructors. */
 		__fini_array_end = .;
 	} >rom
 
@@ -179,7 +168,7 @@ SECTIONS
 		} >rom
 	*/
 
-	/* Bootloader and Firmware RAM */
+	/* Bootloader and Application RAM */
 
 	.boot_data : {          /* Bootloader RAM */
 		_boot_data = .;
@@ -210,11 +199,9 @@ SECTIONS
 	} >bootram AT >bootrom  /* Stored in bootrom but copied to bootram at startup  */
 	_boot_data_loadaddr = LOADADDR(.boot_data);
 
-	.data : {        /* Firmware Data  */
+	.data : {        /* Application Data  */
 		_data = .;
-		*libunity.a:          		(.data*) /* Unit Test */
-		:*unit_test.o			    (.data*) /* Unit Test (if any) */
-		*							(.data*) /* Other Firmware read-write initialized data */
+		*							(.data*) /* Application read-write initialized data */
 		. = ALIGN(4);
 		_edata = .;
 	} >ram AT >rom   /* Stored in rom but copied to ram at startup  */
@@ -272,15 +259,11 @@ SECTIONS
 	} >bootram
 
 	.bss : {       
-		/*  Firmware Variables Init With 0 (BSS)  */
-		*libunity.a:          		(.bss*) /* Unit Test */
-		:*unit_test.o			    (.bss*)  /* Unit Test zero initialized data (if any) */
-		*							(.bss*)	 /* Other Firmware read-write zero initialized data */
+		/*  Application Variables Init With 0 (BSS)  */
+		*							(.bss*)	 /* Application read-write zero initialized data */
 
-		/*  Firmware Common Variables  */
-		*libunity.a:          		(COMMON) /* Unit Test */
-		:*unit_test.o			    (COMMON) /* Unit Test (if any) */
-		*							(COMMON) /* Other Firmware common variables */
+		/*  Application Common Variables  */
+		*							(COMMON) /* Application common variables */
 
 		. = ALIGN(4);
 		_ebss = .;
@@ -299,6 +282,6 @@ SECTIONS
 
 }
 
-/* Heap and Stack start after Firmware RAM, so we should keep Bootloader RAM small */
+/* Heap and Stack start after Application RAM, so we should keep Bootloader RAM small */
 
 PROVIDE(_stack = ORIGIN(ram) + LENGTH(ram));
