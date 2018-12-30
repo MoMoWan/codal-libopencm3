@@ -72,12 +72,9 @@ namespace codal
 
         void Timer::init() {
             debug_println("timer init"); ////
-            this->prev = millis();
+
+            ////
             timer_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
-
-            target_set_tick_callback(tick_callback);
-            target_set_alarm_callback(alarm_callback);
-
             uint8_t task_id = task_create(
                 timer_task,   //  Task will run this function.
                 &context,  //  task_get_data() will be set to the display object.
@@ -85,6 +82,11 @@ namespace codal
                 (Msg_t *) msg_pool,  //  Pool to be used for storing the queue of messages.
                 MSG_POOL_SIZE,     //  Size of queue pool.
                 sizeof(TimerMsg));   //  Size of queue message.
+            ////
+
+            this->prev = millis();
+            target_set_tick_callback(tick_callback);
+            target_set_alarm_callback(alarm_callback);
 
 #ifdef TODO
             TimHandle.Instance = TIM5;
@@ -149,7 +151,9 @@ namespace codal
                 // msg_receive(os_get_running_tid(), &msg);
                 sem_wait(timer_semaphore);
                 if (!Timer::instance) { continue; }  //  No timer to trigger.
+                debug_print(" >> "); ////
                 Timer::instance->trigger();
+                debug_flush(); ////
             }
             task_close();  //  End of the task. Should not come here.
         }
