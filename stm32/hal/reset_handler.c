@@ -2,6 +2,7 @@
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/cm3/vector.c
 #include <libopencm3/cm3/scb.h>
 #include <bootloader/bootloader.h>
+#include <logger.h>
 #include "platform_includes.h"
 #ifdef UNIT_TEST
 #include <unittest/unittest.h>
@@ -18,10 +19,10 @@ void application_start(void);
 void blocking_handler(void);
 void null_handler(void);
 
-int hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
-int hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.
+uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
+uint32_t hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.
 
-void pre_main() {
+static void pre_main() {
 	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
     target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
