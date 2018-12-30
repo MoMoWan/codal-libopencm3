@@ -24,16 +24,17 @@ void pre_main() {
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
     target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
-    target_init();               //  Init the STM32 platform, which calls the bootloader.  If the bootloader decides to launch the firmware, this function will not return.
+    target_init();               //  Init the STM32 platform.
 
 #ifdef UNIT_TEST
     //  Run the unit tests if any.  Don't run unit test in bootloader, because we will run out of space in bootrom.
     run_unit_test();	
 #endif  //  UNIT_TEST
 
-    //  Start the bootloader.  This function will not return if the bootloader decides to jump to the application.
-    /* int status = */
+    //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
     bootloader_start();
+
+	//  If we return here, that means we are running in Application Mode.  After this call main().
 }
 
 void reset_handler(void) {
@@ -48,7 +49,7 @@ void reset_handler(void) {
 		src++, boot_dest++) {
 		*boot_dest = *src;
 	}
-	for (src = &_data_loadaddr, dest = &_data;
+	for (src = &_data_loadaddr, dest = (volatile unsigned int*) &_data;
 		dest < &_edata;  //  Firmware
 		src++, dest++) {
 		*dest = *src;
@@ -62,7 +63,7 @@ void reset_handler(void) {
 	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
 	SCB_CCR |= SCB_CCR_STKALIGN;
 
-	//  Perform our platform initialisation.
+	//  Perform our platform initialisation.  pre_main() will not return if bootloader decides to run in Bootloader Mode.
 	pre_main();
 
 	//  Call C++ constructors for firmware.  We don't allow our low-level STM32 functions to have C++ constructors.

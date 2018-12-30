@@ -56,7 +56,8 @@ static void jump_to_application(void) {
     //  __set_MSP((uint32_t)(app_vector_table->initial_sp_value));
 
     //  Jump to the address.
-    int status = (*application_main)();
+    //  int status = 
+    (*application_main)();
     for (;;) {}  //  Should never return.
 }
 
@@ -96,7 +97,6 @@ static void get_serial_number(void) {
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
     debug_println("usbd polling...");  debug_flush();  ////
-    target_gpio_setup();       //  Initialize GPIO/LEDs if needed
     // test_backup();          //  Test backup.
     uint32_t cycleCount = 0;        
     uint32_t flushCount = 1;
@@ -138,12 +138,9 @@ int bootloader_start(void) {
     //  Start the bootloader and jump to the loaded application.
     if (usbd_dev) { return 1; }  // Already started, quit.
 
-    enable_debug();       //  Uncomment to allow display of debug messages in development devices via Arm Semihosting. NOTE: This will hang if no Semihosting debugger is attached (e.g. ST Link).
-    //  disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
-    platform_setup();     //  STM32 platform setup.
     debug_println("----bootloader");  // debug_flush();    
-
-    get_serial_number();
+    target_gpio_setup();  //  Initialize GPIO/LEDs if needed
+    get_serial_number();  //  Get the unique Blue Pill serial number.
     debug_println("usb_setup");  // debug_flush();
     usbd_dev = usb_setup();
 

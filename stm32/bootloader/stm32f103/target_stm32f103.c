@@ -59,7 +59,7 @@ static enum StartupMode startup_mode = UNKNOWN_MODE;
 static bool validate_application(void) {
     //  Return true if there is a valid application in firmware.  The first byte should be 0xb5, the "push" instruction.
     uint32_t first_word = *(volatile uint32_t *)APP_BASE_ADDRESS;
-    if ((first_word & 0xff) == 0xb5) {
+    if ((first_word & 0xff00) == 0xb500) {
         debug_println("app exists");
         return true;
     }
@@ -74,8 +74,10 @@ enum StartupMode target_get_startup_mode(void) {
     appValid = validate_application();
     if (target_get_force_bootloader() || !appValid) {
         //  Go to Bootloader Mode if we were requested to run as bootloader, or no valid app exists.
+        debug_println("bootloader mode");
         startup_mode = BOOTLOADER_MODE;
     } else {
+        debug_println("app mode");
         startup_mode = APPLICATION_MODE;
     }
     return startup_mode;
