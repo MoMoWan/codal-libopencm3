@@ -25,14 +25,14 @@ unit test */
 
 /* Define constants that may be changed to give more or less space to each region */
 
-_bootrom_size = 24K;  /* Size of Bootloader ROM (code + constant data) */
+_bootrom_size = 16K;  /* Size of Bootloader ROM (code + constant data) */
 
-_bootram_size = 2K;   /* Size of Bootloader RAM */
+_bootram_size =  2K;  /* Size of Bootloader RAM */
 
 _bootbuf_size = /* Size of the Bootloader buffers... */
 	1090 + 		/* flashBuf from stm32/bootloader/ghostfat.c */
 	1024 + 		/* pkt from stm32/bootloader/hf2.c */
-	2;     		/* Align to 4 bytes */
+	   2;  		/* Align to 4 bytes */
 
 /* Define memory regions. */
 MEMORY
