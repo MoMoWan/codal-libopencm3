@@ -100,11 +100,11 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds elapsed since startup.
-	//  debug_print("alarm set "); debug_print((size_t) millisec); debug_println(""); ////
+	debug_print("alarm set "); debug_print((size_t) millisec); debug_println(""); ////
 	cm_disable_interrupts();
 	custom_rtc_set_alarm_time(millisec);
 	cm_disable_interrupts();
-	//  debug_println("alarm done"); debug_flush(); ////
+	debug_println("alarm done"); debug_flush(); ////
 	//  TODO: rtc_enable_alarm()
 }
 
@@ -224,11 +224,15 @@ static void custom_rtc_exit_config_mode(void)
 	/* Exit configuration mode. */
 	RTC_CRL &= ~RTC_CRL_CNF;
 
-#ifdef NOTUSED  //  This tends to hang, we skip the wait.
+//#ifdef NOTUSED  //  This tends to hang, we skip the wait.
 	volatile uint32_t reg32;  ////  Added volatile.
+	uint32_t counter = 0;
 	/* Wait until the RTOFF bit is 1 (our RTC register write finished). */
-	while ((reg32 = (RTC_CRL & RTC_CRL_RTOFF)) == 0);
-#endif  //  NOTUSED
+	while ((reg32 = (RTC_CRL & RTC_CRL_RTOFF)) == 0) {
+		counter++;
+		if (counter == 10000) { break; }
+	}
+//#endif  //  NOTUSED
 }
 
 /*---------------------------------------------------------------------------*/
