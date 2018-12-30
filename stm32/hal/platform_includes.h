@@ -106,6 +106,7 @@ void target_disable_debug(void);  //  Disable display of debug messages.  For us
 void target_init(void);
 void target_set_tick_callback(void (*timer_callback0)());
 void target_set_alarm_callback(void (*alarm_callback0)());
+void target_set_bootloader_callback(int (*bootloader_callback0)());
 void target_enter_sleep_mode(void);
 void target_enter_deep_sleep_stop_mode(void);
 void target_enter_deep_sleep_standby_mode(void);

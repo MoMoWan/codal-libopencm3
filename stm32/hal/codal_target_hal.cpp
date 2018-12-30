@@ -24,6 +24,7 @@ void stm32bluepill_dmesg_flush();
 static bool initialised = false;
 static void (*tick_callback)() = NULL;
 static void (*alarm_callback)() = NULL;
+static int (*bootloader_callback)() = NULL;
 
 void target_set_tick_callback(void (*tick_callback0)()) {
     //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
@@ -35,14 +36,23 @@ void target_set_alarm_callback(void (*alarm_callback0)()) {
     alarm_callback = alarm_callback0;
 }
 
-static void timer_tick() {
+void target_set_bootloader_callback(int (*bootloader_callback0)()) {
+    //  The bootloader callback is called every 1 millisec to handle USB requests in the background.
+    bootloader_callback = bootloader_callback0;
+}
+
+static void timer_tick() {  //  TODO: Check if timer is ticking.
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
+    //  If bootloader is running in background, call it to handle USB requests.
+    if (bootloader_callback) { bootloader_callback(); }
 }
 
 static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
+    //  If bootloader is running in background, call it to handle USB requests.
+    if (bootloader_callback) { bootloader_callback(); }
 }
 
 void target_enable_debug(void) {

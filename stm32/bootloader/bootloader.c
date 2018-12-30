@@ -25,8 +25,9 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/msc.h>
 #include <libopencm3/stm32/gpio.h>
-#include <bluepill.h>
-#include <logger.h>
+#include <bluepill/bluepill.h>
+#include <logger/logger.h>
+#include <hal/platform_includes.h>
 #include "bootloader.h"
 #include "target.h"
 #include "usb_conf.h"
@@ -50,30 +51,34 @@ static void jump_to_application(void) {
     //  Fetch the application address.
     int (*application_main)() = (int (*)()) APP_BASE_ADDRESS;
 
+    //  TODO: Initialize the application's stack pointer
+    //  In Application Mode, we have more stack/heap space available because we can free up the bootloader's flashing buffers.
+    //  __set_MSP((uint32_t)(app_vector_table->initial_sp_value));
+
     //  Jump to the address.
     int status = (*application_main)();
     for (;;) {}  //  Should never return.
 }
 
 #ifdef NOTUSED
-static void jump_to_application(void) {
-    vector_table_t* app_vector_table = (vector_table_t*)APP_BASE_ADDRESS;
-    
-    /* Use the application's vector table */
-    target_relocate_vector_table();
+    static void jump_to_application(void) {
+        vector_table_t* app_vector_table = (vector_table_t*)APP_BASE_ADDRESS;
+        
+        /* Use the application's vector table */
+        target_relocate_vector_table();
 
-    /* Do any necessary early setup for the application */
-    target_pre_main();
+        /* Do any necessary early setup for the application */
+        target_pre_main();
 
-    /* Initialize the application's stack pointer */
-    __set_MSP((uint32_t)(app_vector_table->initial_sp_value));
+        /* Initialize the application's stack pointer */
+        __set_MSP((uint32_t)(app_vector_table->initial_sp_value));
 
-    /* Jump to the application entry point */
-    app_vector_table->reset();
-    
-    while (1);
-}
-#endif  //  Our app doesn't have a vector table.
+        /* Jump to the application entry point */
+        app_vector_table->reset();
+        
+        while (1);
+    }
+#endif  //  NOTUSED
 
 extern int msc_started;
 static usbd_device* usbd_dev = NULL;
@@ -142,9 +147,11 @@ int bootloader_start(void) {
     debug_println("usb_setup");  // debug_flush();
     usbd_dev = usb_setup();
 
-    //  If we are in Application Mode, run in background via bootloader_poll().
-    if (target_get_startup_mode() == APPLICATION_MODE) { return 0; }
-
+    //  If we are in Application Mode, run in background via bootloader_poll(), called every 1 millisec.
+    if (target_get_startup_mode() == APPLICATION_MODE) { 
+        target_set_bootloader_callback(bootloader_poll);
+        return 0; 
+    }
     //  If we are in Bootloader Mode, poll forever here.
     poll_loop();
     return -1;  //  Never comes here.
