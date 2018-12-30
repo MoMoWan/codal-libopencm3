@@ -227,7 +227,7 @@ bool target_get_force_app(void) {
 bool target_get_force_bootloader(void) {
     //  Return true if we should run the bootloader at startup.
     //  Note: Should not be called twice because it changes the backup registers.
-    bool force = true;
+    bool force = false;
     /* Check the RTC backup register */
     uint32_t cmd = backup_read(BKP0);
     if (cmd == CMD_BOOT) {

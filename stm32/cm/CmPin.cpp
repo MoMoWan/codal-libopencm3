@@ -154,7 +154,7 @@ void Pin::disconnect() {
   */
 int Pin::setDigitalValue(int value)
 {
-    debug_println("setDigitalValue"); debug_flush();
+    debug_print("setDigitalValue "); debug_println(value); debug_flush(); ////
 
     // Check if this pin has a digital mode...
     if(!(PIN_CAPABILITY_DIGITAL & capability))

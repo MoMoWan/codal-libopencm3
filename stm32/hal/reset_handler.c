@@ -77,7 +77,7 @@ void reset_handler(void) {
 	}
 	*/
 
-	/* Call the application's entry point. */
+	//  Call the application's entry point. main() is always located at a fixed address (_text) so we can change the application easily.
 	main();
 
 	//  Call C++ destructors.  Not used because we never return from main().

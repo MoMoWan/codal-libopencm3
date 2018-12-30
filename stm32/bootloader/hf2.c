@@ -46,6 +46,13 @@ typedef struct {
 //  TODO: Confirm size
 HF2_Buffer pkt;
 
+void dump_pkt() {
+    debug_print("HF2_Buffer "); debug_printhex_unsigned(sizeof(HF2_Buffer));
+    debug_print(" , HF2_Command "); debug_printhex_unsigned(sizeof(HF2_Command));
+    debug_print(" , HF2_Response "); debug_printhex_unsigned(sizeof(HF2_Response));
+    debug_println(""); debug_flush();
+}
+
 const uint8_t *dataToSend;
 volatile uint32_t dataToSendLength;
 uint8_t dataToSendFlag;
@@ -267,6 +274,7 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {
 }
 
 void hf2_setup(usbd_device *usbd_dev) {
+    dump_pkt(); ////
     _usbd_dev = usbd_dev;
     int status = aggregate_register_config_callback(usbd_dev, hf2_set_config);
     if (status < 0) { debug_println("*** hf2_setup failed"); debug_flush(); }
