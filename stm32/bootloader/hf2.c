@@ -26,9 +26,8 @@
 #define CONTROL_CALLBACK_MASK_CLASS (USB_REQ_TYPE_TYPE | USB_REQ_TYPE_RECIPIENT)
 
 #define VALID_FLASH_ADDR(addr, sz) (USER_FLASH_START <= (addr) && (addr) + (sz) <= USER_FLASH_END)
-////#define HF2_BUF_SIZE 1024 + 16
-#define HF2_BUF_SIZE FLASH_PAGE_SIZE + 64 //// TODO: devices will typically limit it to the native flash page size + 64 bytes
-#define HF2_PAGE_SIZE 256  //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
+#define HF2_BUF_SIZE    (FLASH_PAGE_SIZE + 64) //  Previously (1024 + 16).  Devices will typically limit it to the native flash page size + 64 bytes
+#define HF2_PAGE_SIZE   256  //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
 #define usb_assert assert
 #define LOG(s) debug_println(s)
 
@@ -43,45 +42,7 @@ typedef struct {
     } __attribute__((packed));
 } __attribute__((packed)) HF2_Buffer;
 
-//  TODO: Confirm size
-HF2_Buffer pkt;
-
-////
-typedef union {
-    uint8_t  buf[HF2_BUF_SIZE];
-    uint32_t buf32[HF2_BUF_SIZE / 4];
-    uint16_t buf16[HF2_BUF_SIZE / 2];
-    HF2_Command cmd;
-    HF2_Response resp;
-} __attribute__((packed)) test_union;
-typedef union {
-    uint8_t  buf[HF2_BUF_SIZE];
-} __attribute__((packed)) test_union1;
-typedef union {
-    uint32_t buf32[HF2_BUF_SIZE / 4];
-} __attribute__((packed)) test_union2;
-typedef union {
-    uint16_t buf16[HF2_BUF_SIZE / 2];
-} __attribute__((packed)) test_union3;
-typedef union {
-    HF2_Command cmd;
-} __attribute__((packed)) test_union4;
-typedef union {
-    HF2_Response resp;
-} __attribute__((packed)) test_union5;
-void dump_pkt() {
-    debug_print("HF2_Buffer "); debug_printhex_unsigned(sizeof(HF2_Buffer));
-    debug_print(" , HF2_Command "); debug_printhex_unsigned(sizeof(HF2_Command));
-    debug_print(" , HF2_Response "); debug_printhex_unsigned(sizeof(HF2_Response));
-    debug_print(" , test_union "); debug_printhex_unsigned(sizeof(test_union));
-    debug_print(" , test_union1 "); debug_printhex_unsigned(sizeof(test_union1));
-    debug_print(" , test_union2 "); debug_printhex_unsigned(sizeof(test_union2));
-    debug_print(" , test_union3 "); debug_printhex_unsigned(sizeof(test_union3));
-    debug_print(" , test_union4 "); debug_printhex_unsigned(sizeof(test_union4));
-    debug_print(" , test_union5 "); debug_printhex_unsigned(sizeof(test_union5));
-    debug_println(""); debug_flush();
-}
-////
+HF2_Buffer pkt;  // Size should be 1090 bytes.
 
 const uint8_t *dataToSend;
 volatile uint32_t dataToSendLength;
@@ -304,7 +265,6 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {
 }
 
 void hf2_setup(usbd_device *usbd_dev) {
-    dump_pkt(); ////
     _usbd_dev = usbd_dev;
     int status = aggregate_register_config_callback(usbd_dev, hf2_set_config);
     if (status < 0) { debug_println("*** hf2_setup failed"); debug_flush(); }

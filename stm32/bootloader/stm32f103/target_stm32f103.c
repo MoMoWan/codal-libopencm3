@@ -57,9 +57,9 @@ static const uint32_t CMD_APP = 0x3f82722aUL;
 static enum StartupMode startup_mode = UNKNOWN_MODE;
 
 static bool validate_application(void) {
-    //  Return true if there is a valid application in firmware.  The first byte should be 0xb5, the "push" instruction.
+    //  Return true if there is a valid application in firmware.  The second or fourth byte should be 0xb5, the "push" instruction.
     uint32_t first_word = *(volatile uint32_t *)APP_BASE_ADDRESS;
-    if ((first_word & 0xff00) == 0xb500) {
+    if ((first_word & 0xff00) == 0xb500 || (first_word & 0xff000000) == 0xb5000000) {
         debug_println("app exists");
         return true;
     }
