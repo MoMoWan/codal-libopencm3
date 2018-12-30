@@ -45,21 +45,25 @@
 #define USES_GPIOC 0
 #endif
 
-#ifdef FLASH_SIZE_OVERRIDE
-_Static_assert((FLASH_BASE + FLASH_SIZE_OVERRIDE >= APP_BASE_ADDRESS),
-               "Incompatible flash size");
-#endif
+#ifdef NOTUSED
+    #ifdef FLASH_SIZE_OVERRIDE
+    _Static_assert((FLASH_BASE + FLASH_SIZE_OVERRIDE >= APP_BASE_ADDRESS),
+                "Incompatible flash size");
+    #endif  //  FLASH_SIZE_OVERRIDE
+#endif  //  NOTUSED
 
 static const uint32_t CMD_BOOT = 0x544F4F42UL;
 static const uint32_t CMD_APP = 0x3f82722aUL;
 static enum StartupMode startup_mode = UNKNOWN_MODE;
 
 static bool validate_application(void) {
-    //  Return true if there is a valid application in firmware.
-    //  TODO
-    if ((*(volatile uint32_t *)APP_BASE_ADDRESS & 0x2FFE0000) == 0x20000000) {
+    //  Return true if there is a valid application in firmware.  The first byte should be 0xb5, the "push" instruction.
+    uint32_t first_word = *(volatile uint32_t *)APP_BASE_ADDRESS;
+    if ((first_word & & 0xff) == 0xb5) {
+        debug_println("app exists");
         return true;
     }
+    debug_print("app missing "); debug_printhex_unsigned(first_word); debug_println("");
     return false;
 }
 

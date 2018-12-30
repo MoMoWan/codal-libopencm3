@@ -18,6 +18,7 @@
 
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
+#include <stdint.h>  //  For uint32_t
 
 //  Specific settings for Blue Pill.
 #define UF2_FAMILY      0x5ee21072 
@@ -27,7 +28,8 @@
 #define LED_OPEN_DRAIN  1 
 #define USES_GPIOC      1
 
-#define APP_BASE_ADDRESS    0x08004000 //  Firmware starts here, after the bootloader.
+extern uint32_t _text;      //  Defined by the linker script where the application starts running.
+#define APP_BASE_ADDRESS    ((uint32_t)(&_text))  //  Firmware starts here, after the bootloader.
 #define FLASH_SIZE_OVERRIDE 0x10000    //  Assume 64KB of ROM, don't override to 128 KB.
 #define FLASH_PAGE_SIZE     1024
 #define DFU_UPLOAD_AVAILABLE   1

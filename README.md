@@ -39,7 +39,10 @@ Codal is also a build system to simplify as much as possible the experience of n
 - In the root of the `codal` repository (not `codal-libopencm3`) type `python build.py` the `-c` option cleans before building.
 - For verbose output, type `export VERBOSE=1` before building
 - The bin file `STM32_BLUE_PILL.bin` and hex file `STM32_BLUE_PILL.hex` will be placed at the location specified by `codal.json`, by default this is the root.
-- The ELF executable file is generated in `build/STM32_BLUE_PILL`. To dump the file: `objdump -t build/STM32_BLUE_PILL` (For Windows: `arm-none-eabi-objdump -t build/STM32_BLUE_PILL`)
+- The ELF executable file is generated in `build/STM32_BLUE_PILL`. To dump the file: 
+
+    `arm-none-eabi-objdump -t -d -S build/STM32_BLUE_PILL`
+    
 - For troubleshooting, the linker output map is generated in `build/STM32_BLUE_PILL.map`. This is configured in `target.json` and `target-locked.json` in `codal-libopencm3`. 
 
 ## Building With Visual Studio Code and PlatformIO

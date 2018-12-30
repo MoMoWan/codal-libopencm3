@@ -469,9 +469,9 @@ Discarded input sections
  .text.target_get_force_app
                 0x0000000000000000       0x24 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .text.target_get_max_firmware_size
-                0x0000000000000000        0x6 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x0000000000000000       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .text.target_relocate_vector_table
-                0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x0000000000000000       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
@@ -3739,9 +3739,9 @@ Linker script and memory map
  *libbootloader.a:(SORT_BY_ALIGNMENT(.bss*))
  *fill*         0x000000002000031e        0x2 
  .bss.usbd_dev  0x0000000020000320        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
- .bss.erase_end.5443
+ .bss.erase_end.5444
                 0x0000000020000324        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
- .bss.erase_start.5442
+ .bss.erase_start.5443
                 0x0000000020000328        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .bss.config_callback
                 0x000000002000032c       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
@@ -3767,7 +3767,7 @@ Linker script and memory map
                 0x00000000200008bd       0x19 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .bss.cdcbuf    0x00000000200008d6       0x41 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .bss.buf       0x0000000020000917       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
- .bss.buf.5878  0x0000000020000957       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+ .bss.buf.5879  0x0000000020000957       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  :*reset_handler*(SORT_BY_ALIGNMENT(COMMON))
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(COMMON))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(COMMON))
@@ -3917,9 +3917,9 @@ LOAD .pioenvs/bluepill_f103c8/lib739/libcm.a
 LOAD .pioenvs/bluepill_f103c8/lib2eb/libmodel.a
 LOAD .pioenvs/bluepill_f103c8/lib533/libunittest.a
 LOAD .pioenvs/bluepill_f103c8/lib23b/libboost_config.a
-LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/lib186/libboost_static_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib047/libboost_type_traits.a
+LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/libf3d/libboost_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib3c5/libboost_core.a
 LOAD .pioenvs/bluepill_f103c8/lib95e/libboost_detail.a
@@ -3929,13 +3929,13 @@ LOAD .pioenvs/bluepill_f103c8/libe2b/libboost_mpl.a
 LOAD .pioenvs/bluepill_f103c8/lib609/libboost_iterator.a
 LOAD .pioenvs/bluepill_f103c8/libcea/libboost_parameter.a
 LOAD .pioenvs/bluepill_f103c8/lib7b0/libboost_lockfree.a
+LOAD .pioenvs/bluepill_f103c8/lib33e/libuartint.a
 LOAD .pioenvs/bluepill_f103c8/libc3f/libsimulator.a
 LOAD .pioenvs/bluepill_f103c8/lib91e/libspiint.a
 LOAD .pioenvs/bluepill_f103c8/libea2/libi2cint.a
 LOAD .pioenvs/bluepill_f103c8/lib9ba/libporting.a
 LOAD .pioenvs/bluepill_f103c8/libdc9/libBME280.a
 LOAD .pioenvs/bluepill_f103c8/lib573/libadcint.a
-LOAD .pioenvs/bluepill_f103c8/lib33e/libuartint.a
 LOAD /Users/Luppy/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7-m/libgcc.a
 LOAD .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a
 END GROUP

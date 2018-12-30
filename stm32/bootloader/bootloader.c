@@ -44,6 +44,19 @@ static inline void __set_MSP(uint32_t topOfMainStack) {
 static void jump_to_application(void) __attribute__ ((noreturn));
 
 static void jump_to_application(void) {
+    //  Jump to the application main() function, which is always located at the fixed address _text according to the linker script.
+    debug_print("jump to app "); debug_printhex_unsigned(APP_BASE_ADDRESS); debug_println(""); debug_flush();
+
+    //  Fetch the application address.
+    int (*application_main)() = (int (*)()) APP_BASE_ADDRESS;
+
+    //  Jump to the address.
+    int status = (*application_main)();
+    for (;;) {}  //  Should never return.
+}
+
+#ifdef NOTUSED
+static void jump_to_application(void) {
     vector_table_t* app_vector_table = (vector_table_t*)APP_BASE_ADDRESS;
     
     /* Use the application's vector table */
@@ -60,6 +73,7 @@ static void jump_to_application(void) {
     
     while (1);
 }
+#endif  //  Our app doesn't have a vector table.
 
 extern int msc_started;
 static usbd_device* usbd_dev = NULL;
