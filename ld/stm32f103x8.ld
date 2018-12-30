@@ -27,7 +27,7 @@ unit test */
 
 _bootrom_size = 24K;  /* Size of Bootloader ROM (code + constant data) */
 
-_bootram_size = 5K;   /* Size of Bootloader RAM */
+_bootram_size = 2K;   /* Size of Bootloader RAM */
 
 _bootbuf_size = /* Size of the Bootloader buffers... */
 	1090 + 		/* flashBuf from stm32/bootloader/ghostfat.c */
