@@ -2,8 +2,25 @@
 //  be displayed until debug_flush() is called.
 #ifndef LOGGER_H_
 #define LOGGER_H_
-#include <stdint.h>  //  For uint8_t
-#include <stdlib.h>  //  For size_t
+#include <stdint.h>   //  For uint8_t
+#include <stdlib.h>   //  For size_t
+#ifdef DISABLE_DEBUG  //  If logging is disabled...
+
+//  All logging functions get removed. 
+#define enable_log() {}
+#define disable_log() {}
+#define debug_begin(a) {}
+#define debug_write(a) {}
+#define debug_print(a) {}
+#define debug_println(a) {}
+#define debug_printhex(a) {}
+#define debug_print_int(a) {}
+#define debug_print_unsigned(a) {}
+#define debug_print_char(a) {}
+#define debug_print_float(a) {}
+#define debug_flush() {}
+
+#else  //  If logging is enabled...
 
 #ifdef __cplusplus
 extern "C" {  //  Allows functions below to be called by C and C++ code.
@@ -38,4 +55,6 @@ void debug_println(size_t l);
 void debug_println(char ch);
 void debug_println(float f);  //  Note: Always prints with 2 decimal places.  Will not be displayed until debug_flush() is called.
 #endif  //  __cplusplus
+
+#endif  //  DISABLE_DEBUG
 #endif  //  LOGGER_H_

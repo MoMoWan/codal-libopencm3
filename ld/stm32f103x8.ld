@@ -31,8 +31,12 @@ MEMORY
 	rom     (rx)  : ORIGIN = 0x08000000 + 0x6000, LENGTH = 40K
 
 	/* Available RAM is 20K (0x5000). Reserve lower part for bootloader, upper part for Application. */
+	/*
 	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 10K
 	ram     (rwx) : ORIGIN = 0x20000000 + 0x2800, LENGTH = 10K
+	*/
+	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 5K
+	ram     (rwx) : ORIGIN = 0x20000000 + 0x1400, LENGTH = 15K
 
 	/* Heap and Stack start after Application RAM, so we should keep Bootloader RAM small */
 }
