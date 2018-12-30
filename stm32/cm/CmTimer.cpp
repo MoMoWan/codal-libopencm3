@@ -11,14 +11,13 @@ namespace codal
     namespace _cm
     {
         Timer *Timer::instance;
+        static CODAL_TIMESTAMP trigger_period;
 
         Timer::Timer() : codal::Timer() {
             instance = this;
             this->prev = 0;
+            trigger_period = 0;
             init();
-#ifdef TODO
-            memset(&TimHandle, 0, sizeof(TimHandle));
-#endif  //  TODO
         }
 
         extern "C" void TIM5_IRQHandler() {
@@ -39,13 +38,17 @@ namespace codal
 
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
-            //  TODO: Remove this if alarm is working.
             if (!Timer::instance) { return; }  //  No timer to trigger.
+            //  TODO: Handle tick.
             ////Timer::instance->trigger();
         }
 
         void alarm_callback() {
             //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
+            if (trigger_period > 0) { 
+                //  If the trigger period was set, repeat the alarm.
+                platform_set_alarm(millis() + trigger_period);
+            }
             if (!Timer::instance) { return; }  //  No timer to trigger.
             Timer::instance->trigger();
         }
@@ -75,6 +78,7 @@ namespace codal
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
             //  TODO: Set alarm for millis() + t millisecs.  If alarm is already set and alarm > millis() and alarm < millis() + t, don't set alarm.
             //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
+            trigger_period = t;  //  We will set the timer to be triggered at this period when the alarm is raised.
             platform_set_alarm(millis() + t);
 #ifdef TODO
             if (t < 20)

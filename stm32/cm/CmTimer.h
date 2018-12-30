@@ -12,9 +12,6 @@ namespace codal
         {
             uint32_t prev;
         public:
-            ////TODO
-            ////TIM_HandleTypeDef TimHandle;
-            
             Timer();
             static Timer *instance;
             void init();

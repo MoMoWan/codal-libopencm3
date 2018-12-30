@@ -51,6 +51,7 @@ static void timer_tick() {  //  TODO: Check if timer is ticking.
 static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
+    else { debug_print("a? "); }
     //  If bootloader is running in background, call it to handle USB requests.
     ////if (bootloader_callback) { bootloader_callback(); }
 }
