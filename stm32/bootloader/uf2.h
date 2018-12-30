@@ -26,7 +26,7 @@ typedef struct {
     uint32_t numBlocks;
     uint32_t numWritten;
     uint8_t writtenMask[MAX_BLOCKS / 8 + 1];
-} WriteState;
+} __attribute__((packed)) WriteState;
 
 typedef struct {
     // 32 byte header
@@ -44,7 +44,7 @@ typedef struct {
 
     // store magic also at the end to limit damage from partial block reads
     uint32_t magicEnd;
-} UF2_Block;
+} __attribute__((packed)) UF2_Block;
 
 typedef struct {
     uint8_t version;
@@ -54,7 +54,7 @@ typedef struct {
     uint32_t cbw_tag;
     uint32_t blocks_remaining;
     uint8_t *buffer;
-} UF2_HandoverArgs;
+} __attribute__((packed)) UF2_HandoverArgs;
 
 int write_block(uint32_t lba, const uint8_t *copy_from);
 int read_block(uint32_t block_no, uint8_t *data);
@@ -69,7 +69,7 @@ typedef struct {
     UF2_HID_Handover_Handler handoverHID;
     UF2_MSC_Handover_Handler handoverMSC;
     const char *info_uf2;
-} UF2_BInfo;
+} __attribute__((packed)) UF2_BInfo;
 
 #define UF2_BINFO ((UF2_BInfo *)(APP_START_ADDRESS - sizeof(UF2_BInfo)))
 

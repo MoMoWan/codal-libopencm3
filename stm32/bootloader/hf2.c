@@ -40,7 +40,7 @@ typedef struct {
         uint16_t buf16[HF2_BUF_SIZE / 2];
         HF2_Command cmd;
         HF2_Response resp;
-    };
+    } __attribute__((packed));
 } __attribute__((packed)) HF2_Buffer;
 
 //  TODO: Confirm size

@@ -73,6 +73,7 @@ struct HF2_MURMUR3_Command {
     uint32_t target_addr;
     uint32_t num_words;
 } __attribute__((packed));
+
 struct HF2_MURMUR3_Result {
     uint32_t checksum0;
     uint32_t checksum1;
@@ -93,7 +94,7 @@ typedef struct {
         uint8_t data8[0];
         uint16_t data16[0];
         uint32_t data32[0];
-    };
+    } __attribute__((packed));
 } __attribute__((packed)) HF2_Command;
 
 typedef struct {
@@ -105,17 +106,17 @@ typedef struct {
                 struct {
                     uint8_t status;
                     uint8_t status_info;
-                };
+                } __attribute__((packed));
                 uint16_t status16;
-            };
-        };
-    };
+            } __attribute__((packed));
+        } __attribute__((packed));
+    } __attribute__((packed));
     union {
         struct HF2_BININFO_Result bininfo;
         uint8_t data8[0];
         uint16_t data16[0];
         uint32_t data32[0];
-    };
+    } __attribute__((packed));
 } __attribute__((packed)) HF2_Response;
 
 #define HF2_FLAG_SERIAL_OUT 0x80

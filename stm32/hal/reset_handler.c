@@ -66,16 +66,13 @@ void reset_handler(void) {
 	//  Perform our platform initialisation.  pre_main() will not return if bootloader decides to run in Bootloader Mode.
 	pre_main();
 
-	//  Call C++ constructors for firmware.  We don't allow our low-level STM32 functions to have C++ constructors.
-	//  TODO: Don't call if we are booting into bootloader, not firmware.
-	/*
+	//  Call C++ constructors for application.  We don't allow our low-level STM32 functions to have C++ constructors.
 	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
 		(*fp)();
 	}
 	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
 		(*fp)();
 	}
-	*/
 
 	//  Call the application's entry point. main() is always located at a fixed address (_text) so we can change the application easily.
 	main();
