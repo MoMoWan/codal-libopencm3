@@ -125,7 +125,7 @@ uint32_t target_in_isr(void);
 #define MBED_ERROR(msg) CODAL_ASSERT(0)
 #define MBED_WEAK __attribute__((weak))
 
-extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
-extern PROCESSOR_WORD_TYPE _stack;  //  Start of Stack segment (grows downwards).
+// extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
+// extern PROCESSOR_WORD_TYPE _stack;  //  Start of Stack segment (grows downwards).
 
 #endif  //  PLATFORM_INCLUDES_H_
