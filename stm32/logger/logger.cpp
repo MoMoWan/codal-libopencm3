@@ -3,11 +3,11 @@
 #include <string.h>
 
 #define DEBUG_BUFFER_SIZE 512  //  Use a larger buffer size so that we don't interrupt USB processing.
-static char debugBuffer[DEBUG_BUFFER_SIZE + 1];  //  Buffer to hold output before flushing.
+static char debugBuffer[DEBUG_BUFFER_SIZE + 1] = { 0 };  //  Buffer to hold output before flushing.
 static bool logEnabled = false;  //  Logging is off by default.  Developer must switch it on with enable_debug().
 
-void enable_log(void) { logEnabled = true; debugBuffer[0] = 0; }
-void disable_log(void) { logEnabled = false; debugBuffer[0] = 0; }
+void enable_log(void) { logEnabled = true; }
+void disable_log(void) { logEnabled = false; }
 
 //  ARM Semihosting code from 
 //  http://www.keil.com/support/man/docs/ARMCC/armcc_pge1358787046598.htm
