@@ -106,6 +106,7 @@ SECTIONS
 		_text = .;					/* We will use _text to determine where to jump to start the application. */
 		* 							(.text.application_start)  /* application_start() must appear first. reset_handler() will jump here. */
 		* 							(.text.main)       		   /* Followed by main() */
+		* 							(.text.startup.main)       /* Sometimes main() is located in .text.startup.main */
 		*							(.text*)   				   /* Other Application Code, including unit tests */
 
 		. = ALIGN(4);
