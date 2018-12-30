@@ -104,7 +104,8 @@ SECTIONS
 	.text : {       /* Firmware ROM */
 		. = ALIGN(4);
 		_text = .;					/* We will use _text to determine where to jump to start the application. */
-		* 							(.text.startup.main)  /* Application Startup must appear first. Bootloader will jump here. */
+		* 							(.text.application_start)  /* application_start() must appear first. reset_handler() will jump here. */
+		* 							(.text.startup.main)       /* Followed by main() */
 		*libunity.a:          		(.text*)   /* Unit Test */
 		:*unit_test.o				(.text*)   /* Unit Test (if any). Moved here to save space. Can only be called by firmware, not bootloader. */
 		*							(.text*)   /* Other Firmware Code */

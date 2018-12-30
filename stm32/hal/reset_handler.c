@@ -8,14 +8,10 @@
 #endif  //  UNIT_TEST
 
 /* Symbols exported by the linker script(s): */
-extern unsigned _data_loadaddr, _edata, _ebss;  //  For firmware rom and ram sections.
 extern unsigned _boot_data_loadaddr, _boot_data, _boot_edata, _boot_ebss;  //  For bootloader rom and ram sections.
 typedef void (*funcp_t) (void);
-extern funcp_t __preinit_array_start, __preinit_array_end;
-extern funcp_t __init_array_start, __init_array_end;
-extern funcp_t __fini_array_start, __fini_array_end;
 
-void main(void);
+void application_start(void);
 void blocking_handler(void);
 void null_handler(void);
 
@@ -40,24 +36,18 @@ void pre_main() {
 void reset_handler(void) {
 	//  This is called when the Blue Pill starts.  We copy the data sections from ROM to RAM, and clear the BSS sections to null.  
 	//  The wrapping is done by the linker option "-Wl,-wrap,reset_handler".  The vector table points to the wrapped function.
-	volatile unsigned *src, *dest, *boot_dest;
+	volatile unsigned *src, *boot_dest;
 	funcp_t *fp;
 
-	//  Copy data section from ROM to RAM.  Handle bootloader and firmware.
+	//  Copy Bootloader data section from ROM to RAM.
 	for (src = &_boot_data_loadaddr, boot_dest = &_boot_data;
 		boot_dest < &_boot_edata;  //  Bootloader
 		src++, boot_dest++) {
 		*boot_dest = *src;
 	}
-	for (src = &_data_loadaddr, dest = (volatile unsigned int*) &_data;
-		dest < &_edata;  //  Firmware
-		src++, dest++) {
-		*dest = *src;
-	}
 
-	//  Init variables in BSS section to null.  Handle bootloader and firmware.
+	//  Init variables in Bootloader BSS section to null.
 	while (boot_dest < &_boot_ebss) { *boot_dest++ = 0; }
-	while (dest < &_ebss) { *dest++ = 0; }
 
 	/* Ensure 8-byte alignment of stack pointer on interrupts */
 	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
@@ -66,20 +56,29 @@ void reset_handler(void) {
 	//  Perform our platform initialisation.  pre_main() will not return if bootloader decides to run in Bootloader Mode.
 	pre_main();
 
-	//  Call C++ constructors for application.  We don't allow our low-level STM32 functions to have C++ constructors.
+#ifdef NOTUSED
+	//  We don't allow our low-level STM32 functions to have C++ constructors, so we don't call them.
+	//  Application constructors will be called by application_start().
+	//  TODO: Fix these bootloader constructors:
+	// .init_array    0x0000000008009778        0x4 .pioenvs/bluepill_f103c8/src/uart.o
+ 	// .init_array    0x000000000800977c        0x4 .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
+ 	// .init_array    0x0000000008009780        0x4 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
 	for (fp = &__preinit_array_start; fp < &__preinit_array_end; fp++) {
 		(*fp)();
 	}
 	for (fp = &__init_array_start; fp < &__init_array_end; fp++) {
 		(*fp)();
 	}
+#endif  //  NOTUSED
 
-	//  Call the application's entry point. main() is always located at a fixed address (_text) so we can change the application easily.
-	main();
+	//  Call the application's entry point. application_start() is always located at a fixed address (_text) so we can change the application easily.
+	application_start();
 
-	//  Call C++ destructors.  Not used because we never return from main().
+#ifdef NOTUSED
+	//  We don't allow our low-level STM32 functions to have C++ destructors, so we don't call them.
 	for (fp = &__fini_array_start; fp < &__fini_array_end; fp++) {
 		(*fp)();
 	}
+#endif  //  NOTUSED
 
 }

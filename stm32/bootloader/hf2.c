@@ -46,12 +46,23 @@ typedef struct {
 //  TODO: Confirm size
 HF2_Buffer pkt;
 
+////
+typedef union {
+    uint8_t  buf[HF2_BUF_SIZE];
+    uint32_t buf32[HF2_BUF_SIZE / 4];
+    uint16_t buf16[HF2_BUF_SIZE / 2];
+    HF2_Command cmd;
+    HF2_Response resp;
+} __attribute__((packed)) test_union;
+
 void dump_pkt() {
     debug_print("HF2_Buffer "); debug_printhex_unsigned(sizeof(HF2_Buffer));
     debug_print(" , HF2_Command "); debug_printhex_unsigned(sizeof(HF2_Command));
     debug_print(" , HF2_Response "); debug_printhex_unsigned(sizeof(HF2_Response));
+    debug_print(" , test_union "); debug_printhex_unsigned(sizeof(test_union));
     debug_println(""); debug_flush();
 }
+////
 
 const uint8_t *dataToSend;
 volatile uint32_t dataToSendLength;
