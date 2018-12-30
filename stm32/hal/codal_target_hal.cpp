@@ -88,6 +88,7 @@ static void os_schedule( void ) {
         os_cbkSleep();
     }
 }
+////
 
 void target_init(void) {
     //  Blue Pill specific initialisation...
@@ -221,6 +222,7 @@ void target_disable_irq() {
 
 void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // debug_print(".");
+    os_schedule();  //  Run a cocoOS task if any.
     target_dmesg_flush();
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
