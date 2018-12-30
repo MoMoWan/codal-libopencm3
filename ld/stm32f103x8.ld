@@ -26,19 +26,21 @@ unit test */
 /* Define memory regions. */
 MEMORY
 {
-	/* Available ROM is 64K (0x10000). Reserve lower part for bootloader, upper part for Application. */
+	/* Available ROM is 64K (0x10000). Reserve lower part for Bootloader, upper part for Application. */
 	bootrom (rx)  : ORIGIN = 0x08000000,          LENGTH = 24K
 	rom     (rx)  : ORIGIN = 0x08000000 + 0x6000, LENGTH = 40K
 
-	/* Available RAM is 20K (0x5000). Reserve lower part for bootloader, upper part for Application. */
+	/* Available RAM is 20K (0x5000). Reserve lower part for Bootloader, middle part for Application,
+	   upper part for Bootloader flash buffers (not used in Application Mode). */
 	/*
 	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 10K
 	ram     (rwx) : ORIGIN = 0x20000000 + 0x2800, LENGTH = 10K
 	*/
-	bootram (rwx) : ORIGIN = 0x20000000,          LENGTH = 5K
-	ram     (rwx) : ORIGIN = 0x20000000 + 0x1400, LENGTH = 15K
+	bootram (rwx) : ORIGIN = 0x20000000,               LENGTH = 5K
+	ram     (rwx) : ORIGIN = 0x20000000 + 0x1400,      LENGTH = 15K - 1090 - 1024
+	bootbuf (rwx) : ORIGIN = 0x20005000 - 1090 - 1024, LENGTH = 1090 + 1024
 
-	/* Heap and Stack start after Application RAM, so we should keep Bootloader RAM small */
+	/* Heap and Stack start after the used part of Application RAM, so we should keep Bootloader RAM small */
 }
 
 /* Force vector table to be linked in. */
@@ -384,6 +386,12 @@ SECTIONS
 		end = .;    /* Previously below */
 	} >ram
 
+	.bootbuf : {
+		/*  bootbuf contains large buffers used by Bootloader for flashing the ROM.
+			In Application Mode, we repurpose bootbuf as stack space.  */
+		*                           (.bootbuf*) /* pkt and flashBuf from Bootloader */
+	} >bootbuf
+
 	/*
 	 * The .eh_frame section appears to be used for C++ exception handling.
 	 * You may need to fix this if you're using C++.
@@ -394,6 +402,8 @@ SECTIONS
 
 }
 
-/* Heap and Stack start after Application RAM, so we should keep Bootloader RAM small */
+/* Heap and Stack start after the used part of Application RAM, so we should keep Bootloader RAM small */
 
-PROVIDE(_stack = ORIGIN(ram) + LENGTH(ram));
+PROVIDE(_stack = ORIGIN(bootbuf) + LENGTH(bootbuf));  /*  Application Stack, which includes the bootbuf  */
+
+PROVIDE(_boot_stack = ORIGIN(ram) + LENGTH(ram));     /*  Bootloader Stack, which excludes the bootbuf  */

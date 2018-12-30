@@ -116,8 +116,10 @@ static const FAT_BootBlock BootBlock = {
 
 #define NO_CACHE 0xffffffff
 
+__attribute__ ((section(".bootbuf")))  //  Place this flash buffer in high memory so it can be reused in Application Mode.
+uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));  //  Should be static
+
 static uint32_t flashAddr = NO_CACHE;
-/* static */ uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));
 static bool firstFlush = true;
 static bool hadWrite = false;
 static uint32_t ms;
