@@ -3,14 +3,13 @@
 #include <stdint.h>
 #include <logger.h>
 
-extern "C" {  //  Symbols exported by the linker script(s):
-	volatile unsigned int _data_loadaddr, _data, _edata, _ebss;  //  For Application rom and ram sections.
-	typedef void (*funcp_t) (void);
-	funcp_t __preinit_array_start, __preinit_array_end;  //  Application C++ constructors.
-	funcp_t __init_array_start, __init_array_end;		 //  Application C++ constructors.
-	funcp_t __fini_array_start, __fini_array_end;		 //  Application C++ destructors.
-	int main(void);
-};
+//  Symbols exported by the linker script(s):
+extern volatile uint32_t _data_loadaddr, _data, _edata, _ebss;  //  For Application rom and ram sections.
+typedef void (*funcp_t) (void);
+extern funcp_t __preinit_array_start, __preinit_array_end;   //  Application C++ constructors.
+extern funcp_t __init_array_start, __init_array_end;		 //  Application C++ constructors.
+extern funcp_t __fini_array_start, __fini_array_end;		 //  Application C++ destructors.
+extern "C" int main(void);
 
 uint32_t app_bss_test;                   //  Test whether BSS Section is loaded correctly.
 uint32_t app_data_test = 0x12345678;     //  Test whether Data Section is loaded correctly.
@@ -27,14 +26,15 @@ static void pre_main() {
 extern "C" void application_start(void) {
 	//  This is called when the Blue Pill Application starts.  We copy the data sections from ROM to RAM, and clear the BSS sections to null.  
 	//  application_start() is always located at a fixed address (_text) so we can change the application easily.
-	volatile unsigned *src, *dest;
 	funcp_t *fp;
 
 	//  Copy Application data section from ROM to RAM.
-	for (src = &_data_loadaddr, dest = &_data;
-		dest < &_edata;
-		src++, dest++) {
+	volatile uint32_t *src = &_data_loadaddr;
+	volatile uint32_t *dest = &_data;
+	while (dest < &_edata) {
 		*dest = *src;
+		src = src + 1;
+		dest = dest + 1;
 	}
 
 	//  Init variables in Application BSS section to null.
