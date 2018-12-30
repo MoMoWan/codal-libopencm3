@@ -117,7 +117,7 @@ static const FAT_BootBlock BootBlock = {
 #define NO_CACHE 0xffffffff
 
 static uint32_t flashAddr = NO_CACHE;
-static uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));
+/* static */ uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));
 static bool firstFlush = true;
 static bool hadWrite = false;
 static uint32_t ms;
