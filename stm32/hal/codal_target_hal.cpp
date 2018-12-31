@@ -28,46 +28,27 @@ static int (*bootloader_callback)() = NULL;
 static void os_preschedule(void);
 static void os_schedule(void);
 
-////
-//  cocoOS context and objects.
-static struct USBContext {} context;
-static Sem_t usb_semaphore;
-
-static void usb_task(void) {
-    //  cocoOS task that runs forever waiting for the USB semaphore to be signalled by the tick interrupts.
-    task_open();  //  Start of the task. Must be matched with task_close().
-    for (;;) {
-        sem_wait(usb_semaphore);       //  Wait for the semaphore to be signalled.
-        if (!bootloader_callback) { continue; }
-        //  debug_print(" u "); ////
-        bootloader_callback();         //  Trigger the Bootloader background processing.
-    }
-    task_close();  //  End of the task. Should not come here.
-}
-////
-
 static void timer_tick() {
-    //  Call cocoOS at every tick.
+    //  This is called every millisecond.  Call cocoOS at every tick.
     os_tick();
     //  If bootloader is running in background, call it to handle USB requests.
     if (bootloader_callback) { 
         //  If we received any USB request, continue polling 1000 times.  That's because according to the USB 2.0 specs,
         //  we must return the response for the Set Address request within 50 ms.
         int status = bootloader_callback();
-        while (status > 0) {  //  While we are busy handling USB requests,,,
-            status = 0;
+        while (status > 0) {  //  If we receive any USB requests,,,
+            status = 0;       //  Continue polling 1,000 times (1 second) for subsequent USB requests.
             for (uint16_t i = 0; i < 1000; i++) {  //  1000 millisec = 1 second
-                status = status | bootloader_callback();  //  Handle the next 1,000 requests.
+                status = status | bootloader_callback();
             }
         }
     }
-    //  sem_ISR_signal(usb_semaphore);
-
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
 }
 
 static void timer_alarm() {
+    //  This is called when the Real-Time Clock alarm is triggered.
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
@@ -82,16 +63,6 @@ void target_init(void) {
     platform_setup();  //  STM32 platform setup.
     os_init();         //  Init cocoOS before creating any multitasking objects.
     // TODO: init_irqs();  //  Init the interrupt routines.
-
-    //  Create a semaphore to signal the USB Task on a tick interrupt.
-    usb_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
-
-    //  Create the cocoOS USB Task.
-    task_create(
-        usb_task,   //  Task will run this function.
-        &context,     //  task_get_data() will be set to the context object.
-        30,           //  Priority 30
-        NULL, 0, 0);
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
     platform_start_timer(timer_tick, timer_alarm);
@@ -117,13 +88,11 @@ void target_wait_for_event() {
         debug_flush();
         target_dmesg_flush();
     }
-
-    //  Handle USB requests for the Bootloader.
-    //  if (bootloader_callback) { bootloader_callback(); }
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
 
 void target_wait(uint32_t milliseconds) {
+    //  Wait for the specified number of milliseconds.  Does not allow multitasking.
     debug_println("----target_wait");
     if (milliseconds <= 0) { return; }
     uint32_t end = millis() + milliseconds;
@@ -134,6 +103,7 @@ void target_wait(uint32_t milliseconds) {
 }
 
 void target_wait_us(unsigned long us) {
+    //  Wait for the specified number of microseconds.  Does not allow multitasking.
     debug_println("----target_wait_us");
     if (us <= 0) { return; }
     uint32_t end = millis() + (us / 1000);
@@ -144,14 +114,9 @@ void target_wait_us(unsigned long us) {
 }
 
 void target_reset() {
-	//  TODO
+	//  Restart the device.
   	debug_println("----target_reset"); debug_flush();
-#ifdef TODO
-    PWR->CR |= PWR_CR_DBP;
-    RCC->BDCR |= RCC_BDCR_RTCEN;
-    RTC->BKP0R = 0x24a22d12; // skip bootloader
-    NVIC_SystemReset();
-#endif  //  TODO
+    scb_reset_system();
 }
 
 #if DEVICE_DMESG_BUFFER_SIZE > 0
@@ -241,11 +206,13 @@ void target_enter_deep_sleep_standby_mode(void) {
 }
 
 void target_enable_irq() {
+    //  Enable interrupts.
   	//  debug_println("----target_enable_irq"); debug_flush();
 	cm_enable_interrupts();
 }
 
 void target_disable_irq() {
+    //  Disable interrupts.
   	//  debug_println("----target_disable_irq"); debug_flush();
 	cm_disable_interrupts();
 }
@@ -285,14 +252,13 @@ extern "C" void assert_failed(uint8_t* file, uint32_t line) {
     target_panic(920);
 }
 
-// __attribute__((weak))
 void target_panic(int statusCode) {
-	//  TODO
+	//  Stop due to an error.
     target_disable_irq();
 	debug_print("*****target_panic ");
 	debug_println((int) statusCode);
 	debug_flush();
-    ////DMESG("*** CODAL PANIC : [%d]", statusCode);
+    //  DMESG("*** CODAL PANIC : [%d]", statusCode);
 	for (;;) {
         __asm("wfe");  //  Allow CPU to go to sleep.
     }  //  Loop forever.
@@ -366,8 +332,8 @@ PROCESSOR_WORD_TYPE tcb_get_stack_base(void *tcb) {
 register unsigned int _sp __asm("sp");
 
 PROCESSOR_WORD_TYPE get_current_sp() {
-    return _sp;
-    //  Formerly: return __get_MSP();
+    //  Get the current Stack Pointer.
+    return _sp;  //  Formerly: return __get_MSP();
 }
 
 PROCESSOR_WORD_TYPE tcb_get_sp(void *tcb) {
@@ -462,3 +428,31 @@ static void os_schedule( void ) {
         os_cbkSleep();
     }
 }
+
+#ifdef NOTUSED
+    //  cocoOS context and objects.
+    static struct USBContext {} context;
+    static Sem_t usb_semaphore;
+
+    static void usb_task(void) {
+        //  cocoOS task that runs forever waiting for the USB semaphore to be signalled by the tick interrupts.
+        task_open();  //  Start of the task. Must be matched with task_close().
+        for (;;) {
+            sem_wait(usb_semaphore);       //  Wait for the semaphore to be signalled.
+            if (!bootloader_callback) { continue; }
+            //  debug_print(" u "); ////
+            bootloader_callback();         //  Trigger the Bootloader background processing.
+        }
+        task_close();  //  End of the task. Should not come here.
+    }
+
+    //  Create a semaphore to signal the USB Task on a tick interrupt.
+    usb_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
+
+    //  Create the cocoOS USB Task.
+    task_create(
+        usb_task,   //  Task will run this function.
+        &context,     //  task_get_data() will be set to the context object.
+        30,           //  Priority 30
+        NULL, 0, 0);
+#endif  //  NOTUSED
