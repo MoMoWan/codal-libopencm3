@@ -25,7 +25,7 @@ unit test */
 
 /* Define constants that may be changed to give more or less space to each region */
 
-_bootrom_size = 18K;  /* Size of Bootloader ROM (code + constant data) */
+_bootrom_size = 24K;  /* Size of Bootloader ROM (code + constant data) */
 
 _bootram_size =  2K;  /* Size of Bootloader RAM */
 
@@ -53,7 +53,7 @@ MEMORY
 /* Force vector table to be linked in. */
 EXTERN(vector_table)
 
-/* Execution starts at the wrapped reset_handler() function in stm32/hal/reset_handler.c. */
+/* Execution starts at the custom reset_handler() function in stm32/hal/reset_handler.c. */
 ENTRY(reset_handler)
 
 /* Define sections in the executable file, by selecting input files (.o) and archives (.a)
@@ -62,11 +62,6 @@ ENTRY(reset_handler)
 	`:file' matches file but not one in an archive */
 SECTIONS
 {
-	/DISCARD/ : {  /* Discard the impure data from newlib, which occupies 1 KB. */
-		*(.data.impure_data)
-		*(.data._impure_ptr)
-	}
-
 	/* Bootloader and Application ROM */
 
 	.boot_text : {  /* Bootloader ROM */
