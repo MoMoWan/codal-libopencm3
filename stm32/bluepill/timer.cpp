@@ -70,8 +70,8 @@ static void rtc_setup(void) {
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 	
 	rtc_set_counter_val(0);              //  Start counting millisecond ticks from 0.
-	rtc_set_alarm_time(4000);
-	////rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
+	////rtc_set_alarm_time(4000);
+	rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup via the interrupt.
 	exti_enable_request(EXTI17);
 
@@ -105,7 +105,7 @@ static bool rtc_config_completed(void) {
 }
 
 void platform_set_alarm(uint32_t millisec) {
-	//  Set alarm for millisec milliseconds elapsed since startup.
+	//  Set alarm for millisec milliseconds from now.
 	debug_print("alm <"); debug_print_unsigned(millisec / 1000); ////
 	if (!alarmFunc) { debug_print("?"); } debug_flush(); ////
 #ifdef NOTUSED

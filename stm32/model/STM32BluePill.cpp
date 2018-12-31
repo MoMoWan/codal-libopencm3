@@ -75,15 +75,16 @@ int STM32BluePill::init()
         return DEVICE_NOT_SUPPORTED;
     status |= DEVICE_INITIALIZED;
 
-    //  Blue Pill specific initialisation... Already done in reset_handler().
-    //  target_init();
     debug_println("bluepill init scheduler"); debug_flush(); ////
 
-    //  Codal initialisation...
-    //  Bring up fiber scheduler.
+    //  Codal initialisation... Bring up fiber scheduler.
     scheduler_init(messageBus);
     debug_println("bluepill init components"); debug_flush(); ////
 
+    //  Init the timer first, all other components depend on the timer.
+    timer.init();
+
+    //  Initialise all the Codal components.
     for(int i = 0; i < DEVICE_COMPONENT_COUNT; i++)
     {
         if(CodalComponent::components[i])

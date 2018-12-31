@@ -41,19 +41,22 @@ void target_set_bootloader_callback(int (*bootloader_callback0)()) {
     bootloader_callback = bootloader_callback0;
 }
 
-static void timer_tick() {  //  TODO: Check if timer is ticking.
-    //  Call cocoOS at every tick.
-    os_tick();
+static void timer_tick() {
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
+    //  Call cocoOS at every tick.
+    os_tick();
+
     //  If bootloader is running in background, call it to handle USB requests.
     ////if (bootloader_callback) { bootloader_callback(); }
 }
 
 static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
+    debug_print("a");
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
+
     //  If bootloader is running in background, call it to handle USB requests.
     ////if (bootloader_callback) { bootloader_callback(); }
 }

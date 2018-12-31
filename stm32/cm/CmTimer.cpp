@@ -27,8 +27,9 @@ namespace codal
         ////
 
         Timer::Timer() : codal::Timer() {
+            initialised = false;
             instance = this;
-            this->prev = 0;
+            prev = 0;
             trigger_period = 0;
         }
 
@@ -50,6 +51,7 @@ namespace codal
 
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
+            debug_print("T");
             sem_ISR_signal(timer_semaphore); 
 
             //  Handle tick.
@@ -66,7 +68,10 @@ namespace codal
         }
 
         void Timer::init() {
+            if (initialised) { return; }  //  If already initialised, quit.
             debug_println("timer init"); ////
+            initialised = true;
+            prev = millis();
 
             ////
             timer_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
@@ -79,9 +84,15 @@ namespace codal
                 sizeof(TimerMsg));   //  Size of queue message.
             ////
 
-            this->prev = millis();
             target_set_tick_callback(tick_callback);
             target_set_alarm_callback(alarm_callback);
+
+            //  If we were asked to set a trigger before init(), set it now.
+            if (trigger_period > 0) {
+                debug_print("init calling triggerIn... ");
+                triggerIn(trigger_period);
+                trigger_period = 0;
+            }
 
 #ifdef TODO
             TimHandle.Instance = TIM5;
@@ -101,7 +112,13 @@ namespace codal
         }
 
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
-            //  TODO: Set alarm for millis() + t millisecs.  If alarm is already set and alarm > millis() and alarm < millis() + t, don't set alarm.
+            //  Set alarm for millis() + t millisecs.
+            if (!initialised) {
+                //  If we are called before init(), remember the trigger and set during init().
+                trigger_period = t;
+                debug_println("triggerIn called before init");
+                return;
+            }
             //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
             debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
             //  trigger_period = millis() + t;  //  We will set the timer to be triggered at this period when the alarm is raised.

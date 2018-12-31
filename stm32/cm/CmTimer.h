@@ -11,6 +11,7 @@ namespace codal
         class Timer : public codal::Timer
         {
             uint32_t prev;
+            bool initialised;
         public:
             Timer();
             static Timer *instance;
