@@ -51,13 +51,14 @@ static void timer_tick() {
     os_tick();
     //  If bootloader is running in background, call it to handle USB requests.
     if (bootloader_callback) { 
+        //  If we received any USB request, continue polling 1000 times.  That's because according to the USB 2.0 specs,
+        //  we must return the response for the Set Address request within 50 ms.
         int status = bootloader_callback();
-        if (status > 0) {
+        while (status > 0) {  //  While we are busy handling USB requests,,,
             status = 0;
-            for (int i = 0; i < 100000; i++) {
-                status = status | bootloader_callback();
+            for (uint16_t i = 0; i < 1000; i++) {  //  1000 millisec = 1 second
+                status = status | bootloader_callback();  //  Handle the next 1,000 requests.
             }
-            if (status > 0) {}  //  TODO: Continue looping.
         }
     }
     //  sem_ISR_signal(usb_semaphore);
@@ -67,9 +68,6 @@ static void timer_tick() {
 }
 
 static void timer_alarm() {
-    //  If bootloader is running in background, call it to handle USB requests.
-    //  if (bootloader_callback) { bootloader_callback(); }
-
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
