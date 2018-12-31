@@ -113,7 +113,7 @@ namespace codal
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
             //  Set alarm for millis() + t millisecs.
             if (!initialised) {
-                //  If we are called before init(), remember the trigger and set during init().
+                //  If we are called before init(), remember the trigger and set during init().  CODAL Scheduler calls the timer before it's ready.
                 trigger_period = t;
                 debug_println("triggerIn called before init");
                 return;

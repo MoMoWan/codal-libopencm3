@@ -111,6 +111,8 @@ void platform_set_alarm(uint32_t millisec) {
 	if (!alarmFunc) { debug_print("?"); } ////
 	volatile uint32_t now = rtc_get_counter_val();
 
+	cm_disable_interrupts();
+
 	rtc_interrupt_disable(RTC_SEC);
 	rtc_interrupt_disable(RTC_ALR);
 	rtc_interrupt_disable(RTC_OW);
@@ -122,14 +124,13 @@ void platform_set_alarm(uint32_t millisec) {
 	nvic_enable_irq(NVIC_RTC_IRQ);        //  Enable RTC tick interrupt processing.
 	nvic_enable_irq(NVIC_RTC_ALARM_IRQ);  //  Enable RTC alarm wakeup interrupt processing.
 
-	cm_disable_interrupts();
 	rtc_clear_flag(RTC_SEC);
 	rtc_clear_flag(RTC_ALR);
 	rtc_clear_flag(RTC_OW);
 	rtc_interrupt_enable(RTC_SEC);  //  Allow RTC to generate tick interrupts.
 	rtc_interrupt_enable(RTC_ALR);  //  Allow RTC to generate alarm interrupts.
-	cm_enable_interrupts();
 
+	cm_enable_interrupts();
 	debug_print("> "); ////
 	//  TODO: rtc_enable_alarm()
 }
