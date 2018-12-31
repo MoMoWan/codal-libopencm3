@@ -221,7 +221,9 @@ void target_disable_irq() {
 }
 
 void target_wait_for_event() {
-  	//  debug_println("----target_wait_for_event"); // debug_print(".");
+  	//  debug_println("----target_wait_for_event"); // 
+    debug_print(".");
+    debug_flush();
     os_schedule();  //  Run a cocoOS task if any.
     target_dmesg_flush();
     __asm("wfe");  //  Allow CPU to go to sleep.

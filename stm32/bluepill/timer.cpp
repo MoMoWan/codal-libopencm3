@@ -70,7 +70,7 @@ static void rtc_setup(void) {
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 	
 	rtc_set_counter_val(0);              //  Start counting millisecond ticks from 0.
-	////rtc_set_alarm_time(0);
+	rtc_set_alarm_time(4000);
 	////rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup via the interrupt.
 	exti_enable_request(EXTI17);
@@ -107,11 +107,34 @@ void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds elapsed since startup.
 	debug_print("alm <"); debug_print((size_t) millisec / 1000); ////
 	if (!alarmFunc) { debug_print("?"); } debug_flush(); ////
+#ifdef NOTUSED
 	if (!rtc_config_completed()) {
 		debug_print("!> "); debug_flush();
 		return;
 	}
-	custom_rtc_set_alarm_time(rtc_get_counter_val() + millisec);
+#endif  //  NOTUSED
+	volatile uint32_t now = rtc_get_counter_val();
+	////rtc_clear_flag(RTC_ALR);
+	////custom_rtc_set_alarm_time(now + millisec);
+
+	rtc_interrupt_disable(RTC_SEC);
+	rtc_interrupt_disable(RTC_ALR);
+	rtc_interrupt_disable(RTC_OW);
+	
+	rtc_set_alarm_time(now + millisec);
+	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup via the interrupt.
+	exti_enable_request(EXTI17);
+
+	nvic_enable_irq(NVIC_RTC_IRQ);        //  Enable RTC tick interrupt processing.
+	nvic_enable_irq(NVIC_RTC_ALARM_IRQ);  //  Enable RTC alarm wakeup interrupt processing.
+
+	cm_disable_interrupts();
+	rtc_clear_flag(RTC_SEC);
+	rtc_clear_flag(RTC_ALR);
+	rtc_clear_flag(RTC_OW);
+	rtc_interrupt_enable(RTC_SEC);  //  Allow RTC to generate tick interrupts.
+	rtc_interrupt_enable(RTC_ALR);  //  Allow RTC to generate alarm interrupts.
+	cm_enable_interrupts();
 
 	debug_print("> "); debug_flush(); ////
 	//  TODO: rtc_enable_alarm()

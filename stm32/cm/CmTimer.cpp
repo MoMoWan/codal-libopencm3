@@ -59,6 +59,7 @@ namespace codal
 
         void alarm_callback() {
             //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
+            debug_print("ALM ");
             sem_ISR_signal(timer_semaphore); 
             ////if (!Timer::instance) { return; }  //  No timer to trigger.
             ////Timer::instance->trigger();
