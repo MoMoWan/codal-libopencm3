@@ -142,6 +142,10 @@ namespace codal
         // extern "C" uint32_t uwTick;  //  Elapsed milliseconds.
 
         void Timer::syncRequest() {
+            if (!initialised) {
+                debug_println("syncRequest called before init");
+                return;
+            }
             target_disable_irq();
             uint32_t curr = millis();
             uint32_t delta = curr - this->prev;  //  In milliseconds.
