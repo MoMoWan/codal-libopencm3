@@ -101,6 +101,7 @@ namespace codal
             //  Set alarm for millis() + t millisecs.
             if (!initialised) {
                 //  If we are called before init(), remember the trigger and set during init().  CODAL Scheduler calls the timer before it's ready.
+                //  There seems to be a circular dependency, so we resolve by deferring the trigger until the scheduler has completely started up.
                 trigger_period = t;
                 debug_println("triggerIn called before init");
                 return;
