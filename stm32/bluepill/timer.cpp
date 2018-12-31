@@ -103,9 +103,10 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 static bool rtc_config_completed(void) {
 	return ((RTC_CRL & RTC_CRL_RTOFF) == 0);
 }
+
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds elapsed since startup.
-	debug_print("alm <"); debug_print((size_t) millisec / 1000); ////
+	debug_print("alm <"); debug_print_unsigned(millisec / 1000); ////
 	if (!alarmFunc) { debug_print("?"); } debug_flush(); ////
 #ifdef NOTUSED
 	if (!rtc_config_completed()) {

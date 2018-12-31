@@ -53,7 +53,7 @@ static void timer_tick() {  //  TODO: Check if timer is ticking.
 static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
-    else { debug_print("a? "); }
+    else { if (millis() < 200) { debug_print("a? "); } }
     //  If bootloader is running in background, call it to handle USB requests.
     ////if (bootloader_callback) { bootloader_callback(); }
 }
@@ -69,6 +69,10 @@ void target_disable_debug(void) {
 }
 
 ////  TODO
+extern uint8_t running_tid;
+extern uint8_t last_running_task;
+extern uint8_t running;
+
 static void os_schedule( void ) {
 
     running_tid = NO_TID;
@@ -87,6 +91,11 @@ static void os_schedule( void ) {
     else {
         os_cbkSleep();
     }
+}
+
+static void os_preschedule(void) {
+    running = 1;
+    os_enable_interrupts();
 }
 ////
 
@@ -110,6 +119,7 @@ void target_init(void) {
     //  seedRandom();
 
     // os_start(); ////
+    os_preschedule();
     os_schedule();
 }
 
@@ -222,9 +232,8 @@ void target_disable_irq() {
 
 void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // 
-    debug_print(".");
     debug_flush();
-    os_schedule();  //  Run a cocoOS task if any.
+    os_preschedule(); os_schedule();  //  Run a cocoOS task if any.
     target_dmesg_flush();
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
