@@ -65,7 +65,6 @@ void target_set_bootloader_callback(int (*bootloader_callback0)()) {
 static void timer_tick() {
     //  Call cocoOS at every tick.
     os_tick();
-    
     //  If bootloader is running in background, call it to handle USB requests.
     //  if (bootloader_callback) { bootloader_callback(); }
     sem_ISR_signal(usb_semaphore);
@@ -110,7 +109,7 @@ void target_init(void) {
     task_create(
         usb_task,   //  Task will run this function.
         &context,     //  task_get_data() will be set to the context object.
-        10,           //  Priority 10
+        30,           //  Priority 30
         NULL, 0, 0);
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
