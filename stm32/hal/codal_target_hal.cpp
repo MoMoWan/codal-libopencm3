@@ -28,6 +28,25 @@ static int (*bootloader_callback)() = NULL;
 static void os_preschedule(void);
 static void os_schedule(void);
 
+////
+//  cocoOS context and objects.
+static struct USBContext {
+} context;
+static Sem_t usb_semaphore;
+
+static void usb_task(void) {
+    //  cocoOS task that runs forever waiting for the USB semaphore to be signalled by the tick interrupts.
+    task_open();  //  Start of the task. Must be matched with task_close().
+    for (;;) {
+        sem_wait(usb_semaphore);       //  Wait for the semaphore to be signalled.
+        if (!bootloader_callback) { continue; }
+        debug_print(" u "); ////
+        bootloader_callback();         //  Trigger the Bootloader background processing.
+    }
+    task_close();  //  End of the task. Should not come here.
+}
+////
+
 void target_set_tick_callback(void (*tick_callback0)()) {
     //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
     tick_callback = tick_callback0;
@@ -45,7 +64,8 @@ void target_set_bootloader_callback(int (*bootloader_callback0)()) {
 
 static void timer_tick() {
     //  If bootloader is running in background, call it to handle USB requests.
-    if (bootloader_callback) { bootloader_callback(); }
+    //  if (bootloader_callback) { bootloader_callback(); }
+    if (usb_semaphore > 0) { sem_ISR_signal(usb_semaphore); } 
 
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
@@ -81,6 +101,16 @@ void target_init(void) {
     platform_setup();  //  STM32 platform setup.
     os_init();         //  Init cocoOS before creating any multitasking objects.
     // TODO: init_irqs();  //  Init the interrupt routines.
+
+    //  Create a semaphore to signal the USB Task on a tick interrupt.
+    usb_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
+
+    //  Create the cocoOS USB Task.
+    task_create(
+        usb_task,   //  Task will run this function.
+        &context,     //  task_get_data() will be set to the context object.
+        20,           //  Priority 10
+        NULL, 0, 0);
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
     platform_start_timer(timer_tick, timer_alarm);
