@@ -15,7 +15,6 @@
 #endif  //  LIBOPENCM3_RCC_LEGACY
 
 static void custom_rtc_awake_from_off(enum rcc_osc clock_source);
-static void custom_rtc_set_alarm_time(uint32_t alarm_time);
 
 //  Select Oscillator for the realtime clock: 
 //  RCC_HSE: 62.5 kHz, fastest oscillator, doesn't work in Stop or Standby Low Power mode. 
@@ -106,12 +105,20 @@ static bool rtc_config_completed(void) {
 
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds from now.
-	//  Must disable interrupts otherwise rtc_exit_config_mode() will hang after setting alarm. 
 	debug_print("alm <"); debug_print_unsigned(millisec / 1000); ////
 	if (!alarmFunc) { debug_print("?"); } ////
 	volatile uint32_t now = rtc_get_counter_val();
 
+	//  Not documented, but you must disable write protection else the alarm time will not be set and rtc_exit_config_mode() will hang.
+	pwr_disable_backup_domain_write_protect();
+	rtc_set_alarm_time(now + millisec);
+
+#ifdef NOTUSED
+	//  Must disable interrupts otherwise rtc_exit_config_mode() will hang after setting alarm. 
 	cm_disable_interrupts();
+
+	//  Not documented, but you must disable write protection else the alarm time will not be set.
+	pwr_disable_backup_domain_write_protect();
 
 	rtc_interrupt_disable(RTC_SEC);
 	rtc_interrupt_disable(RTC_ALR);
@@ -131,6 +138,8 @@ void platform_set_alarm(uint32_t millisec) {
 	rtc_interrupt_enable(RTC_ALR);  //  Allow RTC to generate alarm interrupts.
 
 	cm_enable_interrupts();
+#endif  //  NOTUSED
+
 	debug_print("> "); ////
 	//  TODO: rtc_enable_alarm()
 }
