@@ -50,8 +50,17 @@ static void timer_tick() {
     //  Call cocoOS at every tick.
     os_tick();
     //  If bootloader is running in background, call it to handle USB requests.
-    //  if (bootloader_callback) { bootloader_callback(); }
-    sem_ISR_signal(usb_semaphore);
+    if (bootloader_callback) { 
+        int status = bootloader_callback();
+        if (status > 0) {
+            status = 0;
+            for (int i = 0; i < 100; i++) {
+                status = status | bootloader_callback();
+            }
+            if (status > 0) {}  //  TODO: Continue looping.
+        }
+    }
+    //  sem_ISR_signal(usb_semaphore);
 
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
@@ -105,12 +114,12 @@ void target_wait_for_event() {
     os_preschedule(); os_schedule();
 
     //  Flush the debug log buffers once in a while.
-    static uint8_t delay = 1;
+    static uint32_t delay = 1;
     if (delay++ == 0) {
         debug_flush();
         target_dmesg_flush();
     }
-    
+
     //  Handle USB requests for the Bootloader.
     //  if (bootloader_callback) { bootloader_callback(); }
     __asm("wfe");  //  Allow CPU to go to sleep.

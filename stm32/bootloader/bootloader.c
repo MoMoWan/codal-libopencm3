@@ -97,10 +97,11 @@ int bootloader_poll(void) {
     last_poll = millis();
 
     if (!usbd_dev) { return -1; }
+    poll_status = 0;
 	usbd_poll(usbd_dev);
 
     // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
-    return 0;
+    return poll_status;
 }
 
 int bootloader_start(void) {

@@ -473,6 +473,7 @@ struct control_callback_struct {
 #define MAX_CONTROL_CALLBACK 10  //  Allow up to 10 aggregated callbacks.
 static struct control_callback_struct control_callback[MAX_CONTROL_CALLBACK];
 static usbd_set_config_callback config_callback[MAX_CONTROL_CALLBACK];
+int poll_status = 0;
 
 int aggregate_register_config_callback(
     usbd_device *usbd_dev,
@@ -548,7 +549,8 @@ static int aggregate_callback(
     //  From usb_standard_set_address() in framework-libopencm3/lib/usb/usb_standard.c:
     if (req->bmRequestType == 0 && req->bRequest == 5) {
         debug_println("SET_ADR");
-        *len = 0;  //  Return an empty message.
+        poll_status = 1;   //  Tell caller to poll again.
+        *len = 0;          //  Return an empty message.
         //  Should return 1 i.e. USBD_REQ_HANDLED
         return _usbd_standard_request_device(usbd_dev, req, buf, len);
     }

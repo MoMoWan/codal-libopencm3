@@ -81,6 +81,7 @@
 #define MSOS20_FUNCTION_COUNT 1
 #endif
 
+extern int poll_status;
 extern usbd_device* usb_setup(void);
 extern void usb_set_serial_number(const char* serial);
 extern int aggregate_register_config_callback(
