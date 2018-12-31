@@ -54,7 +54,7 @@ static void timer_tick() {
         int status = bootloader_callback();
         if (status > 0) {
             status = 0;
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 100000; i++) {
                 status = status | bootloader_callback();
             }
             if (status > 0) {}  //  TODO: Continue looping.
