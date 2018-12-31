@@ -106,17 +106,10 @@ static bool rtc_config_completed(void) {
 
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds from now.
+	//  Must disable interrupts otherwise rtc_exit_config_mode() will hang after setting alarm. 
 	debug_print("alm <"); debug_print_unsigned(millisec / 1000); ////
-	if (!alarmFunc) { debug_print("?"); } debug_flush(); ////
-#ifdef NOTUSED
-	if (!rtc_config_completed()) {
-		debug_print("!> "); debug_flush();
-		return;
-	}
-#endif  //  NOTUSED
+	if (!alarmFunc) { debug_print("?"); } ////
 	volatile uint32_t now = rtc_get_counter_val();
-	////rtc_clear_flag(RTC_ALR);
-	////custom_rtc_set_alarm_time(now + millisec);
 
 	rtc_interrupt_disable(RTC_SEC);
 	rtc_interrupt_disable(RTC_ALR);
@@ -137,7 +130,7 @@ void platform_set_alarm(uint32_t millisec) {
 	rtc_interrupt_enable(RTC_ALR);  //  Allow RTC to generate alarm interrupts.
 	cm_enable_interrupts();
 
-	debug_print("> "); debug_flush(); ////
+	debug_print("> "); ////
 	//  TODO: rtc_enable_alarm()
 }
 
@@ -243,41 +236,43 @@ static void custom_rtc_awake_from_off(enum rcc_osc clock_source)
 	while ((reg32 = (RTC_CRL & RTC_CRL_RSF)) == 0);
 }
 
-//  Custom version of custom_rtc_exit_config_mode() and custom_rtc_set_alarm_time() from https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/f1/rtc.c
-//  This fixes the hanging in custom_rtc_exit_config_mode().
+#ifdef NOTUSED
+	//  Custom version of custom_rtc_exit_config_mode() and custom_rtc_set_alarm_time() from https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/f1/rtc.c
+	//  This fixes the hanging in custom_rtc_exit_config_mode().
 
-/*---------------------------------------------------------------------------*/
-/** @brief RTC Leave Configuration Mode.
+	/*---------------------------------------------------------------------------*/
+	/** @brief RTC Leave Configuration Mode.
 
-Revert the RTC to operational state.
-*/
+	Revert the RTC to operational state.
+	*/
 
-static void custom_rtc_exit_config_mode(void)
-{
-	/* Exit configuration mode. */
-	RTC_CRL &= ~RTC_CRL_CNF;
+	static void custom_rtc_exit_config_mode(void)
+	{
+		/* Exit configuration mode. */
+		RTC_CRL &= ~RTC_CRL_CNF;
 
-#ifdef NOTUSED  //  This tends to hang, we skip the wait.
-	volatile uint32_t reg32;  ////  Added volatile.
-	uint32_t counter = 0;
-	/* Wait until the RTOFF bit is 1 (our RTC register write finished). */
-	while ((reg32 = (RTC_CRL & RTC_CRL_RTOFF)) == 0) {
-		counter++;
-		if (counter == 1000) { break; }
+	#ifdef NOTUSED  //  This tends to hang, we skip the wait.
+		volatile uint32_t reg32;  ////  Added volatile.
+		uint32_t counter = 0;
+		/* Wait until the RTOFF bit is 1 (our RTC register write finished). */
+		while ((reg32 = (RTC_CRL & RTC_CRL_RTOFF)) == 0) {
+			counter++;
+			if (counter == 1000) { break; }
+		}
+	#endif  //  NOTUSED
+	}
+
+	/*---------------------------------------------------------------------------*/
+	/** @brief RTC Set the Alarm Time.
+
+	@param[in] alarm_time uint32_t. time at which the alarm event is triggered.
+	*/
+
+	static void custom_rtc_set_alarm_time(uint32_t alarm_time)
+	{
+		rtc_enter_config_mode();
+		RTC_ALRL = (alarm_time & 0x0000ffff);
+		RTC_ALRH = (alarm_time & 0xffff0000) >> 16;
+		custom_rtc_exit_config_mode();
 	}
 #endif  //  NOTUSED
-}
-
-/*---------------------------------------------------------------------------*/
-/** @brief RTC Set the Alarm Time.
-
-@param[in] alarm_time uint32_t. time at which the alarm event is triggered.
-*/
-
-static void custom_rtc_set_alarm_time(uint32_t alarm_time)
-{
-	rtc_enter_config_mode();
-	RTC_ALRL = (alarm_time & 0x0000ffff);
-	RTC_ALRH = (alarm_time & 0xffff0000) >> 16;
-	custom_rtc_exit_config_mode();
-}

@@ -36,8 +36,10 @@
 
 
 #include "cocoos.h"
+#include <logger.h> ////
 
 void os_on_assert( uint16_t line ) {
+    debug_print("*** cocoos assert failed "); debug_print_unsigned(line); debug_flush();
     static volatile uint16_t l;
     os_disable_interrupts();
     l = line;

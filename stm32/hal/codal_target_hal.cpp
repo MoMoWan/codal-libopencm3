@@ -53,7 +53,6 @@ static void timer_tick() {
 
 static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
-    debug_print("a");
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
 
@@ -120,10 +119,6 @@ void target_init(void) {
 
     //  TODO: Seed our random number generator
     //  seedRandom();
-
-    // os_start(); ////
-    os_preschedule();
-    os_schedule();
 }
 
 void target_reset() {
@@ -236,8 +231,9 @@ void target_disable_irq() {
 void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // 
     debug_flush();
-    os_preschedule(); os_schedule();  //  Run a cocoOS task if any.
     target_dmesg_flush();
+    //  Run a cocoOS task if any.  Must be called only when all the tasks have been created.
+    os_preschedule(); os_schedule();
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
 

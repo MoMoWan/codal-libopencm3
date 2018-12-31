@@ -51,10 +51,8 @@ namespace codal
 
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
-            debug_print("T");
-            sem_ISR_signal(timer_semaphore); 
+            ////sem_ISR_signal(timer_semaphore); 
 
-            //  Handle tick.
             ////if (!Timer::instance) { return; }  //  No timer to trigger.
             ////Timer::instance->trigger();
         }
@@ -63,6 +61,7 @@ namespace codal
             //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
             debug_print("ALM ");
             sem_ISR_signal(timer_semaphore); 
+
             ////if (!Timer::instance) { return; }  //  No timer to trigger.
             ////Timer::instance->trigger();
         }
@@ -75,7 +74,8 @@ namespace codal
 
             ////
             timer_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
-            uint8_t task_id = task_create(
+            //  uint8_t task_id = 
+            task_create(
                 timer_task,   //  Task will run this function.
                 &context,  //  task_get_data() will be set to the display object.
                 20,             //  Priority 20 = lower priority than UART task
@@ -93,7 +93,6 @@ namespace codal
                 triggerIn(trigger_period);
                 trigger_period = 0;
             }
-
 #ifdef TODO
             TimHandle.Instance = TIM5;
 
@@ -120,10 +119,9 @@ namespace codal
                 return;
             }
             //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
-            debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
-            //  trigger_period = millis() + t;  //  We will set the timer to be triggered at this period when the alarm is raised.
+            //  debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
             platform_set_alarm(t);
-            debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
+            //  debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
 #ifdef TODO
             if (t < 20)
                 t = 20;
@@ -171,7 +169,6 @@ namespace codal
                 if (!Timer::instance) { continue; }  //  No timer to trigger.
                 debug_print(" >> "); ////
                 Timer::instance->trigger();
-                debug_flush(); ////
             }
             task_close();  //  End of the task. Should not come here.
         }
