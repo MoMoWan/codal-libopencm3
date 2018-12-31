@@ -30,8 +30,7 @@ static void os_schedule(void);
 
 ////
 //  cocoOS context and objects.
-static struct USBContext {
-} context;
+static struct USBContext {} context;
 static Sem_t usb_semaphore;
 
 static void usb_task(void) {
@@ -46,21 +45,6 @@ static void usb_task(void) {
     task_close();  //  End of the task. Should not come here.
 }
 ////
-
-void target_set_tick_callback(void (*tick_callback0)()) {
-    //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
-    tick_callback = tick_callback0;
-}
-
-void target_set_alarm_callback(void (*alarm_callback0)()) {
-    //  The callback is normally set to CMTimer::alarm_callback(), which calls Timer::trigger() to resume suspended tasks.
-    alarm_callback = alarm_callback0;
-}
-
-void target_set_bootloader_callback(int (*bootloader_callback0)()) {
-    //  The bootloader callback is called every 1 millisec to handle USB requests in the background.
-    bootloader_callback = bootloader_callback0;
-}
 
 static void timer_tick() {
     //  Call cocoOS at every tick.
@@ -80,16 +64,6 @@ static void timer_alarm() {
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
-}
-
-void target_enable_debug(void) {
-    //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-    enable_debug();   
-}
-
-void target_disable_debug(void) {
-    //  Disable display of debug messages.  For use in production devices.
-    disable_debug();  
 }
 
 void target_init(void) {
@@ -120,6 +94,46 @@ void target_init(void) {
 
     //  TODO: Seed our random number generator
     //  seedRandom();
+}
+
+void target_wait_for_event() {
+    //  Run background tasks and sleep until an event happens e.g. alarm.
+  	//  debug_println("----target_wait_for_event"); // 
+    if (!initialised) { return; }  //  If not initialised, quit.
+
+    //  Run a cocoOS task if any.  Must be called only when all the tasks have been created.
+    os_preschedule(); os_schedule();
+
+    //  Flush the debug log buffers once in a while.
+    static uint8_t delay = 1;
+    if (delay++ == 0) {
+        debug_flush();
+        target_dmesg_flush();
+    }
+    
+    //  Handle USB requests for the Bootloader.
+    //  if (bootloader_callback) { bootloader_callback(); }
+    __asm("wfe");  //  Allow CPU to go to sleep.
+}
+
+void target_wait(uint32_t milliseconds) {
+    debug_println("----target_wait");
+    if (milliseconds <= 0) { return; }
+    uint32_t end = millis() + milliseconds;
+    for (;;) {
+        if (millis() >= end) { break; }
+        __asm("wfe");  //  Allow CPU to go to sleep.
+    }
+}
+
+void target_wait_us(unsigned long us) {
+    debug_println("----target_wait_us");
+    if (us <= 0) { return; }
+    uint32_t end = millis() + (us / 1000);
+    for (;;) {
+        if (millis() >= end) { break; }
+        __asm("wfe");  //  Allow CPU to go to sleep.
+    }
 }
 
 void target_reset() {
@@ -227,39 +241,6 @@ void target_enable_irq() {
 void target_disable_irq() {
   	//  debug_println("----target_disable_irq"); debug_flush();
 	cm_disable_interrupts();
-}
-
-void target_wait_for_event() {
-  	//  debug_println("----target_wait_for_event"); // 
-    if (!initialised) { return; }  //  If not initialised, quit.
-    //  Flush the debug log buffers.
-    debug_flush();
-    target_dmesg_flush();
-    //  Run a cocoOS task if any.  Must be called only when all the tasks have been created.
-    os_preschedule(); os_schedule();
-    //  Handle USB requests for the Bootloader.
-    //  if (bootloader_callback) { bootloader_callback(); }
-    __asm("wfe");  //  Allow CPU to go to sleep.
-}
-
-void target_wait(uint32_t milliseconds) {
-    debug_println("----target_wait");
-    if (milliseconds <= 0) { return; }
-    uint32_t end = millis() + milliseconds;
-    for (;;) {
-        if (millis() >= end) { break; }
-        __asm("wfe");  //  Allow CPU to go to sleep.
-    }
-}
-
-void target_wait_us(unsigned long us) {
-    debug_println("----target_wait_us");
-    if (us <= 0) { return; }
-    uint32_t end = millis() + (us / 1000);
-    for (;;) {
-        if (millis() >= end) { break; }
-        __asm("wfe");  //  Allow CPU to go to sleep.
-    }
 }
 
 int target_seed_random(uint32_t rand) {
@@ -421,6 +402,31 @@ extern "C" {
         static_cast<void>(dso_handle); 
         return 0; 
     }
+}
+
+void target_set_tick_callback(void (*tick_callback0)()) {
+    //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
+    tick_callback = tick_callback0;
+}
+
+void target_set_alarm_callback(void (*alarm_callback0)()) {
+    //  The callback is normally set to CMTimer::alarm_callback(), which calls Timer::trigger() to resume suspended tasks.
+    alarm_callback = alarm_callback0;
+}
+
+void target_set_bootloader_callback(int (*bootloader_callback0)()) {
+    //  The bootloader callback is called every 1 millisec to handle USB requests in the background.
+    bootloader_callback = bootloader_callback0;
+}
+
+void target_enable_debug(void) {
+    //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+    enable_debug();   
+}
+
+void target_disable_debug(void) {
+    //  Disable display of debug messages.  For use in production devices.
+    disable_debug();  
 }
 
 //  Schedule a cocoOS task for running.  Copied from https://github.com/cocoOS/cocoOS/blob/master/src/os_kernel.c
