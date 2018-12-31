@@ -129,15 +129,15 @@ namespace codal
                 debug_println("syncRequest called before init");
                 return;
             }
-            ////  TODO target_disable_irq();
-            uint32_t curr = millis();
-            uint32_t delta = curr - this->prev;  //  In milliseconds.
+            target_disable_irq();
+            volatile uint32_t curr = millis();
+            volatile uint32_t delta = curr - this->prev;  //  In milliseconds.
 
             // update the hal...
             // uwTick += delta;
             this->prev = curr;
             this->sync(delta * 1000);  //  Sync expects microseconds.
-            ////  TODO target_enable_irq();            
+            target_enable_irq();            
             //  debug_print("timer sync "); debug_println((size_t) delta * 1000);
         }
 

@@ -497,7 +497,7 @@ int aggregate_register_callback(
     uint8_t type_mask,
     usbd_control_callback callback) {
     // Register application callback function for handling USB control requests.  We aggregate here so we can handle more than 4 callbacks.
-    debug_println("aggregate_register_callback"); ////
+    // debug_println("aggregate_register_callback"); ////
 	int i;
 	for (i = 0; i < MAX_CONTROL_CALLBACK; i++) {
 		if (control_callback[i].cb) { 

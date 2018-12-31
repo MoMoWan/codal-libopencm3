@@ -28,6 +28,7 @@
   *
   * Commonly represents an I/O pin on the edge connector.
   */
+#define DISABLE_DEBUG  ////
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include "CmPin.h"
@@ -154,7 +155,7 @@ void Pin::disconnect() {
   */
 int Pin::setDigitalValue(int value)
 {
-    debug_print("setDigitalValue "); debug_println(value); debug_flush(); ////
+    debug_print("set "); debug_println(value); ////
 
     // Check if this pin has a digital mode...
     if(!(PIN_CAPABILITY_DIGITAL & capability))
@@ -172,11 +173,11 @@ int Pin::setDigitalValue(int value)
 	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
     if (value) {
         //  If value is 1, set the pin to HI.  For LED: Switches off the LED (i.e. reversed).
-        debug_println("gpio_set(GPIOC, GPIO13)"); debug_flush();
+        debug_println("gpio_set(GPIOC, GPIO13)"); ////
         gpio_set(GPIOC, GPIO13);
     } else {
         //  If value is 0, set the pin to LO.  For LED: Switched on the LED (i.e. reversed).
-        debug_println("gpio_clear(GPIOC, GPIO13)"); debug_flush();
+        debug_println("gpio_clear(GPIOC, GPIO13)"); ////
 	    gpio_clear(GPIOC, GPIO13);
     }
 

@@ -44,22 +44,22 @@ void target_set_bootloader_callback(int (*bootloader_callback0)()) {
 }
 
 static void timer_tick() {
+    //  If bootloader is running in background, call it to handle USB requests.
+    if (bootloader_callback) { bootloader_callback(); }
+
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
     //  Call cocoOS at every tick.
     os_tick();
-
-    //  If bootloader is running in background, call it to handle USB requests.
-    //  if (bootloader_callback) { bootloader_callback(); }
 }
 
 static void timer_alarm() {
+    //  If bootloader is running in background, call it to handle USB requests.
+    //  if (bootloader_callback) { bootloader_callback(); }
+
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
-
-    //  If bootloader is running in background, call it to handle USB requests.
-    //  if (bootloader_callback) { bootloader_callback(); }
 }
 
 void target_enable_debug(void) {
@@ -196,7 +196,7 @@ void target_enable_irq() {
 
 void target_disable_irq() {
   	//  debug_println("----target_disable_irq"); debug_flush();
-	////  TODO cm_disable_interrupts();
+	cm_disable_interrupts();
 }
 
 void target_wait_for_event() {
@@ -207,7 +207,7 @@ void target_wait_for_event() {
     //  Run a cocoOS task if any.  Must be called only when all the tasks have been created.
     os_preschedule(); os_schedule();
     //  Handle USB requests for the Bootloader.
-    if (bootloader_callback) { bootloader_callback(); }
+    //  if (bootloader_callback) { bootloader_callback(); }
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
 

@@ -91,8 +91,15 @@ static void poll_loop(void) {
 
 int bootloader_poll(void) {
     //  Run bootloader in background via polling.
+    static uint32_t last_poll = 0;
+    static uint32_t delay = 0;
+    if (last_poll > 0) { delay = millis() - last_poll; } 
+    last_poll = millis();
+
     if (!usbd_dev) { return -1; }
 	usbd_poll(usbd_dev);
+
+    if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
     return 0;
 }
 
