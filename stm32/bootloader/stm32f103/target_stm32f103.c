@@ -69,6 +69,7 @@ static bool validate_application(void) {
 
 enum StartupMode target_get_startup_mode(void) {
     //  Get the startup mode: Bootloader or Application.
+    //  return BOOTLOADER_MODE; ////
     if (startup_mode != UNKNOWN_MODE) { return startup_mode; }
     bool appValid = false;
     appValid = validate_application();

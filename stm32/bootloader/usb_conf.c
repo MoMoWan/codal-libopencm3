@@ -497,7 +497,7 @@ int aggregate_register_callback(
     uint8_t type_mask,
     usbd_control_callback callback) {
     // Register application callback function for handling USB control requests.  We aggregate here so we can handle more than 4 callbacks.
-    // debug_println("aggregate_register_callback"); ////
+    debug_println("aggregate_register_callback"); ////
 	int i;
 	for (i = 0; i < MAX_CONTROL_CALLBACK; i++) {
 		if (control_callback[i].cb) { 
@@ -602,9 +602,11 @@ void dump_buffer(const char *msg, const uint8_t *buf, int len) {
 }
 
 void dump_usb_request(const char *msg, struct usb_setup_data *req) {
+    debug_print(msg);
+    return; ////
+    
     uint8_t desc_type = usb_descriptor_type(req->wValue);
     uint8_t desc_index = usb_descriptor_index(req->wValue);
-    debug_print(msg);
     debug_print(" typ "); debug_printhex(req->bmRequestType);
     debug_print(", req "); debug_printhex(req->bRequest);
     debug_print(", val "); debug_printhex(req->wValue >> 8); debug_printhex(req->wValue & 0xff);

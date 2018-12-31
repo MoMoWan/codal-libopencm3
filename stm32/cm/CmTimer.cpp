@@ -129,7 +129,7 @@ namespace codal
                 debug_println("syncRequest called before init");
                 return;
             }
-            target_disable_irq();
+            ////  TODO target_disable_irq();
             uint32_t curr = millis();
             uint32_t delta = curr - this->prev;  //  In milliseconds.
 
@@ -137,7 +137,7 @@ namespace codal
             // uwTick += delta;
             this->prev = curr;
             this->sync(delta * 1000);  //  Sync expects microseconds.
-            target_enable_irq();            
+            ////  TODO target_enable_irq();            
             //  debug_print("timer sync "); debug_println((size_t) delta * 1000);
         }
 
