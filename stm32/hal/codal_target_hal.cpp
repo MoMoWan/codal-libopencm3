@@ -48,7 +48,7 @@ static void timer_tick() {
     os_tick();
 
     //  If bootloader is running in background, call it to handle USB requests.
-    ////if (bootloader_callback) { bootloader_callback(); }
+    if (bootloader_callback) { bootloader_callback(); }
 }
 
 static void timer_alarm() {
@@ -57,7 +57,7 @@ static void timer_alarm() {
     else { if (millis() < 200) { debug_print("a? "); } }
 
     //  If bootloader is running in background, call it to handle USB requests.
-    ////if (bootloader_callback) { bootloader_callback(); }
+    if (bootloader_callback) { bootloader_callback(); }
 }
 
 void target_enable_debug(void) {

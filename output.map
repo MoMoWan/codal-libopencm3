@@ -1402,7 +1402,7 @@ Linker script and memory map
  *(SORT_BY_ALIGNMENT(.data.impure_data))
  *(SORT_BY_ALIGNMENT(.data._impure_ptr))
 
-.boot_text      0x0000000008000000     0x3e80
+.boot_text      0x0000000008000000     0x3e9c
                 0x0000000008000000                _boot_text = .
  *(SORT_BY_ALIGNMENT(.vectors))
  .vectors       0x0000000008000000      0x150 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
@@ -1413,895 +1413,894 @@ Linker script and memory map
                 0x0000000008000150                reset_handler
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(.text*))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.text*))
- .text._ZL10timer_tickv
-                0x000000000800022c       0x18 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .text._ZL11timer_alarmv
-                0x0000000008000244       0x2c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800022c       0x34 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+ .text._ZL10timer_tickv
+                0x0000000008000260       0x24 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .text.target_set_tick_callback
-                0x0000000008000270        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000270                target_set_tick_callback
+                0x0000000008000284        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000284                target_set_tick_callback
  .text.target_set_alarm_callback
-                0x000000000800027c        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000000800027c                target_set_alarm_callback
- .text.target_init
-                0x0000000008000288       0x30 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000288                target_init
- .text.target_dmesg_flush
-                0x00000000080002b8       0x38 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x00000000080002b8                target_dmesg_flush
- .text.target_wait_for_event
-                0x00000000080002f0       0x38 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x00000000080002f0                target_wait_for_event
- .text.target_wait
-                0x0000000008000328       0x24 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000328                target_wait
- .text.target_wait_us
-                0x000000000800034c       0x2c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000000800034c                target_wait_us
- .text.target_panic
-                0x0000000008000378       0x20 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000378                target_panic
- .text.fiber_initial_stack_base
-                0x0000000008000398        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000398                fiber_initial_stack_base
- .text.test_codal
-                0x00000000080003a0       0x70 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x00000000080003a0                test_codal
+                0x0000000008000290        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000290                target_set_alarm_callback
  .text.target_set_bootloader_callback
-                0x0000000008000410        0x2 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000410                target_set_bootloader_callback
+                0x000000000800029c        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800029c                target_set_bootloader_callback
+ .text.target_init
+                0x00000000080002a8       0x30 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x00000000080002a8                target_init
+ .text.target_dmesg_flush
+                0x00000000080002d8       0x38 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x00000000080002d8                target_dmesg_flush
+ .text.target_wait_for_event
+                0x0000000008000310       0x38 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000310                target_wait_for_event
+ .text.target_wait
+                0x0000000008000348       0x24 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000348                target_wait
+ .text.target_wait_us
+                0x000000000800036c       0x2c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800036c                target_wait_us
+ .text.target_panic
+                0x0000000008000398       0x20 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000398                target_panic
+ .text.fiber_initial_stack_base
+                0x00000000080003b8        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x00000000080003b8                fiber_initial_stack_base
+ .text.test_codal
+                0x00000000080003c0       0x70 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x00000000080003c0                test_codal
  .text.target_enable_debug
-                0x0000000008000412        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000412                target_enable_debug
- .text.target_enable_irq
-                0x0000000008000416        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000416                target_enable_irq
- .text.target_disable_irq
-                0x000000000800041a        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000000800041a                target_disable_irq
- .text.tcb_allocate
-                0x000000000800041e        0x6 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000000800041e                tcb_allocate
- .text.tcb_configure_lr
-                0x0000000008000424        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000424                tcb_configure_lr
- .text.tcb_configure_sp
-                0x0000000008000428        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000428                tcb_configure_sp
- .text.tcb_configure_stack_base
-                0x000000000800042c        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000000800042c                tcb_configure_stack_base
- .text.tcb_get_stack_base
                 0x0000000008000430        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000430                tcb_get_stack_base
- .text.get_current_sp
+                0x0000000008000430                target_enable_debug
+ .text.target_enable_irq
                 0x0000000008000434        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000434                get_current_sp
- .text.tcb_get_sp
+                0x0000000008000434                target_enable_irq
+ .text.target_disable_irq
                 0x0000000008000438        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000438                tcb_get_sp
- .text.tcb_configure_args
-                0x000000000800043c        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000000800043c                tcb_configure_args
- .text._fini    0x0000000008000444        0x2 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000444                _fini
- .text.__aeabi_atexit
+                0x0000000008000438                target_disable_irq
+ .text.tcb_allocate
+                0x000000000800043c        0x6 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800043c                tcb_allocate
+ .text.tcb_configure_lr
+                0x0000000008000442        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000442                tcb_configure_lr
+ .text.tcb_configure_sp
                 0x0000000008000446        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000446                __aeabi_atexit
+                0x0000000008000446                tcb_configure_sp
+ .text.tcb_configure_stack_base
+                0x000000000800044a        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800044a                tcb_configure_stack_base
+ .text.tcb_get_stack_base
+                0x000000000800044e        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800044e                tcb_get_stack_base
+ .text.get_current_sp
+                0x0000000008000452        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000452                get_current_sp
+ .text.tcb_get_sp
+                0x0000000008000456        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000456                tcb_get_sp
+ .text.tcb_configure_args
+                0x000000000800045a        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800045a                tcb_configure_args
+ .text._fini    0x0000000008000462        0x2 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000462                _fini
+ .text.__aeabi_atexit
+                0x0000000008000464        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000464                __aeabi_atexit
  *libhal.a:*codal_target_hal*(SORT_BY_ALIGNMENT(.text*))
  :*CortexContextSwitch*(SORT_BY_ALIGNMENT(.text*))
- *fill*         0x000000000800044a        0x2 
- .text          0x000000000800044c      0x124 asm/CortexContextSwitch.s.o
-                0x000000000800044c                swap_context
-                0x00000000080004ce                save_context
-                0x0000000008000512                save_register_context
-                0x0000000008000542                restore_register_context
+ .text          0x0000000008000468      0x124 asm/CortexContextSwitch.s.o
+                0x0000000008000468                swap_context
+                0x00000000080004ea                save_context
+                0x000000000800052e                save_register_context
+                0x000000000800055e                restore_register_context
  *libhal.a:(SORT_BY_ALIGNMENT(.text*))
  *liblibopencm3.a:(SORT_BY_ALIGNMENT(.text*))
  *libFrameworkLibOpenCM3.a:(SORT_BY_ALIGNMENT(.text*))
  .text.desig_get_unique_id
-                0x0000000008000570       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
-                0x0000000008000570                desig_get_unique_id
+                0x000000000800058c       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
+                0x000000000800058c                desig_get_unique_id
  .text.desig_get_unique_id_as_string
-                0x0000000008000590       0x48 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
-                0x0000000008000590                desig_get_unique_id_as_string
+                0x00000000080005ac       0x48 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
+                0x00000000080005ac                desig_get_unique_id_as_string
  .text.flash_get_status_flags
-                0x00000000080005d8       0x28 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
-                0x00000000080005d8                flash_get_status_flags
+                0x00000000080005f4       0x28 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
+                0x00000000080005f4                flash_get_status_flags
  .text.flash_program_half_word
-                0x0000000008000600       0x60 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
-                0x0000000008000600                flash_program_half_word
+                0x000000000800061c       0x60 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
+                0x000000000800061c                flash_program_half_word
  .text.flash_erase_page
-                0x0000000008000660       0x78 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
-                0x0000000008000660                flash_erase_page
+                0x000000000800067c       0x78 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash.o)
+                0x000000000800067c                flash_erase_page
  .text.rcc_osc_on.part.0
-                0x00000000080006d8       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080006f4       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
  .text.rcc_wait_for_osc_ready
-                0x00000000080006e8       0x64 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080006e8                rcc_wait_for_osc_ready
+                0x0000000008000704       0x64 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000704                rcc_wait_for_osc_ready
  .text.rcc_osc_on
-                0x000000000800074c       0x54 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x000000000800074c                rcc_osc_on
+                0x0000000008000768       0x54 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000768                rcc_osc_on
  .text.rcc_set_sysclk_source
-                0x00000000080007a0       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080007a0                rcc_set_sysclk_source
+                0x00000000080007bc       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080007bc                rcc_set_sysclk_source
  .text.rcc_set_pll_multiplication_factor
-                0x00000000080007b4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080007b4                rcc_set_pll_multiplication_factor
+                0x00000000080007d0       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080007d0                rcc_set_pll_multiplication_factor
  .text.rcc_set_pll_source
-                0x00000000080007c8       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080007c8                rcc_set_pll_source
+                0x00000000080007e4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080007e4                rcc_set_pll_source
  .text.rcc_set_pllxtpre
-                0x00000000080007dc       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080007dc                rcc_set_pllxtpre
+                0x00000000080007f8       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080007f8                rcc_set_pllxtpre
  .text.rcc_enable_rtc_clock
-                0x00000000080007f0       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080007f0                rcc_enable_rtc_clock
+                0x000000000800080c       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x000000000800080c                rcc_enable_rtc_clock
  .text.rcc_set_rtc_clock_source
-                0x0000000008000800       0x90 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000800                rcc_set_rtc_clock_source
+                0x000000000800081c       0x90 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x000000000800081c                rcc_set_rtc_clock_source
  .text.rcc_set_adcpre
-                0x0000000008000890       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000890                rcc_set_adcpre
+                0x00000000080008ac       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080008ac                rcc_set_adcpre
  .text.rcc_set_ppre2
-                0x00000000080008a4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080008a4                rcc_set_ppre2
+                0x00000000080008c0       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080008c0                rcc_set_ppre2
  .text.rcc_set_ppre1
-                0x00000000080008b8       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080008b8                rcc_set_ppre1
+                0x00000000080008d4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080008d4                rcc_set_ppre1
  .text.rcc_set_hpre
-                0x00000000080008cc       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080008cc                rcc_set_hpre
+                0x00000000080008e8       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080008e8                rcc_set_hpre
  .text.rcc_clock_setup_in_hse_8mhz_out_72mhz
-                0x00000000080008e0       0x8c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x00000000080008e0                rcc_clock_setup_in_hse_8mhz_out_72mhz
+                0x00000000080008fc       0x8c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x00000000080008fc                rcc_clock_setup_in_hse_8mhz_out_72mhz
  .text.rtc_enter_config_mode
-                0x000000000800096c       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x000000000800096c                rtc_enter_config_mode
+                0x0000000008000988       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000988                rtc_enter_config_mode
  .text.rtc_exit_config_mode
-                0x000000000800098c       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x000000000800098c                rtc_exit_config_mode
+                0x00000000080009a8       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x00000000080009a8                rtc_exit_config_mode
  .text.rtc_set_alarm_time
-                0x00000000080009ac       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x00000000080009ac                rtc_set_alarm_time
+                0x00000000080009c8       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x00000000080009c8                rtc_set_alarm_time
  .text.rtc_set_prescale_val
-                0x00000000080009cc       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x00000000080009cc                rtc_set_prescale_val
+                0x00000000080009e8       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x00000000080009e8                rtc_set_prescale_val
  .text.rtc_get_counter_val
-                0x00000000080009ec       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x00000000080009ec                rtc_get_counter_val
+                0x0000000008000a08       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000a08                rtc_get_counter_val
  .text.rtc_set_counter_val
-                0x0000000008000a00       0x1c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000a00                rtc_set_counter_val
+                0x0000000008000a1c       0x1c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000a1c                rtc_set_counter_val
  .text.rtc_interrupt_enable
-                0x0000000008000a1c       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000a1c                rtc_interrupt_enable
+                0x0000000008000a38       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000a38                rtc_interrupt_enable
  .text.rtc_interrupt_disable
-                0x0000000008000a58       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000a58                rtc_interrupt_disable
+                0x0000000008000a74       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000a74                rtc_interrupt_disable
  .text.rtc_clear_flag
-                0x0000000008000a94       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000a94                rtc_clear_flag
+                0x0000000008000ab0       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000ab0                rtc_clear_flag
  .text.rtc_check_flag
-                0x0000000008000ac4       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000ac4                rtc_check_flag
+                0x0000000008000ae0       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000ae0                rtc_check_flag
  .text.pwr_disable_backup_domain_write_protect
-                0x0000000008000af4       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
-                0x0000000008000af4                pwr_disable_backup_domain_write_protect
+                0x0000000008000b10       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
+                0x0000000008000b10                pwr_disable_backup_domain_write_protect
  .text.pwr_enable_backup_domain_write_protect
-                0x0000000008000b04       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
-                0x0000000008000b04                pwr_enable_backup_domain_write_protect
+                0x0000000008000b20       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
+                0x0000000008000b20                pwr_enable_backup_domain_write_protect
  .text.exti_set_trigger
-                0x0000000008000b14       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0000000008000b14                exti_set_trigger
+                0x0000000008000b30       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x0000000008000b30                exti_set_trigger
  .text.exti_enable_request
-                0x0000000008000b50       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0000000008000b50                exti_enable_request
+                0x0000000008000b6c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x0000000008000b6c                exti_enable_request
  .text.exti_reset_request
-                0x0000000008000b64        0xc .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0000000008000b64                exti_reset_request
+                0x0000000008000b80        0xc .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x0000000008000b80                exti_reset_request
  .text.flash_set_ws
-                0x0000000008000b70       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
-                0x0000000008000b70                flash_set_ws
+                0x0000000008000b8c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+                0x0000000008000b8c                flash_set_ws
  .text.flash_unlock
-                0x0000000008000b84       0x24 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
-                0x0000000008000b84                flash_unlock
+                0x0000000008000ba0       0x24 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+                0x0000000008000ba0                flash_unlock
  .text.flash_lock
-                0x0000000008000ba8       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
-                0x0000000008000ba8                flash_lock
+                0x0000000008000bc4       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+                0x0000000008000bc4                flash_lock
  .text.usbd_init
-                0x0000000008000bb8       0x50 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x0000000008000bb8                usbd_init
+                0x0000000008000bd4       0x50 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008000bd4                usbd_init
  .text._usbd_standard_request_device
-                0x0000000008000c08       0x48 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
-                0x0000000008000c08                _usbd_standard_request_device
+                0x0000000008000c24       0x48 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008000c24                _usbd_standard_request_device
  .text._usbd_standard_request_interface
-                0x0000000008000c50       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
-                0x0000000008000c50                _usbd_standard_request_interface
+                0x0000000008000c6c       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008000c6c                _usbd_standard_request_interface
  .text._usbd_standard_request_endpoint
-                0x0000000008000c80       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
-                0x0000000008000c80                _usbd_standard_request_endpoint
+                0x0000000008000c9c       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008000c9c                _usbd_standard_request_endpoint
  .text.st_usbfs_v1_usbd_init
-                0x0000000008000cbc       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
+                0x0000000008000cd8       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
  .text.scb_reset_system
-                0x0000000008000cec       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
-                0x0000000008000cec                scb_reset_system
+                0x0000000008000d08       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
+                0x0000000008000d08                scb_reset_system
  .text.st_usbfs_set_address
-                0x0000000008000cfc       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008000cfc                st_usbfs_set_address
+                0x0000000008000d18       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008000d18                st_usbfs_set_address
  .text.st_usbfs_set_ep_rx_bufsize
-                0x0000000008000d0c       0x48 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008000d0c                st_usbfs_set_ep_rx_bufsize
+                0x0000000008000d28       0x48 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008000d28                st_usbfs_set_ep_rx_bufsize
  .text.st_usbfs_ep_setup
-                0x0000000008000d54      0x150 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008000d54                st_usbfs_ep_setup
+                0x0000000008000d70      0x150 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008000d70                st_usbfs_ep_setup
  .text.st_usbfs_endpoints_reset
-                0x0000000008000ea4       0x44 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008000ea4                st_usbfs_endpoints_reset
+                0x0000000008000ec0       0x44 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008000ec0                st_usbfs_endpoints_reset
  .text.st_usbfs_ep_stall_set
-                0x0000000008000ee8       0xe4 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008000ee8                st_usbfs_ep_stall_set
+                0x0000000008000f04       0xe4 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008000f04                st_usbfs_ep_stall_set
  .text.st_usbfs_ep_nak_set
-                0x0000000008000fcc       0x58 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008000fcc                st_usbfs_ep_nak_set
+                0x0000000008000fe8       0x58 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008000fe8                st_usbfs_ep_nak_set
  .text.st_usbfs_ep_write_packet
-                0x0000000008001024       0x8c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008001024                st_usbfs_ep_write_packet
+                0x0000000008001040       0x8c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008001040                st_usbfs_ep_write_packet
  .text.st_usbfs_ep_read_packet
-                0x00000000080010b0       0xb8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x00000000080010b0                st_usbfs_ep_read_packet
+                0x00000000080010cc       0xb8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x00000000080010cc                st_usbfs_ep_read_packet
  .text.st_usbfs_poll
-                0x0000000008001168       0xd0 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008001168                st_usbfs_poll
+                0x0000000008001184       0xd0 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008001184                st_usbfs_poll
  .text.gpio_set_mode
-                0x0000000008001238       0x62 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
-                0x0000000008001238                gpio_set_mode
+                0x0000000008001254       0x62 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
+                0x0000000008001254                gpio_set_mode
  .text.gpio_set
-                0x000000000800129a        0x4 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
-                0x000000000800129a                gpio_set
+                0x00000000080012b6        0x4 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
+                0x00000000080012b6                gpio_set
  .text.gpio_clear
-                0x000000000800129e        0x6 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
-                0x000000000800129e                gpio_clear
+                0x00000000080012ba        0x6 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
+                0x00000000080012ba                gpio_clear
  .text.usart_recv
-                0x00000000080012a4        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
-                0x00000000080012a4                usart_recv
+                0x00000000080012c0        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
+                0x00000000080012c0                usart_recv
  .text.rcc_periph_clock_enable
-                0x00000000080012ac       0x1a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
-                0x00000000080012ac                rcc_periph_clock_enable
+                0x00000000080012c8       0x1a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
+                0x00000000080012c8                rcc_periph_clock_enable
  .text.rcc_periph_reset_pulse
-                0x00000000080012c6       0x22 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
-                0x00000000080012c6                rcc_periph_reset_pulse
+                0x00000000080012e2       0x22 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
+                0x00000000080012e2                rcc_periph_reset_pulse
  .text.flash_wait_for_last_operation
-                0x00000000080012e8        0xc .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
-                0x00000000080012e8                flash_wait_for_last_operation
+                0x0000000008001304        0xc .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+                0x0000000008001304                flash_wait_for_last_operation
  .text.usbd_poll
-                0x00000000080012f4        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x00000000080012f4                usbd_poll
+                0x0000000008001310        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008001310                usbd_poll
  .text.usbd_ep_setup
-                0x00000000080012fc        0xe .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x00000000080012fc                usbd_ep_setup
+                0x0000000008001318        0xe .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008001318                usbd_ep_setup
  .text._usbd_reset
-                0x000000000800130a       0x32 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x000000000800130a                _usbd_reset
+                0x0000000008001326       0x32 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008001326                _usbd_reset
  .text.usbd_ep_write_packet
-                0x000000000800133c        0xe .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x000000000800133c                usbd_ep_write_packet
+                0x0000000008001358        0xe .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008001358                usbd_ep_write_packet
  .text.usbd_ep_read_packet
-                0x000000000800134a        0xe .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x000000000800134a                usbd_ep_read_packet
+                0x0000000008001366        0xe .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008001366                usbd_ep_read_packet
  .text.usbd_ep_stall_set
-                0x0000000008001358        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x0000000008001358                usbd_ep_stall_set
+                0x0000000008001374        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x0000000008001374                usbd_ep_stall_set
  .text.usbd_ep_stall_get
-                0x0000000008001360        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
-                0x0000000008001360                usbd_ep_stall_get
+                0x000000000800137c        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb.o)
+                0x000000000800137c                usbd_ep_stall_get
  .text.stall_transaction
-                0x0000000008001368       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x0000000008001384       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
  .text.usb_control_recv_chunk
-                0x000000000800137c       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x0000000008001398       0x3c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
  .text.usb_control_send_chunk
-                0x00000000080013b8       0x44 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x00000000080013d4       0x44 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
  .text.usb_control_request_dispatch
-                0x00000000080013fc       0x62 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x0000000008001418       0x62 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
  .text.usb_control_setup_read
-                0x000000000800145e       0x42 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x000000000800147a       0x42 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
  .text.usbd_register_control_callback
-                0x00000000080014a0       0x26 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
-                0x00000000080014a0                usbd_register_control_callback
+                0x00000000080014bc       0x26 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x00000000080014bc                usbd_register_control_callback
  .text._usbd_control_setup
-                0x00000000080014c6       0x5a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
-                0x00000000080014c6                _usbd_control_setup
+                0x00000000080014e2       0x5a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x00000000080014e2                _usbd_control_setup
  .text._usbd_control_out
-                0x0000000008001520       0x82 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
-                0x0000000008001520                _usbd_control_out
+                0x000000000800153c       0x82 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x000000000800153c                _usbd_control_out
  .text._usbd_control_in
-                0x00000000080015a2       0x56 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
-                0x00000000080015a2                _usbd_control_in
+                0x00000000080015be       0x56 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_control.o)
+                0x00000000080015be                _usbd_control_in
  .text.usb_standard_set_configuration
-                0x00000000080015f8       0x92 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008001614       0x92 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_get_configuration
-                0x000000000800168a       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x00000000080016a6       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_get_interface
-                0x00000000080016aa       0x34 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x00000000080016c6       0x34 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_device_get_status
-                0x00000000080016de       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x00000000080016fa       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_endpoint_get_status
-                0x00000000080016f6       0x2a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008001712       0x2a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_endpoint_stall
-                0x0000000008001720       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x000000000800173c       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_endpoint_unstall
-                0x0000000008001730       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x000000000800174c       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_set_address
-                0x0000000008001740       0x28 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x000000000800175c       0x28 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_set_interface
-                0x0000000008001768       0x4e .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008001784       0x4e .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_get_descriptor
-                0x00000000080017b6      0x256 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x00000000080017d2      0x256 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usb_standard_interface_get_status
-                0x0000000008001a0c       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008001a28       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
  .text.usbd_register_set_config_callback
-                0x0000000008001a24       0x26 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
-                0x0000000008001a24                usbd_register_set_config_callback
+                0x0000000008001a40       0x26 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008001a40                usbd_register_set_config_callback
  .text._usbd_standard_request
-                0x0000000008001a4a       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
-                0x0000000008001a4a                _usbd_standard_request
+                0x0000000008001a66       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usb_standard.o)
+                0x0000000008001a66                _usbd_standard_request
  .text.st_usbfs_copy_to_pm
-                0x0000000008001a7a       0x1c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
-                0x0000000008001a7a                st_usbfs_copy_to_pm
+                0x0000000008001a96       0x1c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
+                0x0000000008001a96                st_usbfs_copy_to_pm
  .text.st_usbfs_copy_from_pm
-                0x0000000008001a96       0x2a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
-                0x0000000008001a96                st_usbfs_copy_from_pm
+                0x0000000008001ab2       0x2a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
+                0x0000000008001ab2                st_usbfs_copy_from_pm
  .text.blocking_handler
-                0x0000000008001ac0        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
-                0x0000000008001ac0                exti0_isr
-                0x0000000008001ac0                tim7_isr
-                0x0000000008001ac0                adc1_2_isr
-                0x0000000008001ac0                tim1_trg_com_isr
-                0x0000000008001ac0                usb_hp_can_tx_isr
-                0x0000000008001ac0                tim6_isr
-                0x0000000008001ac0                usb_wakeup_isr
-                0x0000000008001ac0                blocking_handler
-                0x0000000008001ac0                tim5_isr
-                0x0000000008001ac0                otg_fs_isr
-                0x0000000008001ac0                spi1_isr
-                0x0000000008001ac0                exti2_isr
-                0x0000000008001ac0                dma1_channel6_isr
-                0x0000000008001ac0                can_rx1_isr
-                0x0000000008001ac0                dma1_channel5_isr
-                0x0000000008001ac0                dma2_channel5_isr
-                0x0000000008001ac0                usart1_isr
-                0x0000000008001ac0                usage_fault_handler
-                0x0000000008001ac0                tim8_trg_com_isr
-                0x0000000008001ac0                can2_rx0_isr
-                0x0000000008001ac0                tim1_brk_isr
-                0x0000000008001ac0                can2_rx1_isr
-                0x0000000008001ac0                tim1_cc_isr
-                0x0000000008001ac0                sdio_isr
-                0x0000000008001ac0                eth_isr
-                0x0000000008001ac0                dma1_channel4_isr
-                0x0000000008001ac0                tim8_brk_isr
-                0x0000000008001ac0                dma2_channel4_5_isr
-                0x0000000008001ac0                pvd_isr
-                0x0000000008001ac0                rcc_isr
-                0x0000000008001ac0                flash_isr
-                0x0000000008001ac0                uart4_isr
-                0x0000000008001ac0                exti15_10_isr
-                0x0000000008001ac0                hard_fault_handler
-                0x0000000008001ac0                exti1_isr
-                0x0000000008001ac0                i2c1_ev_isr
-                0x0000000008001ac0                dma2_channel1_isr
-                0x0000000008001ac0                spi2_isr
-                0x0000000008001ac0                tim8_up_isr
-                0x0000000008001ac0                dma2_channel2_isr
-                0x0000000008001ac0                exti3_isr
-                0x0000000008001ac0                adc3_isr
-                0x0000000008001ac0                tim3_isr
-                0x0000000008001ac0                usb_lp_can_rx0_isr
-                0x0000000008001ac0                i2c2_er_isr
-                0x0000000008001ac0                i2c2_ev_isr
-                0x0000000008001ac0                uart5_isr
-                0x0000000008001ac0                fsmc_isr
-                0x0000000008001ac0                dma1_channel1_isr
-                0x0000000008001ac0                exti4_isr
-                0x0000000008001ac0                mem_manage_handler
-                0x0000000008001ac0                can2_tx_isr
-                0x0000000008001ac0                exti9_5_isr
-                0x0000000008001ac0                dma2_channel3_isr
-                0x0000000008001ac0                dma1_channel7_isr
-                0x0000000008001ac0                tim1_up_isr
-                0x0000000008001ac0                can2_sce_isr
-                0x0000000008001ac0                tim4_isr
-                0x0000000008001ac0                dma1_channel2_isr
-                0x0000000008001ac0                i2c1_er_isr
-                0x0000000008001ac0                can_sce_isr
-                0x0000000008001ac0                tim8_cc_isr
-                0x0000000008001ac0                tamper_isr
-                0x0000000008001ac0                eth_wkup_isr
-                0x0000000008001ac0                bus_fault_handler
-                0x0000000008001ac0                wwdg_isr
-                0x0000000008001ac0                dma1_channel3_isr
-                0x0000000008001ac0                spi3_isr
-                0x0000000008001ac0                tim2_isr
-                0x0000000008001ac0                usart3_isr
+                0x0000000008001adc        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
+                0x0000000008001adc                exti0_isr
+                0x0000000008001adc                tim7_isr
+                0x0000000008001adc                adc1_2_isr
+                0x0000000008001adc                tim1_trg_com_isr
+                0x0000000008001adc                usb_hp_can_tx_isr
+                0x0000000008001adc                tim6_isr
+                0x0000000008001adc                usb_wakeup_isr
+                0x0000000008001adc                blocking_handler
+                0x0000000008001adc                tim5_isr
+                0x0000000008001adc                otg_fs_isr
+                0x0000000008001adc                spi1_isr
+                0x0000000008001adc                exti2_isr
+                0x0000000008001adc                dma1_channel6_isr
+                0x0000000008001adc                can_rx1_isr
+                0x0000000008001adc                dma1_channel5_isr
+                0x0000000008001adc                dma2_channel5_isr
+                0x0000000008001adc                usart1_isr
+                0x0000000008001adc                usage_fault_handler
+                0x0000000008001adc                tim8_trg_com_isr
+                0x0000000008001adc                can2_rx0_isr
+                0x0000000008001adc                tim1_brk_isr
+                0x0000000008001adc                can2_rx1_isr
+                0x0000000008001adc                tim1_cc_isr
+                0x0000000008001adc                sdio_isr
+                0x0000000008001adc                eth_isr
+                0x0000000008001adc                dma1_channel4_isr
+                0x0000000008001adc                tim8_brk_isr
+                0x0000000008001adc                dma2_channel4_5_isr
+                0x0000000008001adc                pvd_isr
+                0x0000000008001adc                rcc_isr
+                0x0000000008001adc                flash_isr
+                0x0000000008001adc                uart4_isr
+                0x0000000008001adc                exti15_10_isr
+                0x0000000008001adc                hard_fault_handler
+                0x0000000008001adc                exti1_isr
+                0x0000000008001adc                i2c1_ev_isr
+                0x0000000008001adc                dma2_channel1_isr
+                0x0000000008001adc                spi2_isr
+                0x0000000008001adc                tim8_up_isr
+                0x0000000008001adc                dma2_channel2_isr
+                0x0000000008001adc                exti3_isr
+                0x0000000008001adc                adc3_isr
+                0x0000000008001adc                tim3_isr
+                0x0000000008001adc                usb_lp_can_rx0_isr
+                0x0000000008001adc                i2c2_er_isr
+                0x0000000008001adc                i2c2_ev_isr
+                0x0000000008001adc                uart5_isr
+                0x0000000008001adc                fsmc_isr
+                0x0000000008001adc                dma1_channel1_isr
+                0x0000000008001adc                exti4_isr
+                0x0000000008001adc                mem_manage_handler
+                0x0000000008001adc                can2_tx_isr
+                0x0000000008001adc                exti9_5_isr
+                0x0000000008001adc                dma2_channel3_isr
+                0x0000000008001adc                dma1_channel7_isr
+                0x0000000008001adc                tim1_up_isr
+                0x0000000008001adc                can2_sce_isr
+                0x0000000008001adc                tim4_isr
+                0x0000000008001adc                dma1_channel2_isr
+                0x0000000008001adc                i2c1_er_isr
+                0x0000000008001adc                can_sce_isr
+                0x0000000008001adc                tim8_cc_isr
+                0x0000000008001adc                tamper_isr
+                0x0000000008001adc                eth_wkup_isr
+                0x0000000008001adc                bus_fault_handler
+                0x0000000008001adc                wwdg_isr
+                0x0000000008001adc                dma1_channel3_isr
+                0x0000000008001adc                spi3_isr
+                0x0000000008001adc                tim2_isr
+                0x0000000008001adc                usart3_isr
  .text.null_handler
-                0x0000000008001ac2        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
-                0x0000000008001ac2                null_handler
-                0x0000000008001ac2                sv_call_handler
-                0x0000000008001ac2                pend_sv_handler
-                0x0000000008001ac2                debug_monitor_handler
-                0x0000000008001ac2                sys_tick_handler
-                0x0000000008001ac2                nmi_handler
+                0x0000000008001ade        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
+                0x0000000008001ade                null_handler
+                0x0000000008001ade                sv_call_handler
+                0x0000000008001ade                pend_sv_handler
+                0x0000000008001ade                debug_monitor_handler
+                0x0000000008001ade                sys_tick_handler
+                0x0000000008001ade                nmi_handler
  .text.nvic_enable_irq
-                0x0000000008001ac4       0x1a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
-                0x0000000008001ac4                nvic_enable_irq
+                0x0000000008001ae0       0x1a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
+                0x0000000008001ae0                nvic_enable_irq
  .text.st_usbfs_ep_stall_get
-                0x0000000008001ade       0x38 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x0000000008001ade                st_usbfs_ep_stall_get
+                0x0000000008001afa       0x38 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x0000000008001afa                st_usbfs_ep_stall_get
  *libcocoos.a:(SORT_BY_ALIGNMENT(.text*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.text*))
- *fill*         0x0000000008001b16        0x2 
+ *fill*         0x0000000008001b32        0x2 
  .text.os_event_init
-                0x0000000008001b18        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001b18                os_event_init
+                0x0000000008001b34        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x0000000008001b34                os_event_init
  .text.event_create
-                0x0000000008001b24       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001b24                event_create
+                0x0000000008001b40       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x0000000008001b40                event_create
  .text.os_signal_event
-                0x0000000008001b58        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001b58                os_signal_event
+                0x0000000008001b74        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x0000000008001b74                os_signal_event
  .text.os_event_set_signaling_tid
-                0x0000000008001b64       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001b64                os_event_set_signaling_tid
- .text.os_init  0x0000000008001b74       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x0000000008001b74                os_init
+                0x0000000008001b80       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x0000000008001b80                os_event_set_signaling_tid
+ .text.os_init  0x0000000008001b90       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x0000000008001b90                os_init
  .text.os_running
-                0x0000000008001ba8        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x0000000008001ba8                os_running
+                0x0000000008001bc4        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x0000000008001bc4                os_running
  .text.os_msgQ_init
-                0x0000000008001bb4       0x24 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x0000000008001bb4                os_msgQ_init
+                0x0000000008001bd0       0x24 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x0000000008001bd0                os_msgQ_init
  .text.os_msgQ_create
-                0x0000000008001bd8       0x54 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x0000000008001bd8                os_msgQ_create
+                0x0000000008001bf4       0x54 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x0000000008001bf4                os_msgQ_create
  .text.os_msgQ_tick
-                0x0000000008001c2c       0x54 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x0000000008001c2c                os_msgQ_tick
+                0x0000000008001c48       0x54 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x0000000008001c48                os_msgQ_tick
  .text.os_sem_init
-                0x0000000008001c80        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
-                0x0000000008001c80                os_sem_init
+                0x0000000008001c9c        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x0000000008001c9c                os_sem_init
  .text.sem_bin_create
-                0x0000000008001c8c       0x3c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
-                0x0000000008001c8c                sem_bin_create
+                0x0000000008001ca8       0x3c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x0000000008001ca8                sem_bin_create
  .text.os_sem_larger_than_zero
-                0x0000000008001cc8       0x14 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
-                0x0000000008001cc8                os_sem_larger_than_zero
+                0x0000000008001ce4       0x14 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x0000000008001ce4                os_sem_larger_than_zero
  .text.os_sem_decrement
-                0x0000000008001cdc       0x14 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
-                0x0000000008001cdc                os_sem_decrement
+                0x0000000008001cf8       0x14 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x0000000008001cf8                os_sem_decrement
  .text.os_sem_increment
-                0x0000000008001cf0       0x1c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
-                0x0000000008001cf0                os_sem_increment
+                0x0000000008001d0c       0x1c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x0000000008001d0c                os_sem_increment
  .text.os_task_init
-                0x0000000008001d0c       0x40 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001d0c                os_task_init
+                0x0000000008001d28       0x40 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001d28                os_task_init
  .text.task_create
-                0x0000000008001d4c       0xc0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001d4c                task_create
+                0x0000000008001d68       0xc0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001d68                task_create
  .text.os_task_highest_prio_ready_task
-                0x0000000008001e0c       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001e0c                os_task_highest_prio_ready_task
+                0x0000000008001e28       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001e28                os_task_highest_prio_ready_task
  .text.os_task_release_waiting_task
-                0x0000000008001e40       0x58 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001e40                os_task_release_waiting_task
+                0x0000000008001e5c       0x58 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001e5c                os_task_release_waiting_task
  .text.os_task_waiting_this_semaphore
-                0x0000000008001e98       0x38 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001e98                os_task_waiting_this_semaphore
+                0x0000000008001eb4       0x38 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001eb4                os_task_waiting_this_semaphore
  .text.os_task_wait_sem_set
-                0x0000000008001ed0       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001ed0                os_task_wait_sem_set
+                0x0000000008001eec       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001eec                os_task_wait_sem_set
  .text.os_task_tick
-                0x0000000008001f04       0x88 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001f04                os_task_tick
+                0x0000000008001f20       0x88 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001f20                os_task_tick
  .text.os_task_signal_event
-                0x0000000008001f8c       0x64 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001f8c                os_task_signal_event
+                0x0000000008001fa8       0x64 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001fa8                os_task_signal_event
  .text.os_task_run
-                0x0000000008001ff0       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001ff0                os_task_run
+                0x000000000800200c       0x34 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x000000000800200c                os_task_run
  .text.os_task_internal_state_get
-                0x0000000008002024       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008002024                os_task_internal_state_get
+                0x0000000008002040       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008002040                os_task_internal_state_get
  .text.os_task_internal_state_set
-                0x0000000008002034       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008002034                os_task_internal_state_set
+                0x0000000008002050       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008002050                os_task_internal_state_set
  .text.os_on_assert
-                0x0000000008002044       0x28 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
-                0x0000000008002044                os_on_assert
+                0x0000000008002060       0x28 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+                0x0000000008002060                os_on_assert
  .text.os_cbkSleep
-                0x000000000800206c        0x2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
-                0x000000000800206c                os_cbkSleep
- .text.os_tick  0x000000000800206e        0x8 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x000000000800206e                os_tick
+                0x0000000008002088        0x2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+                0x0000000008002088                os_cbkSleep
+ .text.os_tick  0x000000000800208a        0x8 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x000000000800208a                os_tick
  *libgcc.a:(SORT_BY_ALIGNMENT(.text*))
  *libqfplib.a:(SORT_BY_ALIGNMENT(.text*))
  *libnano-float.a:(SORT_BY_ALIGNMENT(.text*))
  *libnewlib.a:(SORT_BY_ALIGNMENT(.text*))
- .text.strlen   0x0000000008002076       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
-                0x0000000008002076                strlen
- .text.strncat  0x0000000008002086       0x28 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
-                0x0000000008002086                strncat
- .text.strncpy  0x00000000080020ae       0x2a .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
-                0x00000000080020ae                strncpy
- .text.memcmp   0x00000000080020d8       0x1e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
-                0x00000000080020d8                memcmp
- .text.memcpy   0x00000000080020f6       0x1c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
-                0x00000000080020f6                memcpy
- .text.memset   0x0000000008002112       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
-                0x0000000008002112                memset
+ .text.strlen   0x0000000008002092       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+                0x0000000008002092                strlen
+ .text.strncat  0x00000000080020a2       0x28 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+                0x00000000080020a2                strncat
+ .text.strncpy  0x00000000080020ca       0x2a .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+                0x00000000080020ca                strncpy
+ .text.memcmp   0x00000000080020f4       0x1e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
+                0x00000000080020f4                memcmp
+ .text.memcpy   0x0000000008002112       0x1c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+                0x0000000008002112                memcpy
+ .text.memset   0x000000000800212e       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
+                0x000000000800212e                memset
  *liblogger.a:(SORT_BY_ALIGNMENT(.text*))
- *fill*         0x0000000008002122        0x2 
+ *fill*         0x000000000800213e        0x2 
  .text.enable_log
-                0x0000000008002124        0xc .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008002124                enable_log
+                0x0000000008002140        0xc .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008002140                enable_log
  .text.debug_flush
-                0x0000000008002130       0x38 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008002130                debug_flush
+                0x000000000800214c       0x38 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x000000000800214c                debug_flush
  .text._ZL12debug_appendPKcj
-                0x0000000008002168       0x50 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008002184       0x50 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .text._Z11debug_printj
-                0x00000000080021b8       0x7c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080021b8                debug_print(unsigned int)
+                0x00000000080021d4       0x7c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080021d4                debug_print(unsigned int)
  .text._Z11debug_printi
-                0x0000000008002234       0x30 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008002234                debug_print(int)
+                0x0000000008002250       0x30 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008002250                debug_print(int)
  .text.debug_println
-                0x0000000008002264       0x1c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008002264                debug_println
+                0x0000000008002280       0x1c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008002280                debug_println
  .text._Z13debug_printlni
-                0x0000000008002280       0x18 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008002280                debug_println(int)
+                0x000000000800229c       0x18 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x000000000800229c                debug_println(int)
  .text.debug_print
-                0x0000000008002298       0x1a .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008002298                debug_print
+                0x00000000080022b4       0x1a .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080022b4                debug_print
  .text.debug_print_unsigned
-                0x00000000080022b2        0x4 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080022b2                debug_print_unsigned
+                0x00000000080022ce        0x4 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080022ce                debug_print_unsigned
  .text.debug_printhex
-                0x00000000080022b6       0x42 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080022b6                debug_printhex
+                0x00000000080022d2       0x42 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080022d2                debug_printhex
  .text.debug_printhex_unsigned
-                0x00000000080022f8       0x24 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080022f8                debug_printhex_unsigned
+                0x0000000008002314       0x24 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008002314                debug_printhex_unsigned
  *libbluepill.a:(SORT_BY_ALIGNMENT(.text*))
  .text.platform_setup
-                0x000000000800231c       0x4c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x000000000800231c                platform_setup
+                0x0000000008002338       0x4c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008002338                platform_setup
  .text.enable_debug
-                0x0000000008002368       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x0000000008002368                enable_debug
+                0x0000000008002384       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008002384                enable_debug
  .text.led_setup
-                0x0000000008002378       0x20 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x0000000008002378                led_setup
- .text.led_on   0x0000000008002398       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x0000000008002398                led_on
- .text.led_off  0x00000000080023a8       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x00000000080023a8                led_off
+                0x0000000008002394       0x20 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x0000000008002394                led_setup
+ .text.led_on   0x00000000080023b4       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x00000000080023b4                led_on
+ .text.led_off  0x00000000080023c4       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x00000000080023c4                led_off
  .text.led_wait
-                0x00000000080023b8       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x00000000080023b8                led_wait
+                0x00000000080023d4       0x10 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x00000000080023d4                led_wait
  .text.platform_start_timer
-                0x00000000080023c8      0x114 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x00000000080023c8                platform_start_timer
+                0x00000000080023e4      0x114 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080023e4                platform_start_timer
  .text.platform_set_alarm
-                0x00000000080024dc       0x50 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x00000000080024dc                platform_set_alarm
- .text.rtc_isr  0x000000000800252c       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x000000000800252c                rtc_isr
+                0x00000000080024f8       0x50 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080024f8                platform_set_alarm
+ .text.rtc_isr  0x0000000008002548       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008002548                rtc_isr
  .text.rtc_alarm_isr
-                0x000000000800255c       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x000000000800255c                rtc_alarm_isr
+                0x0000000008002578       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008002578                rtc_alarm_isr
  .text.platform_alarm_count
-                0x000000000800258c        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x000000000800258c                platform_alarm_count
+                0x00000000080025a8        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080025a8                platform_alarm_count
  .text.platform_tick_count
-                0x0000000008002598        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008002598                platform_tick_count
+                0x00000000080025b4        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080025b4                platform_tick_count
  .text.__cxa_pure_virtual
-                0x00000000080025a4        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x00000000080025a4                __cxa_pure_virtual
- .text._Znwj    0x00000000080025ac        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x00000000080025ac                operator new(unsigned int)
- .text._ZdlPv   0x00000000080025b0        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x00000000080025b0                operator delete(void*)
- .text.millis   0x00000000080025b4        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x00000000080025b4                millis
+                0x00000000080025c0        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x00000000080025c0                __cxa_pure_virtual
+ .text._Znwj    0x00000000080025c8        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x00000000080025c8                operator new(unsigned int)
+ .text._ZdlPv   0x00000000080025cc        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x00000000080025cc                operator delete(void*)
+ .text.millis   0x00000000080025d0        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080025d0                millis
  *libbootloader.a:(SORT_BY_ALIGNMENT(.text*))
  .text.bootloader_poll
-                0x00000000080025b8       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
-                0x00000000080025b8                bootloader_poll
+                0x00000000080025d4       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
+                0x00000000080025d4                bootloader_poll
  .text.bootloader_start
-                0x00000000080025d4       0xe4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
-                0x00000000080025d4                bootloader_start
+                0x00000000080025f0       0xe4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
+                0x00000000080025f0                bootloader_start
  .text.target_set_led
-                0x00000000080026b8       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x00000000080026b8                target_set_led
+                0x00000000080026d4       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080026d4                target_set_led
  .text.target_gpio_setup
-                0x00000000080026d0       0x70 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x00000000080026d0                target_gpio_setup
+                0x00000000080026ec       0x70 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080026ec                target_gpio_setup
  .text.target_usb_init
-                0x0000000008002740       0x2c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x0000000008002740                target_usb_init
+                0x000000000800275c       0x2c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x000000000800275c                target_usb_init
  .text.target_manifest_app
-                0x000000000800276c       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x000000000800276c                target_manifest_app
+                0x0000000008002788       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x0000000008002788                target_manifest_app
  .text.target_manifest_bootloader
-                0x0000000008002780       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x0000000008002780                target_manifest_bootloader
+                0x000000000800279c       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x000000000800279c                target_manifest_bootloader
  .text.target_get_force_bootloader
-                0x0000000008002794       0x34 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x0000000008002794                target_get_force_bootloader
+                0x00000000080027b0       0x34 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080027b0                target_get_force_bootloader
  .text.target_get_startup_mode
-                0x00000000080027c8       0x7c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x00000000080027c8                target_get_startup_mode
+                0x00000000080027e4       0x7c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080027e4                target_get_startup_mode
  .text.target_flash_program_array
-                0x0000000008002844       0xdc .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x0000000008002844                target_flash_program_array
+                0x0000000008002860       0xdc .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x0000000008002860                target_flash_program_array
  .text.set_aggregate_callback
-                0x0000000008002920       0x5c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x000000000800293c       0x5c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .text.usb_setup
-                0x000000000800297c       0x90 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x000000000800297c                usb_setup
+                0x0000000008002998       0x90 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002998                usb_setup
  .text.aggregate_register_config_callback
-                0x0000000008002a0c       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x0000000008002a0c                aggregate_register_config_callback
+                0x0000000008002a28       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002a28                aggregate_register_config_callback
  .text.aggregate_register_callback
-                0x0000000008002a44       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x0000000008002a44                aggregate_register_callback
+                0x0000000008002a60       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002a60                aggregate_register_callback
  .text.usb_set_serial_number
-                0x0000000008002a90       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x0000000008002a90                usb_set_serial_number
+                0x0000000008002aac       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002aac                usb_set_serial_number
  .text.dump_buffer
-                0x0000000008002aac       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x0000000008002aac                dump_buffer
+                0x0000000008002ac8       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002ac8                dump_buffer
  .text.dump_usb_request
-                0x0000000008002af8      0x130 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x0000000008002af8                dump_usb_request
+                0x0000000008002b14      0x130 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002b14                dump_usb_request
  .text.aggregate_callback
-                0x0000000008002c28       0x64 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008002c44       0x64 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .text.webusb_set_config
-                0x0000000008002c8c       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x0000000008002ca8       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
  .text.webusb_control_vendor_request
-                0x0000000008002cb4       0x9c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x0000000008002cd0       0x9c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
  .text.webusb_setup
-                0x0000000008002d50       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
-                0x0000000008002d50                webusb_setup
+                0x0000000008002d6c       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x0000000008002d6c                webusb_setup
  .text.winusb_control_vendor_request
-                0x0000000008002d9c       0x94 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008002db8       0x94 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .text.winusb_set_config
-                0x0000000008002e30       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008002e4c       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .text.winusb_descriptor_request
-                0x0000000008002e58       0x48 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008002e74       0x48 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .text.winusb_setup
-                0x0000000008002ea0       0x5c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
-                0x0000000008002ea0                winusb_setup
+                0x0000000008002ebc       0x5c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008002ebc                winusb_setup
  .text.cdcacm_comm_cb
-                0x0000000008002efc       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008002f18       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .text.cdcacm_data_rx_cb
-                0x0000000008002f10       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008002f2c       0x4c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .text.cdcacm_set_config
-                0x0000000008002f5c       0x68 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008002f78       0x68 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .text.cdcacm_control_request
-                0x0000000008002fc4       0x68 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008002fe0       0x68 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .text.cdc_setup
-                0x000000000800302c       0x24 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
-                0x000000000800302c                cdc_setup
+                0x0000000008003048       0x24 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003048                cdc_setup
  .text.hf2_set_config
-                0x0000000008003050       0x3c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x000000000800306c       0x3c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .text.assert.part.0
-                0x000000000800308c       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x00000000080030a8       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .text.pokeSend
-                0x00000000080030a8       0x84 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x00000000080030c4       0x84 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .text.send_hf2_response
-                0x000000000800312c       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003148       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .text.hf2_data_rx_cb
-                0x0000000008003164      0x1f4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003180      0x1f4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .text.hf2_setup
-                0x0000000008003358       0x2c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
-                0x0000000008003358                hf2_setup
+                0x0000000008003374       0x2c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003374                hf2_setup
  .text.backup_write
-                0x0000000008003384       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(backup.o)
-                0x0000000008003384                backup_write
+                0x00000000080033a0       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(backup.o)
+                0x00000000080033a0                backup_write
  .text.backup_read
-                0x00000000080033bc       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(backup.o)
-                0x00000000080033bc                backup_read
+                0x00000000080033d8       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(backup.o)
+                0x00000000080033d8                backup_read
  .text.usb21_set_config
-                0x00000000080033d4       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x00000000080033f0       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
  .text.usb21_standard_get_descriptor
-                0x00000000080033fc       0xcc .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x0000000008003418       0xcc .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
  .text.usb21_setup
-                0x00000000080034c8       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
-                0x00000000080034c8                usb21_setup
+                0x00000000080034e4       0x38 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x00000000080034e4                usb21_setup
  .text.flushFlash
-                0x0000000008003500       0x94 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
+                0x000000000800351c       0x94 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
  .text.flash_write
-                0x0000000008003594       0x48 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
-                0x0000000008003594                flash_write
+                0x00000000080035b0       0x48 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
+                0x00000000080035b0                flash_write
  .text.target_get_serial_number
-                0x00000000080035dc        0x6 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x00000000080035dc                target_get_serial_number
+                0x00000000080035f8        0x6 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080035f8                target_get_serial_number
  .text.target_flash_unlock
-                0x00000000080035e2        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x00000000080035e2                target_flash_unlock
+                0x00000000080035fe        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080035fe                target_flash_unlock
  .text.target_flash_lock
-                0x00000000080035e6        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x00000000080035e6                target_flash_lock
+                0x0000000008003602        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x0000000008003602                target_flash_lock
  .text.hf2_data_tx_cb
-                0x00000000080035ea        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
-                0x00000000080035f0                . = ALIGN (0x4)
- *fill*         0x00000000080035ee        0x2 
+                0x0000000008003606        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x000000000800360c                . = ALIGN (0x4)
+ *fill*         0x000000000800360a        0x2 
  :*reset_handler*(SORT_BY_ALIGNMENT(.rodata*))
  .rodata.reset_handler.str1.1
-                0x00000000080035f0       0x34 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
+                0x000000000800360c       0x34 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(.rodata*))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.rodata*))
  .rodata._ZL11timer_alarmv.str1.1
-                0x0000000008003624        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008003640        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .rodata.target_panic.str1.1
-                0x0000000008003628       0x13 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008003644       0x13 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .rodata.target_wait.str1.1
-                0x000000000800363b       0x10 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008003657       0x10 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .rodata.target_wait_us.str1.1
-                0x000000000800364b       0x13 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008003667       0x13 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .rodata.test_codal.str1.1
-                0x000000000800365e       0x34 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x000000000800367a       0x34 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  *libhal.a:*codal_target_hal*(SORT_BY_ALIGNMENT(.rodata*))
  :*CortexContextSwitch*(SORT_BY_ALIGNMENT(.rodata*))
  *libhal.a:(SORT_BY_ALIGNMENT(.rodata*))
  *liblibopencm3.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libFrameworkLibOpenCM3.a:(SORT_BY_ALIGNMENT(.rodata*))
- *fill*         0x0000000008003692        0x2 
+ *fill*         0x00000000080036ae        0x2 
  .rodata.st_usbfs_v1_usb_driver
-                0x0000000008003694       0x34 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
-                0x0000000008003694                st_usbfs_v1_usb_driver
+                0x00000000080036b0       0x34 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_v1.o)
+                0x00000000080036b0                st_usbfs_v1_usb_driver
  .rodata.chars.4166
-                0x00000000080036c8       0x11 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
+                0x00000000080036e4       0x11 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(desig.o)
  *libcocoos.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.rodata*))
  .rodata.os_on_assert.str1.1
-                0x00000000080036d9       0x1a .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+                0x00000000080036f5       0x1a .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
  *libgcc.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libqfplib.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libnano-float.a:(SORT_BY_ALIGNMENT(.rodata*))
  *libnewlib.a:(SORT_BY_ALIGNMENT(.rodata*))
  *liblogger.a:(SORT_BY_ALIGNMENT(.rodata*))
  .rodata._Z11debug_printi.str1.1
-                0x00000000080036f3        0x4 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x000000000800370f        0x4 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .rodata._Z11debug_printj.str1.1
-                0x00000000080036f7        0xb .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008003713        0xb .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .rodata.debug_println.str1.1
-                0x0000000008003702        0x2 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x000000000800371e        0x2 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  *libbluepill.a:(SORT_BY_ALIGNMENT(.rodata*))
  .rodata.platform_setup.str1.1
-                0x0000000008003704       0x13 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008003720       0x13 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
  .rodata.platform_set_alarm.str1.1
-                0x0000000008003717        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008003733        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
                                           0xb (size before relaxing)
  .rodata.platform_start_timer.str1.1
-                0x000000000800371f       0x2f .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x000000000800373b       0x2f .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  *libbootloader.a:(SORT_BY_ALIGNMENT(.rodata*))
- *fill*         0x000000000800374e        0x2 
+ *fill*         0x000000000800376a        0x2 
  .rodata.interfaces
-                0x0000000008003750       0x30 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x000000000800376c       0x30 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.bootloader_start.str1.1
-                0x0000000008003780       0x58 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
+                0x000000000800379c       0x58 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
  .rodata.target_flash_program_array.str1.1
-                0x00000000080037d8       0x6a .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000080037f4       0x6a .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .rodata.target_get_startup_mode.str1.1
-                0x0000000008003842       0x31 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x000000000800385e       0x31 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
                                          0x32 (size before relaxing)
  .rodata.aggregate_callback.str1.1
-                0x0000000008003873        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x000000000800388f        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.aggregate_register_callback.str1.1
-                0x0000000008003877       0x26 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003893       0x26 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.aggregate_register_config_callback.str1.1
-                0x000000000800389d       0x25 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000080038b9       0x25 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.bos_descriptor
-                0x00000000080038c2        0x9 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000080038de        0x9 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.cdc_iface_assoc
-                0x00000000080038cb        0x8 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000080038e7        0x8 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.cdcacm_functional_descriptors
-                0x00000000080038d3       0x13 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000080038ef       0x13 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.comm_endp
-                0x00000000080038e6        0xf .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003902        0xf .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.comm_iface
-                0x00000000080038f5       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003911       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.config
-                0x000000000800390a        0xd .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003926        0xd .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.data_endp
-                0x0000000008003917       0x1e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003933       0x1e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.data_iface
-                0x0000000008003935       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
- .rodata.dev    0x000000000800394a       0x12 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003951       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+ .rodata.dev    0x0000000008003966       0x12 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.dump_buffer.str1.1
-                0x000000000800395c        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003978        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
                                           0x7 (size before relaxing)
  .rodata.dump_usb_request.str1.1
-                0x0000000008003960       0x70 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x000000000800397c       0x70 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.hf2_endp
-                0x00000000080039d0       0x1e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000080039ec       0x1e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.hf2_iface
-                0x00000000080039ee       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003a0a       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.set_aggregate_callback.str1.1
-                0x0000000008003a03       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003a1f       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.str1.1
-                0x0000000008003a43       0x7e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003a5f       0x7e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.usb_setup.str1.1
-                0x0000000008003ac1       0x2e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000008003add       0x2e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .rodata.webusb_control_vendor_request.str1.1
-                0x0000000008003aef       0x3c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x0000000008003b0b       0x3c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
                                          0x3d (size before relaxing)
  .rodata.webusb_platform_capability_descriptor
-                0x0000000008003b2b       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
-                0x0000000008003b2b                webusb_platform_capability_descriptor
+                0x0000000008003b47       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x0000000008003b47                webusb_platform_capability_descriptor
  .rodata.webusb_set_config.str1.1
-                0x0000000008003b43       0x1d .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x0000000008003b5f       0x1d .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
  .rodata.webusb_setup.str1.1
-                0x0000000008003b60       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
- .rodata.guid   0x0000000008003b78       0x92 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003b7c       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+ .rodata.guid   0x0000000008003b94       0x92 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .rodata.microsoft_platform_capability_descriptor
-                0x0000000008003c0a       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
-                0x0000000008003c0a                microsoft_platform_capability_descriptor
+                0x0000000008003c26       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003c26                microsoft_platform_capability_descriptor
  .rodata.winusb_control_vendor_request.str1.1
-                0x0000000008003c26       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003c42       0x14 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .rodata.winusb_descriptor_request.str1.1
-                0x0000000008003c3a        0x6 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003c56        0x6 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .rodata.winusb_set_config.str1.1
-                0x0000000008003c40       0x1d .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003c5c       0x1d .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .rodata.winusb_setup.str1.1
-                0x0000000008003c5d       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003c79       0x18 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .rodata.winusb_string_descriptor
-                0x0000000008003c75       0x12 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
+                0x0000000008003c91       0x12 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(winusb.o)
  .rodata.cdc_setup.str1.1
-                0x0000000008003c87       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003ca3       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .rodata.cdcacm_comm_cb.str1.1
-                0x0000000008003c9c        0x5 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003cb8        0x5 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .rodata.cdcacm_control_request.str1.1
-                0x0000000008003ca1       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003cbd       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
                                          0x30 (size before relaxing)
  .rodata.cdcacm_data_rx_cb.str1.1
-                0x0000000008003cc9        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003ce5        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .rodata.cdcacm_set_config.str1.1
-                0x0000000008003ccd       0x1d .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003ce9       0x1d .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .rodata.line_coding
-                0x0000000008003cea        0x7 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+                0x0000000008003d06        0x7 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
  .rodata.assert.part.0.str1.1
-                0x0000000008003cf1        0xc .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003d0d        0xc .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .rodata.bad_packet_message
-                0x0000000008003cfd        0xb .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003d19        0xb .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .rodata.hf2_data_rx_cb.str1.1
-                0x0000000008003d08       0x88 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003d24       0x88 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
                                          0x89 (size before relaxing)
  .rodata.hf2_set_config.str1.1
-                0x0000000008003d90        0xb .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003dac        0xb .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .rodata.hf2_setup.str1.1
-                0x0000000008003d9b       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003db7       0x15 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .rodata.send_hf2_response.str1.1
-                0x0000000008003db0        0x7 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x0000000008003dcc        0x7 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .rodata.usb21_set_config.str1.1
-                0x0000000008003db7       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x0000000008003dd3       0x1c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
  .rodata.usb21_setup.str1.1
-                0x0000000008003dd3       0x17 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x0000000008003def       0x17 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
  .rodata.usb21_standard_get_descriptor.str1.1
-                0x0000000008003dea       0x21 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x0000000008003e06       0x21 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
  .rodata.flushFlash.str1.1
-                0x0000000008003e0b       0x1e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
+                0x0000000008003e27       0x1e .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
                                          0x1f (size before relaxing)
  .rodata.infoUf2File
-                0x0000000008003e29       0x55 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
-                0x0000000008003e29                infoUf2File
-                0x0000000008003e80                . = ALIGN (0x4)
- *fill*         0x0000000008003e7e        0x2 
-                0x0000000008003e80                _boot_etext = .
+                0x0000000008003e45       0x55 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
+                0x0000000008003e45                infoUf2File
+                0x0000000008003e9c                . = ALIGN (0x4)
+ *fill*         0x0000000008003e9a        0x2 
+                0x0000000008003e9c                _boot_etext = .
 
 .text           0x0000000008004800     0x3424
                 0x0000000008004800                . = ALIGN (0x4)
@@ -3008,9 +3007,9 @@ Linker script and memory map
  .rel.iplt      0x0000000008007c24        0x0 asm/CortexContextSwitch.s.o
 
 .boot_preinit_array
-                0x0000000008003e80        0x0
-                0x0000000008003e80                . = ALIGN (0x4)
-                0x0000000008003e80                __boot_preinit_array_start = .
+                0x0000000008003e9c        0x0
+                0x0000000008003e9c                . = ALIGN (0x4)
+                0x0000000008003e9c                __boot_preinit_array_start = .
  :*reset_handler*(SORT_BY_ALIGNMENT(.preinit_array))
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(.preinit_array))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.preinit_array))
@@ -3028,7 +3027,7 @@ Linker script and memory map
  *liblogger.a:(SORT_BY_ALIGNMENT(.preinit_array))
  *libbluepill.a:(SORT_BY_ALIGNMENT(.preinit_array))
  *libbootloader.a:(SORT_BY_ALIGNMENT(.preinit_array))
-                0x0000000008003e80                __boot_preinit_array_end = .
+                0x0000000008003e9c                __boot_preinit_array_end = .
 
 .preinit_array  0x0000000008007c24        0x0
                 0x0000000008007c24                . = ALIGN (0x4)
@@ -3037,9 +3036,9 @@ Linker script and memory map
                 0x0000000008007c24                __preinit_array_end = .
 
 .boot_init_array
-                0x0000000008003e80        0x0
-                0x0000000008003e80                . = ALIGN (0x4)
-                0x0000000008003e80                __boot_init_array_start = .
+                0x0000000008003e9c        0x0
+                0x0000000008003e9c                . = ALIGN (0x4)
+                0x0000000008003e9c                __boot_init_array_start = .
  :*reset_handler*(SORT_BY_NAME(SORT_BY_ALIGNMENT(.init_array.*)))
  *libhal.a:*reset_handler*(SORT_BY_NAME(SORT_BY_ALIGNMENT(.init_array.*)))
  :*codal_target_hal*(SORT_BY_NAME(SORT_BY_ALIGNMENT(.init_array.*)))
@@ -3074,9 +3073,9 @@ Linker script and memory map
  *liblogger.a:(SORT_BY_ALIGNMENT(.init_array))
  *libbluepill.a:(SORT_BY_ALIGNMENT(.init_array))
  *libbootloader.a:(SORT_BY_ALIGNMENT(.init_array))
-                0x0000000008003e80                __boot_init_array_end = .
-                0x0000000008003e80                . = ALIGN (0x4)
-                0x0000000008003e80                _boot_etext = .
+                0x0000000008003e9c                __boot_init_array_end = .
+                0x0000000008003e9c                . = ALIGN (0x4)
+                0x0000000008003e9c                _boot_etext = .
 
 .init_array     0x0000000008007c24       0x10
                 0x0000000008007c24                . = ALIGN (0x4)
@@ -3092,9 +3091,9 @@ Linker script and memory map
                 0x0000000008007c34                _etext = .
 
 .boot_fini_array
-                0x0000000008003e80        0x0
-                0x0000000008003e80                . = ALIGN (0x4)
-                0x0000000008003e80                __boot_fini_array_start = .
+                0x0000000008003e9c        0x0
+                0x0000000008003e9c                . = ALIGN (0x4)
+                0x0000000008003e9c                __boot_fini_array_start = .
  :*reset_handler*(SORT_BY_ALIGNMENT(.fini_array))
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(.fini_array))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.fini_array))
@@ -3129,7 +3128,7 @@ Linker script and memory map
  *liblogger.a:(SORT_BY_NAME(SORT_BY_ALIGNMENT(.fini_array.*)))
  *libbluepill.a:(SORT_BY_NAME(SORT_BY_ALIGNMENT(.fini_array.*)))
  *libbootloader.a:(SORT_BY_NAME(SORT_BY_ALIGNMENT(.fini_array.*)))
-                0x0000000008003e80                __boot_fini_array_end = .
+                0x0000000008003e9c                __boot_fini_array_end = .
 
 .fini_array     0x0000000008007c34        0x0
                 0x0000000008007c34                . = ALIGN (0x4)
@@ -3138,7 +3137,7 @@ Linker script and memory map
  *(SORT_BY_NAME(SORT_BY_ALIGNMENT(.fini_array.*)))
                 0x0000000008007c34                __fini_array_end = .
 
-.boot_data      0x0000000020000000      0x124 load address 0x0000000008003e80
+.boot_data      0x0000000020000000      0x124 load address 0x0000000008003e9c
                 0x0000000020000000                _boot_data = .
  :*reset_handler*(SORT_BY_ALIGNMENT(.data*))
  .data.hal_data_test
@@ -3190,7 +3189,7 @@ Linker script and memory map
                 0x0000000020000124                . = ALIGN (0x4)
  *fill*         0x0000000020000123        0x1 
                 0x0000000020000124                _boot_edata = .
-                0x0000000008003e80                _boot_data_loadaddr = LOADADDR (.boot_data)
+                0x0000000008003e9c                _boot_data_loadaddr = LOADADDR (.boot_data)
 
 .data           0x0000000020000800        0x8 load address 0x0000000008007c34
                 0x0000000020000800                _data = .
@@ -3208,7 +3207,7 @@ Linker script and memory map
 .igot.plt       0x0000000020000808        0x0 load address 0x0000000008007c3c
  .igot.plt      0x0000000020000808        0x0 asm/CortexContextSwitch.s.o
 
-.boot_bss       0x0000000020000124      0x58c
+.boot_bss       0x0000000020000124      0x590
  :*reset_handler*(SORT_BY_ALIGNMENT(.bss*))
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(.bss*))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.bss*))
@@ -3216,11 +3215,13 @@ Linker script and memory map
                 0x0000000020000124        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .bss._ZL14alarm_callback
                 0x0000000020000128        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
- .bss.__dso_handle
+ .bss._ZL19bootloader_callback
                 0x000000002000012c        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x000000002000012c                __dso_handle
+ .bss.__dso_handle
+                0x0000000020000130        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000020000130                __dso_handle
  .bss._ZL11initialised
-                0x0000000020000130        0x1 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000020000134        0x1 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  *libhal.a:*codal_target_hal*(SORT_BY_ALIGNMENT(.bss*))
  :*CortexContextSwitch*(SORT_BY_ALIGNMENT(.bss*))
  *libhal.a:(SORT_BY_ALIGNMENT(.bss*))
@@ -3228,77 +3229,77 @@ Linker script and memory map
  *libFrameworkLibOpenCM3.a:(SORT_BY_ALIGNMENT(.bss*))
  *libcocoos.a:(SORT_BY_ALIGNMENT(.bss*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.bss*))
- *fill*         0x0000000020000131        0x3 
- .bss.msgQList  0x0000000020000134       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ *fill*         0x0000000020000135        0x3 
+ .bss.msgQList  0x0000000020000138       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
  .bss.task_list
-                0x0000000020000154       0x8c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .bss.l.4983    0x00000000200001e0        0x2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+                0x0000000020000158       0x8c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .bss.l.4983    0x00000000200001e4        0x2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
  .bss.eventList
-                0x00000000200001e2        0xe .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .bss.nEvents   0x00000000200001f0        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .bss.nQueues   0x00000000200001f1        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x00000000200001e6        0xe .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .bss.nEvents   0x00000000200001f4        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .bss.nQueues   0x00000000200001f5        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
  .bss.nSemaphores
-                0x00000000200001f2        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .bss.semList   0x00000000200001f3       0x18 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .bss.nTasks    0x000000002000020b        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x00000000200001f6        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .bss.semList   0x00000000200001f7       0x18 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .bss.nTasks    0x000000002000020f        0x1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
  *libgcc.a:(SORT_BY_ALIGNMENT(.bss*))
  *libqfplib.a:(SORT_BY_ALIGNMENT(.bss*))
  *libnano-float.a:(SORT_BY_ALIGNMENT(.bss*))
  *libnewlib.a:(SORT_BY_ALIGNMENT(.bss*))
  *liblogger.a:(SORT_BY_ALIGNMENT(.bss*))
  .bss._ZL10logEnabled
-                0x000000002000020c        0x1 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000020000210        0x1 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .bss._ZL11debugBuffer
-                0x000000002000020d      0x101 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000020000211      0x101 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  *libbluepill.a:(SORT_BY_ALIGNMENT(.bss*))
- *fill*         0x000000002000030e        0x2 
+ *fill*         0x0000000020000312        0x2 
  .bss._ZL10alarmCount
-                0x0000000020000310        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
- .bss._ZL8tickFunc
                 0x0000000020000314        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
- .bss._ZL9alarmFunc
+ .bss._ZL8tickFunc
                 0x0000000020000318        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
- .bss._ZL9tickCount
+ .bss._ZL9alarmFunc
                 0x000000002000031c        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+ .bss._ZL9tickCount
+                0x0000000020000320        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .bss._ZL12debugEnabled
-                0x0000000020000320        0x1 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000020000324        0x1 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
  .bss._ZZ20platform_start_timerE12timerStarted
-                0x0000000020000321        0x1 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000020000325        0x1 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  *libbootloader.a:(SORT_BY_ALIGNMENT(.bss*))
- *fill*         0x0000000020000322        0x2 
- .bss.usbd_dev  0x0000000020000324        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
+ *fill*         0x0000000020000326        0x2 
+ .bss.usbd_dev  0x0000000020000328        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
  .bss.erase_end.5442
-                0x0000000020000328        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
- .bss.erase_start.5441
                 0x000000002000032c        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+ .bss.erase_start.5441
+                0x0000000020000330        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .bss.config_callback
-                0x0000000020000330       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x0000000020000334       0x28 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .bss.control_callback
-                0x0000000020000358       0x50 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
- .bss.usbd_dev  0x00000000200003a8        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
-                0x00000000200003a8                usbd_dev
+                0x000000002000035c       0x50 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+ .bss.usbd_dev  0x00000000200003ac        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000200003ac                usbd_dev
  .bss.webusb_https_url
-                0x00000000200003ac        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
+                0x00000000200003b0        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(webusb.o)
  .bss._usbd_dev
-                0x00000000200003b0        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x00000000200003b4        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  .bss.usb21_bos
-                0x00000000200003b4        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
+                0x00000000200003b8        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb21_standard.o)
  .bss.lastFlush
-                0x00000000200003b8        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
- .bss.ms        0x00000000200003bc        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
+                0x00000000200003bc        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
+ .bss.ms        0x00000000200003c0        0x4 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(ghostfat.o)
  .bss.usbd_control_buffer
-                0x00000000200003c0      0x100 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+                0x00000000200003c4      0x100 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
  .bss.startup_mode
-                0x00000000200004c0        0x1 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x00000000200004c4        0x1 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
  .bss.serial_number
-                0x00000000200004c1       0x19 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
- .bss.cdcbuf    0x00000000200004da       0x41 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
- .bss.buf       0x000000002000051b       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
- .bss.buf.5879  0x000000002000055b       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x00000000200004c5       0x19 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(usb_conf.o)
+ .bss.cdcbuf    0x00000000200004de       0x41 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(cdc.o)
+ .bss.buf       0x000000002000051f       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+ .bss.buf.5879  0x000000002000055f       0x40 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
  :*reset_handler*(SORT_BY_ALIGNMENT(COMMON))
- *fill*         0x000000002000059b        0x1 
- COMMON         0x000000002000059c        0x4 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
-                0x000000002000059c                hal_bss_test
+ *fill*         0x000000002000059f        0x1 
+ COMMON         0x00000000200005a0        0x4 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
+                0x00000000200005a0                hal_bss_test
  *libhal.a:*reset_handler*(SORT_BY_ALIGNMENT(COMMON))
  :*codal_target_hal*(SORT_BY_ALIGNMENT(COMMON))
  *libhal.a:*codal_target_hal*(SORT_BY_ALIGNMENT(COMMON))
@@ -3306,15 +3307,15 @@ Linker script and memory map
  *libhal.a:(SORT_BY_ALIGNMENT(COMMON))
  *liblibopencm3.a:(SORT_BY_ALIGNMENT(COMMON))
  *libFrameworkLibOpenCM3.a:(SORT_BY_ALIGNMENT(COMMON))
- COMMON         0x00000000200005a0      0x100 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
-                0x00000000200005a0                st_usbfs_dev
-                0x0000000020000698                st_usbfs_force_nak
+ COMMON         0x00000000200005a4      0x100 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(st_usbfs_core.o)
+                0x00000000200005a4                st_usbfs_dev
+                0x000000002000069c                st_usbfs_force_nak
  *libcocoos.a:(SORT_BY_ALIGNMENT(COMMON))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(COMMON))
- COMMON         0x00000000200006a0        0x3 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x00000000200006a0                running_tid
-                0x00000000200006a1                running
-                0x00000000200006a2                last_running_task
+ COMMON         0x00000000200006a4        0x3 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x00000000200006a4                running_tid
+                0x00000000200006a5                running
+                0x00000000200006a6                last_running_task
  *libgcc.a:(SORT_BY_ALIGNMENT(COMMON))
  *libqfplib.a:(SORT_BY_ALIGNMENT(COMMON))
  *libnano-float.a:(SORT_BY_ALIGNMENT(COMMON))
@@ -3322,16 +3323,16 @@ Linker script and memory map
  *liblogger.a:(SORT_BY_ALIGNMENT(COMMON))
  *libbluepill.a:(SORT_BY_ALIGNMENT(COMMON))
  *libbootloader.a:(SORT_BY_ALIGNMENT(COMMON))
- *fill*         0x00000000200006a3        0x1 
- COMMON         0x00000000200006a4        0x9 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
-                0x00000000200006a4                dataToSend
-                0x00000000200006a8                dataToSendLength
-                0x00000000200006ac                dataToSendFlag
-                0x00000000200006b0                . = ALIGN (0x4)
- *fill*         0x00000000200006ad        0x3 
-                0x00000000200006b0                _boot_ebss = .
-                0x00000000200006b0                . = ALIGN (0x4)
-                0x00000000200006b0                boot_end = .
+ *fill*         0x00000000200006a7        0x1 
+ COMMON         0x00000000200006a8        0x9 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(hf2.o)
+                0x00000000200006a8                dataToSend
+                0x00000000200006ac                dataToSendLength
+                0x00000000200006b0                dataToSendFlag
+                0x00000000200006b4                . = ALIGN (0x4)
+ *fill*         0x00000000200006b1        0x3 
+                0x00000000200006b4                _boot_ebss = .
+                0x00000000200006b4                . = ALIGN (0x4)
+                0x00000000200006b4                boot_end = .
 
 .bss            0x0000000020000808     0x1300
  *(SORT_BY_ALIGNMENT(.bss*))
