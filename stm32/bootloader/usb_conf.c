@@ -603,7 +603,7 @@ void dump_buffer(const char *msg, const uint8_t *buf, int len) {
 
 void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     debug_print(msg);
-    return; ////
+    // return; ////
     
     uint8_t desc_type = usb_descriptor_type(req->wValue);
     uint8_t desc_index = usb_descriptor_index(req->wValue);
