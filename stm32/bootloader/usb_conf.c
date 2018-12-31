@@ -527,6 +527,11 @@ static uint8_t usb_descriptor_index(uint16_t wValue) {
 	return wValue & 0xFF;
 }
 
+//  From framework-libopencm3/lib/usb/usb_standard.c:
+extern int _usbd_standard_request_device(usbd_device *usbd_dev,
+				  struct usb_setup_data *req, uint8_t **buf,
+				  uint16_t *len);
+
 uint16_t device_address = (uint16_t) -1;
 
 static int aggregate_callback(
@@ -537,6 +542,16 @@ static int aggregate_callback(
 	usbd_control_complete_callback *complete) {
     //  This callback is called whenever a USB request is received.  We route to the right driver callbacks.
 	int i, result = 0;
+
+    //  If this is a Set Address request, we must fast-track this request and return an empty message within 50 ms, according to the USB 2.0 specs.
+    //  >>  typ 00, req 05, val 0009, idx 0000, len 0000, SET_ADR 
+    //  From usb_standard_set_address() in framework-libopencm3/lib/usb/usb_standard.c:
+    if (req->bmRequestType == 0 && req->bRequest == 5) {
+        debug_println("SET_ADR");
+        *len = 0;  //  Return an empty message.
+        //  Should return 1 i.e. USBD_REQ_HANDLED
+        return _usbd_standard_request_device(usbd_dev, req, buf, len);
+    }
     //  Call the callbacks registered by the drivers.
     for (i = 0; i < MAX_CONTROL_CALLBACK; i++) {
         if (control_callback[i].cb == NULL) { break; }
