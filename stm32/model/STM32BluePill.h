@@ -67,7 +67,7 @@ namespace codal
             codal::_cm::I2C    i2c1;
             codal::_cm::SPI    spi1;
             codal::_cm::SPI    spi2;
-            codal::_cm::Serial usart2;
+            ////TODO codal::_cm::Serial usart2;
 
             /**
              * Constructor.

@@ -60,12 +60,6 @@ namespace codal
         void alarm_callback() {
             //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
             sem_ISR_signal(timer_semaphore); 
-#ifdef NOTUSED
-            if (trigger_period > 0) { 
-                //  If the trigger period was set, repeat the alarm.
-                platform_set_alarm(millis() + trigger_period);
-            }
-#endif  //  NOTUSED
             ////if (!Timer::instance) { return; }  //  No timer to trigger.
             ////Timer::instance->trigger();
         }
@@ -108,8 +102,9 @@ namespace codal
         void Timer::triggerIn(CODAL_TIMESTAMP t) {
             //  TODO: Set alarm for millis() + t millisecs.  If alarm is already set and alarm > millis() and alarm < millis() + t, don't set alarm.
             //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); ////
-            trigger_period = t;  //  We will set the timer to be triggered at this period when the alarm is raised.
-            platform_set_alarm(millis() + t);
+            debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
+            //  trigger_period = millis() + t;  //  We will set the timer to be triggered at this period when the alarm is raised.
+            platform_set_alarm(t);
 #ifdef TODO
             if (t < 20)
                 t = 20;

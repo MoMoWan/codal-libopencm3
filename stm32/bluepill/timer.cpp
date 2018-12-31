@@ -70,7 +70,8 @@ static void rtc_setup(void) {
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 	
 	rtc_set_counter_val(0);              //  Start counting millisecond ticks from 0.
-	custom_rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
+	////rtc_set_alarm_time(0);
+	////rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup via the interrupt.
 	exti_enable_request(EXTI17);
 
@@ -99,11 +100,19 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 	rtc_setup();
 }
 
+static bool rtc_config_completed(void) {
+	return ((RTC_CRL & RTC_CRL_RTOFF) == 0);
+}
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds elapsed since startup.
 	debug_print("alm <"); debug_print((size_t) millisec / 1000); ////
-	if (!alarmFunc) { debug_print("?"); }
-	custom_rtc_set_alarm_time(millisec);
+	if (!alarmFunc) { debug_print("?"); } debug_flush(); ////
+	if (!rtc_config_completed()) {
+		debug_print("!> "); debug_flush();
+		return;
+	}
+	custom_rtc_set_alarm_time(rtc_get_counter_val() + millisec);
+
 	debug_print("> "); debug_flush(); ////
 	//  TODO: rtc_enable_alarm()
 }
@@ -224,15 +233,15 @@ static void custom_rtc_exit_config_mode(void)
 	/* Exit configuration mode. */
 	RTC_CRL &= ~RTC_CRL_CNF;
 
-//#ifdef NOTUSED  //  This tends to hang, we skip the wait.
+#ifdef NOTUSED  //  This tends to hang, we skip the wait.
 	volatile uint32_t reg32;  ////  Added volatile.
 	uint32_t counter = 0;
 	/* Wait until the RTOFF bit is 1 (our RTC register write finished). */
 	while ((reg32 = (RTC_CRL & RTC_CRL_RTOFF)) == 0) {
 		counter++;
-		if (counter == 10000) { break; }
+		if (counter == 1000) { break; }
 	}
-//#endif  //  NOTUSED
+#endif  //  NOTUSED
 }
 
 /*---------------------------------------------------------------------------*/
