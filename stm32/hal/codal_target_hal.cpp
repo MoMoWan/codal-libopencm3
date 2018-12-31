@@ -40,7 +40,7 @@ static void usb_task(void) {
     for (;;) {
         sem_wait(usb_semaphore);       //  Wait for the semaphore to be signalled.
         if (!bootloader_callback) { continue; }
-        debug_print(" u "); ////
+        //  debug_print(" u "); ////
         bootloader_callback();         //  Trigger the Bootloader background processing.
     }
     task_close();  //  End of the task. Should not come here.

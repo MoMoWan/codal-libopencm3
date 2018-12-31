@@ -99,7 +99,7 @@ int bootloader_poll(void) {
     if (!usbd_dev) { return -1; }
 	usbd_poll(usbd_dev);
 
-    if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
+    // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
     return 0;
 }
 
