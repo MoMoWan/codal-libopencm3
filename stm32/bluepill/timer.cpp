@@ -31,9 +31,8 @@ const rcc_osc clock_source = RCC_HSE;
 
 //  Set the clock prescaling value, so that we will get a tick interrupt every 1 millisecond. Dependent on LSE or HSE clock selection.
 #ifdef USE_RCC_LSE
-////const uint32_t prescale = 32;        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
-// 
-const uint32_t prescale = 327;    //  For RCC_LSE: 10 millisecond tick
+const uint32_t prescale = 32;        //  For RCC_LSE: 1 millisecond tick (should actually be 32.7)
+// const uint32_t prescale = 327;    //  For RCC_LSE: 10 millisecond tick
 #else
 const uint32_t prescale = 62;        //  For RCC_HSE: 1 millisecond tick (should actually be 62.5)
 // const uint32_t prescale = 62500;  //  For RCC_HSE: 1 second tick
@@ -69,7 +68,6 @@ static void rtc_setup(void) {
 	debug_println("rtc awake ok"); debug_flush(); //  rtc_awake_from_off() fails on qemu.
 	
 	rtc_set_counter_val(0);              //  Start counting millisecond ticks from 0.
-	////rtc_set_alarm_time(4000);
 	rtc_set_alarm_time((uint32_t) -1);   //  Reset alarm to -1 or 0xffffffff so we don't trigger now.
 	exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);  //  Enable alarm wakeup via the interrupt.
 	exti_enable_request(EXTI17);
@@ -97,10 +95,6 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 	timerStarted = true;
 	debug_println("platform_start_timer"); ////
 	rtc_setup();
-}
-
-static bool rtc_config_completed(void) {
-	return ((RTC_CRL & RTC_CRL_RTOFF) == 0);
 }
 
 void platform_set_alarm(uint32_t millisec) {
