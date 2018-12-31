@@ -1,6 +1,6 @@
 //  Main Application for PlatformIO build.  Based on https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node/blob/master/samples/main.cpp
 //  TODO: Sync with samples/main.cpp
-#define DISABLE_DEBUG ////
+//  #define DISABLE_DEBUG ////
 #include <logger.h>
 #include <STM32BluePill.h>
 

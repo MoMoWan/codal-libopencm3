@@ -63,14 +63,15 @@ void target_set_bootloader_callback(int (*bootloader_callback0)()) {
 }
 
 static void timer_tick() {
+    //  Call cocoOS at every tick.
+    os_tick();
+    
     //  If bootloader is running in background, call it to handle USB requests.
     //  if (bootloader_callback) { bootloader_callback(); }
-    if (usb_semaphore > 0) { sem_ISR_signal(usb_semaphore); } 
+    sem_ISR_signal(usb_semaphore);
 
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
-    //  Call cocoOS at every tick.
-    os_tick();
 }
 
 static void timer_alarm() {
@@ -109,7 +110,7 @@ void target_init(void) {
     task_create(
         usb_task,   //  Task will run this function.
         &context,     //  task_get_data() will be set to the context object.
-        20,           //  Priority 10
+        10,           //  Priority 10
         NULL, 0, 0);
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
@@ -231,6 +232,7 @@ void target_disable_irq() {
 
 void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // 
+    if (!initialised) { return; }  //  If not initialised, quit.
     //  Flush the debug log buffers.
     debug_flush();
     target_dmesg_flush();
