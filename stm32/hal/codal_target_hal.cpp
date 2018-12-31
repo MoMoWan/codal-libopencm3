@@ -25,6 +25,8 @@ static bool initialised = false;
 static void (*tick_callback)() = NULL;
 static void (*alarm_callback)() = NULL;
 static int (*bootloader_callback)() = NULL;
+static void os_preschedule(void);
+static void os_schedule(void);
 
 void target_set_tick_callback(void (*tick_callback0)()) {
     //  The callback is normally set to CMTimer::tick_callback(), which calls Timer::trigger() to resume suspended tasks.
@@ -69,37 +71,6 @@ void target_disable_debug(void) {
     //  Disable display of debug messages.  For use in production devices.
     disable_debug();  
 }
-
-////  TODO
-extern uint8_t running_tid;
-extern uint8_t last_running_task;
-extern uint8_t running;
-
-static void os_schedule( void ) {
-
-    running_tid = NO_TID;
-
-#ifdef ROUND_ROBIN
-    /* Find next ready task */
-    running_tid = os_task_next_ready_task();
-#else
-    /* Find the highest prio task ready to run */
-    running_tid = os_task_highest_prio_ready_task();   
-#endif
-    
-    if ( running_tid != NO_TID ) {
-        os_task_run();
-    }
-    else {
-        os_cbkSleep();
-    }
-}
-
-static void os_preschedule(void) {
-    running = 1;
-    os_enable_interrupts();
-}
-////
 
 void target_init(void) {
     //  Blue Pill specific initialisation...
@@ -415,5 +386,32 @@ extern "C" {
         static_cast<void>(destructor); 
         static_cast<void>(dso_handle); 
         return 0; 
+    }
+}
+
+//  Schedule a cocoOS task for running.  Copied from https://github.com/cocoOS/cocoOS/blob/master/src/os_kernel.c
+extern uint8_t running_tid, last_running_task, running;  //  System flags.
+
+static void os_preschedule(void) {
+    //  Must be called once before os_schedule().
+    running = 1;
+    os_enable_interrupts();
+}
+
+static void os_schedule( void ) {
+    //  Call this to schedule a task.
+    running_tid = NO_TID;
+#ifdef ROUND_ROBIN
+    /* Find next ready task */
+    running_tid = os_task_next_ready_task();
+#else
+    /* Find the highest prio task ready to run */
+    running_tid = os_task_highest_prio_ready_task();   
+#endif    
+    if ( running_tid != NO_TID ) {
+        os_task_run();
+    }
+    else {
+        os_cbkSleep();
     }
 }
