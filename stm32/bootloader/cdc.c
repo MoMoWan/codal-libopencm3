@@ -11,6 +11,7 @@
 #define USB_CDC_REQ_GET_LINE_CODING		0x21
 
 static uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
+static connected_callback *connected_func = NULL;  //  Callback when connected.
 
 //  Line config to be returned.
 static const struct usb_cdc_line_coding line_coding = {
@@ -58,6 +59,7 @@ static enum usbd_request_return_codes cdcacm_control_request(
 			//  Windows requires this request, not Mac or Linux.
 			//  From https://github.com/PX4/Bootloader/blob/master/stm32/cdcacm.c
 			connected = 1;
+			if (connected_func) { connected_func(); }
 			if ( *len < sizeof(struct usb_cdc_line_coding) ) {
 				debug_print("*** cdcacm_control notsupp line_coding "); debug_print_unsigned(sizeof(struct usb_cdc_line_coding)); 
 				debug_print(", len "); debug_print_unsigned(*len);
@@ -70,6 +72,7 @@ static enum usbd_request_return_codes cdcacm_control_request(
 		}
 		case USB_CDC_REQ_SET_LINE_CODING: {
 			connected = 1;
+			if (connected_func) { connected_func(); }
 			if ( *len < sizeof(struct usb_cdc_line_coding) ) {
 				debug_print("*** cdcacm_control notsupp line_coding "); debug_print_unsigned(sizeof(struct usb_cdc_line_coding)); 
 				debug_print(", len "); debug_print_unsigned(*len);
@@ -148,9 +151,10 @@ static void cdcacm_set_config(
 	if (status < 0) { debug_println("*** cdcacm_set_config failed"); debug_flush(); }
 }
 
-void cdc_setup(usbd_device* usbd_dev) {
+void cdc_setup(usbd_device* usbd_dev, connected_callback *connected_func0) {
 	//  Setup the USB interface.
     //  debug_println("*** cdc_setup"); ////
+	connected_func = connected_func0;
 	int status = aggregate_register_config_callback(usbd_dev, cdcacm_set_config);
 	if (status < 0) { debug_println("*** cdc_setup failed"); debug_flush(); }
 }

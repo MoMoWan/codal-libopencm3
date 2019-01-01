@@ -31,6 +31,9 @@
 #define usb_assert assert
 #define LOG(s) debug_println(s)
 
+static uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
+static connected_callback *connected_func = NULL;  //  Callback when connected.
+
 //  Large HF2 buffer for Bootloader Mode only.  Size should be 1090 bytes.
 typedef struct {
     uint16_t size;
@@ -86,11 +89,36 @@ static void pokeSend(
 }
 
 static void send_hf2_response(HF2_Buffer *pkt, int size) {
+    //  Send the HF2 response packet.
     const uint8_t *dataToSend = pkt->buf;
     volatile uint32_t dataToSendLength = 4 + size;
     uint8_t dataToSendFlag = HF2_FLAG_CMDPKT_LAST;
     dump_buffer("hf2 >>", dataToSend, size);
     pokeSend(dataToSend, dataToSendLength, dataToSendFlag);
+}
+
+int hf2_transmit(
+  	usbd_device *usbd_dev,
+	const uint8_t *buf,
+	uint16_t len
+) {
+	//  Send the data to the HF2 connection.  Send only if connected.
+	if (!connected || !usbd_dev || !buf) { return -1; }
+	if (len == 0) { return 0; }
+	//  Transmit Up to MAX_USB_PACKET_SIZE.
+#ifdef TODO ////
+	if (len <= MAX_USB_PACKET_SIZE) {
+		return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);  //  Returns the bytes sent.
+	}
+	while (len > 0) {
+		uint16_t tx_len = (len > MAX_USB_PACKET_SIZE) ? MAX_USB_PACKET_SIZE : len;
+		len = len - tx_len;
+		uint16_t status = usbd_ep_write_packet(usbd_dev, DATA_IN, buf, tx_len);  //  Returns the bytes sent.
+		if (status != tx_len) { return 0; }  //  Stop if error.
+		buf = &buf[tx_len];
+	}
+#endif  ////  TODO
+	return len;
 }
 
 extern const char infoUf2File[];
@@ -262,10 +290,13 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {
     (void)wValue;
     usbd_ep_setup(usbd_dev, HF2_IN, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_tx_cb);
     usbd_ep_setup(usbd_dev, HF2_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_rx_cb);
+    connected = 1;
+    if (connected_func) { connected_func(); }
 }
 
-void hf2_setup(usbd_device *usbd_dev) {
+void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
     _usbd_dev = usbd_dev;
+    connected_func = connected_func0;
     int status = aggregate_register_config_callback(usbd_dev, hf2_set_config);
     if (status < 0) { debug_println("*** hf2_setup failed"); debug_flush(); }
 }

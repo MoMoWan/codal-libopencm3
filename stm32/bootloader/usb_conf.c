@@ -43,6 +43,8 @@ static void set_aggregate_callback(
   usbd_device *usbd_dev,
   uint16_t wValue
 );
+static void cdc_connected(void);
+static void hf2_connected(void);
 
 #ifdef USB21_INTERFACE
 static const char* origin_url = "visualbluepill.github.io";
@@ -408,10 +410,10 @@ usbd_device* usb_setup(void) {
     msc_setup(usbd_dev);
 #endif  //  INTF_MSC
 #ifdef INTF_COMM    
-    cdc_setup(usbd_dev);
+    cdc_setup(usbd_dev, cdc_connected);
 #endif  //  INTF_COMM
 #ifdef INTF_HF2    
-    hf2_setup(usbd_dev);
+    hf2_setup(usbd_dev, hf2_connected);
 #endif  //  INTF_HF2
 
 #ifdef USB21_INTERFACE
@@ -609,13 +611,41 @@ void usb_set_serial_number(const char* serial) {
     }
 }
 
-int usb_serial_transmit(
+static uint8_t  //  Non-zero if the USB interface is connected.
+    cdc_is_connected = 0,
+    hf2_is_connected = 0;
+
+#ifdef INTF_COMM
+static int usb_cdc_transmit(
 	const uint8_t *buf,
 	uint16_t len) {
     //  Transmit to the serial port, if connected.
-    if (!usbd_dev) { return -1; }
+    if (!usbd_dev || !cdc_is_connected) { return -1; }
     return cdcadm_transmit(usbd_dev, buf, len);
 }
+
+static void cdc_connected(void) {
+    //  Called when CDC is connected.  We set the serial port as a logger output.
+    cdc_is_connected = 1;
+    logger_add_output(usb_cdc_transmit);
+}
+#endif  //  INTF_COMM
+
+#ifdef INTF_HF2
+static int usb_hf2_transmit(
+	const uint8_t *buf,
+	uint16_t len) {
+    //  Transmit to the HF2, if connected.
+    if (!usbd_dev || !hf2_is_connected) { return -1; }
+    return hf2_transmit(usbd_dev, buf, len);
+}
+
+static void hf2_connected(void) {
+    //  Called when HF2 is connected.  We set the HF2 port as a logger output.
+    hf2_is_connected = 1;
+    logger_add_output(usb_hf2_transmit);
+}
+#endif  //  INTF_HF2
 
 void dump_buffer(const char *msg, const uint8_t *buf, int len) {
     debug_print(msg); debug_print(" ");
