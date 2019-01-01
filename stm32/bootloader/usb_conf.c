@@ -15,7 +15,7 @@
  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#define DISABLE_DEBUG ////
+//  #define DISABLE_DEBUG ////
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>

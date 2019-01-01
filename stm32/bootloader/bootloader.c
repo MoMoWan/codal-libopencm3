@@ -20,7 +20,7 @@
 /* To enable MakeCode logging, browse to visualbluepill.github.io, open Chrome console and enter:
 pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 */
-#define DISABLE_DEBUG ////
+//  #define DISABLE_DEBUG ////
 #include <string.h>
 #include <libopencm3/cm3/vector.h>
 #include <libopencm3/usb/usbd.h>
@@ -99,7 +99,6 @@ int bootloader_poll(void) {
 
     if (!usbd_dev) { return -1; }
 
-    ////clear_poll_status();
 	usbd_poll(usbd_dev);
 
     static volatile int last_status = 0;
