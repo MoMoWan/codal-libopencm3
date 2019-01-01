@@ -58,8 +58,6 @@ static enum usbd_request_return_codes cdcacm_control_request(
 		case USB_CDC_REQ_GET_LINE_CODING: {
 			//  Windows requires this request, not Mac or Linux.
 			//  From https://github.com/PX4/Bootloader/blob/master/stm32/cdcacm.c
-			connected = 1;
-			if (connected_func) { connected_func(); }
 			if ( *len < sizeof(struct usb_cdc_line_coding) ) {
 				debug_print("*** cdcacm_control notsupp line_coding "); debug_print_unsigned(sizeof(struct usb_cdc_line_coding)); 
 				debug_print(", len "); debug_print_unsigned(*len);
@@ -71,8 +69,6 @@ static enum usbd_request_return_codes cdcacm_control_request(
 			return USBD_REQ_HANDLED;
 		}
 		case USB_CDC_REQ_SET_LINE_CODING: {
-			connected = 1;
-			if (connected_func) { connected_func(); }
 			if ( *len < sizeof(struct usb_cdc_line_coding) ) {
 				debug_print("*** cdcacm_control notsupp line_coding "); debug_print_unsigned(sizeof(struct usb_cdc_line_coding)); 
 				debug_print(", len "); debug_print_unsigned(*len);
@@ -122,6 +118,10 @@ static void cdcacm_data_rx_cb(
     rx_buf[pos] = 0;
 
 	cdcadm_transmit(usbd_dev, rx_buf, pos);  //  Echo the packet.	
+	if (!connected) {
+		connected = 1;
+		if (connected_func) { connected_func(); }
+	}
     //  debug_print("["); debug_println(rx_buf); debug_print("]");
 }
 
