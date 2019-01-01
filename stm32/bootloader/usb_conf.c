@@ -685,7 +685,7 @@ void dump_buffer(const char *msg, const uint8_t *buf, int len) {
 
 void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     debug_print(msg);
-    debug_println(""); return; ////
+    ////debug_println(""); return; ////
 
     uint8_t desc_type = usb_descriptor_type(req->wValue);
     uint8_t desc_index = usb_descriptor_index(req->wValue);
@@ -694,8 +694,7 @@ void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     debug_print(", val "); debug_printhex(req->wValue >> 8); debug_printhex(req->wValue & 0xff);
     debug_print(", idx "); debug_printhex(req->wIndex >> 8); debug_printhex(req->wIndex & 0xff);
     debug_print(", len "); debug_printhex(req->wLength >> 8); debug_printhex(req->wLength & 0xff);
-
-    debug_println(""); return; ////
+    ////debug_println(""); return; ////
 
     if (req->bmRequestType == 0x00 || req->bmRequestType == 0x80) {
         //  Dump USB standard requests.
