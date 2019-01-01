@@ -44,7 +44,7 @@ typedef struct {
 
 //  TODO: Use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 __attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
-HF2_Buffer pkt;  // Size should be 1090 bytes.
+//  HF2_Buffer pkt;  // Size should be 1090 bytes.
 
 const uint8_t *dataToSend;
 volatile uint32_t dataToSendLength;
@@ -101,7 +101,7 @@ static void assert(bool assertion, const char *msg) {
     debug_print("*** ERROR: "); debug_println(msg); debug_flush();
 }
 
-static void handle_command() {
+static void handle_command(/* HF2_Buffer *pkt */) {
     int tmp;
 
     // one has to be careful dealing with these, as they share memory
@@ -178,6 +178,14 @@ static void handle_command() {
         send_hf2_response(tmp << 2);
         return;
 
+    /* TODO: Handle DMESG (0x0010)
+        Return internal log buffer if any. The result is a character array.
+
+        // no arguments
+        struct HF2_DMESG_Result {
+            uint8_t logs[...];
+        }; */
+
 #if MURMUR3
     case HF2_CMD_MURMUR3:
         debug_println("hf2 murmur");
@@ -208,10 +216,22 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     if (len <= 0) return;
 
     uint8_t tag = buf[0];
+    uint8_t cmd = buf[1];  //  Only valid if pkt.size = 0 (first packet of message).
     // serial packets not allowed when in middle of command packet
     usb_assert(pkt.size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
     int size = tag & HF2_SIZE_MASK;
     usb_assert(pkt.size + size <= (int)sizeof(pkt.buf), bad_packet_message);
+
+    //  If pkt.size = 0 (first packet of message) and 
+    //  cmd = BININFO (0x0001), INFO (0x0002), RESET INTO APP (0x0003), 
+    //        RESET INTO (0x0004) or START FLASH (0x0005)
+    //  then use smaller packet in case we are running in Application Mode.
+    if (pkt.size == 0 && cmd >= 1 && cmd <= 5) {
+        debug_print("small pkt "); debug_printhex(cmd);
+        debug_print(", len "); debug_printhex(size);
+        debug_println("");
+    }
+    //  Populate the packet.
     memcpy(pkt.buf + pkt.size, buf + 1, size);
     pkt.size += size;
     tag &= HF2_FLAG_MASK;
