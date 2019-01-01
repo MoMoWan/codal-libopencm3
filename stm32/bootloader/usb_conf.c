@@ -41,24 +41,17 @@
 #include "hf2.h"
 
 ////
-#define BUSY_DURATION 5000  //  Return busy for up to 5 seconds after the last recorded busy time.
+#define BUSY_DURATION 5000  //  Return busy for up to 5 seconds after the last recorded USB activity.
 static volatile uint32_t last_busy_time = 0;
-////  static volatile uint8_t poll_status = 0;
 
 void sof_callback(void) {
     //  Start Of Frame callback.  This is called when there is any USB activity.
     //  debug_print("~ ");
-    //// poll_status = 1;
-    last_busy_time = millis();
+    ////last_busy_time = millis();
 }
 
-////void clear_poll_status(void) { 
-    //// poll_status = 0; 
-////}
-
 volatile int get_usb_status(void) { 
-    //  Return 1 if busy within last few seconds.
-    //// return poll_status; 
+    //  Return 1 if there was any USB activity within last few seconds.
     if (last_busy_time == 0) { return 0; }
     volatile uint32_t now = millis();
     //  If time now is within a few seconds of last busy time, return busy.
@@ -432,7 +425,7 @@ usbd_device* usb_setup(void) {
         usbd_control_buffer, sizeof(usbd_control_buffer));
 
     //  Register for Start Of Frame callbacks.
-    usbd_register_sof_callback(usbd_dev, sof_callback);
+    ////usbd_register_sof_callback(usbd_dev, sof_callback);
 
     //  The following USB setup functions will call aggregate_register_callback() to register callbacks.
 #ifdef INTF_DFU    
@@ -577,7 +570,7 @@ static int aggregate_callback(
 	usbd_control_complete_callback *complete) {
     //  This callback is called whenever a USB request is received.  We route to the right driver callbacks.
 	int i, result = 0;
-    ////poll_status = 1;   //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
+    last_busy_time = millis();  //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
 
     //  If this is a Set Address request, we must fast-track this request and return an empty message within 50 ms, according to the USB 2.0 specs.
     //  >>  typ 00, req 05, val 0009, idx 0000, len 0000, SET_ADR 

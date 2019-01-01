@@ -37,40 +37,6 @@ static void timer_tick() {
     if (bootloader_callback) { 
         //  If we received any USB request, continue polling a few seconds.  That's because according to the USB 2.0 specs,
         //  we must return the response for the Set Address request within 50 ms.
-//#define NEW_POLL
-#ifdef NEW_POLL
-        volatile uint32_t now = millis();
-        volatile uint32_t now_updated = now;
-
-        //  Loop until the tick ends in 1 millisec.
-        while (now == now_updated) {
-            volatile int status = bootloader_callback();
-            if (status != prev_poll_status) {
-                if (status > 0) { debug_print("U{ "); }
-                else { debug_print("} "); }
-            }
-            prev_poll_status = status;
-            if (status == 0) { break; }
-#ifdef NOTUSED
-            if (status > 0) {
-                //  If busy, extend the poll stop time.
-                if (poll_stop == 0) { debug_print("U{ "); }
-                poll_stop = now + POLL_DURATION;
-                //  And continue polling.
-            } else {
-                //  If not busy, check for poll stop time.
-                if (poll_stop == 0 || now >= poll_stop) {
-                    //  If no poll stop time, or poll stop time has expired, break the loop.
-                    if (poll_stop != 0) { debug_print("} "); }
-                    poll_stop = 0;
-                    break;
-                }
-                //  Else continue polling.
-            }
-#endif  //  NOTUSED
-            now_updated = millis();
-        }
-#else
         volatile int status = bootloader_callback();
         prev_poll_status = status;
         volatile int prev_status = status; if (prev_status > 0) { debug_print("u{ "); }
@@ -81,7 +47,6 @@ static void timer_tick() {
             }
         }
         if (prev_status > 0) { debug_print("} "); }
-#endif  //  NEW_POLL
     }
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
