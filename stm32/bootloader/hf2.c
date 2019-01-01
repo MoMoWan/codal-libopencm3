@@ -26,9 +26,10 @@
 #define CONTROL_CALLBACK_MASK_CLASS (USB_REQ_TYPE_TYPE | USB_REQ_TYPE_RECIPIENT)
 
 #define VALID_FLASH_ADDR(addr, sz) (USER_FLASH_START <= (addr) && (addr) + (sz) <= USER_FLASH_END)
-#define HF2_BUF_SIZE    (FLASH_PAGE_SIZE + 64) //  Previously (1024 + 16).  Devices will typically limit it to the native flash page size + 64 bytes
-#define HF2_PAGE_SIZE   256  //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
-#define usb_assert assert
+#define HF2_BUF_SIZE        (FLASH_PAGE_SIZE + 64) //  Large buffer for Bootloader Mode.  Previously (1024 + 16).  Devices will typically limit it to the native flash page size + 64 bytes
+#define HF2_MINI_BUF_SIZE   64   //  Smaller buffer for Application Mode.
+#define HF2_PAGE_SIZE       256  //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
+#define usb_assert          assert
 #define LOG(s) debug_println(s)
 
 static uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
@@ -46,9 +47,22 @@ typedef struct {
     } __attribute__((packed));
 } __attribute__((packed)) HF2_Buffer;
 
+//  Small HF2 buffer for Application Mode only.  Size should be ??? bytes.
+typedef struct {
+    uint16_t size;
+    union {
+        uint8_t  buf  [HF2_MINI_BUF_SIZE];
+        uint32_t buf32[HF2_MINI_BUF_SIZE / 4];
+        uint16_t buf16[HF2_MINI_BUF_SIZE / 2];
+        HF2_Command cmd;
+        HF2_Response resp;
+    } __attribute__((packed));
+} __attribute__((packed)) HF2_Buffer_Mini;
+
 //  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 __attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
-HF2_Buffer hf2_buffer;                  //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
+HF2_Buffer      hf2_buffer;                  //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
+HF2_Buffer_Mini hf2_buffer_mini;                  //  Small buffer for Application Mode only.  Size should be ??? bytes.
 static usbd_device *_usbd_dev;
 
 static void pokeSend(
@@ -246,7 +260,8 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
 
     uint8_t tag = buf[0];
     uint8_t cmd = buf[1];  //  Only valid if pkt->size = 0 (first packet of message).
-    HF2_Buffer *pkt = &hf2_buffer;
+    ////TODO HF2_Buffer *pkt = &hf2_buffer;
+    HF2_Buffer *pkt = (HF2_Buffer *) &hf2_buffer_mini;
 
     // serial packets not allowed when in middle of command packet
     usb_assert(pkt->size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
