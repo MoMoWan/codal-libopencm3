@@ -627,7 +627,7 @@ static int usb_cdc_transmit(
 static void cdc_connected(void) {
     //  Called when CDC is connected.  We set the serial port as a logger output.
     cdc_is_connected = 1;
-    logger_add_output(usb_cdc_transmit);
+    ////logger_add_output(usb_cdc_transmit);
 }
 #endif  //  INTF_COMM
 
@@ -643,7 +643,7 @@ static int usb_hf2_transmit(
 static void hf2_connected(void) {
     //  Called when HF2 is connected.  We set the HF2 port as a logger output.
     hf2_is_connected = 1;
-    logger_add_output(usb_hf2_transmit);
+    ////logger_add_output(usb_hf2_transmit);
 }
 #endif  //  INTF_HF2
 
