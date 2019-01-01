@@ -53,6 +53,29 @@
             //  Enable debug output.
             "printCalls": false,
             "showDevDebugOutput": false,
+        },
+        {
+            //  Debug the STM32 Blue Pill program.
+            "name": "Debug (STM32 Blue Pill)",
+            "type": "gdb",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+
+            "target": ".pioenvs/bluepill_f103c8/firmware.elf",
+
+            //  Start arm-none-eabi-gdb with the gdb script.
+            "gdbpath": "arm-none-eabi-gdb",
+            "debugger_args": [
+                "-x",
+                "scripts/debug.gdb"
+            ],
+
+            //  For debugger display, don't interpret values returned by gdb.
+            "valuesFormatting": "disabled",
+
+            //  Enable debug output.
+            "printCalls": false,
+            "showDevDebugOutput": false,
         }
     ]
 }

@@ -94,6 +94,7 @@ int cdcadm_transmit(
 	if (!connected || !usbd_dev || !buf) { return -1; }
 	if (len == 0) { return 0; }
 	//  Transmit Up to MAX_USB_PACKET_SIZE.
+	//  TODO: Insert CR for every LF found.
 	if (len <= MAX_USB_PACKET_SIZE) {
 		return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);  //  Returns the bytes sent.
 	}
@@ -116,12 +117,12 @@ static void cdcacm_data_rx_cb(
     if (len == 0) { return; }
     uint16_t pos = (len < MAX_USB_PACKET_SIZE) ? len : MAX_USB_PACKET_SIZE;
     rx_buf[pos] = 0;
-
-	cdcadm_transmit(usbd_dev, rx_buf, pos);  //  Echo the packet.	
+	//  Must set connected flag before transmitting.
 	if (!connected) {
 		connected = 1;
 		if (connected_func) { connected_func(); }
 	}
+	cdcadm_transmit(usbd_dev, rx_buf, pos);  //  Echo the packet.	
     //  debug_print("["); debug_println(rx_buf); debug_print("]");
 }
 
