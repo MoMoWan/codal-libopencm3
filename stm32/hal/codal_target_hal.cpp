@@ -37,11 +37,13 @@ static void timer_tick() {
         //  we must return the response for the Set Address request within 50 ms.
         int status = bootloader_callback();
         while (status > 0) {  //  If we receive any USB requests,,,
+            debug_print("u{ ");
             status = 0;       //  Continue polling 1,000 times (1 second) for subsequent USB requests.
             for (uint16_t i = 0; i < 1000; i++) {  //  1000 millisec = 1 second
                 status = status | bootloader_callback();
             }
         }
+        debug_print(" } ");
     }
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
@@ -87,7 +89,8 @@ void target_wait_for_event() {
 
     //  Flush the debug log buffers once in a while.
     static uint32_t delay = 1;
-    if (delay++ == 0) {
+    delay++;
+    if (delay == 0) {
         debug_flush();
         target_dmesg_flush();
     }
