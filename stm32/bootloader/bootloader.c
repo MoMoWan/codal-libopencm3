@@ -91,7 +91,7 @@ static void poll_loop(void) {
 #endif // NOTUSED
 
 int bootloader_poll(void) {
-    //  Run bootloader in background via polling.
+    //  Run bootloader in background via polling.  Return 1 if there was USB activity within the last few seconds, 0 if none.
     static uint32_t last_poll = 0;
     static uint32_t delay = 0;
     if (last_poll > 0) { delay = millis() - last_poll; } 
@@ -99,11 +99,12 @@ int bootloader_poll(void) {
 
     if (!usbd_dev) { return -1; }
 
-    clear_poll_status();
+    ////clear_poll_status();
 	usbd_poll(usbd_dev);
 
     static volatile int last_status = 0;
-    volatile int status = get_poll_status();
+    volatile int status = get_usb_status();
+
     //  if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
     last_status = status;
     return status;

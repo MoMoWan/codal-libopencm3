@@ -41,28 +41,28 @@
 #include "hf2.h"
 
 ////
-#define POLL_DURATION 5000  //  Poll for 5 seconds
+#define BUSY_DURATION 5000  //  Return busy for up to 5 seconds after the last recorded busy time.
 static volatile uint32_t last_busy_time = 0;
 ////  static volatile uint8_t poll_status = 0;
 
 void sof_callback(void) {
-    //  Start Of Frame callback.
+    //  Start Of Frame callback.  This is called when there is any USB activity.
     //  debug_print("~ ");
     //// poll_status = 1;
     last_busy_time = millis();
 }
 
-void clear_poll_status(void) { 
+////void clear_poll_status(void) { 
     //// poll_status = 0; 
-}
+////}
 
-volatile int get_poll_status(void) { 
-    //  Return 1 if busy within last second.
+volatile int get_usb_status(void) { 
+    //  Return 1 if busy within last few seconds.
     //// return poll_status; 
     if (last_busy_time == 0) { return 0; }
     volatile uint32_t now = millis();
-    //  If time now is within 1 second of last busy time, return busy.
-    if (now < (last_busy_time + POLL_DURATION)) { return 1; }
+    //  If time now is within a few seconds of last busy time, return busy.
+    if (now < (last_busy_time + BUSY_DURATION)) { return 1; }
     last_busy_time = 0;
     return 0;
 }

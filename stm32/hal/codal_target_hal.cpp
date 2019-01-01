@@ -29,7 +29,7 @@ static void (*alarm_callback)() = NULL;
 static int (*bootloader_callback)() = NULL;
 static volatile int prev_poll_status = 0;
 static volatile uint32_t poll_stop = 0;  //  Elaspsed time since startup that we should stop polling.
-#define POLL_DURATION 1000  //  Poll for 5 seconds
+#define MAX_POLL_DURATION 1000  //  If there is USB activity, poll USB requests for up to 1 second continuously.
 
 static void timer_tick() {
     //  This is called every millisecond.  
@@ -37,7 +37,7 @@ static void timer_tick() {
     if (bootloader_callback) { 
         //  If we received any USB request, continue polling a few seconds.  That's because according to the USB 2.0 specs,
         //  we must return the response for the Set Address request within 50 ms.
-#define NEW_POLL
+//#define NEW_POLL
 #ifdef NEW_POLL
         volatile uint32_t now = millis();
         volatile uint32_t now_updated = now;
@@ -76,7 +76,7 @@ static void timer_tick() {
         volatile int prev_status = status; if (prev_status > 0) { debug_print("u{ "); }
         while (status > 0) {  //  If we receive any USB requests,,,
             status = 0;       //  Continue polling a few seconds for subsequent USB requests.
-            for (uint16_t i = 0; i < POLL_DURATION; i++) {
+            for (uint16_t i = 0; i < MAX_POLL_DURATION; i++) {
                 status = status | bootloader_callback();
             }
         }
