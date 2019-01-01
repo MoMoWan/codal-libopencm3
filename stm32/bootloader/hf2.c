@@ -31,10 +31,11 @@
 #define usb_assert assert
 #define LOG(s) debug_println(s)
 
+//  Large HF2 buffer for Bootloader Mode only.  Size should be 1090 bytes.
 typedef struct {
     uint16_t size;
     union {
-        uint8_t  buf[HF2_BUF_SIZE];
+        uint8_t  buf  [HF2_BUF_SIZE];
         uint32_t buf32[HF2_BUF_SIZE / 4];
         uint16_t buf16[HF2_BUF_SIZE / 2];
         HF2_Command cmd;
@@ -42,9 +43,9 @@ typedef struct {
     } __attribute__((packed));
 } __attribute__((packed)) HF2_Buffer;
 
-//  TODO: Use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
+//  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 __attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
-//  HF2_Buffer pkt;  // Size should be 1090 bytes.
+HF2_Buffer hf2_buffer;                  //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
 
 const uint8_t *dataToSend;
 volatile uint32_t dataToSendLength;
@@ -52,10 +53,11 @@ uint8_t dataToSendFlag;
 static usbd_device *_usbd_dev;
 
 static void pokeSend() {
-    // debug_println("pokeSend"); debug_flush(); ////
+    //  Send the HF2 response to host.
+    //  TODO: Send stdout and stderr to host.
+    //  debug_println("pokeSend"); debug_flush(); ////
     static uint8_t buf[64];
     bool sendIt = false;
-
     memset(buf, 0, sizeof(buf));
 
     cm_disable_interrupts();
@@ -84,8 +86,8 @@ static void pokeSend() {
     }
 }
 
-static void send_hf2_response(int size) {
-    dataToSend = pkt.buf;
+static void send_hf2_response(HF2_Buffer *pkt, int size) {
+    dataToSend = pkt->buf;
     dataToSendFlag = HF2_FLAG_CMDPKT_LAST;
     dataToSendLength = 4 + size;
     dump_buffer("hf2 >>", dataToSend, size);
@@ -101,15 +103,15 @@ static void assert(bool assertion, const char *msg) {
     debug_print("*** ERROR: "); debug_println(msg); debug_flush();
 }
 
-static void handle_command(/* HF2_Buffer *pkt */) {
+static void handle_command(HF2_Buffer *pkt) {
     int tmp;
 
     // one has to be careful dealing with these, as they share memory
-    HF2_Command *cmd = &pkt.cmd;
-    HF2_Response *resp = &pkt.resp;
+    HF2_Command *cmd = &(pkt->cmd);
+    HF2_Response *resp = &(pkt->resp);
 
     uint32_t cmdId = cmd->command_id;
-    int sz = pkt.size;
+    int sz = pkt->size;
     resp->tag = cmd->tag;
     resp->status16 = HF2_STATUS_OK;
 
@@ -122,8 +124,8 @@ static void handle_command(/* HF2_Buffer *pkt */) {
     case HF2_CMD_INFO:
         debug_println("hf2 info");
         tmp = strlen(infoUf2File);
-        memcpy(pkt.resp.data8, infoUf2File, tmp);
-        send_hf2_response(tmp);
+        memcpy(pkt->resp.data8, infoUf2File, tmp);
+        send_hf2_response(pkt, tmp);
         return;
 
     case HF2_CMD_BININFO:
@@ -131,29 +133,29 @@ static void handle_command(/* HF2_Buffer *pkt */) {
         resp->bininfo.mode = HF2_MODE_BOOTLOADER;
         resp->bininfo.flash_page_size = HF2_PAGE_SIZE;  //  Previously 128 * 1024
         resp->bininfo.flash_num_pages = FLASH_SIZE_OVERRIDE / HF2_PAGE_SIZE;
-        resp->bininfo.max_message_size = sizeof(pkt.buf);
+        resp->bininfo.max_message_size = HF2_BUF_SIZE;  //  Previously sizeof(pkt->buf);
         resp->bininfo.uf2_family = UF2_FAMILY;
-        send_hf2_response(sizeof(resp->bininfo));
+        send_hf2_response(pkt, sizeof(resp->bininfo));
         return;
 
     case HF2_CMD_RESET_INTO_APP:
         //  Restart into application.
         debug_println("hf2 rst app");
-        send_hf2_response(0);
+        send_hf2_response(pkt, 0);
         target_manifest_app();  //  Never returns.
         return;
 
     case HF2_CMD_RESET_INTO_BOOTLOADER:
         //  Restart into bootloader.
         debug_println("hf2 rst boot");
-        send_hf2_response(0);
+        send_hf2_response(pkt, 0);
         target_manifest_bootloader();  //  Never returns.
         return;
 
     case HF2_CMD_START_FLASH:
         //  If we are in Application Mode, restart to Bootloader Mode.
         debug_println("hf2 start");
-        send_hf2_response(0);
+        send_hf2_response(pkt, 0);
         if (target_get_startup_mode() == APPLICATION_MODE) {
             target_manifest_bootloader();  //  Never returns.
         }
@@ -163,7 +165,7 @@ static void handle_command(/* HF2_Buffer *pkt */) {
         // first send ACK and then start writing, while getting the next packet
         debug_println("hf2 write");
         checkDataSize(write_flash_page, 256);
-        send_hf2_response(0);
+        send_hf2_response(pkt, 0);
         if (VALID_FLASH_ADDR(cmd->write_flash_page.target_addr, 256)) {
             flash_write(cmd->write_flash_page.target_addr,
                         (const uint8_t *)cmd->write_flash_page.data, 256);
@@ -175,7 +177,7 @@ static void handle_command(/* HF2_Buffer *pkt */) {
         checkDataSize(read_words, 0);
         tmp = cmd->read_words.num_words;
         memcpy(resp->data32, (void *)cmd->read_words.target_addr, tmp << 2);
-        send_hf2_response(tmp << 2);
+        send_hf2_response(pkt, tmp << 2);
         return;
 
     /* TODO: Handle DMESG (0x0010)
@@ -191,7 +193,7 @@ static void handle_command(/* HF2_Buffer *pkt */) {
         debug_println("hf2 murmur");
         checkDataSize(murmur3, 0);
         murmur3_core_2((void *)cmd->murmur3.target_addr, cmd->murmur3.num_words, resp->data32);
-        send_hf2_response(8);
+        send_hf2_response(pkt, 8);
         return;
 #endif
     default:
@@ -201,7 +203,7 @@ static void handle_command(/* HF2_Buffer *pkt */) {
         break;
     }
 
-    send_hf2_response(0);
+    send_hf2_response(pkt, 0);
 }
 
 static const char bad_packet_message[] = "bad packet";
@@ -216,32 +218,34 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     if (len <= 0) return;
 
     uint8_t tag = buf[0];
-    uint8_t cmd = buf[1];  //  Only valid if pkt.size = 0 (first packet of message).
-    // serial packets not allowed when in middle of command packet
-    usb_assert(pkt.size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
-    int size = tag & HF2_SIZE_MASK;
-    usb_assert(pkt.size + size <= (int)sizeof(pkt.buf), bad_packet_message);
+    uint8_t cmd = buf[1];  //  Only valid if pkt->size = 0 (first packet of message).
+    HF2_Buffer *pkt = &hf2_buffer;
 
-    //  If pkt.size = 0 (first packet of message) and 
+    // serial packets not allowed when in middle of command packet
+    usb_assert(pkt->size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
+    int size = tag & HF2_SIZE_MASK;
+    usb_assert(pkt->size + size <= (int) HF2_BUF_SIZE /* Was sizeof(pkt->buf) */, bad_packet_message);
+
+    //  If pkt->size = 0 (first packet of message) and 
     //  cmd = BININFO (0x0001), INFO (0x0002), RESET INTO APP (0x0003), 
     //        RESET INTO (0x0004) or START FLASH (0x0005)
     //  then use smaller packet in case we are running in Application Mode.
-    if (pkt.size == 0 && cmd >= 1 && cmd <= 5) {
+    if (pkt->size == 0 && cmd >= 1 && cmd <= 5) {
         debug_print("small pkt "); debug_printhex(cmd);
         debug_print(", len "); debug_printhex(size);
         debug_println("");
     }
     //  Populate the packet.
-    memcpy(pkt.buf + pkt.size, buf + 1, size);
-    pkt.size += size;
+    memcpy(pkt->buf + pkt->size, buf + 1, size);
+    pkt->size += size;
     tag &= HF2_FLAG_MASK;
     if (tag != HF2_FLAG_CMDPKT_BODY) {
         if (tag == HF2_FLAG_CMDPKT_LAST) {
-            handle_command();
+            handle_command(pkt);
         } else {
             // do something about serial?
         }
-        pkt.size = 0;
+        pkt->size = 0;
     }
 }
 
