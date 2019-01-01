@@ -126,7 +126,7 @@ namespace codal
 
         void Timer::syncRequest() {
             if (!initialised) {
-                debug_println("syncRequest called before init");
+                debug_print("sync! ");  //  Warning: syncRequest called before init
                 return;
             }
             target_disable_irq();

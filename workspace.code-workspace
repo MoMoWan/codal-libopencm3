@@ -10,15 +10,6 @@
 			"path": "/Users/Luppy/.platformio/packages"
 		},
 		{
-			"path": "/private/tmp/codal-generic-f103re"
-		},
-		{
-			"path": "/private/tmp/codal-stm32-iot-node"
-		},
-		{
-			"path": "/private/tmp/codal-stm32"
-		},
-		{
 			"path": "/Users/Luppy/codal"
 		},
 		{
@@ -31,19 +22,19 @@
 			"path": "stm32/bootloader"
 		},
 		{
-			"path": "C:/uf2-stm32f"
-		},
-		{
 			"path": "/Users/Luppy/.platformio/platforms/ststm32"
 		},
 		{
 			"path": "C:/Users/guppy/.platformio/platforms"
 		},
 		{
-			"path": "/Users/Luppy/codal-stm32"
+			"path": "stm32/cm"
 		},
 		{
-			"path": "/Users/Luppy/codal-stm32-iot-node"
+			"path": "stm32/hal"
+		},
+		{
+			"path": "stm32/bluepill"
 		}
 	],
 	"settings": {

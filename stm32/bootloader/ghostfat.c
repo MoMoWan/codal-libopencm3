@@ -127,6 +127,7 @@ static uint32_t resetTime;
 static uint32_t lastFlush;
 
 static void flushFlash(void) {
+    //  TODO: Don't overwrite the bootloader.
     lastFlush = ms;
     if (flashAddr == NO_CACHE)
         return;
