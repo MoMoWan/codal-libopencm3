@@ -71,6 +71,8 @@ static void pokeSend(
     uint8_t dataToSendFlag) {
     //  Send the HF2 response to host.
     //  TODO: Send stdout and stderr to host.
+    //  HF2_FLAG_SERIAL_OUT: 0x80
+    //  HF2_FLAG_SERIAL_ERR: 0xC0
     //  debug_println("pokeSend"); debug_flush(); ////
     static uint8_t buf[64];
     bool sendIt = false;
