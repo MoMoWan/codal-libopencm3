@@ -82,7 +82,6 @@
 #endif
 
 typedef void connected_callback(void);
-extern int poll_status;
 extern usbd_device* usb_setup(void);
 extern void usb_set_serial_number(const char* serial);
 extern int aggregate_register_config_callback(
@@ -93,6 +92,8 @@ extern int aggregate_register_callback(
     uint8_t type,
     uint8_t type_mask,
     usbd_control_callback callback);
+extern void clear_poll_status(void);
+extern volatile int get_poll_status(void);
 extern void dump_usb_request(const char *msg, struct usb_setup_data *req);
 extern void dump_buffer(const char *msg, const uint8_t *buf, int len);
 

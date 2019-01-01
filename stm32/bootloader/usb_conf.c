@@ -479,7 +479,10 @@ struct control_callback_struct {
 #define MAX_CONTROL_CALLBACK 10  //  Allow up to 10 aggregated callbacks.
 static struct control_callback_struct control_callback[MAX_CONTROL_CALLBACK];
 static usbd_set_config_callback config_callback[MAX_CONTROL_CALLBACK];
-int poll_status = 0;
+static volatile uint8_t poll_status = 0;
+
+void clear_poll_status(void) { poll_status = 0; }
+volatile int get_poll_status(void) { return poll_status; }
 
 int aggregate_register_config_callback(
     usbd_device *usbd_dev,
@@ -550,7 +553,6 @@ static int aggregate_callback(
     //  This callback is called whenever a USB request is received.  We route to the right driver callbacks.
 	int i, result = 0;
     poll_status = 1;   //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
-    debug_print("@"); //// TODO
 
     //  If this is a Set Address request, we must fast-track this request and return an empty message within 50 ms, according to the USB 2.0 specs.
     //  >>  typ 00, req 05, val 0009, idx 0000, len 0000, SET_ADR 
@@ -665,8 +667,6 @@ void dump_buffer(const char *msg, const uint8_t *buf, int len) {
 
 void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     debug_print(msg);
-    // return; ////
-    
     uint8_t desc_type = usb_descriptor_type(req->wValue);
     uint8_t desc_index = usb_descriptor_index(req->wValue);
     debug_print(" typ "); debug_printhex(req->bmRequestType);
@@ -674,6 +674,8 @@ void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     debug_print(", val "); debug_printhex(req->wValue >> 8); debug_printhex(req->wValue & 0xff);
     debug_print(", idx "); debug_printhex(req->wIndex >> 8); debug_printhex(req->wIndex & 0xff);
     debug_print(", len "); debug_printhex(req->wLength >> 8); debug_printhex(req->wLength & 0xff);
+
+    debug_println(""); return; ////
 
     if (req->bmRequestType == 0x00 || req->bmRequestType == 0x80) {
         //  Dump USB standard requests.

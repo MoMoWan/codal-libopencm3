@@ -97,11 +97,16 @@ int bootloader_poll(void) {
     last_poll = millis();
 
     if (!usbd_dev) { return -1; }
-    poll_status = 0;
+
+    clear_poll_status();
 	usbd_poll(usbd_dev);
 
+    static volatile int last_status = 0;
+    volatile int status = get_poll_status();
+    if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } //// TODO
+    last_status = status;
+    return status;
     // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
-    return poll_status;
 }
 
 int bootloader_start(void) {

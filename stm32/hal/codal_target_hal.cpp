@@ -35,8 +35,8 @@ static void timer_tick() {
     if (bootloader_callback) { 
         //  If we received any USB request, continue polling 1000 times.  That's because according to the USB 2.0 specs,
         //  we must return the response for the Set Address request within 50 ms.
-        int status = bootloader_callback();
-        int prev_status = status; if (prev_status > 0) { debug_print("u{ "); }
+        volatile int status = bootloader_callback();
+        volatile int prev_status = status; if (prev_status > 0) { debug_print("u{ "); }
         while (status > 0) {  //  If we receive any USB requests,,,
             status = 0;       //  Continue polling 1,000 times (1 second) for subsequent USB requests.
             for (uint16_t i = 0; i < 1000; i++) {  //  1000 millisec = 1 second
