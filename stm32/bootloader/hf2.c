@@ -46,13 +46,12 @@ typedef struct {
 //  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 __attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
 HF2_Buffer hf2_buffer;                  //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
-
-const uint8_t *dataToSend;
-volatile uint32_t dataToSendLength;
-uint8_t dataToSendFlag;
 static usbd_device *_usbd_dev;
 
-static void pokeSend() {
+static void pokeSend(
+    const uint8_t *dataToSend,
+    volatile uint32_t dataToSendLength,
+    uint8_t dataToSendFlag) {
     //  Send the HF2 response to host.
     //  TODO: Send stdout and stderr to host.
     //  debug_println("pokeSend"); debug_flush(); ////
@@ -87,11 +86,11 @@ static void pokeSend() {
 }
 
 static void send_hf2_response(HF2_Buffer *pkt, int size) {
-    dataToSend = pkt->buf;
-    dataToSendFlag = HF2_FLAG_CMDPKT_LAST;
-    dataToSendLength = 4 + size;
+    const uint8_t *dataToSend = pkt->buf;
+    volatile uint32_t dataToSendLength = 4 + size;
+    uint8_t dataToSendFlag = HF2_FLAG_CMDPKT_LAST;
     dump_buffer("hf2 >>", dataToSend, size);
-    pokeSend();
+    pokeSend(dataToSend, dataToSendLength, dataToSendFlag);
 }
 
 extern const char infoUf2File[];
@@ -230,7 +229,9 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  cmd = BININFO (0x0001), INFO (0x0002), RESET INTO APP (0x0003), 
     //        RESET INTO (0x0004) or START FLASH (0x0005)
     //  then use smaller packet in case we are running in Application Mode.
-    if (pkt->size == 0 && cmd >= 1 && cmd <= 5) {
+    if ((pkt->size == 0) && 
+        (tag && HF2_FLAG_CMDPKT_LAST) && 
+        cmd >= 1 && cmd <= 5) {
         debug_print("small pkt "); debug_printhex(cmd);
         debug_print(", len "); debug_printhex(size);
         debug_println("");
@@ -252,7 +253,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
 static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) {
     (void)usbd_dev;
     (void)ep;
-    pokeSend();
+    //  TODO: pokeSend();
 }
 
 /** @brief Setup the endpoints to be bulk & register the callbacks. */
