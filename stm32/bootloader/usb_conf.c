@@ -394,11 +394,6 @@ static const struct usb_bos_descriptor bos_descriptor = {
 static uint8_t usbd_control_buffer[USB_CONTROL_BUF_SIZE] __attribute__ ((aligned (2)));
 usbd_device* usbd_dev = NULL;
 
-void sof_callback(void) {
-    //  Start Of Frame callback.
-    debug_print("~ ");
-}
-
 usbd_device* usb_setup(void) {
     int num_strings = sizeof(usb_strings) / sizeof(const char*);
     // debug_print("usb_setup num_strings "); debug_print_int(num_strings); debug_println(""); // debug_flush(); ////
@@ -408,7 +403,7 @@ usbd_device* usb_setup(void) {
         usbd_control_buffer, sizeof(usbd_control_buffer));
 
     //  Register for Start Of Frame callbacks.
-    usbd_register_sof_callback(usbd_dev, sof_callback);
+    //  usbd_register_sof_callback(usbd_dev, sof_callback);
 
     //  The following USB setup functions will call aggregate_register_callback() to register callbacks.
 #ifdef INTF_DFU    
@@ -707,6 +702,13 @@ void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     }
     debug_println("");
 }
+
+#ifdef NOTUSED
+void sof_callback(void) {
+    //  Start Of Frame callback.
+    debug_print("~ ");
+}
+#endif  //  NOTUSED
 
 /* CDC, MSC and DFU OK.  WebUSB failed.
 > Executing task in folder bluepill-bootloader: c:\openocd\bin\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/connect.ocd <
