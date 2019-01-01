@@ -15,7 +15,7 @@
  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
+#define DISABLE_DEBUG ////
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -27,7 +27,8 @@
 #include <libopencm3/usb/msc.h>
 #include <libopencm3/usb/cdc.h>
 #include <libopencm3/usb/hid.h>
-#include <logger.h>
+#include <logger/logger.h>
+#include <bluepill/bluepill.h>
 #include "bootloader.h"
 #include "target.h"
 #include "dfu.h"
@@ -38,6 +39,34 @@
 #include "usb_conf.h"
 #include "uf2.h"
 #include "hf2.h"
+
+////
+#define POLL_DURATION 5000  //  Poll for 5 seconds
+static volatile uint32_t last_busy_time = 0;
+////  static volatile uint8_t poll_status = 0;
+
+void sof_callback(void) {
+    //  Start Of Frame callback.
+    //  debug_print("~ ");
+    //// poll_status = 1;
+    last_busy_time = millis();
+}
+
+void clear_poll_status(void) { 
+    //// poll_status = 0; 
+}
+
+volatile int get_poll_status(void) { 
+    //  Return 1 if busy within last second.
+    //// return poll_status; 
+    if (last_busy_time == 0) { return 0; }
+    volatile uint32_t now = millis();
+    //  If time now is within 1 second of last busy time, return busy.
+    if (now < (last_busy_time + POLL_DURATION)) { return 1; }
+    last_busy_time = 0;
+    return 0;
+}
+////
 
 static void set_aggregate_callback(
   usbd_device *usbd_dev,
@@ -403,7 +432,7 @@ usbd_device* usb_setup(void) {
         usbd_control_buffer, sizeof(usbd_control_buffer));
 
     //  Register for Start Of Frame callbacks.
-    //  usbd_register_sof_callback(usbd_dev, sof_callback);
+    usbd_register_sof_callback(usbd_dev, sof_callback);
 
     //  The following USB setup functions will call aggregate_register_callback() to register callbacks.
 #ifdef INTF_DFU    
@@ -479,10 +508,6 @@ struct control_callback_struct {
 #define MAX_CONTROL_CALLBACK 10  //  Allow up to 10 aggregated callbacks.
 static struct control_callback_struct control_callback[MAX_CONTROL_CALLBACK];
 static usbd_set_config_callback config_callback[MAX_CONTROL_CALLBACK];
-static volatile uint8_t poll_status = 0;
-
-void clear_poll_status(void) { poll_status = 0; }
-volatile int get_poll_status(void) { return poll_status; }
 
 int aggregate_register_config_callback(
     usbd_device *usbd_dev,
@@ -552,7 +577,7 @@ static int aggregate_callback(
 	usbd_control_complete_callback *complete) {
     //  This callback is called whenever a USB request is received.  We route to the right driver callbacks.
 	int i, result = 0;
-    poll_status = 1;   //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
+    ////poll_status = 1;   //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
 
     //  If this is a Set Address request, we must fast-track this request and return an empty message within 50 ms, according to the USB 2.0 specs.
     //  >>  typ 00, req 05, val 0009, idx 0000, len 0000, SET_ADR 
@@ -667,6 +692,8 @@ void dump_buffer(const char *msg, const uint8_t *buf, int len) {
 
 void dump_usb_request(const char *msg, struct usb_setup_data *req) {
     debug_print(msg);
+    debug_println(""); return; ////
+
     uint8_t desc_type = usb_descriptor_type(req->wValue);
     uint8_t desc_index = usb_descriptor_index(req->wValue);
     debug_print(" typ "); debug_printhex(req->bmRequestType);
@@ -707,10 +734,6 @@ void dump_usb_request(const char *msg, struct usb_setup_data *req) {
 }
 
 #ifdef NOTUSED
-void sof_callback(void) {
-    //  Start Of Frame callback.
-    debug_print("~ ");
-}
 #endif  //  NOTUSED
 
 /* CDC, MSC and DFU OK.  WebUSB failed.

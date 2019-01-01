@@ -19,7 +19,7 @@
 #define debug_print_char(a) {}
 #define debug_print_float(a) {}
 #define debug_flush() {}
-#define logger_add_output() {}
+#define logger_add_output(a) {}
 
 #else  //  If logging is enabled...
 
