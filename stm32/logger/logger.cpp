@@ -1,6 +1,7 @@
 //  Log messages to the debug console.  We use ARM Semihosting to display messages.
-#include "logger.h"
+//  Should not have any dependencies on other libraries.
 #include <string.h>
+#include "logger.h"
 
 #define DEBUG_BUFFER_SIZE 256  //  Use a larger buffer size so that we don't interrupt USB processing.
 static char debugBuffer[DEBUG_BUFFER_SIZE + 1] = { 0 };  //  Buffer to hold output before flushing.
@@ -67,11 +68,26 @@ static int semihost_write(uint32_t fh, const unsigned char *buffer, unsigned int
     return __semihost(SYS_WRITE, args);
 }
 
+//  Don't flush to Arm Semihosting if we are called by an Interrupt Service Routine.  From libopencm3:
+#define MMIO32(addr)    (*(volatile uint32_t *)(addr))  /* Generic memory-mapped I/O accessor functions */
+#define PPBI_BASE       (0xE0000000U)                   /* Private peripheral bus - Internal */
+#define SCS_BASE        (PPBI_BASE + 0xE000)            /* PPBI_BASE + 0x3000 (0xE000 3000 - 0xE000 DFFF): Reserved */
+#define SCB_BASE        (SCS_BASE + 0x0D00)             /* SCB: System Control Block */
+#define SCB_ICSR	    MMIO32(SCB_BASE + 0x04)         /* ICSR: Interrupt Control State Register */
+#define SCB_ICSR_VECTACTIVE_LSB		0                   /* VECTACTIVE[8:0] Active vector */
+#define SCB_ICSR_VECTACTIVE		    (0x1FF << SCB_ICSR_VECTACTIVE_LSB)
+
+static uint32_t target_in_isr(void) {
+    //  Return true if CPU is in ISR now.
+    return SCB_ICSR & SCB_ICSR_VECTACTIVE;
+}
+
 static void debug_append(const char *buffer, unsigned int length) {
     //  Append "length" number of bytes from "buffer" to the debug buffer.
     const int debugBufferLength = strlen(debugBuffer);
     //  If can't fit into buffer, just send to the debugger log now.
     if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
+        if (target_in_isr()) { return; }  //  Out of buffer space, can't flush now.
         debug_flush();
         semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buffer, length);
         return;
@@ -84,6 +100,7 @@ static void debug_append(const char *buffer, unsigned int length) {
 void debug_flush(void) {
     //  Flush the debug buffer to the debugger log.  This will be slow.
     if (debugBuffer[0] == 0) { return; }  //  Debug buffer is empty, nothing to write.
+    if (target_in_isr()) { return; }      //  Out of buffer space, can't flush now.
 	semihost_write(SEMIHOST_HANDLE, (const unsigned char *) debugBuffer, strlen(debugBuffer));
     debugBuffer[0] = 0;
 }
