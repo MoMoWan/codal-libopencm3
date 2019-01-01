@@ -10,12 +10,12 @@ void enable_debug(void);    //  Enable ARM Semihosting for displaying debug mess
 void disable_debug(void);   //  Disable ARM Semihosting for displaying debug messages.
 void platform_setup(void);  //  Initialise the STM32 Blue Pill platform.
 void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void));  //  Start the STM32 Blue Pill Timer to generate interrupt ticks for cocoOS to perform task switching.
-uint32_t millis(void);  //  Number of elapsed millisecond ticks. Compatible with Arduino.
+volatile uint32_t millis(void);  //  Number of elapsed millisecond ticks. Compatible with Arduino.
 
 void platform_set_alarm(uint32_t millisec);  //  Set alarm for millisec milliseconds elapsed since startup.
-uint32_t platform_get_alarm(void);           //  Get alarm time.
-uint32_t platform_alarm_count(void);         //  Number of alarms triggered since startup.
-uint32_t platform_tick_count(void);          //  Number of times the tick ISR was triggered since startup.
+volatile uint32_t platform_get_alarm(void);           //  Get alarm time.
+volatile uint32_t platform_alarm_count(void);         //  Number of alarms triggered since startup.
+volatile uint32_t platform_tick_count(void);          //  Number of times the tick ISR was triggered since startup.
 
 void led_setup(void);   //  Initialise the onboard LED.
 void led_on(void);      //  Switch the onboard LED on.

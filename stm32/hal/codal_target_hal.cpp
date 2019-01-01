@@ -20,33 +20,61 @@ PROCESSOR_WORD_TYPE codal_heap_start = (PROCESSOR_WORD_TYPE)(&_ebss);  //  Start
 
 // extern "C" void init_irqs();
 extern "C" void test_codal();
+static void os_preschedule(void);
+static void os_schedule(void);
 void stm32bluepill_dmesg_flush();
 static bool initialised = false;
 static void (*tick_callback)() = NULL;
 static void (*alarm_callback)() = NULL;
 static int (*bootloader_callback)() = NULL;
-static void os_preschedule(void);
-static void os_schedule(void);
+static volatile int prev_poll_status = 0;
+static volatile uint32_t poll_stop = 0;  //  Elaspsed time since startup that we should stop polling.
+#define POLL_DURATION 5000  //  Poll for 5 seconds
 
 static void timer_tick() {
-    //  This is called every millisecond.  Call cocoOS at every tick.
-    os_tick();
+    //  This is called every millisecond.  
+    volatile uint32_t now = millis();
     //  If bootloader is running in background, call it to handle USB requests.
     if (bootloader_callback) { 
-        //  If we received any USB request, continue polling 1000 times.  That's because according to the USB 2.0 specs,
+        //  If we received any USB request, continue polling a few seconds.  That's because according to the USB 2.0 specs,
         //  we must return the response for the Set Address request within 50 ms.
+// #define NEW_POLL
+#ifdef NEW_POLL
+        //  Loop until the tick ends in 1 millisec.
+        while (now == millis()) {
+            volatile int status = bootloader_callback();
+            prev_poll_status = status;
+            if (status > 0) {
+                //  If busy, extend the poll stop time.
+                if (poll_stop == 0) { debug_print("U{ "); }
+                poll_stop = now + POLL_DURATION;
+            } else {
+                //  If not busy, check for poll stop time.
+                if (poll_stop == 0 || now >= poll_stop) {
+                    //  If no poll stop time, or poll stop time has expired, break the loop.
+                    if (poll_stop != 0) { debug_print("} "); }
+                    poll_stop = 0;
+                    break;
+                }
+            }
+        }
+#else
         volatile int status = bootloader_callback();
+        prev_poll_status = status;
         volatile int prev_status = status; if (prev_status > 0) { debug_print("u{ "); }
         while (status > 0) {  //  If we receive any USB requests,,,
-            status = 0;       //  Continue polling 1,000 times (1 second) for subsequent USB requests.
-            for (uint16_t i = 0; i < 1000; i++) {  //  1000 millisec = 1 second
+            status = 0;       //  Continue polling a few seconds for subsequent USB requests.
+            for (uint16_t i = 0; i < POLL_DURATION; i++) {
                 status = status | bootloader_callback();
             }
         }
         if (prev_status > 0) { debug_print("} "); }
+#endif  //  NEW_POLL
     }
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
+    //  Call cocoOS at every tick.
+    os_tick();
 }
 
 static void timer_alarm() {

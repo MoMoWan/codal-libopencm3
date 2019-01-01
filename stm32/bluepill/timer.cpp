@@ -138,7 +138,7 @@ void platform_set_alarm(uint32_t millisec) {
 	//  TODO: rtc_enable_alarm()
 }
 
-uint32_t platform_get_alarm(void) {
+volatile uint32_t platform_get_alarm(void) {
 	//  Get alarm time.
 	return rtc_get_alarm_val();
 }
@@ -175,7 +175,7 @@ void rtc_alarm_isr(void) {
 	if (alarmFunc != NULL) { alarmFunc(); }
 }
 
-uint32_t millis(void) {
+volatile uint32_t millis(void) {
 	//  Return the number of millisecond ticks since startup.
 	//  Compatible with Arduino's millis() function.
 	//  TODO: Compensate for clock slowdown because we truncated RCC_LSE 32.768 kHz to 32.
@@ -183,12 +183,12 @@ uint32_t millis(void) {
 	// return tickCount;  //  Less accurate, excludes ARM Semihosting time. 
 }
 
-uint32_t platform_alarm_count(void) {
+volatile uint32_t platform_alarm_count(void) {
 	//  Return the number of alarms triggered since startup.
 	return alarmCount;  //  For testing whether alarm ISR was called.
 }
 
-uint32_t platform_tick_count(void) {
+volatile uint32_t platform_tick_count(void) {
 	//  Return the number of alarms triggered since startup.  Less accurate, excludes ARM Semihosting time.
 	return tickCount;  //  For testing whether tick ISR was called.
 }

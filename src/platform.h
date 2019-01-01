@@ -94,7 +94,7 @@ END_EXTERN_C  //  End of extern C scope.
 #define __FlashStringHelper char  //  No need for flash memory helpers on STM32.
 #define F(x) x
 BEGIN_EXTERN_C          //  Allows functions below to be called by C and C++ code.
-uint32_t millis(void);  //  Number of elapsed millisecond ticks. Compatible with Arduino.
+volatile uint32_t millis(void);  //  Number of elapsed millisecond ticks. Compatible with Arduino.
 END_EXTERN_C            //  End of extern C scope.
 #endif  //  ARDUINO
 
