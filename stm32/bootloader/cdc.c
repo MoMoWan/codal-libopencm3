@@ -88,6 +88,17 @@ static enum usbd_request_return_codes cdcacm_control_request(
 
 static char cdcbuf[MAX_USB_PACKET_SIZE + 1];   // rx buffer
 
+int cdcadm_transmit(
+  	usbd_device *usbd_dev,
+	const uint8_t *buf,
+	uint16_t len
+) {
+	//  Send the data to the serial connection.  Send only if connected.
+	if (!connected || !usbd_dev || !buf) { return -1; }
+	if (len == 0) { return 0; }
+	return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);
+}
+
 static void cdcacm_data_rx_cb(
   usbd_device *usbd_dev,
   uint8_t ep __attribute__((unused))
@@ -98,7 +109,7 @@ static void cdcacm_data_rx_cb(
     uint16_t pos = (len < MAX_USB_PACKET_SIZE) ? len : MAX_USB_PACKET_SIZE;
     cdcbuf[pos] = 0;
 
-	usbd_ep_write_packet(usbd_dev, DATA_IN, cdcbuf, pos);  //  Echo the packet.	
+	cdcadm_transmit(usbd_dev, (uint8_t *) cdcbuf, pos);  //  Echo the packet.	
     debug_print("["); debug_println(cdcbuf); debug_print("]");
 }
 

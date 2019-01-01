@@ -28,6 +28,7 @@
 #include <libopencm3/usb/cdc.h>
 #include <libopencm3/usb/hid.h>
 #include <logger.h>
+#include "bootloader.h"
 #include "target.h"
 #include "dfu.h"
 #include "cdc.h"
@@ -572,7 +573,7 @@ static int aggregate_callback(
     }
     if (!(req->bmRequestType == 0x80 && req->bRequest == 0x06)) {
         //  Dump the packet if not GET_DESCRIPTOR.
-	    dump_usb_request(">> ", req); debug_flush(); ////
+	    dump_usb_request(">> ", req);
     } 
 	return USBD_REQ_NEXT_CALLBACK;
 }
@@ -606,6 +607,14 @@ void usb_set_serial_number(const char* serial) {
         strncpy(serial_number, serial, USB_SERIAL_NUM_LENGTH);
         serial_number[USB_SERIAL_NUM_LENGTH] = '\0';
     }
+}
+
+int usb_serial_transmit(
+	const uint8_t *buf,
+	uint16_t len) {
+    //  Transmit to the serial port, if connected.
+    if (!usbd_dev) { return -1; }
+    return cdcadm_transmit(usbd_dev, buf, len);
 }
 
 void dump_buffer(const char *msg, const uint8_t *buf, int len) {
