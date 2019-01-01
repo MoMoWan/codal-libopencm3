@@ -41,7 +41,7 @@
 #include "hf2.h"
 
 ////
-#define BUSY_DURATION 5000  //  Return busy for up to 5 seconds after the last recorded USB activity.
+#define BUSY_DURATION 1000  //  Return busy for up to 1 second after the last recorded USB activity.
 static volatile uint32_t last_busy_time = 0;
 
 void sof_callback(void) {
