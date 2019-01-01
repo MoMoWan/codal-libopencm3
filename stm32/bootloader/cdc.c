@@ -10,7 +10,7 @@
 #define CONTROL_CALLBACK_MASK (USB_REQ_TYPE_TYPE | USB_REQ_TYPE_RECIPIENT)
 #define USB_CDC_REQ_GET_LINE_CODING		0x21
 
-static uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
+static volatile uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
 static connected_callback *connected_func = NULL;  //  Callback when connected.
 
 //  Line config to be returned.

@@ -32,7 +32,7 @@
 #define usb_assert          assert
 #define LOG(s) debug_println(s)
 
-static uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
+static volatile uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
 static connected_callback *connected_func = NULL;  //  Callback when connected.
 
 //  Large HF2 buffer for Bootloader Mode only.  Size should be 1090 bytes.
@@ -148,6 +148,11 @@ static void assert(bool assertion, const char *msg) {
 
 static void handle_command(HF2_Buffer *pkt) {
     int tmp;
+	//  Must set connected flag before transmitting.
+	if (!connected) {
+		connected = 1;
+		if (connected_func) { connected_func(); }
+	}
 
     // one has to be careful dealing with these, as they share memory
     HF2_Command *cmd = &(pkt->cmd);

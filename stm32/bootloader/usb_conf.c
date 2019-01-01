@@ -617,7 +617,7 @@ void usb_set_serial_number(const char* serial) {
     }
 }
 
-static uint8_t  //  Non-zero if the USB interface is connected.
+static volatile uint8_t  //  Non-zero if the USB interface is connected.
     cdc_is_connected = 0,
     hf2_is_connected = 0;
 
