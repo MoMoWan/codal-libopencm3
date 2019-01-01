@@ -40,7 +40,7 @@ void Blink_main(codal::STM32BluePill& bluepill) {
 	while(1) {    
         //  Blink the LED and pause 1 second.
 		bluepill.io.led.setDigitalValue(state);
-        debug_dump(bluepill, "sleep");
+        debug_dump(bluepill, "slp");
         bluepill.sleep(1000);
         state = !state;
 
@@ -58,10 +58,10 @@ void Blink_main(codal::STM32BluePill& bluepill) {
 
 static void debug_dump(codal::STM32BluePill& bluepill, const char *msg) {
     debug_print(msg);
-    debug_print(" t "); debug_print((size_t) millis()); 
-    debug_print(", ms "); debug_print((size_t) bluepill.timer.getTime()); 
-    debug_print(", us "); debug_print((size_t) bluepill.timer.getTimeUs()); 
-    debug_print(", alarm "); debug_print((size_t) platform_alarm_count()); 
-    debug_print(", tick "); debug_print((size_t) platform_tick_count()); 
+    debug_print(" t "); debug_print((size_t) (millis() / 1000)); 
+    // debug_print(", ms "); debug_print((size_t) bluepill.timer.getTime()); 
+    // debug_print(", us "); debug_print((size_t) bluepill.timer.getTimeUs()); 
+    debug_print(", alm "); debug_print((size_t) platform_alarm_count()); 
+    // debug_print(", tick "); debug_print((size_t) platform_tick_count()); 
     debug_println("");
 }

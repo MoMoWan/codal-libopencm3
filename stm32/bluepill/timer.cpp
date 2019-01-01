@@ -99,8 +99,8 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 
 void platform_set_alarm(uint32_t millisec) {
 	//  Set alarm for millisec milliseconds from now.
-	debug_print("alm <"); debug_print_unsigned(millisec / 1000); ////
-	if (!alarmFunc) { debug_print("?"); } ////
+	//  debug_print("alm <"); debug_print_unsigned(millisec / 1000); ////
+	if (!alarmFunc) { debug_print("alm? "); } ////
 	volatile uint32_t now = rtc_get_counter_val();
 
 	//  Not documented, but you must disable write protection else the alarm time will not be set and rtc_exit_config_mode() will hang.
@@ -134,7 +134,7 @@ void platform_set_alarm(uint32_t millisec) {
 	cm_enable_interrupts();
 #endif  //  NOTUSED
 
-	debug_print("> "); ////
+	//  debug_print("> "); ////
 	//  TODO: rtc_enable_alarm()
 }
 

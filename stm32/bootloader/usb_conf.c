@@ -550,6 +550,7 @@ static int aggregate_callback(
     //  This callback is called whenever a USB request is received.  We route to the right driver callbacks.
 	int i, result = 0;
     poll_status = 1;   //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
+    debug_print("@"); //// TODO
 
     //  If this is a Set Address request, we must fast-track this request and return an empty message within 50 ms, according to the USB 2.0 specs.
     //  >>  typ 00, req 05, val 0009, idx 0000, len 0000, SET_ADR 

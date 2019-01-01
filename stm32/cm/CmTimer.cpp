@@ -50,7 +50,7 @@ namespace codal
 
         void alarm_callback() {
             //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
-            debug_print("ALM ");  ////
+            //  debug_print("ALM ");  ////
             sem_ISR_signal(timer_semaphore); 
         }
 
@@ -76,7 +76,7 @@ namespace codal
 
             //  If we were asked to set a trigger before init(), set it now.
             if (trigger_period > 0) {
-                debug_print("init calling triggerIn... ");
+                // debug_print("init calling triggerIn... ");
                 triggerIn(trigger_period);
                 trigger_period = 0;
             }
@@ -103,7 +103,7 @@ namespace codal
                 //  If we are called before init(), remember the trigger and set during init().  CODAL Scheduler calls the timer before it's ready.
                 //  There seems to be a circular dependency, so we resolve by deferring the trigger until the scheduler has completely started up.
                 trigger_period = t;
-                debug_println("triggerIn called before init");
+                debug_println("triggerIn b4 init!");
                 return;
             }
             //  debug_print("triggerIn "); debug_println((size_t) t); debug_flush(); debug_printhex_unsigned(platform_get_alarm()); debug_print(" "); debug_flush(); ////
@@ -151,7 +151,7 @@ namespace codal
             for (;;) {
                 sem_wait(timer_semaphore);           //  Wait for the semaphore to be signalled.
                 if (!Timer::instance) { continue; }  //  No timer to trigger, quit.
-                debug_print(" >> "); ////
+                debug_print("A>> "); ////
                 Timer::instance->trigger();          //  Trigger the CODAL Scheduler.
             }
             task_close();  //  End of the task. Should not come here.
