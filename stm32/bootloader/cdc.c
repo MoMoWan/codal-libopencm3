@@ -10,6 +10,8 @@
 #define CONTROL_CALLBACK_MASK (USB_REQ_TYPE_TYPE | USB_REQ_TYPE_RECIPIENT)
 #define USB_CDC_REQ_GET_LINE_CODING		0x21
 
+static uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
+
 //  Line config to be returned.
 static const struct usb_cdc_line_coding line_coding = {
 	.dwDTERate = 115200,
@@ -55,10 +57,11 @@ static enum usbd_request_return_codes cdcacm_control_request(
 		case USB_CDC_REQ_GET_LINE_CODING: {
 			//  Windows requires this request, not Mac or Linux.
 			//  From https://github.com/PX4/Bootloader/blob/master/stm32/cdcacm.c
+			connected = 1;
 			if ( *len < sizeof(struct usb_cdc_line_coding) ) {
 				debug_print("*** cdcacm_control notsupp line_coding "); debug_print_unsigned(sizeof(struct usb_cdc_line_coding)); 
 				debug_print(", len "); debug_print_unsigned(*len);
-				debug_println(""); debug_flush(); ////
+				debug_println("");
 				return USBD_REQ_NOTSUPP;
 			}
 			*buf = (uint8_t *) &line_coding;
@@ -66,17 +69,18 @@ static enum usbd_request_return_codes cdcacm_control_request(
 			return USBD_REQ_HANDLED;
 		}
 		case USB_CDC_REQ_SET_LINE_CODING: {
+			connected = 1;
 			if ( *len < sizeof(struct usb_cdc_line_coding) ) {
 				debug_print("*** cdcacm_control notsupp line_coding "); debug_print_unsigned(sizeof(struct usb_cdc_line_coding)); 
 				debug_print(", len "); debug_print_unsigned(*len);
-				debug_println(""); debug_flush(); ////
+				debug_println("");
 				return USBD_REQ_NOTSUPP;
 			}
 			return USBD_REQ_HANDLED;
 		}
 	}
 	//  dump_usb_request("*** cdc next", req); ////
-	return USBD_REQ_NEXT_CALLBACK;  //  Previously USBD_REQ_NOTSUPP
+	return USBD_REQ_NEXT_CALLBACK;  //  Hand over to next callback.
 }
 
 //  TODO: TX Up to MAX_USB_PACKET_SIZE
@@ -84,40 +88,33 @@ static enum usbd_request_return_codes cdcacm_control_request(
 
 static char cdcbuf[MAX_USB_PACKET_SIZE + 1];   // rx buffer
 
-/*
- * USB Receive Callback:
- */
-static void
-cdcacm_data_rx_cb(
+static void cdcacm_data_rx_cb(
   usbd_device *usbd_dev,
   uint8_t ep __attribute__((unused))
 ) {
+	//  Callback when a USB packet is received.
 	uint16_t len = usbd_ep_read_packet(usbd_dev, DATA_OUT, cdcbuf, MAX_USB_PACKET_SIZE);
     if (len == 0) { return; }
     uint16_t pos = (len < MAX_USB_PACKET_SIZE) ? len : MAX_USB_PACKET_SIZE;
     cdcbuf[pos] = 0;
 
-	usbd_ep_write_packet(usbd_dev, DATA_IN, cdcbuf, pos); ////  Echo the packet.
-	
-    debug_print("["); debug_println(cdcbuf); debug_print("]"); // debug_flush(); ////
+	usbd_ep_write_packet(usbd_dev, DATA_IN, cdcbuf, pos);  //  Echo the packet.	
+    debug_print("["); debug_println(cdcbuf); debug_print("]");
 }
 
-static void
-cdcacm_comm_cb(
+static void cdcacm_comm_cb(
   usbd_device *usbd_dev,
   uint8_t ep __attribute__((unused))
 ) {
-	debug_println("comm"); debug_flush();
+	//  Callback for the comm channel.
+	debug_println("comm");
 }
 
-/*
- * USB Configuration:
- */
-static void
-cdcacm_set_config(
+static void cdcacm_set_config(
   usbd_device *usbd_dev,
   uint16_t wValue __attribute__((unused))
 ) {
+	//  Callback for setting the USB configuration.
 	//  From https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f3/stm32f3-discovery/usb_cdcacm/cdcacm.c
     //  debug_println("*** cdcacm_set_config"); ////
 	usbd_ep_setup(usbd_dev, DATA_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, cdcacm_data_rx_cb);
@@ -127,11 +124,12 @@ cdcacm_set_config(
 		usbd_dev,
 		CONTROL_CALLBACK_TYPE,
 		CONTROL_CALLBACK_MASK,
-		cdcacm_control_request);
+		(usbd_control_callback) cdcacm_control_request);
 	if (status < 0) { debug_println("*** cdcacm_set_config failed"); debug_flush(); }
 }
 
 void cdc_setup(usbd_device* usbd_dev) {
+	//  Setup the USB interface.
     //  debug_println("*** cdc_setup"); ////
 	int status = aggregate_register_config_callback(usbd_dev, cdcacm_set_config);
 	if (status < 0) { debug_println("*** cdc_setup failed"); debug_flush(); }
