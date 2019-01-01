@@ -19,6 +19,7 @@
 #define debug_print_char(a) {}
 #define debug_print_float(a) {}
 #define debug_flush() {}
+#define logger_add_output() {}
 
 #else  //  If logging is enabled...
 
@@ -38,6 +39,10 @@ void debug_print_float(float f);    //  Note: Always prints with 2 decimal place
 void debug_printhex(uint8_t ch);    //  Write a char in hexadecimal to the buffered debug log.
 void debug_printhex_unsigned(size_t l);  //  Write an unsigned int in hexadecimal to the buffered debug log.
 void debug_flush(void);             //  Flush the buffer of the debug log so that buffered data will appear.
+
+typedef int logger_output_func(const uint8_t *buf, uint16_t len);
+int logger_add_output(logger_output_func *func);  //  Add a logger output function e.g. USB Serial, HF2.
+
 #ifdef __cplusplus
 }  //  End of extern C scope.
 #endif

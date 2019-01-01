@@ -82,12 +82,34 @@ static uint32_t target_in_isr(void) {
     return SCB_ICSR & SCB_ICSR_VECTACTIVE;
 }
 
+//  List of all logger output functions e.g. USB Serial, HF2.
+#define MAX_OUTPUT_FUNCS 4
+static logger_output_func *output_funcs[MAX_OUTPUT_FUNCS];
+
+int logger_add_output(logger_output_func *func) {
+    //  Add a logger output function e.g. USB Serial, HF2.
+    if (!func) { return -1; }
+    for (int i = 0; i < MAX_OUTPUT_FUNCS; i++) {
+        if (!output_funcs[i]) {
+            output_funcs[i] = func;
+            return 0;
+        }
+    }
+    return -1;  //  Too many outputs.
+}
+
 static int write_all_output(
     const uint8_t *buf,
 	uint16_t len) {
-    //  Write the buffer to all outputs.
+    //  Write the buffer to all outputs: Arm Semihosting, USB Serial, HF2, ...
     if (target_in_isr()) { return -1; }      //  Can't write when called by interrupt routine.
     semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, len);
+    for (int i = 0; i < MAX_OUTPUT_FUNCS; i++) {
+        if (output_funcs[i]) {
+            logger_output_func *func = output_funcs[i];
+            func(buf, len);
+        }
+    }
     return len;
 }
 
