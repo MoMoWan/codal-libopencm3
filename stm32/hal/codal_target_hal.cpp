@@ -79,8 +79,11 @@ void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // 
     if (!initialised) { return; }  //  If not initialised, quit.
 
+    //  Start the cocoOS scheduler.
+    if (!os_running()) { os_preschedule(); }
+
     //  Run a cocoOS task if any.  Must be called only when all the tasks have been created.
-    os_preschedule(); os_schedule();
+    os_schedule();
 
     //  Flush the debug log buffers once in a while.
     static uint32_t delay = 1;
@@ -92,25 +95,22 @@ void target_wait_for_event() {
 }
 
 void target_wait(uint32_t milliseconds) {
-    //  Wait for the specified number of milliseconds.  Does not allow multitasking.
-    debug_println("----target_wait");
+    //  Wait for the specified number of milliseconds.
     if (milliseconds <= 0) { return; }
+    if (!initialised) { return; }  //  If not initialised, quit.
+    debug_print("wt <"); debug_print_unsigned(milliseconds / 1000);
     uint32_t end = millis() + milliseconds;
     for (;;) {
         if (millis() >= end) { break; }
+        if (os_running()) { os_schedule(); }  //  Schedule a cocoOS task to run.
         __asm("wfe");  //  Allow CPU to go to sleep.
     }
+    debug_print("> ");
 }
 
-void target_wait_us(unsigned long us) {
-    //  Wait for the specified number of microseconds.  Does not allow multitasking.
-    debug_println("----target_wait_us");
-    if (us <= 0) { return; }
-    uint32_t end = millis() + (us / 1000);
-    for (;;) {
-        if (millis() >= end) { break; }
-        __asm("wfe");  //  Allow CPU to go to sleep.
-    }
+void target_wait_us(unsigned long microseconds) {
+    //  Wait for the specified number of microseconds.
+    return target_wait(microseconds / 1000);
 }
 
 void target_reset() {
@@ -240,6 +240,7 @@ int target_random(int max) {
 */
 #define STM32_UUID ((uint32_t *)0x1FFF7A10)
 uint32_t target_get_serial() {
+    //  TODO: Use bootloader ID.
     // uuid[1] is the wafer number plus the lot number, need to check the uniqueness of this...
     debug_println("----target_get_serial");
     return (uint32_t)STM32_UUID[1];
@@ -403,16 +404,18 @@ void target_disable_debug(void) {
 }
 
 //  Schedule a cocoOS task for running.  Copied from https://github.com/cocoOS/cocoOS/blob/master/src/os_kernel.c
-extern uint8_t running_tid, last_running_task, running;  //  System flags.
+extern uint8_t running_tid, last_running_task, running;  //  System flags. 
 
 static void os_preschedule(void) {
     //  Must be called once before os_schedule().
+    if (os_running()) { return; }  //  Already running.
     running = 1;
     os_enable_interrupts();
 }
 
 static void os_schedule( void ) {
     //  Call this to schedule a task.
+    if (!os_running()) { return; }  //  Don't schedule if cocoOS scheduler is not started.
     running_tid = NO_TID;
 #ifdef ROUND_ROBIN
     /* Find next ready task */
