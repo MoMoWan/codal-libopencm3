@@ -43,7 +43,7 @@ static void timer_tick() {
                 status = status | bootloader_callback();
             }
         }
-        if (prev_status > 0) { debug_print(" } "); }
+        if (prev_status > 0) { debug_print("} "); }
     }
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
