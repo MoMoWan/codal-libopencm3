@@ -83,10 +83,8 @@ static enum usbd_request_return_codes cdcacm_control_request(
 	return USBD_REQ_NEXT_CALLBACK;  //  Hand over to next callback.
 }
 
-//  TODO: TX Up to MAX_USB_PACKET_SIZE
-//  usbd_ep_write_packet(usbd_dev, DATA_IN, txbuf, txlen)
-
-static char cdcbuf[MAX_USB_PACKET_SIZE + 1];   // rx buffer
+static uint8_t rx_buf[MAX_USB_PACKET_SIZE + 1];   // rx buffer
+// static uint8_t tx_buf[MAX_USB_PACKET_SIZE + 1];   // tx buffer
 
 int cdcadm_transmit(
   	usbd_device *usbd_dev,
@@ -96,7 +94,18 @@ int cdcadm_transmit(
 	//  Send the data to the serial connection.  Send only if connected.
 	if (!connected || !usbd_dev || !buf) { return -1; }
 	if (len == 0) { return 0; }
-	return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);
+	//  Transmit Up to MAX_USB_PACKET_SIZE.
+	if (len <= MAX_USB_PACKET_SIZE) {
+		return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);  //  Returns the bytes sent.
+	}
+	while (len > 0) {
+		uint16_t tx_len = (len > MAX_USB_PACKET_SIZE) ? MAX_USB_PACKET_SIZE : len;
+		len = len - tx_len;
+		uint16_t status = usbd_ep_write_packet(usbd_dev, DATA_IN, buf, tx_len);  //  Returns the bytes sent.
+		if (status != tx_len) { return 0; }  //  Stop if error.
+		buf = &buf[tx_len];
+	}
+	return len;
 }
 
 static void cdcacm_data_rx_cb(
@@ -104,13 +113,13 @@ static void cdcacm_data_rx_cb(
   uint8_t ep __attribute__((unused))
 ) {
 	//  Callback when a USB packet is received.
-	uint16_t len = usbd_ep_read_packet(usbd_dev, DATA_OUT, cdcbuf, MAX_USB_PACKET_SIZE);
+	uint16_t len = usbd_ep_read_packet(usbd_dev, DATA_OUT, rx_buf, MAX_USB_PACKET_SIZE);
     if (len == 0) { return; }
     uint16_t pos = (len < MAX_USB_PACKET_SIZE) ? len : MAX_USB_PACKET_SIZE;
-    cdcbuf[pos] = 0;
+    rx_buf[pos] = 0;
 
-	cdcadm_transmit(usbd_dev, (uint8_t *) cdcbuf, pos);  //  Echo the packet.	
-    debug_print("["); debug_println(cdcbuf); debug_print("]");
+	cdcadm_transmit(usbd_dev, rx_buf, pos);  //  Echo the packet.	
+    //  debug_print("["); debug_println(rx_buf); debug_print("]");
 }
 
 static void cdcacm_comm_cb(
