@@ -43,11 +43,12 @@
 ////
 #define BUSY_DURATION 1000  //  Return busy for up to 1 second after the last recorded USB activity.
 static volatile uint32_t last_busy_time = 0;
+static volatile uint32_t last_frame_time = 0;
 
 void sof_callback(void) {
     //  Start Of Frame callback.  This is called when there is any USB activity.
     //  debug_print("~ ");
-    ////last_busy_time = millis();
+    last_frame_time = millis();
 }
 
 volatile int get_usb_status(void) { 
@@ -425,7 +426,7 @@ usbd_device* usb_setup(void) {
         usbd_control_buffer, sizeof(usbd_control_buffer));
 
     //  Register for Start Of Frame callbacks.
-    ////usbd_register_sof_callback(usbd_dev, sof_callback);
+    usbd_register_sof_callback(usbd_dev, sof_callback);
 
     //  The following USB setup functions will call aggregate_register_callback() to register callbacks.
 #ifdef INTF_DFU    
