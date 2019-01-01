@@ -90,6 +90,11 @@ int logger_add_output(logger_output_func *func) {
     //  Add a logger output function e.g. USB Serial, HF2.
     if (!func) { return -1; }
     for (int i = 0; i < MAX_OUTPUT_FUNCS; i++) {
+        if (output_funcs[i] == func) {
+            return 0;  //  Already added.
+        }
+    }
+    for (int i = 0; i < MAX_OUTPUT_FUNCS; i++) {
         if (!output_funcs[i]) {
             output_funcs[i] = func;
             return 0;
