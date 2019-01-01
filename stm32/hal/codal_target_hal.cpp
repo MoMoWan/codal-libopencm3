@@ -81,6 +81,8 @@ void target_init(void) {
     //  seedRandom();
 }
 
+#define FLUSH_INTERVAL 2000  //  Flush the logs every 2 seconds.
+
 void target_wait_for_event() {
     //  Run background tasks and sleep until an event happens e.g. alarm.
   	//  debug_println("----target_wait_for_event"); // 
@@ -93,9 +95,9 @@ void target_wait_for_event() {
     os_schedule();
 
     //  Flush the debug log buffers once in a while.
-    static uint32_t delay = 1;
-    delay++;
-    if (delay == 0) {
+    static uint32_t last_flush = 0;
+    if ((last_flush + FLUSH_INTERVAL) >= millis()) {
+        last_flush = millis();
         debug_flush();
         target_dmesg_flush();
     }
