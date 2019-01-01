@@ -35,6 +35,9 @@
 		},
 		{
 			"path": "stm32/bluepill"
+		},
+		{
+			"path": "stm32/logger"
 		}
 	],
 	"settings": {

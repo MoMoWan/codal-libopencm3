@@ -82,6 +82,15 @@ static uint32_t target_in_isr(void) {
     return SCB_ICSR & SCB_ICSR_VECTACTIVE;
 }
 
+static int write_all_output(
+    const uint8_t *buf,
+	uint16_t len) {
+    //  Write the buffer to all outputs.
+    if (target_in_isr()) { return -1; }      //  Can't write when called by interrupt routine.
+    semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, len);
+    return len;
+}
+
 static void debug_append(const char *buffer, unsigned int length) {
     //  Append "length" number of bytes from "buffer" to the debug buffer.
     const int debugBufferLength = strlen(debugBuffer);
@@ -89,7 +98,7 @@ static void debug_append(const char *buffer, unsigned int length) {
     if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
         if (target_in_isr()) { return; }  //  Out of buffer space, can't flush now.
         debug_flush();
-        semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buffer, length);
+        write_all_output((const uint8_t *) buffer, length);
         return;
     }
     //  Else append to the buffer.
@@ -100,8 +109,7 @@ static void debug_append(const char *buffer, unsigned int length) {
 void debug_flush(void) {
     //  Flush the debug buffer to the debugger log.  This will be slow.
     if (debugBuffer[0] == 0) { return; }  //  Debug buffer is empty, nothing to write.
-    if (target_in_isr()) { return; }      //  Out of buffer space, can't flush now.
-	semihost_write(SEMIHOST_HANDLE, (const unsigned char *) debugBuffer, strlen(debugBuffer));
+	write_all_output((const uint8_t *) debugBuffer, strlen(debugBuffer));
     debugBuffer[0] = 0;
 }
 
