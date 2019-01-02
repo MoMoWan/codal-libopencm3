@@ -117,7 +117,7 @@ void target_wait_for_event() {
     //  Flush the debug log buffers once in a while.
     if ((last_flush + FLUSH_INTERVAL) >= millis()) {
         last_flush = millis();
-        debug_flush();
+        debug_force_flush();
         target_dmesg_flush();
     }
     __asm("wfe");  //  Allow CPU to go to sleep.

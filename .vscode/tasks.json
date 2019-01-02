@@ -37,15 +37,15 @@
             "type": "shell",
             "windows": {
                 "command": 
-                " platformio run && c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd"
+                " platformio debug && c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd"
             },
             "osx": {
                 "command": 
-                " platformio run && pkill openocd ; openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
+                " platformio debug && pkill openocd ; openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
             },
             "linux": {
                 "command": 
-                " platformio run && pkill openocd ; openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
+                " platformio debug && pkill openocd ; openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
             },
             "problemMatcher": [],
             "group": "build",

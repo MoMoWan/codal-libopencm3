@@ -57,13 +57,14 @@ static void get_serial_number(void) {
     usb_set_serial_number(serial);
 }
 
+static uint32_t cycleCount = 0;        
+static uint32_t flushCount = 1;
+static uint32_t msTimer = 0;
+
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
     debug_println("usbd polling...");  debug_flush();  ////
     // test_backup();          //  Test backup.
-    uint32_t cycleCount = 0;        
-    uint32_t flushCount = 1;
-    uint32_t msTimer = 0;
     while (1) {
         cycleCount++;
         if (cycleCount >= 700) {
@@ -76,7 +77,7 @@ static void poll_loop(void) {
 #endif  //  INTF_MSC
 
             //  TODO: If a valid application has just been flashed, restart and run it.
-            if (flushCount++ % 50000 == 0) { debug_flush(); }  //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
+            if (flushCount++ % 1000 == 0) { debug_force_flush(); }  //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
         }
         usbd_poll(usbd_dev);
     }    

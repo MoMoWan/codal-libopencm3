@@ -270,13 +270,15 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     uint8_t cmd = buf[1];  //  Only valid if pkt->size = 0 (first packet of message).
 
     //  Use the large buffer for Bootloader Mode, small buffer for Application Mode.
-    static HF2_Buffer *pkt = NULL;
+    static HF2_Buffer *pkt = (HF2_Buffer *) &hf2_buffer_mini;
+#ifdef NOTUSED
     if (!pkt) {
         pkt = (target_get_startup_mode() == BOOTLOADER_MODE) ?
             &hf2_buffer :
             (HF2_Buffer *) &hf2_buffer_mini;
         debug_print("pkt "); debug_printhex_unsigned(pkt); debug_println("");
     }
+#endif //  NOTUSED
     // serial packets not allowed when in middle of command packet
     usb_assert(pkt->size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
     int size = tag & HF2_SIZE_MASK;
@@ -319,8 +321,8 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {
     (void)wValue;
     usbd_ep_setup(usbd_dev, HF2_IN, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_tx_cb);
     usbd_ep_setup(usbd_dev, HF2_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_rx_cb);
-    connected = 1;
-    if (connected_func) { connected_func(); }
+    ////connected = 1;
+    ////if (connected_func) { connected_func(); }
 }
 
 void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {

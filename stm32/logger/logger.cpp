@@ -126,6 +126,10 @@ static uint16_t write_all_output(
 }
 
 void debug_flush(void) {
+    //  Nothing.
+}
+
+void debug_force_flush(void) {
     //  Flush the debug buffer to the debugger log.  This will be slow.
     if (debugBufferLength == 0) { return; }  //  Debug buffer is empty, nothing to write.
 	uint16_t outlen = write_all_output((const uint8_t *) debugBuffer, debugBufferLength);
