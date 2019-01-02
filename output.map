@@ -3310,7 +3310,7 @@ Linker script and memory map
                 0x20000468        0x4 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
  .bss.connected_func
                 0x2000046c        0x4 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
- .bss.pkt.5985  0x20000470        0x4 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
+ .bss.pkt.5984  0x20000470        0x4 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
  .bss.remDataToSend
                 0x20000474        0x4 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
  .bss.remDataToSendLength
@@ -3338,7 +3338,7 @@ Linker script and memory map
                 0x20000514        0x4 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(usb21_standard.o)
  .bss.usbd_control_buffer
                 0x20000518      0x100 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(usb_conf.o)
- .bss.buf.6008  0x20000618       0x40 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
+ .bss.buf.6007  0x20000618       0x40 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
  .bss.connected
                 0x20000658        0x1 .pioenvs\bluepill_f103c8\lib443\libbootloader.a(hf2.o)
  .bss.remDataToSendFlag

@@ -66,7 +66,9 @@ static void pokeSend(
     const uint8_t *dataToSend,
     volatile uint32_t dataToSendLength,
     uint8_t dataToSendFlag);
+static void assert(bool assertion, const char *msg);
 static void test_hf2(void);
+extern const char infoUf2File[];
 
 //  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 //  Note: hf2_buffer is not initialised to 0 because it's not in the BSS section.
@@ -79,18 +81,9 @@ static volatile uint32_t rx_time = 0;
 //  Remaining data to be sent.
 static const uint8_t *remDataToSend;
 static volatile uint32_t remDataToSendLength;
-static uint8_t remDataToSendFlag;
-
-
-
-extern const char infoUf2File[];
+static uint8_t remDataToSendFlag = 0;
 
 #define checkDataSize(str, add) assert(sz == 8 + sizeof(cmd->str) + (add), "*** ERROR: checkDataSize failed")
-
-static void assert(bool assertion, const char *msg) {
-    if (assertion) { return; }
-    debug_print("*** ERROR: "); debug_println(msg); debug_flush();
-}
 
 static void handle_command(HF2_Buffer *pkt) {
 	//  Must set connected flag before transmitting.
@@ -373,6 +366,11 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
     }
     int status = aggregate_register_config_callback(usbd_dev, hf2_set_config);
     if (status < 0) { debug_println("*** hf2_setup failed"); debug_flush(); }
+}
+
+static void assert(bool assertion, const char *msg) {
+    if (assertion) { return; }
+    debug_print("*** ERROR: "); debug_println(msg); debug_flush();
 }
 
 static void test_hf2(void) {
