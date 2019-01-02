@@ -68,6 +68,11 @@ HF2_Buffer_Mini hf2_buffer_mini;        //  Small buffer for Application Mode on
 static usbd_device *_usbd_dev;
 static volatile uint32_t rx_time = 0;
 
+//  Remaining data to be sent.
+static const uint8_t *remDataToSend;
+static volatile uint32_t remDataToSendLength;
+static uint8_t remDataToSendFlag;
+
 static void pokeSend(
     const uint8_t *dataToSend,
     volatile uint32_t dataToSendLength,
@@ -101,10 +106,20 @@ static void pokeSend(
     cm_enable_interrupts();
 
     if (sendIt) {
+        //  Send the packet.
         uint16_t len = sizeof(buf);
         usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
-        debug_print_unsigned(millis() - rx_time); 
-        dump_buffer(" >>", buf, dataToSendLength + 1);
+        //  If this message requires multiple packets, let the tx callback continue sending.
+        if (dataToSendLength > 0) {
+            //  Remaining data to be sent.
+            remDataToSend = dataToSend;
+            remDataToSendLength = dataToSendLength;
+            remDataToSendFlag = dataToSendFlag;
+        } else {
+            remDataToSendLength = 0;  //  No more data to send.
+        }
+        // debug_print_unsigned(millis() - rx_time); 
+        dump_buffer("hf2pkt >>", buf, dataToSendLength + 1);
         // debug_print("hf2pkt >> "); debug_printhex(dataToSendLength + 1); debug_println(""); ////
     }
 }
@@ -318,10 +333,11 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     }
 }
 
-static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) {
-    (void)usbd_dev;
-    (void)ep;
-    //  TODO: pokeSend();
+static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) { (void)usbd_dev; (void)ep;
+    //  After sending a packet, send the next packet of the message.
+    if (remDataToSendLength == 0) { return; }  //  No remaining data to be sent.
+    set_usb_busy();  //  Tell caller to repoll for USB requests.
+    pokeSend(remDataToSend, remDataToSendLength, remDataToSendFlag);
 }
 
 /** @brief Setup the endpoints to be bulk & register the callbacks. */
