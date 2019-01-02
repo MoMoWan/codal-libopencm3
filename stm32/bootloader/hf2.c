@@ -11,6 +11,7 @@
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/hid.h>
+#include <bluepill/bluepill.h>
 #include <logger/logger.h>
 #include "usb_conf.h"
 #include "ghostfat.h"
@@ -65,6 +66,7 @@ __attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high mem
 HF2_Buffer      hf2_buffer;             //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
 HF2_Buffer_Mini hf2_buffer_mini;        //  Small buffer for Application Mode only.  Size should be ??? bytes.
 static usbd_device *_usbd_dev;
+static volatile uint32_t rx_time = 0;
 
 static void pokeSend(
     const uint8_t *dataToSend,
@@ -101,8 +103,9 @@ static void pokeSend(
     if (sendIt) {
         uint16_t len = sizeof(buf);
         usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
-        dump_buffer("hf2pkt >>", buf, len);
-        // debug_print("hf2pkt >> "); debug_printhex(len); debug_println(""); ////
+        debug_print_unsigned(millis() - rx_time); 
+        dump_buffer(" >>", buf, dataToSendLength);
+        // debug_print("hf2pkt >> "); debug_printhex(dataToSendLength); debug_println(""); ////
     }
 }
 
@@ -263,6 +266,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  debug_print("hf2 << ep "); debug_printhex(ep); debug_println("");
     set_usb_busy();  //  Tell caller to repoll for USB requests.
     int len = usbd_ep_read_packet(usbd_dev, ep, buf, sizeof(buf));    
+    rx_time = millis();
     // debug_print("hf2 << tag "); debug_printhex(buf[0]); debug_println("");  // DMESG("HF2 read: %d", len);
     // dump_buffer(",", buf, len);    
     if (len <= 0) return;
