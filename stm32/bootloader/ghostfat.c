@@ -128,16 +128,13 @@ static void flushFlash(void) {
     lastFlush = ms;
     if (flashAddr == NO_CACHE)
         return;
-
     if (firstFlush) {
         firstFlush = false;
-
         // disable bootloader or something
     }
-    debug_print("flushFlash "); debug_print_unsigned((size_t) flashAddr); debug_println(""); debug_flush();
     DBG("Flush at %x", flashAddr);
     if (memcmp(flashBuf, (void *)flashAddr, FLASH_PAGE_SIZE) != 0) {
-        debug_print("flushFlash write "); debug_print_unsigned((size_t) flashAddr); debug_println(""); debug_flush();
+        debug_print("flash "); debug_printhex_unsigned((size_t) flashAddr); debug_println(""); ////
         DBG("Write flush at %x", flashAddr);
 
         target_flash_unlock();
@@ -145,15 +142,13 @@ static void flushFlash(void) {
         target_flash_lock();
         (void)ok;
     }
-
     flashAddr = NO_CACHE;
 }
 
 void flash_write(uint32_t dst, const uint8_t *src, int len) {
     uint32_t newAddr = dst & ~(FLASH_PAGE_SIZE - 1);
-
+    // debug_print("flash "); debug_printhex_unsigned(dst); debug_println("");
     hadWrite = true;
-
     if (newAddr != flashAddr) {
         flushFlash();
         flashAddr = newAddr;

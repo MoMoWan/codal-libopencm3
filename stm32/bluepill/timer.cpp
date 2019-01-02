@@ -104,6 +104,7 @@ void platform_set_alarm(uint32_t millisec) {
 	volatile uint32_t now = rtc_get_counter_val();
 
 	//  Not documented, but you must disable write protection else the alarm time will not be set and rtc_exit_config_mode() will hang.
+	//  TODO: Disable only if write protection is enabled.
 	pwr_disable_backup_domain_write_protect();
 	rtc_set_alarm_time(now + millisec);
 
