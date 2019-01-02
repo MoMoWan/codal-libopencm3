@@ -60,16 +60,19 @@ void set_usb_busy(void) {
 }
 
 volatile int get_ep_status(uint8_t ep) {
+    //  USB not connected:  0
+    //  USB connected:      0x00003023 (HF2: 0x00003022)
+    //  USB disconnected:   Same as above
 	ep &= 0x7F;
 	volatile uint32_t status = *USB_EP_REG(ep);
-    debug_print("ep "); debug_print_int(ep); debug_print(" = "); debug_printhex_unsigned(status); debug_println("");
+    //  debug_print("ep "); debug_print_int(ep); debug_print(" = "); debug_printhex_unsigned(status); debug_println("");
     return status;
 }
 
 volatile int get_usb_status(void) { 
-    get_ep_status(DATA_IN);  ////
-
     //  Return 1 if there was any USB activity within last few seconds.
+    //  get_ep_status(DATA_IN);  ////
+    //  get_ep_status(HF2_IN);  ////
     if (last_busy_time == 0) { return 0; }
     volatile uint32_t now = millis();
     //  If time now is within a few seconds of last busy time, return busy.
@@ -671,8 +674,6 @@ static int usb_cdc_transmit(
 	uint16_t len) {
     //  Transmit to the serial port, if connected.
     if (!usbd_dev || !cdc_is_connected) { return -1; }
-
-    return len; ////
     return cdcadm_transmit(usbd_dev, buf, len);
 }
 

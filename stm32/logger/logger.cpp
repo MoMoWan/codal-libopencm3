@@ -108,11 +108,12 @@ int logger_add_output(logger_output_func *func) {
 
 static uint16_t write_all_output(
     const uint8_t *buf,
-	uint16_t len) {
+	uint16_t len,
+    bool forced) {
     //  Write the buffer to all outputs: Arm Semihosting, USB Serial, HF2, ...
     //  We must flush as quickly as possible and USB Serial can only handle 64 bytes, so we just flush the next 60 bytes.
     //  Return the number of bytes flushed.
-    if (target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine.
+    if (!forced && target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine, unless it's forced.
     uint16_t outlen = (len > MAX_OUTPUT_LENGTH) ? MAX_OUTPUT_LENGTH : len;
 
     semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, outlen);
@@ -125,10 +126,10 @@ static uint16_t write_all_output(
     return outlen;
 }
 
-void debug_flush(void) {
+void debug_flush_internal(bool forced) {
     //  Flush one chunk of the debug buffer to the debugger log.  This will be slow.
     if (debugBufferLength == 0) { return; }  //  Debug buffer is empty, nothing to write.
-	uint16_t outlen = write_all_output((const uint8_t *) debugBuffer, debugBufferLength);
+	uint16_t outlen = write_all_output((const uint8_t *) debugBuffer, debugBufferLength, forced);
     if (outlen == 0) {
         return;
     } else if (outlen >= debugBufferLength) {
@@ -140,11 +141,16 @@ void debug_flush(void) {
     debugBufferLength -= outlen;
 }
 
+void debug_flush(void) {
+    //  Flush one chunk of the debug buffer to the debugger log.  This will be slow.
+    return debug_flush_internal(false);
+}
+
 void debug_force_flush(void) {
-    //  Flush the entire debug buffer to the debugger log.  This will be slow.
+    //  Flush the entire debug buffer to the debugger log, even when called by interrupt routine.  This will be slow.
     for (int i = 0; i < 100; i++) {  //  Assume 100 or fewer chunks.
         if (debugBufferLength == 0) { return; }  //  No more chunks.
-        debug_flush();
+        debug_flush_internal(true);
     }
 }
 

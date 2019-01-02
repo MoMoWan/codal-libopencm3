@@ -67,7 +67,6 @@ static void pokeSend(
     volatile uint32_t dataToSendLength,
     uint8_t dataToSendFlag);
 static void assert(bool assertion, const char *msg);
-static void test_hf2(void);
 extern const char infoUf2File[];
 
 //  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
@@ -374,9 +373,7 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wVal
 void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
     _usbd_dev = usbd_dev;
     connected_func = connected_func0;
-
-    test_hf2(); ////
-
+    //  test_hf2(); ////
     //  Note: hf2_buffer is not initialised to 0 because it's not in the BSS section.  We init here.
     if (target_get_startup_mode() == BOOTLOADER_MODE) {
         memset(&hf2_buffer, 0, sizeof(hf2_buffer));
@@ -388,38 +385,6 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
 static void assert(bool assertion, const char *msg) {
     if (assertion) { return; }
     debug_print("*** ERROR: "); debug_println(msg); debug_flush();
-}
-
-static void test_hf2(void) {
-    debug_print("sizeof(UF2_INFO_TEXT) ");
-    debug_printhex(sizeof(UF2_INFO_TEXT));
-    debug_println("");
-
-    debug_print("infoUf2File ");
-    debug_printhex_unsigned((size_t) &infoUf2File);
-    debug_println("");
-
-    debug_print("infoUf2File len ");
-    debug_printhex(strlen(infoUf2File));
-    debug_println("");
-
-    if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
-
-    debug_print("hf2_buffer ");
-    debug_printhex_unsigned((size_t) &hf2_buffer);
-    debug_println("");
-
-    debug_print("*hf2_buffer before ");
-    debug_printhex_unsigned(hf2_buffer.size);
-    debug_println("");
-
-    hf2_buffer.size = 0x1234;
-
-    debug_print("*hf2_buffer after ");
-    debug_printhex_unsigned(hf2_buffer.size);
-    debug_println("");
-
-    hf2_buffer.size = 0;
 }
 
 #define MURMUR3 0
@@ -452,6 +417,38 @@ static void test_hf2(void) {
 #endif  //  INTF_HF2
 
 #ifdef NOTUSED
+
+static void test_hf2(void) {
+    debug_print("sizeof(UF2_INFO_TEXT) ");
+    debug_printhex(sizeof(UF2_INFO_TEXT));
+    debug_println("");
+
+    debug_print("infoUf2File ");
+    debug_printhex_unsigned((size_t) &infoUf2File);
+    debug_println("");
+
+    debug_print("infoUf2File len ");
+    debug_printhex(strlen(infoUf2File));
+    debug_println("");
+
+    if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
+
+    debug_print("hf2_buffer ");
+    debug_printhex_unsigned((size_t) &hf2_buffer);
+    debug_println("");
+
+    debug_print("*hf2_buffer before ");
+    debug_printhex_unsigned(hf2_buffer.size);
+    debug_println("");
+
+    hf2_buffer.size = 0x1234;
+
+    debug_print("*hf2_buffer after ");
+    debug_printhex_unsigned(hf2_buffer.size);
+    debug_println("");
+
+    hf2_buffer.size = 0;
+}
 
 hf2 << len 64, tag 48, 64 / 48 01 00 00 00 5c a4 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00

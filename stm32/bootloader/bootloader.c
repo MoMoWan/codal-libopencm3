@@ -41,7 +41,6 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 
 static void poll_loop(void);
 static void get_serial_number(void);
-static void test_hf2(void);
 
 extern uint32_t _boot_stack;  //  Bootloader stack address, provided by linker script.
 extern int msc_started;
@@ -113,7 +112,7 @@ volatile int bootloader_status(void) {
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
     debug_println("usbd polling...");  debug_flush();  ////
-    test_hf2();
+    // test_hf2();
     // test_backup();          //  Test backup.
     while (true) {
         //  Handle the next USB request.
@@ -157,41 +156,6 @@ static void get_serial_number(void) {
     usb_set_serial_number(serial);
 }
 
-extern uint32_t hf2_buffer;
-extern const char infoUf2File[];
-
-static void test_hf2(void) {
-    debug_print("sizeof(UF2_INFO_TEXT) ");
-    debug_printhex(sizeof(UF2_INFO_TEXT));
-    debug_println("");
-
-    debug_print("infoUf2File ");
-    debug_printhex_unsigned((size_t) &infoUf2File);
-    debug_println("");
-
-    debug_print("infoUf2File len ");
-    debug_printhex(strlen(infoUf2File));
-    debug_println("");
-
-    if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
-    
-    debug_print("hf2_buffer ");
-    debug_printhex_unsigned((size_t) &hf2_buffer);
-    debug_println("");
-
-    debug_print("*hf2_buffer before ");
-    debug_printhex_unsigned(hf2_buffer);
-    debug_println("");
-
-    hf2_buffer = 0x12345678;
-
-    debug_print("*hf2_buffer after ");
-    debug_printhex_unsigned(hf2_buffer);
-    debug_println("");
-
-    hf2_buffer = 0;
-}
-
 #ifdef NOTUSED
     if (appValid && target_get_force_app()) {
          jump_to_application();
@@ -205,6 +169,41 @@ static void test_hf2(void) {
         jump_to_application();
     }    
 
+    extern uint32_t hf2_buffer;
+    extern const char infoUf2File[];
+
+    static void test_hf2(void) {
+        debug_print("sizeof(UF2_INFO_TEXT) ");
+        debug_printhex(sizeof(UF2_INFO_TEXT));
+        debug_println("");
+
+        debug_print("infoUf2File ");
+        debug_printhex_unsigned((size_t) &infoUf2File);
+        debug_println("");
+
+        debug_print("infoUf2File len ");
+        debug_printhex(strlen(infoUf2File));
+        debug_println("");
+
+        if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
+        
+        debug_print("hf2_buffer ");
+        debug_printhex_unsigned((size_t) &hf2_buffer);
+        debug_println("");
+
+        debug_print("*hf2_buffer before ");
+        debug_printhex_unsigned(hf2_buffer);
+        debug_println("");
+
+        hf2_buffer = 0x12345678;
+
+        debug_print("*hf2_buffer after ");
+        debug_printhex_unsigned(hf2_buffer);
+        debug_println("");
+
+        hf2_buffer = 0;
+    }
+    
     static void test_backup(void) {
         //  Test whether RTC backup registers are written correctly.
         //  static const uint32_t CMD_BOOT = 0x544F4F42UL;
