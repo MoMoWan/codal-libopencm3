@@ -661,6 +661,8 @@ static int usb_cdc_transmit(
 	uint16_t len) {
     //  Transmit to the serial port, if connected.
     if (!usbd_dev || !cdc_is_connected) { return -1; }
+
+    return len; ////
     return cdcadm_transmit(usbd_dev, buf, len);
 }
 

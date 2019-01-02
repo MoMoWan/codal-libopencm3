@@ -27,27 +27,29 @@ static bool initialised = false;
 static void (*tick_callback)() = NULL;
 static void (*alarm_callback)() = NULL;
 static int (*bootloader_callback)() = NULL;
+static volatile int poll_status = 0;
 static volatile int prev_poll_status = 0;
 static volatile uint32_t poll_stop = 0;  //  Elaspsed time since startup that we should stop polling.
-#define MAX_POLL_DURATION 1000  //  If there is USB activity, poll USB requests for up to 1 second continuously.
+#define MAX_BURST_POLL 10  //  If there is USB activity, poll USB requests for up to 10 times continuously.
 
 static void timer_tick() {
     //  This is called every millisecond.  
     //  If bootloader is running in background, call it to handle USB requests.
     if (bootloader_callback) { 
-        //  If we received any USB request, continue polling a few seconds.  That's because according to the USB 2.0 specs,
+        //  If we received any USB request, continue polling a few times.  That's because according to the USB 2.0 specs,
         //  we must return the response for the Set Address request within 50 ms.  USB Enumeration requests need to be
         //  handled ASAP or Windows / Mac will report the Blue Pill as an unknown device.
-        volatile int status = bootloader_callback();
-        if (status > 0 && status != prev_poll_status) { debug_print("u{ "); }
-        while (status > 0) {  //  If we receive any USB requests,,,
-            status = 0;       //  Continue polling a few seconds for subsequent USB requests.
-            for (uint16_t i = 0; i < MAX_POLL_DURATION; i++) {
-                status = status | bootloader_callback();
+        poll_status = bootloader_callback();
+        if (poll_status > 0 && poll_status != prev_poll_status) { debug_print("u{ "); }
+        while (poll_status > 0) {  //  If we receive any USB requests,,,
+            poll_status = 0;       //  Continue polling a few times for subsequent USB requests.
+            for (uint16_t i = 0; i < MAX_BURST_POLL; i++) {
+                //  We can't poll too many times because this is a timer tick, it should terminate in 1 millisecond.
+                poll_status = poll_status | bootloader_callback();
             }
         }
-        if (status == 0 && status != prev_poll_status) { debug_print("} "); }
-        prev_poll_status = status;
+        if (poll_status == 0 && poll_status != prev_poll_status) { debug_print("} "); }
+        prev_poll_status = poll_status;
     }
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
