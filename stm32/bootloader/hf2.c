@@ -77,6 +77,9 @@ HF2_Buffer      hf2_buffer;             //  Large buffer for Bootloader Mode onl
 HF2_Buffer_Mini hf2_buffer_mini;        //  Small buffer for Application Mode only.  Size should be 91 bytes.
 static usbd_device *_usbd_dev;
 static volatile uint32_t rx_time = 0;
+static uint8_t rx_buf[64];
+static uint8_t tx_buf[64];
+static const char bad_packet_message[] = "bad packet";
 
 //  Remaining data to be sent.
 static const uint8_t *remDataToSend;
@@ -91,7 +94,6 @@ static void handle_command(HF2_Buffer *pkt) {
 		connected = 1;
 		if (connected_func) { connected_func(); }
 	}
-
     // one has to be careful dealing with these, as they share memory
     HF2_Command *cmd = &(pkt->cmd);
     HF2_Response *resp = &(pkt->resp);
@@ -196,9 +198,6 @@ static void handle_command(HF2_Buffer *pkt) {
         send_hf2_response(pkt, 0);
 }
 
-static const char bad_packet_message[] = "bad packet";
-static uint8_t rx_buf[64];
-
 static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  Handle the received packet.
     //  debug_print("hf2 << ep "); debug_printhex(ep); debug_println("");
@@ -275,10 +274,34 @@ int hf2_transmit(
 	uint16_t len
 ) {
 	//  Send the data to the HF2 connection.  Send only if connected.
+    //  TODO: Send stdout and stderr to host.
+    //  HF2_FLAG_SERIAL_OUT: 0x80
+    //  HF2_FLAG_SERIAL_ERR: 0xC0
 	if (!connected || !usbd_dev || !buf) { return -1; }
 	if (len == 0) { return 0; }
+
 	//  Transmit Up to MAX_USB_PACKET_SIZE.
+    const uint8_t *dataToSend = buf;
+    uint32_t dataToSendLength = len;
+    uint8_t dataToSendFlag = HF2_FLAG_CMDPKT_LAST | HF2_FLAG_SERIAL_OUT;
+    memset(tx_buf, 0, sizeof(tx_buf));
+
+    cm_disable_interrupts();
+    int flag = dataToSendFlag;
+    int s = sizeof(tx_buf) - 1;  //  63
+    if (dataToSendLength < s) { s = dataToSendLength; }
+    tx_buf[0] = flag | s;
+    memcpy(tx_buf + 1, dataToSend, s);
+    cm_enable_interrupts();
+
+    //  Send the packet.
+    usbd_ep_write_packet(_usbd_dev, HF2_IN, tx_buf, sizeof(tx_buf));
+    dump_buffer("hf2ser >>", tx_buf, s + 1);
+    // debug_print("hf2ser >> "); debug_printhex(s + 1); debug_println(""); ////
+    return s;
+
 #ifdef TODO ////
+    //////////////////////////////////////////////////
 	if (len <= MAX_USB_PACKET_SIZE) {
 		return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);  //  Returns the bytes sent.
 	}
@@ -298,27 +321,22 @@ static void pokeSend(
     volatile uint32_t dataToSendLength,
     uint8_t dataToSendFlag) {
     //  Send the next packet of the HF2 response to host.
-    //  TODO: Send stdout and stderr to host.
-    //  HF2_FLAG_SERIAL_OUT: 0x80
-    //  HF2_FLAG_SERIAL_ERR: 0xC0
     //  debug_println("pokeSend"); debug_flush(); ////
-    static uint8_t buf[64];
     bool sendIt = false;
-    memset(buf, 0, sizeof(buf));
+    memset(tx_buf, 0, sizeof(tx_buf));
 
     cm_disable_interrupts();
+    int s = sizeof(tx_buf) - 1;  //  63
     if (dataToSendLength) {
         int flag = dataToSendFlag;
-        int s = 63;
-        if (dataToSendLength <= 63) {
+        if (dataToSendLength < s) {
             s = dataToSendLength;
         } else {
             if (flag == HF2_FLAG_CMDPKT_LAST)
                 flag = HF2_FLAG_CMDPKT_BODY;
         }
-
-        buf[0] = flag | s;
-        memcpy(buf + 1, dataToSend, s);
+        tx_buf[0] = flag | s;
+        memcpy(tx_buf + 1, dataToSend, s);
         dataToSend += s;
         dataToSendLength -= s;
         sendIt = true;
@@ -327,8 +345,8 @@ static void pokeSend(
 
     if (sendIt) {
         //  Send the packet.
-        uint16_t len = sizeof(buf);
-        usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
+        uint16_t len = sizeof(tx_buf);
+        usbd_ep_write_packet(_usbd_dev, HF2_IN, tx_buf, len);
         //  If this message requires multiple packets, let the tx callback continue sending.
         if (dataToSendLength > 0) {
             //  Remaining data to be sent.
@@ -339,19 +357,16 @@ static void pokeSend(
             remDataToSendLength = 0;  //  No more data to send.
         }
         // debug_print_unsigned(millis() - rx_time); 
-        dump_buffer("hf2pkt >>", buf, dataToSendLength + 1);
-        // debug_print("hf2pkt >> "); debug_printhex(dataToSendLength + 1); debug_println(""); ////
+        dump_buffer("hf2pkt >>", tx_buf, s + 1);
+        // debug_print("hf2pkt >> "); debug_printhex(s + 1); debug_println(""); ////
     }
 }
 
-/** @brief Setup the endpoints to be bulk & register the callbacks. */
-static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {
+static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wValue;
+    //  Setup the endpoints to be bulk & register the callbacks.
     LOG("HF2 config");
-    (void)wValue;
     usbd_ep_setup(usbd_dev, HF2_IN, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_tx_cb);
     usbd_ep_setup(usbd_dev, HF2_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_rx_cb);
-    ////connected = 1;
-    ////if (connected_func) { connected_func(); }
 }
 
 void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
