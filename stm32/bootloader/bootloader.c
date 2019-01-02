@@ -77,7 +77,12 @@ static void poll_loop(void) {
 #endif  //  INTF_MSC
 
             //  TODO: If a valid application has just been flashed, restart and run it.
-            if (flushCount++ % 1000 == 0) { debug_force_flush(); }  //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
+            if (flushCount++ % 1000 == 0) { 
+                if (get_usb_status() == 0) {  //  If USB is not busy...
+                    //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
+                    debug_force_flush(); 
+                }
+            }
         }
         usbd_poll(usbd_dev);
     }    
