@@ -153,6 +153,10 @@ extern uint32_t hf2_buffer;
 extern const char infoUf2File[];
 
 static void test_hf2(void) {
+    debug_print("sizeof(UF2_INFO_TEXT) ");
+    debug_printhex_unsigned(sizeof(UF2_INFO_TEXT));
+    debug_println("");
+
     debug_print("infoUf2File ");
     debug_printhex_unsigned((size_t) &infoUf2File);
     debug_println("");

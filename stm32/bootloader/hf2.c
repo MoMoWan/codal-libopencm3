@@ -29,7 +29,7 @@
 
 #define VALID_FLASH_ADDR(addr, sz) (USER_FLASH_START <= (addr) && (addr) + (sz) <= USER_FLASH_END)
 #define HF2_BUF_SIZE        (FLASH_PAGE_SIZE + 64) //  Large buffer for Bootloader Mode.  Previously (1024 + 16).  Devices will typically limit it to the native flash page size + 64 bytes
-#define HF2_MINI_BUF_SIZE   64   //  Smaller buffer for Application Mode.
+#define HF2_MINI_BUF_SIZE   sizeof(UF2_INFO_TEXT)  //  Smaller buffer for Application Mode.
 #define HF2_PAGE_SIZE       256  //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
 #define usb_assert          assert
 #define LOG(s) debug_println(s)
@@ -177,7 +177,7 @@ static void handle_command(HF2_Buffer *pkt) {
         debug_println("hf2 info");
         int info_size = strlen(infoUf2File);
         assert(info_size > 0, "empty hf2 info");
-        assert(info_size <= HF2_MINI_BUF_SIZE, "hf2 buff too small");
+        assert(info_size < HF2_MINI_BUF_SIZE, "hf2 buf too small");
         memcpy(pkt->resp.data8, infoUf2File, info_size);
         send_hf2_response(pkt, info_size);
         return;
