@@ -124,6 +124,24 @@ int bootloader_poll(void) {
     // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
 }
 
+extern uint32_t hf2_buffer;
+
+void test_hf2() {
+    debug_print("hf2_buffer ");
+    debug_printhex_unsigned((size_t) &hf2_buffer);
+    debug_println("");
+
+    debug_print("*hf2_buffer1 ");
+    debug_printhex_unsigned(hf2_buffer);
+    debug_println("");
+
+    hf2_buffer = 0x12345678;
+
+    debug_print("*hf2_buffer2 ");
+    debug_printhex_unsigned(hf2_buffer);
+    debug_println("");
+}
+
 int bootloader_start(void) {
     //  Start the bootloader and jump to the loaded application.
     if (usbd_dev) { return 1; }  // Already started, quit.
@@ -139,6 +157,9 @@ int bootloader_start(void) {
         target_set_bootloader_callback(bootloader_poll);
         return 0; 
     }
+
+    test_hf2();
+
     //  If we are in Bootloader Mode, poll forever here.
     //  Lower the stack pointer so that we can use the flash buffers in bootbuf.
     __set_MSP((uint32_t) &_boot_stack);
