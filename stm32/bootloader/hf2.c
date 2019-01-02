@@ -152,7 +152,6 @@ static void assert(bool assertion, const char *msg) {
 }
 
 static void handle_command(HF2_Buffer *pkt) {
-    int tmp;
 	//  Must set connected flag before transmitting.
 	if (!connected) {
 		connected = 1;
@@ -174,13 +173,14 @@ static void handle_command(HF2_Buffer *pkt) {
 #endif  //  TODO
 
     switch (cmdId) {
-    case HF2_CMD_INFO:
+    case HF2_CMD_INFO: {
         debug_println("hf2 info");
-        tmp = strlen(infoUf2File);
-        memcpy(pkt->resp.data8, infoUf2File, tmp);
-        send_hf2_response(pkt, tmp);
+        int info_size = strlen(infoUf2File);
+        assert(info_size > 0, "empty hf2 info");
+        memcpy(pkt->resp.data8, infoUf2File, info_size);
+        send_hf2_response(pkt, info_size);
         return;
-
+    }
     case HF2_CMD_BININFO:
         debug_println("hf2 bininfo");
         resp->bininfo.mode = HF2_MODE_BOOTLOADER;
@@ -225,13 +225,14 @@ static void handle_command(HF2_Buffer *pkt) {
         }
         return;
 
-    case HF2_CMD_READ_WORDS:
+    case HF2_CMD_READ_WORDS: {
         debug_println("hf2 read");
         checkDataSize(read_words, 0);
-        tmp = cmd->read_words.num_words;
-        memcpy(resp->data32, (void *)cmd->read_words.target_addr, tmp << 2);
-        send_hf2_response(pkt, tmp << 2);
+        int num_words = cmd->read_words.num_words;
+        memcpy(resp->data32, (void *)cmd->read_words.target_addr, num_words << 2);
+        send_hf2_response(pkt, num_words << 2);
         return;
+    }
 
     /* TODO: Handle DMESG (0x0010)
         Return internal log buffer if any. The result is a character array.
