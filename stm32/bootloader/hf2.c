@@ -182,8 +182,9 @@ static void handle_command(HF2_Buffer *pkt) {
         send_hf2_response(pkt, info_size);
         return;
     }
-    case HF2_CMD_BININFO:
+    case HF2_CMD_BININFO: {
         debug_println("hf2 bininfo");
+        assert(sizeof(resp->bininfo) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
         resp->bininfo.mode = HF2_MODE_BOOTLOADER;
         resp->bininfo.flash_page_size = HF2_PAGE_SIZE;  //  Previously 128 * 1024
         resp->bininfo.flash_num_pages = FLASH_SIZE_OVERRIDE / HF2_PAGE_SIZE;
@@ -191,7 +192,7 @@ static void handle_command(HF2_Buffer *pkt) {
         resp->bininfo.uf2_family = UF2_FAMILY;
         send_hf2_response(pkt, sizeof(resp->bininfo));
         return;
-
+    }
     case HF2_CMD_RESET_INTO_APP:
         //  Restart into application.
         debug_println("hf2 rst app");
