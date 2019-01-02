@@ -81,7 +81,7 @@ static void poll_loop(void) {
 #endif  //  INTF_MSC
 
             //  Flush the debug log here.  Arm Semihosting logging will interfere with USB processing.
-            if (flushCount++ % 5000 == 0 && get_usb_status() == 0) {  //  If USB is not busy...
+            if (flushCount++ % 1000 == 0 && get_usb_status() == 0) {  //  If USB is not busy...
                 debug_flush(); 
             }
 
@@ -154,7 +154,7 @@ extern const char infoUf2File[];
 
 static void test_hf2(void) {
     debug_print("sizeof(UF2_INFO_TEXT) ");
-    debug_printhex_unsigned(sizeof(UF2_INFO_TEXT));
+    debug_printhex(sizeof(UF2_INFO_TEXT));
     debug_println("");
 
     debug_print("infoUf2File ");
@@ -162,7 +162,7 @@ static void test_hf2(void) {
     debug_println("");
 
     debug_print("infoUf2File len ");
-    debug_printhex_unsigned(strlen(infoUf2File));
+    debug_printhex(strlen(infoUf2File));
     debug_println("");
 
     debug_print("hf2_buffer ");
