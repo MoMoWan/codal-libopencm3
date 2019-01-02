@@ -202,7 +202,7 @@ static void handle_command(HF2_Buffer *pkt) {
 static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  Handle the received packet.
     //  debug_print("hf2 << ep "); debug_printhex(ep); debug_println("");
-    set_usb_busy();  //  Tell caller to repoll for USB requests.
+    ////set_usb_busy();  //  Tell caller to repoll for USB requests.
     int len = usbd_ep_read_packet(usbd_dev, ep, rx_buf, sizeof(rx_buf));    
     rx_time = millis();
     // debug_print("hf2 << tag "); debug_printhex(rx_buf[0]); debug_println("");  // DMESG("HF2 read: %d", len);
@@ -256,7 +256,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
 static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) { (void)usbd_dev; (void)ep;
     //  After sending a packet, send the next packet of the message.
     if (remDataToSendLength == 0) { return; }  //  No remaining data to be sent.
-    set_usb_busy();  //  Tell caller to repoll for USB requests.
+    ////set_usb_busy();  //  Tell caller to repoll for USB requests.
     pokeSend(remDataToSend, remDataToSendLength, remDataToSendFlag);
 }
 
