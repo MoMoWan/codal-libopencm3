@@ -5,6 +5,7 @@
 
 #define DEBUG_BUFFER_SIZE 512  //  Use a larger buffer size so that we don't interrupt USB processing.
 static char debugBuffer[DEBUG_BUFFER_SIZE + 1] = { 0 };  //  Buffer to hold output before flushing.
+static volatile uint16_t debugBufferLength = 0;          //  Number of bytes in debug buffer.
 static bool logEnabled = false;  //  Logging is off by default.  Developer must switch it on with enable_debug().
 
 void enable_log(void) { logEnabled = true; }
@@ -103,41 +104,55 @@ int logger_add_output(logger_output_func *func) {
     return -1;  //  Too many outputs.
 }
 
-static int write_all_output(
+#define MAX_OUTPUT_LENGTH 60  //  Output at most 60 bytes at a time.
+
+static uint16_t write_all_output(
     const uint8_t *buf,
 	uint16_t len) {
     //  Write the buffer to all outputs: Arm Semihosting, USB Serial, HF2, ...
-    if (target_in_isr()) { return -1; }      //  Can't write when called by interrupt routine.
-    semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, len);
+    //  We must flush as quickly as possible and USB Serial can only handle 64 bytes, so we just flush the next 60 bytes.
+    //  Return the number of bytes flushed.
+    if (target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine.
+    uint16_t outlen = (len > MAX_OUTPUT_LENGTH) ? MAX_OUTPUT_LENGTH : len;
+
+    semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, outlen);
     for (int i = 0; i < MAX_OUTPUT_FUNCS; i++) {
         if (output_funcs[i]) {
             logger_output_func *func = output_funcs[i];
-            func(buf, len);
+            func(buf, outlen);
         }
     }
-    return len;
-}
-
-static void debug_append(const char *buffer, unsigned int length) {
-    //  Append "length" number of bytes from "buffer" to the debug buffer.
-    const int debugBufferLength = strlen(debugBuffer);
-    //  If can't fit into buffer, just send to the debugger log now.
-    if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
-        if (target_in_isr()) { return; }  //  Out of buffer space, can't flush now.
-        debug_flush();
-        write_all_output((const uint8_t *) buffer, length);
-        return;
-    }
-    //  Else append to the buffer.
-    strncat(debugBuffer, buffer, length);
-    debugBuffer[debugBufferLength + length] = 0;  //  Terminate the string.
+    return outlen;
 }
 
 void debug_flush(void) {
     //  Flush the debug buffer to the debugger log.  This will be slow.
-    if (debugBuffer[0] == 0) { return; }  //  Debug buffer is empty, nothing to write.
-	write_all_output((const uint8_t *) debugBuffer, strlen(debugBuffer));
-    debugBuffer[0] = 0;
+    if (debugBufferLength == 0) { return; }  //  Debug buffer is empty, nothing to write.
+	uint16_t outlen = write_all_output((const uint8_t *) debugBuffer, debugBufferLength);
+    if (outlen == 0) {
+        return;
+    } else if (outlen >= debugBufferLength) {
+        debugBufferLength = 0;
+        return;
+    }
+    //  Partial write. Copy the remaining bytes.
+    memcpy(debugBuffer, &debugBuffer[outlen], debugBufferLength - outlen);
+    debugBufferLength -= outlen;
+}
+
+static void debug_append(const char *buffer, unsigned int length) {
+    //  Append "length" number of bytes from "buffer" to the debug buffer.
+    //  If can't fit into buffer, flush first.
+    if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
+        debug_flush();
+        if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
+            //  Still can't fit after flushing.  Quit.
+            return;
+        }
+    }
+    //  Else append to the buffer.
+    memcpy(&debugBuffer[debugBufferLength], buffer, length);
+    debugBufferLength += length;
 }
 
 void debug_print(size_t l) {
@@ -212,7 +227,7 @@ void debug_print(const char *s) {
 
 void debug_println(const char *s) {
     if (s[0] != 0) { debug_print(s); }
-    debug_append("\n", 1);
+    debug_append("\r\n", 2);
 }
 
 void debug_print(char ch) {
@@ -221,22 +236,22 @@ void debug_print(char ch) {
 
 void debug_println(int i) {
     debug_print(i);
-    debug_append("\n", 1);
+    debug_append("\r\n", 2);
 }
 
 void debug_println(size_t l) {
     debug_print(l);
-    debug_append("\n", 1);
+    debug_append("\r\n", 2);
 }
 
 void debug_println(char ch) {
     debug_print(ch);
-    debug_append("\n", 1);
+    debug_append("\r\n", 2);
 }
 
 void debug_println(float f) {
     debug_print(f);
-    debug_append("\n", 1);
+    debug_append("\r\n", 2);
 }
 
 void debug_print_int(int i) { debug_print(i); }
