@@ -177,6 +177,7 @@ static void handle_command(HF2_Buffer *pkt) {
         debug_println("hf2 info");
         int info_size = strlen(infoUf2File);
         assert(info_size > 0, "empty hf2 info");
+        assert(info_size <= HF2_MINI_BUF_SIZE, "hf2 buff too small");
         memcpy(pkt->resp.data8, infoUf2File, info_size);
         send_hf2_response(pkt, info_size);
         return;
