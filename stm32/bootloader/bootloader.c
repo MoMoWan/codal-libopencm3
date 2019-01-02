@@ -46,6 +46,7 @@ static inline void __set_MSP(uint32_t topOfMainStack) {
 extern uint32_t _boot_stack;  //  Bootloader stack address, provided by linker script.
 extern int msc_started;
 static usbd_device* usbd_dev = NULL;
+static void test_hf2(void);
 
 static void get_serial_number(void) {
     char serial[USB_SERIAL_NUM_LENGTH+1];
@@ -64,6 +65,7 @@ static uint32_t msTimer = 0;
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
     debug_println("usbd polling...");  debug_flush();  ////
+    test_hf2();
     // test_backup();          //  Test backup.
     while (1) {
         cycleCount++;
@@ -124,24 +126,6 @@ int bootloader_poll(void) {
     // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
 }
 
-extern uint32_t hf2_buffer;
-
-void test_hf2() {
-    debug_print("hf2_buffer ");
-    debug_printhex_unsigned((size_t) &hf2_buffer);
-    debug_println("");
-
-    debug_print("*hf2_buffer1 ");
-    debug_printhex_unsigned(hf2_buffer);
-    debug_println("");
-
-    hf2_buffer = 0x12345678;
-
-    debug_print("*hf2_buffer2 ");
-    debug_printhex_unsigned(hf2_buffer);
-    debug_println("");
-}
-
 int bootloader_start(void) {
     //  Start the bootloader and jump to the loaded application.
     if (usbd_dev) { return 1; }  // Already started, quit.
@@ -158,13 +142,38 @@ int bootloader_start(void) {
         return 0; 
     }
 
-    test_hf2();
-
     //  If we are in Bootloader Mode, poll forever here.
     //  Lower the stack pointer so that we can use the flash buffers in bootbuf.
     __set_MSP((uint32_t) &_boot_stack);
     poll_loop();
     return -1;  //  Never comes here.
+}
+
+extern uint32_t hf2_buffer;
+extern const char infoUf2File[];
+
+static void test_hf2(void) {
+    debug_print("infoUf2File ");
+    debug_printhex_unsigned((size_t) &infoUf2File);
+    debug_println("");
+
+    debug_print("infoUf2File len ");
+    debug_printhex_unsigned(strlen(infoUf2File));
+    debug_println("");
+
+    debug_print("hf2_buffer ");
+    debug_printhex_unsigned((size_t) &hf2_buffer);
+    debug_println("");
+
+    debug_print("*hf2_buffer1 ");
+    debug_printhex_unsigned(hf2_buffer);
+    debug_println("");
+
+    hf2_buffer = 0x12345678;
+
+    debug_print("*hf2_buffer2 ");
+    debug_printhex_unsigned(hf2_buffer);
+    debug_println("");
 }
 
 #ifdef NOTUSED
