@@ -3,7 +3,7 @@
 #include <string.h>
 #include "logger.h"
 
-#define DEBUG_BUFFER_SIZE 256  //  Use a larger buffer size so that we don't interrupt USB processing.
+#define DEBUG_BUFFER_SIZE 512  //  Use a larger buffer size so that we don't interrupt USB processing.
 static char debugBuffer[DEBUG_BUFFER_SIZE + 1] = { 0 };  //  Buffer to hold output before flushing.
 static bool logEnabled = false;  //  Logging is off by default.  Developer must switch it on with enable_debug().
 

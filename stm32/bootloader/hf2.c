@@ -61,8 +61,8 @@ typedef struct {
 
 //  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 __attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
-HF2_Buffer      hf2_buffer;                  //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
-HF2_Buffer_Mini hf2_buffer_mini;                  //  Small buffer for Application Mode only.  Size should be ??? bytes.
+HF2_Buffer      hf2_buffer;             //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
+HF2_Buffer_Mini hf2_buffer_mini;        //  Small buffer for Application Mode only.  Size should be ??? bytes.
 static usbd_device *_usbd_dev;
 
 static void pokeSend(
@@ -100,6 +100,7 @@ static void pokeSend(
     if (sendIt) {
         uint16_t len = sizeof(buf);
         // dump_buffer("hf2pkt >>", buf, len);
+        debug_print("hf2pkt >> "); debug_printhex(len); debug_println(""); ////
         usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
     }
 }
@@ -109,7 +110,7 @@ static void send_hf2_response(HF2_Buffer *pkt, int size) {
     const uint8_t *dataToSend = pkt->buf;
     volatile uint32_t dataToSendLength = 4 + size;
     uint8_t dataToSendFlag = HF2_FLAG_CMDPKT_LAST;
-    dump_buffer("hf2 >>", dataToSend, size);
+    // dump_buffer("hf2 >>", dataToSend, size);
     pokeSend(dataToSend, dataToSendLength, dataToSendFlag);
 }
 
@@ -261,7 +262,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  debug_print("hf2 << ep "); debug_printhex(ep); debug_println("");
     int len;
     len = usbd_ep_read_packet(usbd_dev, ep, buf, sizeof(buf));    
-    debug_print("hf2 << tag "); debug_printhex(buf[0]); debug_println("");  // DMESG("HF2 read: %d", len);
+    // debug_print("hf2 << tag "); debug_printhex(buf[0]); debug_println("");  // DMESG("HF2 read: %d", len);
     // dump_buffer(",", buf, len);    
     if (len <= 0) return;
 

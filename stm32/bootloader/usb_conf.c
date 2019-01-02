@@ -626,7 +626,7 @@ static void set_aggregate_callback(
     //  This callback is called when the device is updated.  We set our control callback.
     if (wValue != (uint16_t) -1) {  //  If this is an actual callback, not a call by usb_setup()...
         //  Call the config functions before setting our callback.
-        debug_println("set_aggregate_callback"); ////
+        //  debug_println("set_aggregate_callback"); ////
         int i;
         for (i = 0; i < MAX_CONTROL_CALLBACK; i++) {
             if (!config_callback[i]) { break; }
