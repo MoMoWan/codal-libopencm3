@@ -36,16 +36,17 @@ static void timer_tick() {
     //  If bootloader is running in background, call it to handle USB requests.
     if (bootloader_callback) { 
         //  If we received any USB request, continue polling a few seconds.  That's because according to the USB 2.0 specs,
-        //  we must return the response for the Set Address request within 50 ms.
+        //  we must return the response for the Set Address request within 50 ms.  USB Enumeration requests need to be
+        //  handled ASAP or Windows / Mac will report the Blue Pill as an unknown device.
         volatile int status = bootloader_callback();
-        if (status > 0 && status != prev_poll_status > 0) { debug_print("u{ "); }
+        if (status > 0 && status != prev_poll_status) { debug_print("u{ "); }
         while (status > 0) {  //  If we receive any USB requests,,,
             status = 0;       //  Continue polling a few seconds for subsequent USB requests.
             for (uint16_t i = 0; i < MAX_POLL_DURATION; i++) {
                 status = status | bootloader_callback();
             }
         }
-        if (status == 0 && status != prev_poll_status > 0) { debug_print("} "); }
+        if (status == 0 && status != prev_poll_status) { debug_print("} "); }
         prev_poll_status = status;
     }
     //  If Codal Timer exists, update the timer.

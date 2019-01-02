@@ -51,13 +51,24 @@ void sof_callback(void) {
     last_frame_time = millis();
 }
 
+static void set_usb_busy(void) {
+    //  When we receive a USB request, we should expedite this and upcoming requests.  
+    //  Tell caller to poll again.
+    last_busy_time = millis();
+    debug_print(".");
+}
+
 volatile int get_usb_status(void) { 
     //  Return 1 if there was any USB activity within last few seconds.
     if (last_busy_time == 0) { return 0; }
     volatile uint32_t now = millis();
     //  If time now is within a few seconds of last busy time, return busy.
-    if (now < (last_busy_time + BUSY_DURATION)) { return 1; }
+    if (now < (last_busy_time + BUSY_DURATION)) { 
+        // debug_print_unsigned(last_busy_time / 1000); debug_print(" ");
+        return 1; 
+    }
     last_busy_time = 0;
+    // debug_print_unsigned(last_busy_time / 1000); debug_print(" ");
     return 0;
 }
 ////
@@ -571,12 +582,13 @@ static int aggregate_callback(
 	usbd_control_complete_callback *complete) {
     //  This callback is called whenever a USB request is received.  We route to the right driver callbacks.
 	int i, result = 0;
-    last_busy_time = millis();  //  When we receive a USB request, we should expedite this and upcoming requests.  Tell caller to poll again.
 
     //  If this is a Set Address request, we must fast-track this request and return an empty message within 50 ms, according to the USB 2.0 specs.
     //  >>  typ 00, req 05, val 0009, idx 0000, len 0000, SET_ADR 
     //  From usb_standard_set_address() in framework-libopencm3/lib/usb/usb_standard.c:
     if (req->bmRequestType == 0 && req->bRequest == 5) {
+        //  When we receive a USB Enumeration request, we should expedite this and upcoming requests.  Tell caller to poll again.
+        set_usb_busy();
         debug_println("SET_ADR");
         *len = 0;          //  Return an empty message.
         //  Should return 1 i.e. USBD_REQ_HANDLED
@@ -598,6 +610,9 @@ static int aggregate_callback(
             }
         }
     }
+    //  If we fall here, it's probably a USB Enumeration request.
+    //  When we receive a USB Enumeration request, we should expedite this and upcoming requests.  Tell caller to poll again.
+    set_usb_busy();
     if (!(req->bmRequestType == 0x80 && req->bRequest == 0x06)) {
         //  Dump the packet if not GET_DESCRIPTOR.
 	    dump_usb_request(">> ", req);
