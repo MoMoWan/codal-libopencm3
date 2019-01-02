@@ -40,7 +40,8 @@ static void timer_tick() {
         //  we must return the response for the Set Address request within 50 ms.  USB Enumeration requests need to be
         //  handled ASAP or Windows / Mac will report the Blue Pill as an unknown device.
         poll_status = bootloader_callback();
-        if (poll_status > 0 && poll_status != prev_poll_status) { debug_print("u{ "); }
+        prev_poll_status = poll_status;
+        if (poll_status > 0) { debug_print("u{ "); }
         while (poll_status > 0) {  //  If we receive any USB requests,,,
             poll_status = 0;       //  Continue polling a few times for subsequent USB requests.
             for (uint16_t i = 0; i < MAX_BURST_POLL; i++) {
@@ -48,8 +49,7 @@ static void timer_tick() {
                 poll_status = poll_status | bootloader_callback();
             }
         }
-        if (poll_status == 0 && poll_status != prev_poll_status) { debug_print("} "); }
-        prev_poll_status = poll_status;
+        if (prev_poll_status > 0) { debug_print("} "); }
     }
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }

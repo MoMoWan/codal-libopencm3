@@ -107,7 +107,7 @@ int bootloader_poll(void) {
 
     //  Get the status - should we continue polling?
     status = get_usb_status();
-    if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
+    //  if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
     last_status = status;
     return status;
     // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
