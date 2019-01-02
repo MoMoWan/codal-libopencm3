@@ -63,11 +63,13 @@ static void timer_tick() {
 
 static void timer_alarm() {
     //  This is called when the Real-Time Clock alarm is triggered.
+#ifdef NOTUSED
     //  If we have received USB requests, handle them now.
     if (bootloader_status() > 0) {
         debug_print(";");
         poll_bootloader();
     }
+#endif  //  NOTUSED
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
