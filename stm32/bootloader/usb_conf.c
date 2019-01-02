@@ -27,6 +27,7 @@
 #include <libopencm3/usb/msc.h>
 #include <libopencm3/usb/cdc.h>
 #include <libopencm3/usb/hid.h>
+#include <libopencm3/stm32/st_usbfs.h>
 #include <logger/logger.h>
 #include <bluepill/bluepill.h>
 #include "bootloader.h"
@@ -41,7 +42,7 @@
 #include "hf2.h"
 
 ////
-#define BUSY_DURATION 5000  //  Return busy for up to 1 second after the last recorded USB activity.
+#define BUSY_DURATION 5000  //  Return busy for up to 5 seconds after the last recorded USB activity.
 static volatile uint32_t last_busy_time = 0;
 static volatile uint32_t last_frame_time = 0;
 
@@ -58,7 +59,16 @@ void set_usb_busy(void) {
     debug_print(".");
 }
 
+volatile int get_ep_status(uint8_t ep) {
+	ep &= 0x7F;
+	volatile uint32_t status = *USB_EP_REG(ep);
+    debug_print("ep "); debug_print_int(ep); debug_print(" = "); debug_printhex_unsigned(status); debug_println("");
+    return status;
+}
+
 volatile int get_usb_status(void) { 
+    get_ep_status(DATA_IN);  ////
+
     //  Return 1 if there was any USB activity within last few seconds.
     if (last_busy_time == 0) { return 0; }
     volatile uint32_t now = millis();

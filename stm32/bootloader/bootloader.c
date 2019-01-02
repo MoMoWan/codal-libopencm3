@@ -130,6 +130,7 @@ static void poll_loop(void) {
 
             //  Flush the debug log here.  Arm Semihosting logging will interfere with USB processing.
             if (flushCount++ % 1000 == 0 && get_usb_status() == 0) {  //  If USB is not busy...
+                get_usb_status(); ////
                 debug_flush(); 
             }
 
