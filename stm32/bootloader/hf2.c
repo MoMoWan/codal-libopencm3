@@ -104,8 +104,8 @@ static void pokeSend(
         uint16_t len = sizeof(buf);
         usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
         debug_print_unsigned(millis() - rx_time); 
-        dump_buffer(" >>", buf, dataToSendLength);
-        // debug_print("hf2pkt >> "); debug_printhex(dataToSendLength); debug_println(""); ////
+        dump_buffer(" >>", buf, dataToSendLength + 1);
+        // debug_print("hf2pkt >> "); debug_printhex(dataToSendLength + 1); debug_println(""); ////
     }
 }
 
