@@ -84,7 +84,7 @@ void target_init(void) {
     // TODO: init_irqs();  //  Init the interrupt routines.
 
     //  Start the STM32 timer to generate millisecond-ticks for measuring elapsed time.
-    platform_start_timer(timer_tick, timer_alarm);
+    ////platform_start_timer(timer_tick, timer_alarm);
 
     //  Display the dmesg log when idle.
     //  TODO: codal_dmesg_set_flush_fn(target_dmesg_flush);
