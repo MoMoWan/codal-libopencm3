@@ -681,7 +681,7 @@ static void cdc_connected(void) {
     //  Called when CDC is connected.  We set the serial port as a logger output.
     if (cdc_is_connected) { return; }
     cdc_is_connected = 1;
-    logger_add_output(usb_cdc_transmit);
+    ////logger_add_output(usb_cdc_transmit);
 }
 #endif  //  INTF_COMM
 
