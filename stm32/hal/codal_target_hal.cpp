@@ -91,6 +91,12 @@ void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // 
     if (!initialised) { return; }  //  If not initialised, quit.
 
+    //  If we have received USB requests, handle them now.
+    if (bootloader_status() > 0) {
+        debug_print(":");
+        return;
+    }
+
     //  Start the cocoOS scheduler.
     if (!os_running()) { os_preschedule(); }
 

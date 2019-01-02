@@ -93,6 +93,11 @@ static void poll_loop(void) {
 static volatile int status = 0;
 static volatile int last_status = 0;
 
+volatile int bootloader_status(void) {
+    //  Return non-zero if we are receiving USB requests now.
+    return get_usb_status();
+}
+
 int bootloader_poll(void) {
     //  Run bootloader in background via polling.  Return 1 if there was USB activity within the last few seconds, 0 if none.
     static uint32_t last_poll = 0;
