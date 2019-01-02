@@ -67,26 +67,26 @@ static void poll_loop(void) {
     debug_println("usbd polling...");  debug_flush();  ////
     test_hf2();
     // test_backup();          //  Test backup.
-    while (1) {
+    while (true) {
+        //  Handle the next USB request.
+        usbd_poll(usbd_dev);
+
+        //  Run some idle tasks.
         cycleCount++;
         if (cycleCount >= 700) {
-            msTimer++;
             cycleCount = 0;
-            int v = msTimer % 500;
-            target_set_led(v < 50);
+            target_set_led((msTimer++ % 500) < 50);
 #ifdef INTF_MSC
-            ghostfat_1ms();
+            ghostfat_1ms();  //  Handle USB storage requests.
 #endif  //  INTF_MSC
 
-            //  TODO: If a valid application has just been flashed, restart and run it.
-            if (flushCount++ % 5000 == 0) { 
-                if (get_usb_status() == 0) {  //  If USB is not busy...
-                    //  Must flush here.  Arm Semihosting logging will interfere with USB processing.
-                    debug_force_flush(); 
-                }
+            //  Flush the debug log here.  Arm Semihosting logging will interfere with USB processing.
+            if (flushCount++ % 5000 == 0 && get_usb_status() == 0) {  //  If USB is not busy...
+                debug_flush(); 
             }
+
+            //  TODO: If a valid application has just been flashed, restart and run it.
         }
-        usbd_poll(usbd_dev);
     }    
 }
 

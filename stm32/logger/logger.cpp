@@ -126,11 +126,7 @@ static uint16_t write_all_output(
 }
 
 void debug_flush(void) {
-    //  Nothing.
-}
-
-void debug_force_flush(void) {
-    //  Flush the debug buffer to the debugger log.  This will be slow.
+    //  Flush one chunk of the debug buffer to the debugger log.  This will be slow.
     if (debugBufferLength == 0) { return; }  //  Debug buffer is empty, nothing to write.
 	uint16_t outlen = write_all_output((const uint8_t *) debugBuffer, debugBufferLength);
     if (outlen == 0) {
@@ -144,11 +140,19 @@ void debug_force_flush(void) {
     debugBufferLength -= outlen;
 }
 
+void debug_force_flush(void) {
+    //  Flush the entire debug buffer to the debugger log.  This will be slow.
+    for (int i = 0; i < 100; i++) {  //  Assume 100 or fewer chunks.
+        if (debugBufferLength == 0) { return; }  //  No more chunks.
+        debug_flush();
+    }
+}
+
 static void debug_append(const char *buffer, unsigned int length) {
     //  Append "length" number of bytes from "buffer" to the debug buffer.
     //  If can't fit into buffer, flush first.
     if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
-        debug_flush();
+        //// debug_flush();
         if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
             //  Still can't fit after flushing.  Quit.
             return;

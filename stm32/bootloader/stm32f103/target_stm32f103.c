@@ -208,12 +208,14 @@ const usbd_driver* target_usb_init(void) {
 
 void target_manifest_app(void) {
     //  Restart into Application Mode to run the application.
+    debug_force_flush();
     backup_write(BKP0, CMD_APP);
     scb_reset_system();
 }
 
 void target_manifest_bootloader(void) {
     //  Restart into Bootloader Mode to run the bootloader.
+    debug_force_flush();
     backup_write(BKP0, CMD_BOOT);
     scb_reset_system();
 }
@@ -285,10 +287,6 @@ size_t target_get_max_firmware_size(void) {
     return (flash_end >= flash_start) ? (size_t)(flash_end - flash_start) : 0;
 }
 
-void target_relocate_vector_table(void) {
-    SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
-}
-
 void target_flash_unlock(void) {
     flash_unlock();
 }
@@ -342,3 +340,9 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
 
     return verified;
 }
+
+#ifdef NOTUSED
+void target_relocate_vector_table(void) {
+    SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
+}
+#endif  //  NOTUSED
