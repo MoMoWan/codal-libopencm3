@@ -99,9 +99,9 @@ static void pokeSend(
 
     if (sendIt) {
         uint16_t len = sizeof(buf);
+        usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
         // dump_buffer("hf2pkt >>", buf, len);
         debug_print("hf2pkt >> "); debug_printhex(len); debug_println(""); ////
-        usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
     }
 }
 
@@ -268,9 +268,15 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
 
     uint8_t tag = buf[0];
     uint8_t cmd = buf[1];  //  Only valid if pkt->size = 0 (first packet of message).
-    ////TODO HF2_Buffer *pkt = &hf2_buffer;
-    HF2_Buffer *pkt = (HF2_Buffer *) &hf2_buffer_mini;
 
+    //  Use the large buffer for Bootloader Mode, small buffer for Application Mode.
+    static HF2_Buffer *pkt = NULL;
+    if (!pkt) {
+        pkt = (target_get_startup_mode() == BOOTLOADER_MODE) ?
+            &hf2_buffer :
+            (HF2_Buffer *) &hf2_buffer_mini;
+        debug_print("pkt "); debug_printhex_unsigned(pkt); debug_println("");
+    }
     // serial packets not allowed when in middle of command packet
     usb_assert(pkt->size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
     int size = tag & HF2_SIZE_MASK;

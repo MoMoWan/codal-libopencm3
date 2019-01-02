@@ -32,25 +32,29 @@ static volatile int prev_poll_status = 0;
 static volatile uint32_t poll_stop = 0;  //  Elaspsed time since startup that we should stop polling.
 #define MAX_BURST_POLL 10  //  If there is USB activity, poll USB requests for up to 10 times continuously.
 
+static void poll_bootloader() {
+    //  If bootloader is running in background, call it to handle USB requests.
+    if (!bootloader_callback) { return; }
+    //  If we have received any USB request, continue polling a few times.  That's because according to the USB 2.0 specs,
+    //  we must return the response for the Set Address request within 50 ms.  USB Enumeration requests need to be
+    //  handled ASAP or Windows / Mac will report the Blue Pill as an unknown device.
+    poll_status = bootloader_callback();
+    prev_poll_status = poll_status;
+    if (poll_status > 0) { debug_print("u{ "); }
+    while (poll_status > 0) {  //  If we receive any USB requests,,,
+        poll_status = 0;       //  Continue polling a few times for subsequent USB requests.
+        for (uint16_t i = 0; i < MAX_BURST_POLL; i++) {
+            //  We can't poll too many times because this is a timer tick, it should terminate in 1 millisecond.
+            poll_status = poll_status | bootloader_callback();
+        }
+    }
+    if (prev_poll_status > 0) { debug_print("} "); }
+}
+
 static void timer_tick() {
     //  This is called every millisecond.  
     //  If bootloader is running in background, call it to handle USB requests.
-    if (bootloader_callback) { 
-        //  If we received any USB request, continue polling a few times.  That's because according to the USB 2.0 specs,
-        //  we must return the response for the Set Address request within 50 ms.  USB Enumeration requests need to be
-        //  handled ASAP or Windows / Mac will report the Blue Pill as an unknown device.
-        poll_status = bootloader_callback();
-        prev_poll_status = poll_status;
-        if (poll_status > 0) { debug_print("u{ "); }
-        while (poll_status > 0) {  //  If we receive any USB requests,,,
-            poll_status = 0;       //  Continue polling a few times for subsequent USB requests.
-            for (uint16_t i = 0; i < MAX_BURST_POLL; i++) {
-                //  We can't poll too many times because this is a timer tick, it should terminate in 1 millisecond.
-                poll_status = poll_status | bootloader_callback();
-            }
-        }
-        if (prev_poll_status > 0) { debug_print("} "); }
-    }
+    poll_bootloader();
     //  If Codal Timer exists, update the timer.
     if (tick_callback) { tick_callback(); }
     //  Call cocoOS at every tick.
@@ -59,6 +63,11 @@ static void timer_tick() {
 
 static void timer_alarm() {
     //  This is called when the Real-Time Clock alarm is triggered.
+    //  If we have received USB requests, handle them now.
+    if (bootloader_status() > 0) {
+        debug_print(";");
+        poll_bootloader();
+    }
     //  If Codal Timer exists, update the timer.
     if (alarm_callback) { alarm_callback(); }
     else { if (millis() < 200) { debug_print("a? "); } }
@@ -84,7 +93,7 @@ void target_init(void) {
     //  seedRandom();
 }
 
-#define FLUSH_INTERVAL 1000  //  Flush the logs every 1 second.
+#define FLUSH_INTERVAL 500  //  Flush the logs every 0.5 seconds.
 static volatile uint32_t last_flush = 0;
 
 void target_wait_for_event() {
@@ -95,6 +104,7 @@ void target_wait_for_event() {
     //  If we have received USB requests, handle them now.
     if (bootloader_status() > 0) {
         debug_print(":");
+        poll_bootloader();
         return;
     }
 
