@@ -39,28 +39,76 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include "uf2.h"
 #include "backup.h"
 
-static inline void __set_MSP(uint32_t topOfMainStack) {
-    asm("msr msp, %0" : : "r" (topOfMainStack));
-}
+static void poll_loop(void);
+static void get_serial_number(void);
+static void test_hf2(void);
 
 extern uint32_t _boot_stack;  //  Bootloader stack address, provided by linker script.
 extern int msc_started;
-static usbd_device* usbd_dev = NULL;
-static void test_hf2(void);
-
-static void get_serial_number(void) {
-    char serial[USB_SERIAL_NUM_LENGTH+1];
-    serial[0] = '\0';
-    debug_println("target_get_serial_number");  // debug_flush();
-    target_get_serial_number(serial, USB_SERIAL_NUM_LENGTH);
-
-    debug_println("usb_set_serial_number");  // debug_flush();
-    usb_set_serial_number(serial);
-}
-
+static volatile int status = 0;
+static volatile int last_status = 0;
 static uint32_t cycleCount = 0;        
 static uint32_t flushCount = 1;
 static uint32_t msTimer = 0;
+static usbd_device* usbd_dev = NULL;
+
+static inline void __set_MSP(uint32_t topOfMainStack) {
+    //  Set the stack pointer.
+    asm("msr msp, %0" : : "r" (topOfMainStack));
+}
+
+int bootloader_start(void) {
+    //  Start the bootloader and jump to the loaded application.
+    if (usbd_dev) { return 1; }  // Already started, quit.
+
+    debug_println("----bootloader");  // debug_flush();    
+    target_gpio_setup();  //  Initialize GPIO/LEDs if needed
+    get_serial_number();  //  Get the unique Blue Pill serial number.
+
+    //  If we are in Bootloader Mode, lower the stack pointer so that we can use the flash buffers in bootbuf.
+    if (target_get_startup_mode() == BOOTLOADER_MODE) { 
+        __set_MSP((uint32_t) &_boot_stack);
+    }
+
+    //  Init the USB interfaces.
+    debug_println("usb_setup");  // debug_flush();
+    usbd_dev = usb_setup();
+
+    //  If we are in Application Mode, run in background via bootloader_poll(), called every 1 millisec.
+    if (target_get_startup_mode() == APPLICATION_MODE) { 
+        target_set_bootloader_callback(bootloader_poll);
+        return 0; 
+    }
+
+    //  If we are in Bootloader Mode, poll forever here.
+    poll_loop();
+    return -1;  //  Never comes here.
+}
+
+int bootloader_poll(void) {
+    //  Run bootloader in background via polling.  Return 1 if there was USB activity within the last few seconds, 0 if none.
+    static uint32_t last_poll = 0;
+    static uint32_t delay = 0;
+    if (last_poll > 0) { delay = millis() - last_poll; } 
+    last_poll = millis();
+
+    if (!usbd_dev) { return -1; }
+
+    //  Run any USB request processing.
+	usbd_poll(usbd_dev);
+
+    //  Get the status - should we continue polling?
+    status = get_usb_status();
+    //  if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
+    last_status = status;
+    return status;
+    // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
+}
+
+volatile int bootloader_status(void) {
+    //  Return non-zero if we are receiving USB requests now.
+    return get_usb_status();
+}
 
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
@@ -98,55 +146,14 @@ static void poll_loop(void) {
     }
 #endif // NOTUSED
 
-static volatile int status = 0;
-static volatile int last_status = 0;
+static void get_serial_number(void) {
+    char serial[USB_SERIAL_NUM_LENGTH+1];
+    serial[0] = '\0';
+    debug_println("target_get_serial_number");  // debug_flush();
+    target_get_serial_number(serial, USB_SERIAL_NUM_LENGTH);
 
-volatile int bootloader_status(void) {
-    //  Return non-zero if we are receiving USB requests now.
-    return get_usb_status();
-}
-
-int bootloader_poll(void) {
-    //  Run bootloader in background via polling.  Return 1 if there was USB activity within the last few seconds, 0 if none.
-    static uint32_t last_poll = 0;
-    static uint32_t delay = 0;
-    if (last_poll > 0) { delay = millis() - last_poll; } 
-    last_poll = millis();
-
-    if (!usbd_dev) { return -1; }
-
-    //  Run any USB request processing.
-	usbd_poll(usbd_dev);
-
-    //  Get the status - should we continue polling?
-    status = get_usb_status();
-    //  if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
-    last_status = status;
-    return status;
-    // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
-}
-
-int bootloader_start(void) {
-    //  Start the bootloader and jump to the loaded application.
-    if (usbd_dev) { return 1; }  // Already started, quit.
-
-    debug_println("----bootloader");  // debug_flush();    
-    target_gpio_setup();  //  Initialize GPIO/LEDs if needed
-    get_serial_number();  //  Get the unique Blue Pill serial number.
-    debug_println("usb_setup");  // debug_flush();
-    usbd_dev = usb_setup();
-
-    //  If we are in Application Mode, run in background via bootloader_poll(), called every 1 millisec.
-    if (target_get_startup_mode() == APPLICATION_MODE) { 
-        target_set_bootloader_callback(bootloader_poll);
-        return 0; 
-    }
-
-    //  If we are in Bootloader Mode, poll forever here.
-    //  Lower the stack pointer so that we can use the flash buffers in bootbuf.
-    __set_MSP((uint32_t) &_boot_stack);
-    poll_loop();
-    return -1;  //  Never comes here.
+    debug_println("usb_set_serial_number");  // debug_flush();
+    usb_set_serial_number(serial);
 }
 
 extern uint32_t hf2_buffer;
@@ -165,19 +172,23 @@ static void test_hf2(void) {
     debug_printhex(strlen(infoUf2File));
     debug_println("");
 
+    if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
+    
     debug_print("hf2_buffer ");
     debug_printhex_unsigned((size_t) &hf2_buffer);
     debug_println("");
 
-    debug_print("*hf2_buffer1 ");
+    debug_print("*hf2_buffer before ");
     debug_printhex_unsigned(hf2_buffer);
     debug_println("");
 
     hf2_buffer = 0x12345678;
 
-    debug_print("*hf2_buffer2 ");
+    debug_print("*hf2_buffer after ");
     debug_printhex_unsigned(hf2_buffer);
     debug_println("");
+
+    hf2_buffer = 0;
 }
 
 #ifdef NOTUSED
