@@ -1,4 +1,5 @@
 //  From https://github.com/mmoskal/uf2-stm32f/blob/master/hf2.c
+//  #define DISABLE_DEBUG ////
 #include "config.h"
 #include <stdlib.h>
 #include <string.h>
@@ -10,7 +11,7 @@
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/hid.h>
-#include <logger.h>
+#include <logger/logger.h>
 #include "usb_conf.h"
 #include "ghostfat.h"
 #include "uf2hid.h"
@@ -100,8 +101,8 @@ static void pokeSend(
     if (sendIt) {
         uint16_t len = sizeof(buf);
         usbd_ep_write_packet(_usbd_dev, HF2_IN, buf, len);
-        // dump_buffer("hf2pkt >>", buf, len);
-        debug_print("hf2pkt >> "); debug_printhex(len); debug_println(""); ////
+        dump_buffer("hf2pkt >>", buf, len);
+        // debug_print("hf2pkt >> "); debug_printhex(len); debug_println(""); ////
     }
 }
 
@@ -271,6 +272,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
 
     //  Use the large buffer for Bootloader Mode, small buffer for Application Mode.
     static HF2_Buffer *pkt = (HF2_Buffer *) &hf2_buffer_mini;
+    ////static HF2_Buffer *pkt = &hf2_buffer;
 #ifdef NOTUSED
     if (!pkt) {
         pkt = (target_get_startup_mode() == BOOTLOADER_MODE) ?
