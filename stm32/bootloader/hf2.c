@@ -260,8 +260,8 @@ static uint8_t buf[64];
 
 static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  debug_print("hf2 << ep "); debug_printhex(ep); debug_println("");
-    int len;
-    len = usbd_ep_read_packet(usbd_dev, ep, buf, sizeof(buf));    
+    set_usb_busy();  //  Tell caller to repoll for USB requests.
+    int len = usbd_ep_read_packet(usbd_dev, ep, buf, sizeof(buf));    
     // debug_print("hf2 << tag "); debug_printhex(buf[0]); debug_println("");  // DMESG("HF2 read: %d", len);
     // dump_buffer(",", buf, len);    
     if (len <= 0) return;

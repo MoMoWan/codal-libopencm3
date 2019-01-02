@@ -41,17 +41,17 @@
 #include "hf2.h"
 
 ////
-#define BUSY_DURATION 1000  //  Return busy for up to 1 second after the last recorded USB activity.
+#define BUSY_DURATION 5000  //  Return busy for up to 1 second after the last recorded USB activity.
 static volatile uint32_t last_busy_time = 0;
 static volatile uint32_t last_frame_time = 0;
 
-void sof_callback(void) {
+static void sof_callback(void) {
     //  Start Of Frame callback.  This is called when there is any USB activity.
     //  debug_print("~ ");
     last_frame_time = millis();
 }
 
-static void set_usb_busy(void) {
+void set_usb_busy(void) {
     //  When we receive a USB request, we should expedite this and upcoming requests.  
     //  Tell caller to poll again.
     last_busy_time = millis();

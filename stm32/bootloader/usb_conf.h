@@ -92,6 +92,7 @@ extern int aggregate_register_callback(
     uint8_t type,
     uint8_t type_mask,
     usbd_control_callback callback);
+extern void set_usb_busy(void);
 extern volatile int get_usb_status(void);
 extern void dump_usb_request(const char *msg, struct usb_setup_data *req);
 extern void dump_buffer(const char *msg, const uint8_t *buf, int len);
