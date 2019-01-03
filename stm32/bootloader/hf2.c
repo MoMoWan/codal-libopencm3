@@ -166,6 +166,13 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_print("hf2 flash "); debug_printhex_unsigned((size_t) target_addr); debug_println("");  ////
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             send_hf2_response(pkt, 0);
+
+            //  Don't allow flashing in Application Mode.  Reboot to Bootloader Mode.
+            if (target_get_startup_mode() == APPLICATION_MODE) {
+                debug_println("hf2 boot");
+                target_manifest_bootloader();  //  Never returns.
+            }
+            //  Write the flash page if valid.
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
                 flash_write(target_addr, data, HF2_PAGE_SIZE);
             } else { debug_print("*** invalid flash "); debug_printhex_unsigned((size_t) target_addr); debug_println(""); }

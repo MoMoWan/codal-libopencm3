@@ -56,7 +56,8 @@ static bool validate_application(void) {
         debug_println("app exists");
         return true;
     }
-    debug_print("app missing "); debug_printhex_unsigned(first_word); debug_println("");
+    debug_print("app missing "); debug_printhex_unsigned((size_t) APP_BASE_ADDRESS);
+    debug_print(" = "); debug_printhex_unsigned(first_word); debug_println("");
     return false;
 }
 
