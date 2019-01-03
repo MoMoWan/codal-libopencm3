@@ -181,6 +181,11 @@ static void handle_command(HF2_Buffer *pkt) {
         case HF2_CMD_READ_WORDS: {
             //  Sent by MakeCode to fetch the flash memory contents.
             debug_println("hf2 read");
+            //  Don't allow reading in Application Mode.  Reboot to Bootloader Mode.
+            if (target_get_startup_mode() == APPLICATION_MODE) {
+                debug_println("hf2 boot");
+                target_manifest_bootloader();  //  Never returns.
+            }
             checkDataSize(read_words, 0);
             int num_words = cmd->read_words.num_words;
             memcpy(resp->data32, (void *)cmd->read_words.target_addr, num_words << 2);
