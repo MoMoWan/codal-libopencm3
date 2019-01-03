@@ -2,6 +2,7 @@
 #include "CodalCompat.h"
 #include "CodalConfig.h"
 #include "CodalDmesg.h"
+#include "CodalFiber.h"
 #include "codal_target_hal.h"
 #include <bluepill.h>
 #include <logger.h>
@@ -43,15 +44,35 @@ namespace codal
 #endif  //  TODO
         }
 
+        /////
+        static Fiber *flush_log_fibre = NULL;
+
+        static void flush_log(void) {
+            //  create_fiber(flush_log);
+            while (true) {
+                debug_flush();
+                fiber_sleep(1000);
+            }
+        }
+        /////
+
         void tick_callback() {
-            //  Will be called at every millisecond tick.  Needed to keep Codal scheduler running.
-            //  TODO: sem_ISR_signal(timer_semaphore); 
+            //  Will be called at every millisecond tick.  Needed to keep CODAL scheduler running.
+            //  Warning: This is called from an Interrupt Service Routine.  Don't trigger any interrupts or call slow functions.
+            //  TODO: if (!Timer::instance) { return; }  //  No timer to trigger, quit.
+            //  TODO: Timer::instance->trigger();        //  Trigger the CODAL Scheduler.
         }
 
         void alarm_callback() {
-            //  Will be called when an alarm is triggered.  Needed to keep Codal scheduler running.
-            //  debug_print("ALM ");  ////
-            sem_ISR_signal(timer_semaphore); 
+            //  Will be called when an alarm is triggered.  Needed to keep CODAL scheduler running, which sets alarms every few seconds.
+            //  Warning: This is called from an Interrupt Service Routine.  Don't trigger any interrupts or call slow functions.
+            if (!Timer::instance) { return; }  //  No timer to trigger, quit.
+            Timer::instance->trigger();        //  Trigger the CODAL Scheduler.
+
+            //  Start the flush log task if not started.
+            if (!flush_log_fibre) {
+                flush_log_fibre = create_fiber(flush_log);
+            }
         }
 
         void Timer::init() {
@@ -150,9 +171,9 @@ namespace codal
             task_open();  //  Start of the task. Must be matched with task_close().  
             for (;;) {
                 sem_wait(timer_semaphore);           //  Wait for the semaphore to be signalled.
-                if (!Timer::instance) { continue; }  //  No timer to trigger, quit.
                 debug_print("A>> "); ////
-                Timer::instance->trigger();          //  Trigger the CODAL Scheduler.
+                //  if (!Timer::instance) { continue; }  //  No timer to trigger, quit.
+                //  Timer::instance->trigger();          //  Trigger the CODAL Scheduler.
             }
             task_close();  //  End of the task. Should not come here.
         }

@@ -55,5 +55,6 @@ static void debug_dump(codal::STM32BluePill& bluepill, const char *msg) {
     // debug_print(", us "); debug_print((size_t) bluepill.timer.getTimeUs()); 
     debug_print(", alm "); debug_print((size_t) platform_alarm_count()); 
     // debug_print(", tick "); debug_print((size_t) platform_tick_count()); 
-    debug_println(""); debug_flush(); ////
+    debug_println(""); 
+    ////debug_flush(); ////
 }

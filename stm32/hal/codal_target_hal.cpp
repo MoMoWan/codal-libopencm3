@@ -103,25 +103,18 @@ void target_wait_for_event() {
   	//  debug_println("----target_wait_for_event"); // 
     if (!initialised) { return; }  //  If not initialised, quit.
 
-#ifdef NOTUSED
-    //  If we have received USB requests, handle them now.
-    if (bootloader_status() > 0) {
-        debug_print(":");
-        poll_bootloader();
-        return;
-    }
-#endif  //  NOTUSED
-
     //  Run a cocoOS task if any.  Must be called only when all the tasks have been created.
-    if (!os_running()) { os_preschedule(); }  //  Start the cocoOS scheduler if not started.
-    os_schedule();  
+    ////if (!os_running()) { os_preschedule(); }  //  Start the cocoOS scheduler if not started.
+    ////os_schedule();  
 
+#ifdef NOTUSED  //  Flush doesn't work because this is called from an interrupt service routine.
     //  Flush the debug log buffers once in a while.
     if ((last_flush + FLUSH_INTERVAL) >= millis()) {
         last_flush = millis();
         debug_flush();
         target_dmesg_flush();
     }
+#endif  //  NOTUSED
     __asm("wfe");  //  Allow CPU to go to sleep.
 }
 
