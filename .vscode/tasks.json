@@ -19,11 +19,11 @@
             },
             "osx": {
                 "command": 
-                " export VERBOSE=1 ; python build.py "
+                " export VERBOSE=1 ; python build.py && cd ../codal-libopencm3 && openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd "
             },
             "linux": {
                 "command": 
-                " export VERBOSE=1 ; python build.py "
+                " export VERBOSE=1 ; python build.py && cd ../codal-libopencm3 && openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd "
             },
             "group": "build",
             "presentation": {
