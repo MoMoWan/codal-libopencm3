@@ -5,7 +5,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build CODAL",
+            "label": "🔨  Build CODAL",
             "type": "shell",
             "options": {
                 "cwd": "../codal"
@@ -14,14 +14,16 @@
                 "command": "bash",
                 "args": [
                     "-c",
-                    "source ~/.profile ; export VERBOSE=1 ; python build.py"
+                    " source ~/.profile ; export VERBOSE=1 ; python build.py "
                 ]
             },
             "osx": {
-                "command": "export VERBOSE=1 ; python build.py"
+                "command": 
+                " export VERBOSE=1 ; python build.py "
             },
             "linux": {
-                "command": "export VERBOSE=1 ; python build.py"
+                "command": 
+                " export VERBOSE=1 ; python build.py "
             },
             "group": "build",
             "presentation": {
@@ -33,6 +35,28 @@
             ]
         },
         {
+            "label": "📲 Flash CODAL",
+            "type": "shell",
+            "windows": {
+                "command": 
+                " c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd"
+            },
+            "osx": {
+                "command": 
+                " openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd "
+            },
+            "linux": {
+                "command": 
+                " openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd "
+            },
+            "problemMatcher": [],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
             "label": "📲 Flash STM32 Blue Pill",
             "type": "shell",
             "windows": {
@@ -41,11 +65,11 @@
             },
             "osx": {
                 "command": 
-                " platformio debug && pkill openocd ; openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
+                " pkill openocd ; platformio debug && openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
             },
             "linux": {
                 "command": 
-                " platformio debug && pkill openocd ; openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
+                " pkill openocd ; platformio debug && openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd "
             },
             "problemMatcher": [],
             "group": "build",

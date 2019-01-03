@@ -1,0 +1,28 @@
+# This is an OpenOCD script that connects to the STM32 Blue Pill and flashes the ROM.
+# Used by tasks.json for "Flash CODAL" command
+# openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd
+
+# Disable all openocd messages.
+debug_level 0
+
+# Connect to the device.
+init
+
+# Enable ARM semihosting to show debug console output in OpenOCD console.
+arm semihosting enable
+
+echo "NOTE: Trash this window before flashing the Blue Pill again"
+
+echo "Stopping the Blue Pill..."
+reset halt
+
+flash banks
+flash list
+
+echo "Flashing the Blue Pill..."
+flash write_image erase unlock ../codal/STM32_BLUE_PILL.bin 0x08000000
+flash verify_bank 0            ../codal/STM32_BLUE_PILL.bin 0
+
+# Restart the device.
+echo "Restarting the Blue Pill..."
+reset run

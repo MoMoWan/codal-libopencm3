@@ -41,57 +41,18 @@
 #include "uf2.h"
 #include "hf2.h"
 
-////
 #define BUSY_DURATION 5000  //  Return busy for up to 5 seconds after the last recorded USB activity.
-static volatile uint32_t last_busy_time = 0;
-static volatile uint32_t last_frame_time = 0;
-
-static void sof_callback(void) {
-    //  Start Of Frame callback.  This is called when there is any USB activity.
-    //  debug_print("~ ");
-    last_frame_time = millis();
-}
-
-void set_usb_busy(void) {
-    //  When we receive a USB request, we should expedite this and upcoming requests.  
-    //  Tell caller to poll again.
-    last_busy_time = millis();
-    debug_print(".");
-}
-
-volatile int get_ep_status(uint8_t ep) {
-    //  USB not connected:  0
-    //  USB connected:      0x00003023 (HF2: 0x00003022)
-    //  USB disconnected:   Same as above
-	ep &= 0x7F;
-	volatile uint32_t status = *USB_EP_REG(ep);
-    //  debug_print("ep "); debug_print_int(ep); debug_print(" = "); debug_printhex_unsigned(status); debug_println("");
-    return status;
-}
-
-volatile int get_usb_status(void) { 
-    //  Return 1 if there was any USB activity within last few seconds.
-    //  get_ep_status(DATA_IN);  ////
-    //  get_ep_status(HF2_IN);  ////
-    if (last_busy_time == 0) { return 0; }
-    volatile uint32_t now = millis();
-    //  If time now is within a few seconds of last busy time, return busy.
-    if (now < (last_busy_time + BUSY_DURATION)) { 
-        // debug_print_unsigned(last_busy_time / 1000); debug_print(" ");
-        return 1; 
-    }
-    last_busy_time = 0;
-    // debug_print_unsigned(last_busy_time / 1000); debug_print(" ");
-    return 0;
-}
-////
 
 static void set_aggregate_callback(
   usbd_device *usbd_dev,
   uint16_t wValue
 );
+static void sof_callback(void);
 static void cdc_connected(void);
 static void hf2_connected(void);
+
+///////////////////////////////////////////////////////////////////////////////
+//  USB Descriptors
 
 #ifdef USB21_INTERFACE
 static const char* origin_url = "visualbluepill.github.io";
@@ -112,10 +73,10 @@ static const char *usb_strings[] = {
     "Blue Pill HF2",           //  HID
 };
 
-#define MSC_VENDOR_ID "BluePill"  //  Max 8 chars
-#define MSC_PRODUCT_ID "UF2 Bootloader"  //  Max 16 chars
-#define MSC_PRODUCT_REVISION_LEVEL "2.1"  //  Max 4 chars
-#define USB_CLASS_MISCELLANEOUS 0xef  //  Copy from microbit.
+#define MSC_VENDOR_ID               "BluePill"          //  Max 8 chars
+#define MSC_PRODUCT_ID              "UF2 Bootloader"    //  Max 16 chars
+#define MSC_PRODUCT_REVISION_LEVEL  "2.1"               //  Max 4 chars
+#define USB_CLASS_MISCELLANEOUS     0xef                //  USB Device Class: Copy from microbit.
 
 enum usb_strings_index {  //  Index of USB strings.  Must sync with above, starts from 1.
     USB_STRINGS_MANUFACTURER = 1,
@@ -437,6 +398,9 @@ static const struct usb_bos_descriptor bos_descriptor = {
 };
 #endif  //  USB21_INTERFACE
 
+///////////////////////////////////////////////////////////////////////////////
+//  USB Setup
+
 /* Buffer to be used for control requests. */
 static uint8_t usbd_control_buffer[USB_CONTROL_BUF_SIZE] __attribute__ ((aligned (2)));
 usbd_device* usbd_dev = NULL;
@@ -516,6 +480,95 @@ void msc_setup(usbd_device* usbd_dev0) {
     );
 }
 #endif  //  INTF_MSC
+
+///////////////////////////////////////////////////////////////////////////////
+//  USB Status
+
+static volatile uint32_t last_busy_time = 0;
+static volatile uint32_t last_frame_time = 0;
+
+static void sof_callback(void) {
+    //  Start Of Frame callback.  This is called when there is any USB activity.
+    //  debug_print("~ ");
+    last_frame_time = millis();
+}
+
+void set_usb_busy(void) {
+    //  When we receive a USB request, we should expedite this and upcoming requests.  
+    //  Tell caller to poll again.
+    last_busy_time = millis();
+    debug_print(".");
+}
+
+volatile int get_ep_status(uint8_t ep) {
+    //  USB not connected:  0
+    //  USB connected:      0x00003023 (HF2: 0x00003022)
+    //  USB disconnected:   Same as above
+	ep &= 0x7F;
+	volatile uint32_t status = *USB_EP_REG(ep);
+    //  debug_print("ep "); debug_print_int(ep); debug_print(" = "); debug_printhex_unsigned(status); debug_println("");
+    return status;
+}
+
+volatile int get_usb_status(void) { 
+    //  Return 1 if there was any USB activity within last few seconds.
+    //  get_ep_status(DATA_IN);  ////
+    //  get_ep_status(HF2_IN);  ////
+    if (last_busy_time == 0) { return 0; }
+    volatile uint32_t now = millis();
+    //  If time now is within a few seconds of last busy time, return busy.
+    if (now < (last_busy_time + BUSY_DURATION)) { 
+        // debug_print_unsigned(last_busy_time / 1000); debug_print(" ");
+        return 1; 
+    }
+    last_busy_time = 0;
+    // debug_print_unsigned(last_busy_time / 1000); debug_print(" ");
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  USB Logging
+
+static volatile uint8_t  //  Non-zero if the USB interface is connected.
+    cdc_is_connected = 0,
+    hf2_is_connected = 0;
+
+#ifdef INTF_COMM
+static int usb_cdc_transmit(
+	const uint8_t *buf,
+	uint16_t len) {
+    //  Transmit to the serial port, if connected.
+    if (!usbd_dev || !cdc_is_connected) { return -1; }
+    return cdcadm_transmit(usbd_dev, buf, len);
+}
+
+static void cdc_connected(void) {
+    //  Called when CDC is connected.  We set the serial port as a logger output.
+    if (cdc_is_connected) { return; }
+    cdc_is_connected = 1;
+    logger_add_output(usb_cdc_transmit);
+}
+#endif  //  INTF_COMM
+
+#ifdef INTF_HF2
+static int usb_hf2_transmit(
+	const uint8_t *buf,
+	uint16_t len) {
+    //  Transmit to the HF2, if connected.
+    if (!usbd_dev || !hf2_is_connected) { return -1; }
+    return hf2_transmit(usbd_dev, buf, len);
+}
+
+static void hf2_connected(void) {
+    //  Called when HF2 is connected.  We set the HF2 port as a logger output.
+    if (hf2_is_connected) { return; }
+    hf2_is_connected = 1;
+    ////logger_add_output(usb_hf2_transmit);
+}
+#endif  //  INTF_HF2
+
+///////////////////////////////////////////////////////////////////////////////
+//  Aggregate Callbacks
 
 struct control_callback_struct {
     uint8_t type;
@@ -663,44 +716,6 @@ void usb_set_serial_number(const char* serial) {
         serial_number[USB_SERIAL_NUM_LENGTH] = '\0';
     }
 }
-
-static volatile uint8_t  //  Non-zero if the USB interface is connected.
-    cdc_is_connected = 0,
-    hf2_is_connected = 0;
-
-#ifdef INTF_COMM
-static int usb_cdc_transmit(
-	const uint8_t *buf,
-	uint16_t len) {
-    //  Transmit to the serial port, if connected.
-    if (!usbd_dev || !cdc_is_connected) { return -1; }
-    return cdcadm_transmit(usbd_dev, buf, len);
-}
-
-static void cdc_connected(void) {
-    //  Called when CDC is connected.  We set the serial port as a logger output.
-    if (cdc_is_connected) { return; }
-    cdc_is_connected = 1;
-    ////logger_add_output(usb_cdc_transmit);
-}
-#endif  //  INTF_COMM
-
-#ifdef INTF_HF2
-static int usb_hf2_transmit(
-	const uint8_t *buf,
-	uint16_t len) {
-    //  Transmit to the HF2, if connected.
-    if (!usbd_dev || !hf2_is_connected) { return -1; }
-    return hf2_transmit(usbd_dev, buf, len);
-}
-
-static void hf2_connected(void) {
-    //  Called when HF2 is connected.  We set the HF2 port as a logger output.
-    if (hf2_is_connected) { return; }
-    hf2_is_connected = 1;
-    ////logger_add_output(usb_hf2_transmit);
-}
-#endif  //  INTF_HF2
 
 void dump_buffer(const char *msg, const uint8_t *buf, int len) {
     debug_print(msg); debug_print(" ");
