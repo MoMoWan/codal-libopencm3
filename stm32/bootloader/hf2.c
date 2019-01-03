@@ -71,7 +71,7 @@ extern const char infoUf2File[];
 
 //  We use a smaller buffer in Application Mode.  Enough to handle HF2_CMD_INFO, HF2_CMD_BININFO, HF2_CMD_RESET_INTO_APP, HF2_CMD_RESET_INTO_BOOTLOADER, HF2_CMD_START_FLASH.
 //  Note: hf2_buffer is not initialised to 0 because it's not in the BSS section.
-__attribute__ ((section(".boot_buf")))  //  Place this packet buffer in high memory so it can be reused in Application Mode.
+__attribute__ ((section(".boot_buf")))  //  Place the large packet buffer in high memory so we can reuse it as stack/heap space in Application Mode.
 HF2_Buffer      hf2_buffer;             //  Large buffer for Bootloader Mode only.  Size should be 1090 bytes.
 HF2_Buffer_Mini hf2_buffer_mini;        //  Small buffer for Application Mode only.  Size should be 91 bytes.
 static usbd_device *_usbd_dev;
@@ -109,6 +109,7 @@ static void handle_command(HF2_Buffer *pkt) {
 
     switch (cmdId) {
         case HF2_CMD_INFO: {
+            //  MakeCode sends this command first to identify the device. We return the INFO_UF2.TXT file. 
             debug_println("hf2 info");
             int info_size = strlen(infoUf2File);
             assert(info_size > 0, "empty hf2 info");
@@ -119,6 +120,9 @@ static void handle_command(HF2_Buffer *pkt) {
             return;
         }
         case HF2_CMD_BININFO: {
+            //  MakeCode sends this command next to get the mode of the device (Bootloader vs Application Mode) and flashing parameters.
+            //  If device is in Application Mode, MakeCode sends HF2_CMD_START_FLASH before flashing.
+            //  If device is in Bootloader Mode, MakeCode sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
             debug_println("hf2 bininfo");
             assert(sizeof(resp->bininfo) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
             resp->bininfo.mode = (target_get_startup_mode() == BOOTLOADER_MODE) ?                        
@@ -132,21 +136,21 @@ static void handle_command(HF2_Buffer *pkt) {
             return;
         }
         case HF2_CMD_RESET_INTO_APP:
-            //  Restart into application.
+            //  Sent by MakeCode to restart into Application Mode.
             debug_println("hf2 rst app");
             send_hf2_response(pkt, 0);
             target_manifest_app();  //  Never returns.
             return;
 
         case HF2_CMD_RESET_INTO_BOOTLOADER:
-            //  Restart into bootloader.
+            //  Sent by MakeCode to restart into Bootloader Mode.
             debug_println("hf2 rst boot");
             send_hf2_response(pkt, 0);
             target_manifest_bootloader();  //  Never returns.
             return;
 
         case HF2_CMD_START_FLASH:
-            //  If we are in Application Mode, restart to Bootloader Mode.
+            //  Sent by MakeCode to begin flashing if we are in Application Mode.  We restart to Bootloader Mode.
             debug_println("hf2 start");
             send_hf2_response(pkt, 0);
             if (target_get_startup_mode() == APPLICATION_MODE) {
@@ -155,7 +159,8 @@ static void handle_command(HF2_Buffer *pkt) {
             return;
 
         case HF2_CMD_WRITE_FLASH_PAGE: {
-            // first send ACK and then start writing, while getting the next packet
+            //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
+            //  First send ACK and then start writing, while getting the next packet
             uint32_t target_addr = cmd->write_flash_page.target_addr;
             const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
             debug_print("hf2 flash "); debug_printhex_unsigned((size_t) target_addr); debug_println("");  ////
@@ -167,6 +172,7 @@ static void handle_command(HF2_Buffer *pkt) {
             return;
         }
         case HF2_CMD_READ_WORDS: {
+            //  Sent by MakeCode to fetch the flash memory contents.
             debug_println("hf2 read");
             checkDataSize(read_words, 0);
             int num_words = cmd->read_words.num_words;
