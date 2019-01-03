@@ -138,6 +138,7 @@ static void handle_command(HF2_Buffer *pkt) {
         case HF2_CMD_RESET_INTO_APP:
             //  Sent by MakeCode to restart into Application Mode.
             debug_println("hf2 rst app");
+            flash_flush();  //  Flush any pending flash writes.
             send_hf2_response(pkt, 0);
             target_manifest_app();  //  Never returns.
             return;

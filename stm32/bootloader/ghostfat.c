@@ -123,7 +123,7 @@ static uint32_t ms;
 static uint32_t resetTime;
 static uint32_t lastFlush;
 
-static void flushFlash(void) {
+void flash_flush(void) {
     //  TODO: Don't overwrite the bootloader.
     lastFlush = ms;
     if (flashAddr == NO_CACHE)
@@ -150,7 +150,7 @@ void flash_write(uint32_t dst, const uint8_t *src, int len) {
     // debug_print("flash "); debug_printhex_unsigned(dst); debug_println("");
     hadWrite = true;
     if (newAddr != flashAddr) {
-        flushFlash();
+        flash_flush();
         flashAddr = newAddr;
         memcpy(flashBuf, (void *)newAddr, FLASH_PAGE_SIZE);
     }
@@ -167,13 +167,13 @@ void ghostfat_1ms() {
 
     if (resetTime && ms >= resetTime) {
         debug_println("ghostfat_1ms target_manifest_app");  debug_flush();  ////
-        flushFlash();
+        flash_flush();
         target_manifest_app();
         while (1);
     }
 
     if (lastFlush && ms - lastFlush > 100) {
-        flushFlash();
+        flash_flush();
     }
 }
 
