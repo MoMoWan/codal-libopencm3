@@ -51,7 +51,7 @@ namespace codal
             //  create_fiber(flush_log);
             while (true) {
                 debug_flush();
-                fiber_sleep(1000);
+                fiber_sleep(200);
             }
         }
         /////
