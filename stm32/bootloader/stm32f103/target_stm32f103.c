@@ -255,7 +255,7 @@ void target_get_serial_number(char* dest, size_t max_chars) {
 
 static uint16_t* get_flash_end(void) {
 #ifdef FLASH_SIZE_OVERRIDE
-    /* Allow access to the unofficial full 128KiB flash size */
+    /* Allow access to the flash size we define */
     return (uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE);
 #else
     /* Only allow access to the chip's self-reported flash size */
@@ -290,11 +290,11 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
     static uint16_t* erase_end;
 
     const uint16_t* flash_end = get_flash_end();
-    debug_print("target_flash_program_array dest "); debug_print_unsigned((size_t) dest); ////
-    debug_print(", data "); debug_print_unsigned((size_t) data); 
-    debug_print(", half_word_count "); debug_print_unsigned((size_t) half_word_count); 
-    debug_print(", flash_end "); debug_print_unsigned((size_t) flash_end); 
-    debug_println(""); debug_flush(); ////
+    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); ////
+    //  debug_print(", data "); debug_printhex_unsigned((size_t) data); 
+    debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); 
+    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count); 
+    debug_println(""); ////
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
         if (dest >= flash_end) {
