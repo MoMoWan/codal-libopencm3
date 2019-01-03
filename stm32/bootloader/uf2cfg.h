@@ -15,11 +15,11 @@
     "Model: "           PRODUCT_NAME    "\r\n" \
     "Board-ID: "        BOARD_ID        "\r\n"
 
-//  Define the addresses where MakeCode is allowed to write to flash.  Should be in high ROM between _text (e.g. 8006800) and _etext (e.g. 800a1b4).
+//  Define the addresses where MakeCode is allowed to write to flash.  Should be in high ROM between _text (e.g. 8006800) and end of ROM (e.g. 8010000).
 //  Don't allow writing into the Bootloader at low ROM, between _boot_text (e.g. 8000000) and _boot_etext (e.g. 8004ad0).
 extern uint32_t _text, _etext;  //  Begin and end of Application ROM.  Defined in the linker script ld/stm32f103x8.ld.
 #define USER_FLASH_START    ((uint32_t) &_text)
-#define USER_FLASH_END      ((uint32_t) &_etext)
+#define USER_FLASH_END      (0x08000000 + FLASH_SIZE_OVERRIDE)
 
 //  Previously:
 //  #define USER_FLASH_START    (uint32_t)(APP_BASE_ADDRESS)
