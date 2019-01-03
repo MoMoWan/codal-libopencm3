@@ -193,6 +193,7 @@ void target_manifest_app(void) {
     //  Restart into Application Mode to run the application.
     debug_force_flush();
     backup_write(BKP0, CMD_APP);
+    //  TODO: In Application Mode, send a restart request.
     scb_reset_system();
 }
 
@@ -200,6 +201,7 @@ void target_manifest_bootloader(void) {
     //  Restart into Bootloader Mode to run the bootloader.
     debug_force_flush();
     backup_write(BKP0, CMD_BOOT);
+    //  TODO: In Application Mode, send a restart request.
     scb_reset_system();
 }
 
