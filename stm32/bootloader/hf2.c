@@ -308,21 +308,6 @@ int hf2_transmit(
     dump_buffer("hf2ser >>", tx_buf, s + 1);
     // debug_print("hf2ser >> "); debug_printhex(s + 1); debug_println(""); ////
     return s;
-
-#ifdef TODO ////
-    //////////////////////////////////////////////////
-	if (len <= MAX_USB_PACKET_SIZE) {
-		return usbd_ep_write_packet(usbd_dev, DATA_IN, buf, len);  //  Returns the bytes sent.
-	}
-	while (len > 0) {
-		uint16_t tx_len = (len > MAX_USB_PACKET_SIZE) ? MAX_USB_PACKET_SIZE : len;
-		len = len - tx_len;
-		uint16_t status = usbd_ep_write_packet(usbd_dev, DATA_IN, buf, tx_len);  //  Returns the bytes sent.
-		if (status != tx_len) { return 0; }  //  Stop if error.
-		buf = &buf[tx_len];
-	}
-#endif  ////  TODO
-	return len;
 }
 
 static void pokeSend(
@@ -330,7 +315,6 @@ static void pokeSend(
     volatile uint32_t dataToSendLength,
     uint8_t dataToSendFlag) {
     //  Send the next packet of the HF2 response to host.
-    //  debug_println("pokeSend"); debug_flush(); ////
     bool sendIt = false;
     memset(tx_buf, 0, sizeof(tx_buf));
 
@@ -365,9 +349,7 @@ static void pokeSend(
         } else {
             remDataToSendLength = 0;  //  No more data to send.
         }
-        // debug_print_unsigned(millis() - rx_time); 
-        dump_buffer("hf2pkt >>", tx_buf, s + 1);
-        // debug_print("hf2pkt >> "); debug_printhex(s + 1); debug_println(""); ////
+        dump_buffer("hf2pkt >>", tx_buf, s + 1);  // debug_print("hf2pkt >> "); debug_printhex(s + 1); debug_println(""); ////
     }
 }
 
@@ -379,6 +361,8 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wVal
 }
 
 void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
+    //  Setup the HF2 USB interface.
+    debug_print("flash allow "); debug_printhex_unsigned(USER_FLASH_START); debug_print(" to "); debug_printhex_unsigned(USER_FLASH_END); debug_println("");  //  Show the addresses that flashing is allowed.
     _usbd_dev = usbd_dev;
     connected_func = connected_func0;
     //  test_hf2(); ////

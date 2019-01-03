@@ -43,7 +43,7 @@
 #define CODAL_DEBUG CODAL_DEBUG_DISABLED
 #define DEVICE_USB 0  //  TODO: Previously 1.  Disable flashing by USB.  Requires UF2 to be included for build.
 #define BOOTLOADER_START_ADDR 0x08000000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
-#define BOOTLOADER_END_ADDR   0x08004000  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
+#define BOOTLOADER_END_ADDR   0x08006800  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
 #endif  //  PLATFORMIO
 
 #ifdef __cplusplus

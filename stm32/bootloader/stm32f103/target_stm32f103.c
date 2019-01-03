@@ -45,13 +45,6 @@
 #define USES_GPIOC 0
 #endif
 
-#ifdef NOTUSED
-    #ifdef FLASH_SIZE_OVERRIDE
-    _Static_assert((FLASH_BASE + FLASH_SIZE_OVERRIDE >= APP_BASE_ADDRESS),
-                "Incompatible flash size");
-    #endif  //  FLASH_SIZE_OVERRIDE
-#endif  //  NOTUSED
-
 static const uint32_t CMD_BOOT = 0x544F4F42UL;
 static const uint32_t CMD_APP = 0x3f82722aUL;
 static enum StartupMode startup_mode = UNKNOWN_MODE;
@@ -331,6 +324,11 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
 }
 
 #ifdef NOTUSED
+    #ifdef FLASH_SIZE_OVERRIDE
+    _Static_assert((FLASH_BASE + FLASH_SIZE_OVERRIDE >= APP_BASE_ADDRESS),
+                "Incompatible flash size");
+    #endif  //  FLASH_SIZE_OVERRIDE
+    
     //  #define USE_HSI 1
     void target_clock_setup(void) {
     #ifdef USE_HSI
@@ -343,7 +341,7 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
         rcc_clock_setup_in_hse_8mhz_out_72mhz();
     #endif
     }
-    
+
     void target_relocate_vector_table(void) {
         SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
     }
