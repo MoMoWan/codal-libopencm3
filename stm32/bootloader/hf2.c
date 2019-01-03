@@ -121,7 +121,9 @@ static void handle_command(HF2_Buffer *pkt) {
         case HF2_CMD_BININFO: {
             debug_println("hf2 bininfo");
             assert(sizeof(resp->bininfo) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
-            resp->bininfo.mode = HF2_MODE_BOOTLOADER;
+            resp->bininfo.mode = (target_get_startup_mode() == BOOTLOADER_MODE) ?                        
+                HF2_MODE_BOOTLOADER :
+                HF2_MODE_USERSPACE;
             resp->bininfo.flash_page_size = HF2_PAGE_SIZE;  //  Previously 128 * 1024
             resp->bininfo.flash_num_pages = FLASH_SIZE_OVERRIDE / HF2_PAGE_SIZE;
             resp->bininfo.max_message_size = HF2_BUF_SIZE;  //  Previously sizeof(pkt->buf);
