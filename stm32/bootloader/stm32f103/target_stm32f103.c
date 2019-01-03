@@ -74,32 +74,21 @@ enum StartupMode target_get_startup_mode(void) {
     if (startup_mode != UNKNOWN_MODE) { return startup_mode; }
     bool appValid = false;
     appValid = validate_application();
-    if (target_get_force_bootloader() || !appValid) {
-        //  Go to Bootloader Mode if we were requested to run as bootloader, or no valid app exists.
-        debug_println("bootloader mode");
+    if (target_get_force_bootloader()) {
+        //  Go to Bootloader Mode if we were requested by MakeCode to run as bootloader.
+        debug_println("----bootloader mode (forced)");
+        startup_mode = BOOTLOADER_MODE;
+    } else if (!appValid) {
+        //  Go to Bootloader Mode if no valid app exists.
+        debug_println("----bootloader mode (no app)");
         startup_mode = BOOTLOADER_MODE;
     } else {
-        debug_println("app mode");
+        //  Else go to Application Mode.
+        debug_println("----application mode");
         startup_mode = APPLICATION_MODE;
     }
     return startup_mode;
 }
-
-//#define USE_HSI 1
-
-#ifdef NOTUSED
-    void target_clock_setup(void) {
-    #ifdef USE_HSI
-        /* Set the system clock to 48MHz from the internal RC oscillator.
-        The clock tolerance doesn't meet the official USB spec, but
-        it's better than nothing. */
-        rcc_clock_setup_in_hsi_out_48mhz();
-    #else
-        /* Set system clock to 72 MHz from an external crystal */
-        rcc_clock_setup_in_hse_8mhz_out_72mhz();
-    #endif
-    }
-#endif  //  NOTUSED
 
 void target_set_led(int on) {
 #if HAVE_LED
@@ -342,7 +331,20 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
 }
 
 #ifdef NOTUSED
-void target_relocate_vector_table(void) {
-    SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
-}
+    //  #define USE_HSI 1
+    void target_clock_setup(void) {
+    #ifdef USE_HSI
+        /* Set the system clock to 48MHz from the internal RC oscillator.
+        The clock tolerance doesn't meet the official USB spec, but
+        it's better than nothing. */
+        rcc_clock_setup_in_hsi_out_48mhz();
+    #else
+        /* Set system clock to 72 MHz from an external crystal */
+        rcc_clock_setup_in_hse_8mhz_out_72mhz();
+    #endif
+    }
+    
+    void target_relocate_vector_table(void) {
+        SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
+    }
 #endif  //  NOTUSED
