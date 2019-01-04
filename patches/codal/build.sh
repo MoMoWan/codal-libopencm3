@@ -1,5 +1,5 @@
 #find . -name "*.a" -delete
 #find . -name "*.o" -delete
 
-export VERBOSE=1
+export VERBOSE=
 python build.py

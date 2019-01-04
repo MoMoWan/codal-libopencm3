@@ -80,7 +80,7 @@ int start_background_tasks(void) {
         CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, restart_handler);
     if (status) {
         debug_print("*** ERROR: unable to listen for restart event ");
-        debug_print_unsigned(status); debug_println("");
+        debug_printhex_unsigned(status); debug_println("");
         return status;
     }
     return 0;
