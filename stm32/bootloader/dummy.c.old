@@ -22,27 +22,27 @@
 #include <stdint.h>
 #include <libopencm3/cm3/scb.h>
 
-void target_get_serial_number(char* dest, size_t max_chars) __attribute__((weak));
-void target_log(const char* str) __attribute__((weak));
-void target_manifest_app(void) __attribute__((weak));
-void target_pre_main(void) __attribute__((weak));
+void boot_target_get_serial_number(char* dest, size_t max_chars) __attribute__((weak));
+void boot_target_log(const char* str) __attribute__((weak));
+void boot_target_manifest_app(void) __attribute__((weak));
+void boot_target_pre_main(void) __attribute__((weak));
 
-void target_get_serial_number(char* dest, size_t max_chars) {
+void boot_target_get_serial_number(char* dest, size_t max_chars) {
     (void)max_chars;
     if (dest) {
         dest[0] = '\0';
     }
 }
 
-void target_log(const char* str) {
+void boot_target_log(const char* str) {
     (void)str;
 }
 
-void target_manifest_app(void) {
+void boot_target_manifest_app(void) {
     scb_reset_system();
 }
 
-void target_pre_main(void)
+void boot_target_pre_main(void)
 {
 
 }

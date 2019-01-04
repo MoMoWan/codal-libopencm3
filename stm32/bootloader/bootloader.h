@@ -6,9 +6,12 @@
 extern "C" {  //  Allows functions below to be called by C and C++ code.
 #endif
 
+typedef int restart_callback_type(void);
+
 int bootloader_start(void);  //  Start the bootloader and jump to the loaded application.
 int bootloader_poll(void);   //  Run bootloader in background via polling.
 volatile int bootloader_status(void);  //  Return non-zero if we are receiving USB requests now.
+int bootloader_set_restart_callback(restart_callback_type *func);  //  Call this function when we need to restart.
 
 #ifdef __cplusplus
 }  //  End of extern C scope.

@@ -101,9 +101,9 @@ static void dfu_on_download_request(usbd_device* usbd_dev, struct usb_setup_data
     const uint16_t* data = (uint16_t*)dfu_download_buffer;
     uint16_t* dest = (uint16_t*)(APP_BASE_ADDRESS + current_dfu_offset);
 
-    target_flash_unlock();
-    bool ok = target_flash_program_array(dest, data, dfu_download_size/2);
-    target_flash_lock();
+    boot_target_flash_unlock();
+    bool ok = boot_target_flash_program_array(dest, data, dfu_download_size/2);
+    boot_target_flash_lock();
 
     if (ok) {
         current_dfu_offset += dfu_download_size;
@@ -243,7 +243,7 @@ static int dfu_control_class_request(usbd_device *usbd_dev,
                 case STATE_DFU_UPLOAD_IDLE: {
                     *buf = (uint8_t*)(APP_BASE_ADDRESS + current_dfu_offset);
                     uint16_t len_to_copy = req->wLength;
-                    size_t max_firmware_size = target_get_max_firmware_size();
+                    size_t max_firmware_size = boot_target_get_max_firmware_size();
                     if (current_dfu_offset + req->wLength > max_firmware_size) {
                         len_to_copy = max_firmware_size - current_dfu_offset;
                         dfu_set_state(STATE_DFU_IDLE);

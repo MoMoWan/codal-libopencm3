@@ -4,9 +4,11 @@
 #include "CodalDmesg.h"
 #include "CodalFiber.h"
 #include "codal_target_hal.h"
-#include <bluepill.h>
-#include <logger.h>
+#include <bluepill/bluepill.h>
+#include <logger/logger.h>
+#include <bootloader/bootloader.h>
 #include <cocoos.h>
+#include "tasks.h"
 
 namespace codal
 {
@@ -44,18 +46,6 @@ namespace codal
 #endif  //  TODO
         }
 
-        /////
-        static Fiber *flush_log_fibre = NULL;
-
-        static void flush_log(void) {
-            //  create_fiber(flush_log);
-            while (true) {
-                debug_flush();
-                fiber_sleep(200);
-            }
-        }
-        /////
-
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep CODAL scheduler running.
             //  Warning: This is called from an Interrupt Service Routine.  Don't trigger any interrupts or call slow functions.
@@ -68,11 +58,6 @@ namespace codal
             //  Warning: This is called from an Interrupt Service Routine.  Don't trigger any interrupts or call slow functions.
             if (!Timer::instance) { return; }  //  No timer to trigger, quit.
             Timer::instance->trigger();        //  Trigger the CODAL Scheduler.
-
-            //  Start the flush log task if not started.
-            if (!flush_log_fibre) {
-                flush_log_fibre = create_fiber(flush_log);
-            }
         }
 
         void Timer::init() {
@@ -101,6 +86,13 @@ namespace codal
                 triggerIn(trigger_period);
                 trigger_period = 0;
             }
+
+            //  Start the background tasks.
+            start_background_tasks();
+
+            //  Tell bootloader to call restart_callback() when it needs to restart.
+            bootloader_set_restart_callback(restart_callback);
+
 #ifdef TODO
             TimHandle.Instance = TIM5;
 

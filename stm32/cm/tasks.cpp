@@ -1,14 +1,65 @@
 //  Background Tasks
+#include <logger/logger.h>
 #include <libopencm3/cm3/scb.h>  //  For scb_reset_system
-#include <CodalFiber.h>
+#include <core/CodalFiber.h>
+#include <core/EventModel.h>
 #include "tasks.h"
 
-void restart_handler(Event evt) {
+enum CM_EVT {
+    //  Event IDs must be above 1024.  220569-220570 are used by https://github.com/lupyuen/microbit-sigfox/blob/master/task.ts
+    CM_EVT_RESTART = 22580,   //  Restart the device.
+};
+
+static codal::Fiber *flush_task_fibre = NULL;
+
+static void restart_handler(codal::Event evt) {
     //  Handle a restart request.  Flush the log then restart.
+    debug_println("restarting...");
     debug_force_flush();
     scb_reset_system();
 }
 
-void restart_callback(void) {
+int restart_callback(void) {
     //  Send a restart request.  Used by bootloader running in Application Mode.
+    debug_println("restart callback");
+    if (!codal::EventModel::defaultEventBus) {
+        debug_println("*** ERROR: missing event bus");
+        return -1;
+    }
+    codal::Event restart_event(0, CM_EVT_RESTART, codal::CREATE_ONLY);
+    int status = codal::EventModel::defaultEventBus->send(restart_event);
+    if (status) {
+        debug_print("*** ERROR: unable to send restart event ");
+        debug_print_unsigned(status); debug_println("");
+        return status;
+    }
+    return 0;
+}
+
+static void flush_task(void) {
+    //  Flush the log periodically.
+    while (true) {
+        debug_flush();
+        codal::fiber_sleep(200);
+    }
+}
+
+int start_background_tasks(void) {
+    //  Start the background tasks to flush the log and wait for restart requests.
+    if (flush_task_fibre) { return 0; }
+    flush_task_fibre = codal::create_fiber(flush_task);
+
+    //  Listen for restart requests.
+    if (!codal::EventModel::defaultEventBus) {
+        debug_println("*** ERROR: missing event bus");
+        return -1;
+    }
+    int status = codal::EventModel::defaultEventBus->listen(
+        DEVICE_ID_ANY, CM_EVT_RESTART, restart_handler);
+    if (status) {
+        debug_print("*** ERROR: unable to listenfor restart event ");
+        debug_print_unsigned(status); debug_println("");
+        return status;
+    }
+    return 0;
 }

@@ -137,9 +137,9 @@ void flash_flush(void) {
         debug_print("flash "); debug_printhex_unsigned((size_t) flashAddr); debug_println(""); ////
         DBG("Write flush at %x", flashAddr);
 
-        target_flash_unlock();
-        bool ok = target_flash_program_array((void *)flashAddr, (void*)flashBuf, FLASH_PAGE_SIZE / 2);
-        target_flash_lock();
+        boot_target_flash_unlock();
+        bool ok = boot_target_flash_program_array((void *)flashAddr, (void*)flashBuf, FLASH_PAGE_SIZE / 2);
+        boot_target_flash_lock();
         (void)ok;
     }
     flashAddr = NO_CACHE;
@@ -166,9 +166,9 @@ void ghostfat_1ms() {
     ms++;
 
     if (resetTime && ms >= resetTime) {
-        debug_println("ghostfat_1ms target_manifest_app");  debug_flush();  ////
+        debug_println("ghostfat_1ms boot_target_manifest_app");  debug_flush();  ////
         flash_flush();
-        target_manifest_app();
+        boot_target_manifest_app();
         while (1);
     }
 

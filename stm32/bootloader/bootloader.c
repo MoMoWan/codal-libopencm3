@@ -61,11 +61,11 @@ int bootloader_start(void) {
     if (usbd_dev) { return 1; }  // Already started, quit.
 
     debug_println("----bootloader");  // debug_flush();    
-    target_gpio_setup();  //  Initialize GPIO/LEDs if needed
+    boot_target_gpio_setup();  //  Initialize GPIO/LEDs if needed
     get_serial_number();  //  Get the unique Blue Pill serial number.
 
     //  If we are in Bootloader Mode, lower the stack pointer so that we can use the flash buffers in bootbuf.
-    if (target_get_startup_mode() == BOOTLOADER_MODE) { 
+    if (boot_target_get_startup_mode() == BOOTLOADER_MODE) { 
         __set_MSP((uint32_t) &_boot_stack);
     }
 
@@ -74,7 +74,7 @@ int bootloader_start(void) {
     usbd_dev = usb_setup();
 
     //  If we are in Application Mode, run in background via bootloader_poll(), called every 1 millisec.
-    if (target_get_startup_mode() == APPLICATION_MODE) { 
+    if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
         target_set_bootloader_callback(bootloader_poll);
         return 0; 
     }
@@ -109,6 +109,12 @@ volatile int bootloader_status(void) {
     return get_usb_status();
 }
 
+int bootloader_set_restart_callback(restart_callback_type *func) {
+    //  Call this function when we need to restart.
+    target_set_bootloader_callback(func);
+    return 0;
+}
+
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
     debug_println("usbd polling...");  debug_flush();  ////
@@ -122,7 +128,7 @@ static void poll_loop(void) {
         cycleCount++;
         if (cycleCount >= 700) {
             cycleCount = 0;
-            target_set_led((msTimer++ % 500) < 50);
+            boot_target_set_led((msTimer++ % 500) < 50);
 #ifdef INTF_MSC
             ghostfat_1ms();  //  Handle USB storage requests.
 #endif  //  INTF_MSC
@@ -141,28 +147,28 @@ static void poll_loop(void) {
 #ifdef NOTUSED
     if (appValid && !msc_started && msTimer > 1000) {
         //  If app is valid, jump to app.
-        debug_println("target_manifest_app");  debug_flush();
-        target_manifest_app();
+        debug_println("boot_target_manifest_app");  debug_flush();
+        boot_target_manifest_app();
     }
 #endif // NOTUSED
 
 static void get_serial_number(void) {
     char serial[USB_SERIAL_NUM_LENGTH+1];
     serial[0] = '\0';
-    debug_println("target_get_serial_number");  // debug_flush();
-    target_get_serial_number(serial, USB_SERIAL_NUM_LENGTH);
+    debug_println("boot_target_get_serial_number");  // debug_flush();
+    boot_target_get_serial_number(serial, USB_SERIAL_NUM_LENGTH);
 
     debug_println("usb_set_serial_number");  // debug_flush();
     usb_set_serial_number(serial);
 }
 
 #ifdef NOTUSED
-    if (appValid && target_get_force_app()) {
+    if (appValid && boot_target_get_force_app()) {
          jump_to_application();
          return 0;
     }
 
-    if (target_get_force_bootloader() || !appValid) {    
+    if (boot_target_get_force_bootloader() || !appValid) {    
         poll_loop();    
     } else {
         debug_println("jump_to_application");  debug_flush();
@@ -185,7 +191,7 @@ static void get_serial_number(void) {
         debug_printhex(strlen(infoUf2File));
         debug_println("");
 
-        if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
+        if (boot_target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
         
         debug_print("hf2_buffer ");
         debug_printhex_unsigned((size_t) &hf2_buffer);

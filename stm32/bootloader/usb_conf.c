@@ -408,7 +408,7 @@ usbd_device* usbd_dev = NULL;
 usbd_device* usb_setup(void) {
     int num_strings = sizeof(usb_strings) / sizeof(const char*);
     // debug_print("usb_setup num_strings "); debug_print_int(num_strings); debug_println(""); // debug_flush(); ////
-    const usbd_driver* driver = target_usb_init();
+    const usbd_driver* driver = boot_target_usb_init();
     usbd_dev = usbd_init(driver, &dev, &config, 
         usb_strings, num_strings,
         usbd_control_buffer, sizeof(usbd_control_buffer));
@@ -418,7 +418,7 @@ usbd_device* usb_setup(void) {
 
     //  The following USB setup functions will call aggregate_register_callback() to register callbacks.
 #ifdef INTF_DFU    
-    dfu_setup(usbd_dev, &target_manifest_app, NULL, NULL);
+    dfu_setup(usbd_dev, &boot_target_manifest_app, NULL, NULL);
 #endif  //  INTF_DFU
 #ifdef INTF_MSC    
     msc_setup(usbd_dev);
@@ -792,8 +792,8 @@ NOTE: Trash this window before uploading a program to the Blue Pill
 Restarting the Blue Pill...
 ----platform_setup
 ----bootloader
-target_get_force_bootloader
-target_get_serial_number
+boot_target_get_force_bootloader
+boot_target_get_serial_number
 usb_set_serial_number
 usb_setup
 usbd polling...
@@ -833,8 +833,8 @@ NOTE: Trash this window before uploading a program to the Blue Pill
 Restarting the Blue Pill...
 ----platform_setup
 ----bootloader
-target_get_force_bootloader
-target_get_serial_number
+boot_target_get_force_bootloader
+boot_target_get_serial_number
 usb_set_serial_number
 usb_setup
 usbd polling...

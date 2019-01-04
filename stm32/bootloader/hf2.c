@@ -125,7 +125,7 @@ static void handle_command(HF2_Buffer *pkt) {
             //  If device is in Bootloader Mode, MakeCode sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
             debug_println("hf2 bininfo");
             assert(sizeof(resp->bininfo) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
-            resp->bininfo.mode = (target_get_startup_mode() == BOOTLOADER_MODE) ?                        
+            resp->bininfo.mode = (boot_target_get_startup_mode() == BOOTLOADER_MODE) ?                        
                 HF2_MODE_BOOTLOADER :
                 HF2_MODE_USERSPACE;
             resp->bininfo.flash_page_size = HF2_PAGE_SIZE;  //  Previously 128 * 1024
@@ -140,22 +140,22 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_println("hf2 rst app");
             flash_flush();  //  Flush any pending flash writes.
             send_hf2_response(pkt, 0);
-            target_manifest_app();  //  Never returns.
+            boot_target_manifest_app();  //  Never returns.
             return;
 
         case HF2_CMD_RESET_INTO_BOOTLOADER:
             //  Sent by MakeCode to restart into Bootloader Mode.
             debug_println("hf2 rst boot");
             send_hf2_response(pkt, 0);
-            target_manifest_bootloader();  //  Never returns.
+            boot_target_manifest_bootloader();  //  Never returns.
             return;
 
         case HF2_CMD_START_FLASH:
             //  Sent by MakeCode to begin flashing if we are in Application Mode.  We restart to Bootloader Mode.
             debug_println("hf2 start");
             send_hf2_response(pkt, 0);
-            if (target_get_startup_mode() == APPLICATION_MODE) {
-                target_manifest_bootloader();  //  Never returns.
+            if (boot_target_get_startup_mode() == APPLICATION_MODE) {
+                boot_target_manifest_bootloader();  //  Never returns.
             }
             return;
 
@@ -169,9 +169,9 @@ static void handle_command(HF2_Buffer *pkt) {
             send_hf2_response(pkt, 0);
 
             //  Don't allow flashing in Application Mode.  Reboot to Bootloader Mode.
-            if (target_get_startup_mode() == APPLICATION_MODE) {
+            if (boot_target_get_startup_mode() == APPLICATION_MODE) {
                 debug_println("hf2 boot");
-                target_manifest_bootloader();  //  Never returns.
+                boot_target_manifest_bootloader();  //  Never returns.
             }
             //  Write the flash page if valid.
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
@@ -183,9 +183,9 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Sent by MakeCode to fetch the flash memory contents.
             debug_println("hf2 read");
             //  Don't allow reading in Application Mode.  Reboot to Bootloader Mode.
-            if (target_get_startup_mode() == APPLICATION_MODE) {
+            if (boot_target_get_startup_mode() == APPLICATION_MODE) {
                 debug_println("hf2 boot");
-                target_manifest_bootloader();  //  Never returns.
+                boot_target_manifest_bootloader();  //  Never returns.
             }
             checkDataSize(read_words, 0);
             int num_words = cmd->read_words.num_words;
@@ -238,7 +238,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     //  static HF2_Buffer *pkt = &hf2_buffer;
     static HF2_Buffer *pkt = NULL;
     if (!pkt) {
-        pkt = (target_get_startup_mode() == BOOTLOADER_MODE) ?
+        pkt = (boot_target_get_startup_mode() == BOOTLOADER_MODE) ?
             &hf2_buffer :
             (HF2_Buffer *) &hf2_buffer_mini;
         debug_print("pkt "); debug_printhex_unsigned((size_t) pkt); debug_println("");
@@ -380,7 +380,7 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
     connected_func = connected_func0;
     //  test_hf2(); ////
     //  Note: hf2_buffer is not initialised to 0 because it's not in the BSS section.  We init here.
-    if (target_get_startup_mode() == BOOTLOADER_MODE) {
+    if (boot_target_get_startup_mode() == BOOTLOADER_MODE) {
         memset(&hf2_buffer, 0, sizeof(hf2_buffer));
     }
     int status = aggregate_register_config_callback(usbd_dev, hf2_set_config);
@@ -436,7 +436,7 @@ static void test_hf2(void) {
     debug_printhex(strlen(infoUf2File));
     debug_println("");
 
-    if (target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
+    if (boot_target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
 
     debug_print("hf2_buffer ");
     debug_printhex_unsigned((size_t) &hf2_buffer);

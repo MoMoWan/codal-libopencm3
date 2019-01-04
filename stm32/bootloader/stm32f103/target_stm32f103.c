@@ -61,14 +61,14 @@ static bool validate_application(void) {
     return false;
 }
 
-enum StartupMode target_get_startup_mode(void) {
+enum StartupMode boot_target_get_startup_mode(void) {
     //  Get the startup mode: Bootloader or Application.
     //  return BOOTLOADER_MODE; ////
     
     if (startup_mode != UNKNOWN_MODE) { return startup_mode; }
     bool appValid = false;
     appValid = validate_application();
-    if (target_get_force_bootloader()) {
+    if (boot_target_get_force_bootloader()) {
         //  Go to Bootloader Mode if we were requested by MakeCode to run as bootloader.
         debug_println("----bootloader mode (forced)");
         startup_mode = BOOTLOADER_MODE;
@@ -84,7 +84,7 @@ enum StartupMode target_get_startup_mode(void) {
     return startup_mode;
 }
 
-void target_set_led(int on) {
+void boot_target_set_led(int on) {
 #if HAVE_LED
         if ((on && LED_OPEN_DRAIN) || (!on && !LED_OPEN_DRAIN)) {
             gpio_clear(LED_GPIO_PORT, LED_GPIO_PIN);
@@ -102,7 +102,7 @@ static void sleep_us(int us){
     }
 }
 
-void target_gpio_setup(void) {
+void boot_target_gpio_setup(void) {
     /* Enable GPIO and USB clocks */
     rcc_periph_clock_enable(RCC_GPIOA);  //  USB on PA11, PA12.
     rcc_periph_clock_enable(RCC_GPIOB);
@@ -167,7 +167,7 @@ void target_gpio_setup(void) {
     sleep_us(20000);
 }
 
-const usbd_driver* target_usb_init(void) {
+const usbd_driver* boot_target_usb_init(void) {
     rcc_periph_reset_pulse(RST_USB);
 
 #if HAVE_USB_PULLUP_CONTROL
@@ -189,23 +189,38 @@ const usbd_driver* target_usb_init(void) {
     return &st_usbfs_v1_usb_driver;
 }
 
-void target_manifest_app(void) {
+static restart_callback_type *restart_callback_func = NULL;
+
+void boot_target_set_restart_callback(restart_callback_type *func) {
+    //  Call this function when we need to restart.  Used in Application Mode only.
+    restart_callback_func = func;
+}
+
+void boot_target_manifest_app(void) {
     //  Restart into Application Mode to run the application.
     debug_force_flush();
     backup_write(BKP0, CMD_APP);
-    //  TODO: In Application Mode, send a restart request.
-    scb_reset_system();
+    //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
+    if (restart_callback_func) { 
+        restart_callback_func(); 
+        return;
+    }
+    scb_reset_system();  //  Otherwise restart now.
 }
 
-void target_manifest_bootloader(void) {
+void boot_target_manifest_bootloader(void) {
     //  Restart into Bootloader Mode to run the bootloader.
     debug_force_flush();
     backup_write(BKP0, CMD_BOOT);
-    //  TODO: In Application Mode, send a restart request.
-    scb_reset_system();
+    //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
+    if (restart_callback_func) { 
+        restart_callback_func(); 
+        return;
+    }
+    scb_reset_system();  //  Otherwise restart now.
 }
 
-bool target_get_force_app(void) {
+bool boot_target_get_force_app(void) {
     //  Return true if we should run the application at startup.
     //  Note: Should not be called twice because it changes the backup registers.
     if (backup_read(BKP0) == CMD_APP) {
@@ -215,7 +230,7 @@ bool target_get_force_app(void) {
     return false;
 }
 
-bool target_get_force_bootloader(void) {
+bool boot_target_get_force_bootloader(void) {
     //  Return true if we should run the bootloader at startup.
     //  Note: Should not be called twice because it changes the backup registers.
     bool force = false;
@@ -251,7 +266,7 @@ bool target_get_force_bootloader(void) {
     return force;
 }
 
-void target_get_serial_number(char* dest, size_t max_chars) {
+void boot_target_get_serial_number(char* dest, size_t max_chars) {
     desig_get_unique_id_as_string(dest, max_chars+1);
 }
 
@@ -265,18 +280,18 @@ static uint16_t* get_flash_end(void) {
 #endif
 }
 
-size_t target_get_max_firmware_size(void) {
+size_t boot_target_get_max_firmware_size(void) {
     uint8_t* flash_end = (uint8_t*)get_flash_end();
     uint8_t* flash_start = (uint8_t*)(APP_BASE_ADDRESS);
 
     return (flash_end >= flash_start) ? (size_t)(flash_end - flash_start) : 0;
 }
 
-void target_flash_unlock(void) {
+void boot_target_flash_unlock(void) {
     flash_unlock();
 }
 
-void target_flash_lock(void) {
+void boot_target_flash_lock(void) {
     flash_lock();
 }
 
@@ -284,7 +299,7 @@ static inline uint16_t* get_flash_page_address(uint16_t* dest) {
     return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
 }
 
-bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
+bool boot_target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
     bool verified = true;
 
     /* Remember the bounds of erased data in the current page */
@@ -333,7 +348,7 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
     #endif  //  FLASH_SIZE_OVERRIDE
     
     //  #define USE_HSI 1
-    void target_clock_setup(void) {
+    void boot_target_clock_setup(void) {
     #ifdef USE_HSI
         /* Set the system clock to 48MHz from the internal RC oscillator.
         The clock tolerance doesn't meet the official USB spec, but
@@ -345,7 +360,7 @@ bool target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t hal
     #endif
     }
 
-    void target_relocate_vector_table(void) {
+    void boot_target_relocate_vector_table(void) {
         SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
     }
 #endif  //  NOTUSED

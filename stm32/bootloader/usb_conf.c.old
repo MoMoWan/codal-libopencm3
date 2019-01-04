@@ -292,7 +292,7 @@ static uint8_t usbd_control_buffer[USB_CONTROL_BUF_SIZE];
 usbd_device* usb_setup(void) {
     int num_strings = sizeof(usb_strings) / sizeof(const char*);
     debug_print("usb_setup num_strings "); debug_print_int(num_strings); debug_println(""); debug_flush(); ////
-    const usbd_driver* driver = target_usb_init();
+    const usbd_driver* driver = boot_target_usb_init();
 	msc_dev = usbd_init(driver, &dev_descr, &config_descr,
         usb_strings, 3,
         usbd_control_buffer, sizeof(usbd_control_buffer));
@@ -308,7 +308,7 @@ usbd_device* usb_setup(void) {
         UF2_NUM_BLOCKS, read_block, write_block);
 #endif  //  RAM_DISK		
 
-    ////dfu_setup(usbd_dev, &target_manifest_app, NULL, NULL);
+    ////dfu_setup(usbd_dev, &boot_target_manifest_app, NULL, NULL);
 
 	usb21_setup(msc_dev, &bos_descriptor);
 	webusb_setup(msc_dev, origin_url);

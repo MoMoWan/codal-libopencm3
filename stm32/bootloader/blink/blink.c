@@ -34,16 +34,16 @@ int main(void) {
     debug_println("----firmware");  debug_flush();
 
     //  Clock already setup in platform_setup()
-    //  target_clock_setup();
+    //  boot_target_clock_setup();
 
     /* Initialize GPIO/LEDs if needed */
-    target_gpio_setup();
+    boot_target_gpio_setup();
 
         while (1) {
             debug_println("firmware loop");  debug_flush();
-            target_set_led(1);
+            boot_target_set_led(1);
             delay(1);
-            target_set_led(0);
+            boot_target_set_led(0);
             delay(1);
         }
     
