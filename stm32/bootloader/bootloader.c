@@ -21,14 +21,15 @@
 pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 */
 //  #define DISABLE_DEBUG ////
+#define EXCLUDE_PLATFORM_FUNCTIONS  //  Bootloader should not call any HAL platform functions.
 #include <string.h>
 #include <libopencm3/cm3/vector.h>
+#include <libopencm3/cm3/scb.h>
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/msc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <bluepill/bluepill.h>
 #include <logger/logger.h>
-#define EXCLUDE_PLATFORM_FUNCTIONS  //  Bootloader should not call any HAL platform functions.
 #include <hal/platform_includes.h>
 #include "bootloader.h"
 #include "target.h"
@@ -116,11 +117,20 @@ int bootloader_set_restart_callback(restart_callback_type *func) {
     return 0;
 }
 
+static bool poll_restart_requested = false;
+
+int poll_restart_callback(void) {
+    //  Call this function when we need to restart during polling.
+    debug_println("restart callback");  debug_flush(); 
+    poll_restart_requested = true;
+    return 0;
+}
+
 static void poll_loop(void) {
     //  Loop forever polling for USB requests.  Never returns.
-    debug_println("usbd polling...");  debug_flush();  ////
-    // test_hf2();
-    // test_backup();          //  Test backup.
+    debug_println("usbd polling...");  debug_flush();  debug_flush();  // test_hf2(); test_backup();          //  Test backup.
+    //  When bootloader wants to restart, wait for the context to be switched to this poll loop before flushing the log and restarting.
+    boot_target_set_restart_callback(poll_restart_callback);
     while (true) {
         //  Handle the next USB request.
         usbd_poll(usbd_dev);
@@ -136,8 +146,12 @@ static void poll_loop(void) {
 
             //  Flush the debug log here.  Arm Semihosting logging will interfere with USB processing.
             if (flushCount++ % 1000 == 0 && get_usb_status() == 0) {  //  If USB is not busy...
-                get_usb_status(); ////
                 debug_flush(); 
+                if (poll_restart_requested) {  //  Flush the log and restart.
+                    debug_println("restarting...");
+                    debug_force_flush();
+                    scb_reset_system();
+                }
             }
 
             //  TODO: If a valid application has just been flashed, restart and run it.
