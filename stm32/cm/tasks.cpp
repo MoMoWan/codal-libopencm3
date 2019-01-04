@@ -22,8 +22,17 @@ static bool restart_requested = false;
 
 static void restart_handler(codal::Event evt) {
     //  Handle a restart request.  Flush the log then restart.
+    debug_println("restart handler");
     if (evt.value != CM_EVT_RESTART) { return; }
     restart_requested = true;
+
+    debug_println("restarting...");
+    debug_force_flush();
+    codal::fiber_sleep(5000);
+
+    debug_println("done");
+    debug_force_flush();
+    scb_reset_system();
 }
 
 int restart_callback(void) {
@@ -44,18 +53,12 @@ int restart_callback(void) {
 
 static void flush_task(void) {
     //  Flush the log periodically.
+    debug_println("flush task");
     while (true) {
         debug_flush();
         codal::fiber_sleep(200);
 
         if (restart_requested) {
-            debug_println("restarting...");
-            debug_force_flush();
-            codal::fiber_sleep(5000);
-
-            debug_println("done");
-            debug_force_flush();
-            scb_reset_system();
         }
     }
 }
@@ -63,8 +66,11 @@ static void flush_task(void) {
 int start_background_tasks(void) {
     //  Start the background tasks to flush the log and wait for restart requests.
     if (flush_task_fibre) { return 0; }
+    debug_println("start bg tasks");
     flush_task_fibre = codal::create_fiber(flush_task);
-
+    if (!flush_task_fibre) {
+        debug_println("*** ERROR: create fibre failed");
+    }
     //  Listen for restart requests.
     if (!codal::EventModel::defaultEventBus) {
         debug_println("*** ERROR: missing event bus");

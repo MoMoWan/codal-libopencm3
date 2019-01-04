@@ -16,18 +16,22 @@ namespace codal
     {
         Timer *Timer::instance;
         static CODAL_TIMESTAMP trigger_period;
+        static CODAL_TIMESTAMP last_trigger;
 
+#ifdef NOTUSED
         //  cocoOS context and objects.
         static struct TimerContext {
         } context;
         static Sem_t timer_semaphore;
         static void timer_task(void);
+#endif  //  NOTUSED
 
         Timer::Timer() : codal::Timer() {
             initialised = false;
             instance = this;
             prev = 0;
             trigger_period = 0;
+            last_trigger = 0;
         }
 
         extern "C" void TIM5_IRQHandler() {
@@ -49,8 +53,13 @@ namespace codal
         void tick_callback() {
             //  Will be called at every millisecond tick.  Needed to keep CODAL scheduler running.
             //  Warning: This is called from an Interrupt Service Routine.  Don't trigger any interrupts or call slow functions.
-            //  TODO: if (!Timer::instance) { return; }  //  No timer to trigger, quit.
-            //  TODO: Timer::instance->trigger();        //  Trigger the CODAL Scheduler.
+            if (!Timer::instance) { return; }  //  No timer to trigger, quit.
+            CODAL_TIMESTAMP now = millis();
+            //  If we have exceed the tick period (4 millisec)...
+            if (last_trigger + (SCHEDULER_TICK_PERIOD_US / 1000) <= now) {
+                last_trigger = now;
+                Timer::instance->trigger();  //  Trigger the CODAL Scheduler.
+            }
         }
 
         void alarm_callback() {
@@ -66,6 +75,7 @@ namespace codal
             initialised = true;
             prev = millis();
 
+#ifdef NOTUSED
             //  Create a semaphore to signal the Timer Task for a alarm or tick interrupt.
             timer_semaphore = sem_bin_create(0);  //  Binary Semaphore: Will wait until signalled.
 
@@ -75,6 +85,7 @@ namespace codal
                 &context,     //  task_get_data() will be set to the context object.
                 20,           //  Priority 20
                 NULL, 0, 0);
+#endif  //  NOTUSED
 
             //  Set the callbacks that will signal the Timer Task via Semaphore.
             target_set_tick_callback(tick_callback);
@@ -158,6 +169,7 @@ namespace codal
             target_wait_us(us);
         }
 
+#ifdef NOTUSED
         static void timer_task(void) {
             //  cocoOS task that runs forever waiting for the timer semaphore to be signalled by the alarm and tick interrupts.
             task_open();  //  Start of the task. Must be matched with task_close().  
@@ -169,6 +181,7 @@ namespace codal
             }
             task_close();  //  End of the task. Should not come here.
         }
+#endif  //  NOTUSED
 
     }  //  namespace _cm
 
