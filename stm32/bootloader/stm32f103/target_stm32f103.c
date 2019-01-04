@@ -193,6 +193,7 @@ static restart_callback_type *restart_callback_func = NULL;
 
 void boot_target_set_restart_callback(restart_callback_type *func) {
     //  Call this function when we need to restart.  Used in Application Mode only.
+    debug_print("set restart callback "); debug_printhex_unsigned((size_t) func); debug_println("");
     restart_callback_func = func;
 }
 

@@ -113,8 +113,8 @@ static uint16_t write_all_output(
     //  Write the buffer to all outputs: Arm Semihosting, USB Serial, HF2, ...
     //  We must flush as quickly as possible and USB Serial can only handle 64 bytes, so we just flush the next 60 bytes.
     //  Return the number of bytes flushed.
-    //  if (!forced && target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine, unless it's forced.
-    if (target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine
+    if (!forced && target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine, unless it's forced.
+    //  if (target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine
     uint16_t outlen = (len > MAX_OUTPUT_LENGTH) ? MAX_OUTPUT_LENGTH : len;
 
     semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, outlen);
