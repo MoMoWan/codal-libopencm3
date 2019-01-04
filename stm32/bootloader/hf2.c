@@ -374,12 +374,12 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
         memset(&hf2_buffer, 0, sizeof(hf2_buffer));
     }
     int status = aggregate_register_config_callback(usbd_dev, hf2_set_config);
-    if (status < 0) { debug_println("*** hf2_setup failed"); debug_flush(); }
+    if (status < 0) { debug_println("*** hf2_setup failed"); }
 }
 
 static void assert(bool assertion, const char *msg) {
     if (assertion) { return; }
-    debug_print("*** ERROR: "); debug_println(msg); debug_flush();
+    debug_print("*** ERROR: "); debug_println(msg);
 }
 
 #define MURMUR3 0
