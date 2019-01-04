@@ -249,17 +249,6 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     int size = tag & HF2_SIZE_MASK;
     usb_assert(pkt->size + size <= (int) HF2_BUF_SIZE /* Was sizeof(pkt->buf) */, bad_packet_message);
 
-    //  If pkt->size = 0 (first packet of message) and 
-    //  cmd = BININFO (0x0001), INFO (0x0002), RESET INTO APP (0x0003), 
-    //        RESET INTO (0x0004) or START FLASH (0x0005)
-    //  then use smaller packet in case we are running in Application Mode.
-    if ((pkt->size == 0) && 
-        (tag && HF2_FLAG_CMDPKT_LAST) && 
-        cmd >= 1 && cmd <= 5) {
-        debug_print("small pkt "); debug_printhex(cmd);
-        debug_print(", len "); debug_printhex(size);
-        debug_println("");
-    }
     //  Populate the packet.
     memcpy(pkt->buf + pkt->size, rx_buf + 1, size);
     pkt->size += size;
@@ -362,7 +351,8 @@ static void pokeSend(
         } else {
             remDataToSendLength = 0;  //  No more data to send.
         }
-        dump_buffer("hf2pkt >>", tx_buf, s + 1);  // debug_print("hf2pkt >> "); debug_printhex(s + 1); debug_println(""); ////
+        //  dump_buffer("hf2 resp >>", tx_buf, s + 1);  // 
+        debug_print("hf2 resp >> "); debug_printhex(s + 1); debug_println(""); ////
     }
 }
 
