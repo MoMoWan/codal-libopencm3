@@ -46,11 +46,13 @@
 #define BOOTLOADER_END_ADDR   0x08006800  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
 #endif  //  PLATFORMIO
 
-#ifndef EXCLUDE_PLATFORM_FUNCTIONS  //  Bootloader should not call any HAL platform functions.
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void target_set_bootloader_callback(int (*bootloader_callback0)());
+
+#ifndef EXCLUDE_PLATFORM_FUNCTIONS  //  Bootloader should not call any HAL platform functions.
 //  TODO: Sync with lib/codal-core/inc/core/codal_target_hal.h
 void target_enable_irq();
 void target_disable_irq();
@@ -84,24 +86,22 @@ PROCESSOR_WORD_TYPE get_current_sp();
 PROCESSOR_WORD_TYPE tcb_get_sp(void* tcb);
 void tcb_configure_args(void* tcb, PROCESSOR_WORD_TYPE ep, PROCESSOR_WORD_TYPE cp, PROCESSOR_WORD_TYPE pm);
 
-//  Additional Functions for Blue Pill.
+//  Additional Functions for codal-libopencm3
 void target_enable_debug(void);  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
 void target_disable_debug(void);  //  Disable display of debug messages.  For use in production devices.
 void target_init(void);
 void target_set_tick_callback(void (*timer_callback0)());
 void target_set_alarm_callback(void (*alarm_callback0)());
-void target_set_bootloader_callback(int (*bootloader_callback0)());
 void target_enter_sleep_mode(void);
 void target_enter_deep_sleep_stop_mode(void);
 void target_enter_deep_sleep_standby_mode(void);
 void target_dmesg_flush(void);
 uint32_t target_in_isr(void);
+#endif  //  EXCLUDE_PLATFORM_FUNCTIONS
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif  //  EXCLUDE_PLATFORM_FUNCTIONS
 
 #define CODAL_ASSERT(cond)                                                                         \
     if (!(cond))                                                                                   \
