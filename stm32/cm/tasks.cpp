@@ -5,15 +5,23 @@
 #include <core/EventModel.h>
 #include "tasks.h"
 
+enum CM_SOURCE {
+    //  22569-22570 are used by https://github.com/lupyuen/microbit-sigfox/blob/master/task.ts
+    CM_SOURCE_BOOTLOADER = 22580,   //  Bootloader
+};
+
 enum CM_EVT {
-    //  Event IDs must be above 1024.  220569-220570 are used by https://github.com/lupyuen/microbit-sigfox/blob/master/task.ts
-    CM_EVT_RESTART = 22580,   //  Restart the device.
+    //  Event IDs must be above 1024.
+    CM_EVT_RESTART = 2205,   //  Restart the device.
 };
 
 static codal::Fiber *flush_task_fibre = NULL;
+static codal::Event restart_event(  //  This event will be triggered for a restart request.
+    CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, codal::CREATE_ONLY);
 
 static void restart_handler(codal::Event evt) {
     //  Handle a restart request.  Flush the log then restart.
+    if (evt.value != CM_EVT_RESTART) { return; }
     debug_println("restarting...");
     debug_force_flush();
     scb_reset_system();
@@ -26,7 +34,6 @@ int restart_callback(void) {
         debug_println("*** ERROR: missing event bus");
         return -1;
     }
-    codal::Event restart_event(0, CM_EVT_RESTART, codal::CREATE_ONLY);
     int status = codal::EventModel::defaultEventBus->send(restart_event);
     if (status) {
         debug_print("*** ERROR: unable to send restart event ");
@@ -55,7 +62,7 @@ int start_background_tasks(void) {
         return -1;
     }
     int status = codal::EventModel::defaultEventBus->listen(
-        DEVICE_ID_ANY, CM_EVT_RESTART, restart_handler);
+        CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, restart_handler);
     if (status) {
         debug_print("*** ERROR: unable to listenfor restart event ");
         debug_print_unsigned(status); debug_println("");

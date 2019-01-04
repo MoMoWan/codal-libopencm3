@@ -46,31 +46,22 @@
 #define BOOTLOADER_END_ADDR   0x08006800  //  TODO: Sync with https://github.com/lupyuen/bluepill-bootloader/blob/master/src/stm32f103/stm32f103x8.ld
 #endif  //  PLATFORMIO
 
+#ifndef EXCLUDE_PLATFORM_FUNCTIONS  //  Bootloader should not call any HAL platform functions.
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 //  TODO: Sync with lib/codal-core/inc/core/codal_target_hal.h
 void target_enable_irq();
-
 void target_disable_irq();
-
 void target_reset();
-
 void target_wait(unsigned long milliseconds);
-
 void target_wait_us(unsigned long us);
-
 int target_seed_random(uint32_t rand);
-
 int target_random(int max);
-
 uint32_t target_get_serial();
-
 void target_wait_for_event();
-
 void target_panic(int statusCode);
-
 PROCESSOR_WORD_TYPE fiber_initial_stack_base();
 /**
      * Configures the link register of the given tcb to have the value function.
@@ -79,9 +70,7 @@ PROCESSOR_WORD_TYPE fiber_initial_stack_base();
      * @param function the function the link register should point to.
      */
 void tcb_configure_lr(void* tcb, PROCESSOR_WORD_TYPE function);
-
 void* tcb_allocate();
-
 /**
      * Configures the link register of the given tcb to have the value function.
      *
@@ -89,15 +78,10 @@ void* tcb_allocate();
      * @param function the function the link register should point to.
      */
 void tcb_configure_sp(void* tcb, PROCESSOR_WORD_TYPE sp);
-
 void tcb_configure_stack_base(void* tcb, PROCESSOR_WORD_TYPE stack_base);
-
 PROCESSOR_WORD_TYPE tcb_get_stack_base(void* tcb);
-
 PROCESSOR_WORD_TYPE get_current_sp();
-
 PROCESSOR_WORD_TYPE tcb_get_sp(void* tcb);
-
 void tcb_configure_args(void* tcb, PROCESSOR_WORD_TYPE ep, PROCESSOR_WORD_TYPE cp, PROCESSOR_WORD_TYPE pm);
 
 //  Additional Functions for Blue Pill.
@@ -117,6 +101,8 @@ uint32_t target_in_isr(void);
 }
 #endif
 
+#endif  //  EXCLUDE_PLATFORM_FUNCTIONS
+
 #define CODAL_ASSERT(cond)                                                                         \
     if (!(cond))                                                                                   \
     target_panic(909)
@@ -124,8 +110,5 @@ uint32_t target_in_isr(void);
 #define MBED_ASSERT CODAL_ASSERT
 #define MBED_ERROR(msg) CODAL_ASSERT(0)
 #define MBED_WEAK __attribute__((weak))
-
-// extern PROCESSOR_WORD_TYPE _data;   //  Start of Data segment.
-// extern PROCESSOR_WORD_TYPE _stack;  //  Start of Stack segment (grows downwards).
 
 #endif  //  PLATFORM_INCLUDES_H_

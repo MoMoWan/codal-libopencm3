@@ -28,6 +28,7 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include <libopencm3/stm32/gpio.h>
 #include <bluepill/bluepill.h>
 #include <logger/logger.h>
+#define EXCLUDE_PLATFORM_FUNCTIONS  //  Bootloader should not call any HAL platform functions.
 #include <hal/platform_includes.h>
 #include "bootloader.h"
 #include "target.h"
@@ -111,7 +112,7 @@ volatile int bootloader_status(void) {
 
 int bootloader_set_restart_callback(restart_callback_type *func) {
     //  Call this function when we need to restart.
-    target_set_bootloader_callback(func);
+    boot_target_set_restart_callback(func);
     return 0;
 }
 
