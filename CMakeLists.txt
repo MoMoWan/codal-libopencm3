@@ -28,6 +28,7 @@ message("CODAL_CORE_DIR: ${CODAL_CORE_DIR}")
 # find codal-core sources and headers.
 # RECURSIVE_FIND_DIR(CODAL_CORE_INC "${CODAL_CORE_DIR}/inc" "*.h")
 set(CODAL_CORE_INC
+    "${CODAL_CORE_DIR}/inc"
     "${CODAL_CORE_DIR}/inc/core"
     "${CODAL_CORE_DIR}/inc/driver-models"
     "${CODAL_CORE_DIR}/inc/drivers"
