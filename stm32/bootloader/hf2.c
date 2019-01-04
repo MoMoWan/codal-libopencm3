@@ -110,7 +110,7 @@ static void handle_command(HF2_Buffer *pkt) {
     switch (cmdId) {
         case HF2_CMD_INFO: {
             //  MakeCode sends this command first to identify the device. We return the INFO_UF2.TXT file. 
-            debug_println("hf2 info");
+            debug_println("hf2 >> info");
             int info_size = strlen(infoUf2File);
             assert(info_size > 0, "empty hf2 info");
             assert((info_size + 4) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
@@ -123,7 +123,7 @@ static void handle_command(HF2_Buffer *pkt) {
             //  MakeCode sends this command next to get the mode of the device (Bootloader vs Application Mode) and flashing parameters.
             //  If device is in Application Mode, MakeCode sends HF2_CMD_START_FLASH before flashing.
             //  If device is in Bootloader Mode, MakeCode sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
-            debug_println("hf2 bininfo");
+            debug_println("hf2 >> bininfo");
             assert(sizeof(resp->bininfo) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
             resp->bininfo.mode = (boot_target_get_startup_mode() == BOOTLOADER_MODE) ?                        
                 HF2_MODE_BOOTLOADER :
@@ -137,7 +137,7 @@ static void handle_command(HF2_Buffer *pkt) {
         }
         case HF2_CMD_RESET_INTO_APP:
             //  Sent by MakeCode to restart into Application Mode.
-            debug_println("hf2 rst app");
+            debug_println("hf2 >> app");
             flash_flush();  //  Flush any pending flash writes.
             send_hf2_response(pkt, 0);
             boot_target_manifest_app();  //  Never returns.
@@ -145,14 +145,14 @@ static void handle_command(HF2_Buffer *pkt) {
 
         case HF2_CMD_RESET_INTO_BOOTLOADER:
             //  Sent by MakeCode to restart into Bootloader Mode.
-            debug_println("hf2 rst boot");
+            debug_println("hf2 >> boot");
             send_hf2_response(pkt, 0);
             boot_target_manifest_bootloader();  //  Never returns.
             return;
 
         case HF2_CMD_START_FLASH:
             //  Sent by MakeCode to begin flashing if we are in Application Mode.  We restart to Bootloader Mode.
-            debug_println("hf2 start");
+            debug_println("hf2 >> start");
             send_hf2_response(pkt, 0);
             if (boot_target_get_startup_mode() == APPLICATION_MODE) {
                 boot_target_manifest_bootloader();  //  Never returns.
@@ -164,13 +164,13 @@ static void handle_command(HF2_Buffer *pkt) {
             //  First send ACK and then start writing, while getting the next packet
             uint32_t target_addr = cmd->write_flash_page.target_addr;
             const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
-            debug_print("hf2 flash "); debug_printhex_unsigned((size_t) target_addr); debug_println("");  ////
+            debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_println("");  ////
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             send_hf2_response(pkt, 0);
 
             //  Don't allow flashing in Application Mode.  Reboot to Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) {
-                debug_println("hf2 boot");
+                debug_println("hf2 << boot");
                 boot_target_manifest_bootloader();  //  Never returns.
             }
             //  Write the flash page if valid.
@@ -181,10 +181,10 @@ static void handle_command(HF2_Buffer *pkt) {
         }
         case HF2_CMD_READ_WORDS: {
             //  Sent by MakeCode to fetch the flash memory contents.
-            debug_println("hf2 read");
+            debug_println("hf2 >> read");
             //  Don't allow reading in Application Mode.  Reboot to Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) {
-                debug_println("hf2 boot");
+                debug_println("hf2 << boot");
                 boot_target_manifest_bootloader();  //  Never returns.
             }
             checkDataSize(read_words, 0);
@@ -204,7 +204,7 @@ static void handle_command(HF2_Buffer *pkt) {
 
         #if MURMUR3
             case HF2_CMD_MURMUR3:
-                debug_println("hf2 murmur");
+                debug_println("hf2 >> murmur");
                 checkDataSize(murmur3, 0);
                 murmur3_core_2((void *)cmd->murmur3.target_addr, cmd->murmur3.num_words, resp->data32);
                 send_hf2_response(pkt, 8);
@@ -212,7 +212,7 @@ static void handle_command(HF2_Buffer *pkt) {
         #endif
         default:
             // command not understood
-            debug_print("hf2 unknown cmd "); debug_print_unsigned(cmdId); debug_println("");
+            debug_print("hf2 >> unknown "); debug_print_unsigned(cmdId); debug_println("");
             resp->status16 = HF2_STATUS_INVALID_CMD;
             break;
     }
@@ -241,7 +241,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
         pkt = (boot_target_get_startup_mode() == BOOTLOADER_MODE) ?
             &hf2_buffer :
             (HF2_Buffer *) &hf2_buffer_mini;
-        debug_print("pkt "); debug_printhex_unsigned((size_t) pkt); debug_println("");
+        //  debug_print("pkt "); debug_printhex_unsigned((size_t) pkt); debug_println("");
     }
 
     // serial packets not allowed when in middle of command packet
@@ -307,7 +307,7 @@ int hf2_transmit(
 
     //  Send the packet.
     usbd_ep_write_packet(_usbd_dev, HF2_IN, tx_buf, sizeof(tx_buf));
-    dump_buffer("hf2ser >>", tx_buf, s + 1);
+    dump_buffer("hf2 <<", tx_buf, s + 1);
     // debug_print("hf2ser >> "); debug_printhex(s + 1); debug_println(""); ////
     return s;
 }
@@ -351,8 +351,8 @@ static void pokeSend(
         } else {
             remDataToSendLength = 0;  //  No more data to send.
         }
-        if (s < 30) { dump_buffer("hf2 resp >>", tx_buf, s + 1); }
-        else { debug_print("hf2 resp >> "); debug_printhex(s + 1); debug_println(""); }
+        if (s < 30) { dump_buffer("hf2 <<", tx_buf, s + 1); }
+        else { debug_print("hf2 << "); debug_printhex(s + 1); debug_println(""); }
     }
 }
 
