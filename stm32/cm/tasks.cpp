@@ -66,7 +66,7 @@ static void flush_task(void) {
 int start_background_tasks(void) {
     //  Start the background tasks to flush the log and wait for restart requests.
     if (flush_task_fibre) { return 0; }
-    debug_println("start bg tasks");
+    debug_print("start bg tasks "); debug_print_unsigned(codal::fiber_scheduler_running()); debug_println("");
     flush_task_fibre = codal::create_fiber(flush_task);
     if (!flush_task_fibre) {
         debug_println("*** ERROR: create fibre failed");
