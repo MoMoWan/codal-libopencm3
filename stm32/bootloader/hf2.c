@@ -351,8 +351,8 @@ static void pokeSend(
         } else {
             remDataToSendLength = 0;  //  No more data to send.
         }
-        //  dump_buffer("hf2 resp >>", tx_buf, s + 1);  // 
-        debug_print("hf2 resp >> "); debug_printhex(s + 1); debug_println(""); ////
+        if (s < 30) { dump_buffer("hf2 resp >>", tx_buf, s + 1); }
+        else { debug_print("hf2 resp >> "); debug_printhex(s + 1); debug_println(""); }
     }
 }
 
