@@ -150,6 +150,12 @@ static void poll_loop(void) {
                 if (poll_restart_requested) {  //  Flush the log and restart.
                     debug_println("restarting...");
                     debug_force_flush();
+
+                    const int us = 1000 * 1000;
+                    for (int i = 0; i < us*10; i++) { __asm__("nop"); }
+                    debug_println("done");
+                    debug_force_flush();
+
                     scb_reset_system();
                 }
             }
