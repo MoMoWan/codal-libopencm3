@@ -124,11 +124,11 @@ static void handle_command(HF2_Buffer *pkt) {
         }
         case HF2_CMD_INFO: {
             //  MakeCode sends this command next to identify the device. We return the INFO_UF2.TXT file. 
-            //  If device is in Application Mode, MakeCode sends HF2_CMD_START_FLASH before flashing.
+            //  If device is in Application Mode, we restart to Bootloader Mode.  MakeCode sends HF2_CMD_START_FLASH before flashing.
             //  If device is in Bootloader Mode, MakeCode sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
             debug_println("hf2 >> info");
 
-            //  After last packet has been sent, restart into Bootloader Mode to handle HF2_CMD_START_FLASH, which doesn't wait for restart.
+            //  After last info packet has been sent, restart into Bootloader Mode to handle HF2_CMD_START_FLASH, which doesn't wait for restart.
             if (boot_target_get_startup_mode() == APPLICATION_MODE && 
                 boot_target_get_forced_startup_mode() == UNKNOWN_MODE) {  //  If we were just forced by bootloader to restart in Application Mode, don't restart because we have just completed flashing.
                 restart_request = BOOTLOADER_MODE;  //  Will restart in the tx callback after the last packet has been sent.
@@ -144,21 +144,21 @@ static void handle_command(HF2_Buffer *pkt) {
             return;
         }
         case HF2_CMD_START_FLASH: {
-            //  Sent by MakeCode to begin flashing if we are in Application Mode.  We restart to Bootloader Mode.
+            //  Sent by MakeCode to begin flashing if we are in Bootloader Mode.
             debug_println("hf2 >> start");
 
-            //  Don't allow flashing in Application Mode.  After last packet has been sent, restart into Bootloader Mode.
+            //  Don't allow flashing in Application Mode.  Restart now into Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
                 boot_target_manifest_bootloader();  //  Never returns.
                 return;
-                ////restart_request = BOOTLOADER_MODE; 
             }
-
-            send_hf2_response(pkt, 0);
+            //  No response needed.
+            //  send_hf2_response(pkt, 0);
             debug_force_flush(); ////
         }
         case HF2_CMD_WRITE_FLASH_PAGE: {
             //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
+            //  When all pages have been flashed, MakeCode sends HF2_CMD_RESET_INTO_APP to restart into Application Mode.
             uint32_t target_addr = cmd->write_flash_page.target_addr;
             const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
             const char *valid = VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) ? " " : " !!! ";
@@ -181,6 +181,25 @@ static void handle_command(HF2_Buffer *pkt) {
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
                 flash_write(target_addr, data, HF2_PAGE_SIZE);
             }
+            return;
+        }
+        case HF2_CMD_RESET_INTO_APP: {
+            //  Sent by MakeCode to restart into Application Mode after flashing.
+            debug_println("hf2 >> app");
+            flash_flush();  //  Flush any pending flash writes.
+            restart_request = APPLICATION_MODE;
+
+            send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
+            return;
+        }
+        case HF2_CMD_RESET_INTO_BOOTLOADER: {
+            //  Sent by MakeCode to restart into Bootloader Mode.
+            debug_println("hf2 >> boot");
+            restart_request = BOOTLOADER_MODE;
+
+            send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
             return;
         }
         case HF2_CMD_READ_WORDS: {
