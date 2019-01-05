@@ -117,6 +117,7 @@ static void handle_command(HF2_Buffer *pkt) {
             memcpy(pkt->resp.data8, infoUf2File, info_size);
             //  This will first of 2 packets because info size is over 64 bytes.  The second packet will be sent by the tx callback.
             send_hf2_response(pkt, info_size);
+            debug_force_flush(); ////
             return;
         }
         case HF2_CMD_BININFO: {
@@ -133,6 +134,7 @@ static void handle_command(HF2_Buffer *pkt) {
             resp->bininfo.max_message_size = HF2_BUF_SIZE;  //  Previously sizeof(pkt->buf);
             resp->bininfo.uf2_family = UF2_FAMILY;
             send_hf2_response(pkt, sizeof(resp->bininfo));
+            debug_force_flush(); ////
             return;
         }
         case HF2_CMD_RESET_INTO_APP:
@@ -154,6 +156,8 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Sent by MakeCode to begin flashing if we are in Application Mode.  We restart to Bootloader Mode.
             debug_println("hf2 >> start");
             send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
+
             if (boot_target_get_startup_mode() == APPLICATION_MODE) {
                 boot_target_manifest_bootloader();  //  Never returns.
             }
@@ -358,7 +362,9 @@ static void pokeSend(
 
 static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wValue;
     //  Setup the endpoints to be bulk & register the callbacks.
-    LOG("HF2 config");
+    LOG("hf2 set config");
+    debug_force_flush(); ////
+    
     usbd_ep_setup(usbd_dev, HF2_IN, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_tx_cb);
     usbd_ep_setup(usbd_dev, HF2_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_rx_cb);
 }
@@ -367,8 +373,7 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
     //  Setup the HF2 USB interface.
     debug_print("flash allow "); debug_printhex_unsigned(USER_FLASH_START); debug_print(" to "); debug_printhex_unsigned(USER_FLASH_END); debug_println("");  //  Show the addresses that flashing is allowed.
     _usbd_dev = usbd_dev;
-    connected_func = connected_func0;
-    //  test_hf2(); ////
+    connected_func = connected_func0;  //  test_hf2(); ////
     //  Note: hf2_buffer is not initialised to 0 because it's not in the BSS section.  We init here.
     if (boot_target_get_startup_mode() == BOOTLOADER_MODE) {
         memset(&hf2_buffer, 0, sizeof(hf2_buffer));
