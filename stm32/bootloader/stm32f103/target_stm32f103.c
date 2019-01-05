@@ -219,8 +219,8 @@ void boot_target_manifest_bootloader(void) {
 
     // #define USB_CNTR_PWDN		0x0002 /* Power down */
     // #define USB_CNTR_FRES		0x0001 /* Force reset */
-	*USB_CNTR_REG |= USB_CNTR_PWDN;
-	// *USB_CNTR_REG |= USB_CNTR_FRES;
+	// *USB_CNTR_REG |= USB_CNTR_PWDN; /* Power down */
+	*USB_CNTR_REG |= USB_CNTR_FRES; /* Force reset */
 
     sleep_us(20000); ////
 
