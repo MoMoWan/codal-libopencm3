@@ -217,12 +217,13 @@ void boot_target_manifest_bootloader(void) {
     debug_println("boot bootloader"); debug_force_flush(); ////
     backup_write(BKP0, CMD_BOOT);
 
+	boot_target_usb_init(); ////
+
     // #define USB_CNTR_PWDN		0x0002 /* Power down */
     // #define USB_CNTR_FRES		0x0001 /* Force reset */
 	// *USB_CNTR_REG |= USB_CNTR_PWDN; /* Power down */
-	*USB_CNTR_REG |= USB_CNTR_FRES; /* Force reset */
-
-    sleep_us(20000); ////
+	// *USB_CNTR_REG |= USB_CNTR_FRES; /* Force reset */
+    // sleep_us(20000); ////
 
 #ifdef NOTUSED
     //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
