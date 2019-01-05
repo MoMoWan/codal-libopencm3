@@ -129,7 +129,10 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_println("hf2 >> info");
 
             //  After last packet has been sent, restart into Bootloader Mode to handle HF2_CMD_START_FLASH, which doesn't wait for restart.
-            if (boot_target_get_startup_mode() == APPLICATION_MODE) { restart_request = BOOTLOADER_MODE; }
+            if (boot_target_get_startup_mode() == APPLICATION_MODE && 
+                boot_target_get_forced_startup_mode() == UNKNOWN_MODE) {  //  If we were just forced by bootloader to restart in Application Mode, don't restart because we have just completed flashing.
+                restart_request = BOOTLOADER_MODE;  //  Will restart in the tx callback after the last packet has been sent.
+            }
 
             int info_size = strlen(infoUf2File);
             assert(info_size > 0, "empty hf2 info");
@@ -140,31 +143,16 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_force_flush(); ////
             return;
         }
-        case HF2_CMD_RESET_INTO_APP: {
-            //  Sent by MakeCode to restart into Application Mode.
-            debug_println("hf2 >> app");
-            flash_flush();  //  Flush any pending flash writes.
-            restart_request = APPLICATION_MODE;
-
-            send_hf2_response(pkt, 0);
-            debug_force_flush(); ////
-            return;
-        }
-        case HF2_CMD_RESET_INTO_BOOTLOADER: {
-            //  Sent by MakeCode to restart into Bootloader Mode.
-            debug_println("hf2 >> boot");
-            restart_request = BOOTLOADER_MODE;
-
-            send_hf2_response(pkt, 0);
-            debug_force_flush(); ////
-            return;
-        }
         case HF2_CMD_START_FLASH: {
             //  Sent by MakeCode to begin flashing if we are in Application Mode.  We restart to Bootloader Mode.
             debug_println("hf2 >> start");
 
             //  Don't allow flashing in Application Mode.  After last packet has been sent, restart into Bootloader Mode.
-            if (boot_target_get_startup_mode() == APPLICATION_MODE) { restart_request = BOOTLOADER_MODE; }
+            if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
+                boot_target_manifest_bootloader();  //  Never returns.
+                return;
+                ////restart_request = BOOTLOADER_MODE; 
+            }
 
             send_hf2_response(pkt, 0);
             debug_force_flush(); ////

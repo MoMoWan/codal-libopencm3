@@ -34,10 +34,9 @@ extern void boot_target_clock_setup(void);
 extern void boot_target_gpio_setup(void);
 extern void boot_target_set_led(int on);
 extern const usbd_driver* boot_target_usb_init(void);
-extern enum StartupMode boot_target_get_startup_mode(void);  //  Get the startup mode: Bootloader or Application.
+extern enum StartupMode boot_target_get_startup_mode(void);         //  Get the startup mode: Bootloader or Application.
+extern enum StartupMode boot_target_get_forced_startup_mode(void);  //  Get the forced startup mode: Bootloader or Application or Unknown.
 extern void boot_target_set_restart_callback(restart_callback_type *func);
-extern bool boot_target_get_force_bootloader(void);
-extern bool boot_target_get_force_app(void);
 extern void boot_target_manifest_app(void);
 extern void boot_target_manifest_bootloader(void);
 extern void boot_target_flash_unlock(void);
@@ -49,5 +48,7 @@ extern size_t boot_target_get_max_firmware_size(void);
 // extern void boot_target_pre_main(void);
 // extern void boot_target_log(const char* str);
 // extern void boot_target_relocate_vector_table(void);
+// extern bool boot_target_get_force_bootloader(void);
+// extern bool boot_target_get_force_app(void);
 
 #endif

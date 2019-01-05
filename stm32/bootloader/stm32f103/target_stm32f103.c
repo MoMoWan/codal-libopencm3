@@ -45,9 +45,10 @@
 #define USES_GPIOC 0
 #endif
 
-static const uint32_t CMD_BOOT = 0x544F4F42UL;
-static const uint32_t CMD_APP = 0x3f82722aUL;
-static enum StartupMode startup_mode = UNKNOWN_MODE;
+static const uint32_t CMD_BOOT = 0x544F4F42UL;  //  Forced startup into Bootloader Mode.
+static const uint32_t CMD_APP  = 0x3f82722aUL;  //  Forced startup into Application Mode.
+static enum StartupMode startup_mode        = UNKNOWN_MODE;  //  Current startup mode.
+static enum StartupMode forced_startup_mode = UNKNOWN_MODE;  //  Forced startup mode, if we were forced into this mode before restarting. If we were not forced, set to UNKNOWN_MODE.
 
 static bool validate_application(void) {
     //  Return true if there is a valid application in firmware.  The second or fourth byte should be 0xb5, the "push" instruction.
@@ -66,9 +67,19 @@ enum StartupMode boot_target_get_startup_mode(void) {
     //  return BOOTLOADER_MODE; ////
     
     if (startup_mode != UNKNOWN_MODE) { return startup_mode; }
-    bool appValid = false;
-    appValid = validate_application();
-    if (boot_target_get_force_bootloader()) {
+    bool appValid = validate_application();
+    //  Check the RTC backup register for any boot request.
+    uint32_t cmd = backup_read(BKP0);  //  Returns 0, CMD_BOOT, CMD_APP.
+    backup_write(BKP0, 0);  //  Clear the backup register so it will boot back into Application Mode next time.
+
+    //  Remember the forced startup mode if we were forced before restarting.
+    switch(cmd) {
+        case (int) CMD_BOOT: forced_startup_mode = BOOTLOADER_MODE; break;
+        case (int) CMD_APP:  forced_startup_mode = APPLICATION_MODE; break;
+        default:             forced_startup_mode = UNKNOWN_MODE; break;
+    }
+
+    if (cmd == CMD_BOOT) {
         //  Go to Bootloader Mode if we were requested by MakeCode to run as bootloader.
         debug_println("----bootloader mode (forced)");
         startup_mode = BOOTLOADER_MODE;
@@ -78,10 +89,16 @@ enum StartupMode boot_target_get_startup_mode(void) {
         startup_mode = BOOTLOADER_MODE;
     } else {
         //  Else go to Application Mode.
-        debug_println("----application mode");
+        debug_print("----application mode"); debug_println((forced_startup_mode == APPLICATION_MODE) ? " (forced)" : "");
         startup_mode = APPLICATION_MODE;
     }
     return startup_mode;
+}
+
+enum StartupMode boot_target_get_forced_startup_mode(void) {
+    //  Return the forced startup mode, if we were forced into this mode before restarting.  If we were not forced, return UNKNOWN_MODE.
+    boot_target_get_startup_mode();
+    return forced_startup_mode;
 }
 
 void boot_target_set_led(int on) {
@@ -242,6 +259,7 @@ void boot_target_manifest_bootloader(void) {
     scb_reset_system();  //  Otherwise restart now.
 }
 
+#ifdef NOTUSED
 bool boot_target_get_force_app(void) {
     //  Return true if we should run the application at startup.
     //  Note: Should not be called twice because it changes the backup registers.
@@ -287,6 +305,7 @@ bool boot_target_get_force_bootloader(void) {
 
     return force;
 }
+#endif  //  NOTUSED
 
 void boot_target_get_serial_number(char* dest, size_t max_chars) {
     desig_get_unique_id_as_string(dest, max_chars+1);
