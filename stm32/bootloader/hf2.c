@@ -128,11 +128,13 @@ static void handle_command(HF2_Buffer *pkt) {
             //  If device is in Bootloader Mode, MakeCode sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
             debug_println("hf2 >> info");
 
+#ifdef NOTUSED
             //  After last info packet has been sent, restart into Bootloader Mode to handle HF2_CMD_START_FLASH, which doesn't wait for restart.
             if (boot_target_get_startup_mode() == APPLICATION_MODE && 
                 boot_target_get_forced_startup_mode() == UNKNOWN_MODE) {  //  If we were just forced by bootloader to restart in Application Mode, don't restart because we have just completed flashing.
                 restart_request = BOOTLOADER_MODE;  //  Will restart in the tx callback after the last packet has been sent.
             }
+#endif  //  NOTUSED
 
             int info_size = strlen(infoUf2File);
             assert(info_size > 0, "empty hf2 info");
@@ -146,15 +148,14 @@ static void handle_command(HF2_Buffer *pkt) {
         case HF2_CMD_START_FLASH: {
             //  Sent by MakeCode to begin flashing if we are in Bootloader Mode.
             debug_println("hf2 >> start");
+            send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
 
             //  Don't allow flashing in Application Mode.  Restart now into Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
                 boot_target_manifest_bootloader();  //  Never returns.
                 return;
             }
-            //  No response needed.
-            //  send_hf2_response(pkt, 0);
-            debug_force_flush(); ////
         }
         case HF2_CMD_WRITE_FLASH_PAGE: {
             //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
@@ -179,6 +180,7 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Write the flash page if valid.
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
+                //// #warning flash_write disabled ////
                 flash_write(target_addr, data, HF2_PAGE_SIZE);
             }
             return;
