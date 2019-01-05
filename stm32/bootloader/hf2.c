@@ -280,12 +280,12 @@ static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) { (void)usbd_dev; 
     //  After sending a packet, send the next packet of the message.
     if (remDataToSendLength > 0) {  //  If there is remaining data to be sent...
         pokeSend(remDataToSend, remDataToSendLength, remDataToSendFlag);  //  Send it.
-    } else {  //  If there is no more data to be sent...
-        //  Restart now into Bootloader Mode to handle HF2_CMD_START_FLASH, which doesn't wait for restart.
-        if (restart_request == BOOTLOADER_MODE) {
+    }
+    if (remDataToSendLength == 0) {  //  If there is no more data to be sent...
+        if (restart_request == BOOTLOADER_MODE) {  //  Restart to Bootloader Mode if requested.
             restart_request = UNKNOWN_MODE;
             boot_target_manifest_bootloader();  //  Never returns.
-        } else if (restart_request == APPLICATION_MODE) {
+        } else if (restart_request == APPLICATION_MODE) {  //  Restart to Application Mode if requested.
             restart_request = UNKNOWN_MODE;
             boot_target_manifest_app();  //  Never returns.
         }

@@ -157,13 +157,13 @@ void debug_force_flush(void) {
 
 static void debug_append(const char *buffer, unsigned int length) {
     //  Append "length" number of bytes from "buffer" to the debug buffer.
-    //  If can't fit into buffer, flush first.
+    if (length >= DEBUG_BUFFER_SIZE) { return; }  //  Don't allow logging of very long messages.
     if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
-        //// debug_flush();
-        if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
-            //  Still can't fit after flushing.  Quit.
-            return;
-        }
+        //  Erase the entire buffer.  Latest log is more important than old log.
+        debugBufferLength = 0;
+
+        //  Still can't fit after flushing.  Quit.
+        //  if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) { return; }
     }
     //  Else append to the buffer.
     memcpy(&debugBuffer[debugBufferLength], buffer, length);
