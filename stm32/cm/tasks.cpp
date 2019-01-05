@@ -18,6 +18,7 @@ enum CM_EVT {
 static codal::Fiber *flush_task_fibre = NULL;
 static codal::Event restart_event(  //  This event will be triggered for a restart request.
     CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, codal::CREATE_ONLY);
+static bool restart_listener_started = false;
 static bool restart_requested = false;
 
 static void restart_handler(codal::Event evt) {
@@ -63,28 +64,31 @@ static void flush_task(void) {
 
 int start_background_tasks(void) {
     //  Start the background tasks to flush the log and wait for restart requests.
-    if (flush_task_fibre) { return 0; }  //  Quit if already started.
-    if (!codal::fiber_scheduler_running()) {
-        debug_println("no scheduler, start bg tasks later");
-        return -1;
-    }
-    debug_println("start bg tasks");
-    flush_task_fibre = codal::create_fiber(flush_task);
     if (!flush_task_fibre) {
-        debug_println("*** ERROR: create fibre failed");
-        return -2;
+        if (!codal::fiber_scheduler_running()) {
+            debug_println("no scheduler, start bg tasks later");
+        } else {
+            debug_println("start bg tasks");
+            flush_task_fibre = codal::create_fiber(flush_task);
+            if (!flush_task_fibre) {
+                debug_println("*** ERROR: create fibre failed");
+            }
+        }
     }
     //  Listen for restart requests.
-    if (!codal::EventModel::defaultEventBus) {
-        debug_println("*** ERROR: missing event bus");
-        return -3;
-    }
-    int status = codal::EventModel::defaultEventBus->listen(
-        CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, restart_handler);
-    if (status) {
-        debug_print("*** ERROR: unable to listen for restart event ");
-        debug_printhex_unsigned(status); debug_println("");
-        return status;
+    if (!restart_listener_started) {
+        if (!codal::EventModel::defaultEventBus) {
+            debug_println("*** ERROR: missing event bus");
+        } else {
+            int status = codal::EventModel::defaultEventBus->listen(
+                CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, restart_handler);
+            if (status) {
+                debug_print("*** ERROR: unable to listen for restart event ");
+                debug_printhex_unsigned(status); debug_println("");
+            } else {
+                restart_listener_started = true;
+            }
+        }
     }
     return 0;
 }
