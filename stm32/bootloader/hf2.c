@@ -142,6 +142,7 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_println("hf2 >> app");
             flash_flush();  //  Flush any pending flash writes.
             send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
             boot_target_manifest_app();  //  Never returns.
             return;
 
@@ -149,6 +150,7 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Sent by MakeCode to restart into Bootloader Mode.
             debug_println("hf2 >> boot");
             send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
             boot_target_manifest_bootloader();  //  Never returns.
             return;
 
@@ -171,10 +173,12 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_println("");  ////
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             send_hf2_response(pkt, 0);
+            debug_force_flush(); ////
 
             //  Don't allow flashing in Application Mode.  Reboot to Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) {
                 debug_println("hf2 << boot");
+                debug_force_flush(); ////
                 boot_target_manifest_bootloader();  //  Never returns.
             }
             //  Write the flash page if valid.
@@ -364,7 +368,7 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wVal
     //  Setup the endpoints to be bulk & register the callbacks.
     LOG("hf2 set config");
     debug_force_flush(); ////
-    
+
     usbd_ep_setup(usbd_dev, HF2_IN, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_tx_cb);
     usbd_ep_setup(usbd_dev, HF2_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_rx_cb);
 }

@@ -199,18 +199,22 @@ void boot_target_set_restart_callback(restart_callback_type *func) {
 
 void boot_target_manifest_app(void) {
     //  Restart into Application Mode to run the application.
+    debug_println("boot app");
     debug_force_flush(); ////
     backup_write(BKP0, CMD_APP);
+#ifdef NOTUSED
     //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
     if (restart_callback_func) { 
         restart_callback_func(); 
         return;
     }
+#endif  //  NOTUSED
     scb_reset_system();  //  Otherwise restart now.
 }
 
 void boot_target_manifest_bootloader(void) {
     //  Restart into Bootloader Mode to run the bootloader.
+    debug_println("boot bootloader");
     debug_force_flush(); ////
     backup_write(BKP0, CMD_BOOT);
 #ifdef NOTUSED
