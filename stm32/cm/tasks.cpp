@@ -57,24 +57,27 @@ static void flush_task(void) {
     while (true) {
         debug_flush();
         codal::fiber_sleep(200);
-
-        if (restart_requested) {
-        }
+        // if (restart_requested) {}
     }
 }
 
 int start_background_tasks(void) {
     //  Start the background tasks to flush the log and wait for restart requests.
-    if (flush_task_fibre) { return 0; }
-    debug_print("start bg tasks "); debug_print_unsigned(codal::fiber_scheduler_running()); debug_println("");
+    if (flush_task_fibre) { return 0; }  //  Quit if already started.
+    if (!codal::fiber_scheduler_running()) {
+        debug_println("no scheduler, start bg tasks later");
+        return -1;
+    }
+    debug_println("start bg tasks");
     flush_task_fibre = codal::create_fiber(flush_task);
     if (!flush_task_fibre) {
         debug_println("*** ERROR: create fibre failed");
+        return -2;
     }
     //  Listen for restart requests.
     if (!codal::EventModel::defaultEventBus) {
         debug_println("*** ERROR: missing event bus");
-        return -1;
+        return -3;
     }
     int status = codal::EventModel::defaultEventBus->listen(
         CM_SOURCE_BOOTLOADER, CM_EVT_RESTART, restart_handler);
