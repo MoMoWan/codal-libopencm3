@@ -134,7 +134,7 @@ void flash_flush(void) {
     }
     DBG("Flush at %x", flashAddr);
     if (memcmp(flashBuf, (void *)flashAddr, FLASH_PAGE_SIZE) != 0) {
-        debug_print("flash "); debug_printhex_unsigned((size_t) flashAddr); debug_println(""); ////
+        debug_print("-> "); debug_printhex_unsigned((size_t) flashAddr); debug_print(" "); ////
         DBG("Write flush at %x", flashAddr);
 
         boot_target_flash_unlock();

@@ -98,7 +98,10 @@ static void handle_command(HF2_Buffer *pkt) {
     HF2_Command *cmd = &(pkt->cmd);
     HF2_Response *resp = &(pkt->resp);
 
-    uint32_t cmdId = cmd->command_id;
+    static uint32_t prevCmdId = 0;
+    static uint32_t cmdId = 0;
+    prevCmdId = cmdId;    
+    cmdId = cmd->command_id;
     int sz = pkt->size;
     resp->tag = cmd->tag;
     resp->status16 = HF2_STATUS_OK;  //  Default status is OK.
@@ -170,7 +173,10 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
             uint32_t target_addr = cmd->write_flash_page.target_addr;
             const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
-            debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_println("");  ////
+            const char *valid = VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) ? " " : " !!! ";
+
+            if (cmdId != prevCmdId) { debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }  ////
+            else { debug_print(">> "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }
 
             //  Don't allow flashing in Application Mode.  After last packet has been sent, restart into Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
@@ -180,13 +186,13 @@ static void handle_command(HF2_Buffer *pkt) {
             }
 
             //  First send ACK and then start writing, while getting the next packet.
-            checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             send_hf2_response(pkt, 0);
 
             //  Write the flash page if valid.
+            checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
                 flash_write(target_addr, data, HF2_PAGE_SIZE);
-            } else { debug_print("*** invalid flash "); debug_printhex_unsigned((size_t) target_addr); debug_println(""); }
+            }
             return;
         }
         case HF2_CMD_READ_WORDS: {
@@ -269,6 +275,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     if (tag != HF2_FLAG_CMDPKT_BODY) {
         if (tag == HF2_FLAG_CMDPKT_LAST) {
             handle_command(pkt);
+            last_cmd = cmd;
         } else {
             // do something about serial?
         }
