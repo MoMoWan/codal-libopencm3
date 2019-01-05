@@ -275,7 +275,6 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     if (tag != HF2_FLAG_CMDPKT_BODY) {
         if (tag == HF2_FLAG_CMDPKT_LAST) {
             handle_command(pkt);
-            last_cmd = cmd;
         } else {
             // do something about serial?
         }
