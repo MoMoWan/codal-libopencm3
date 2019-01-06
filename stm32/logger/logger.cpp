@@ -116,8 +116,12 @@ static uint16_t write_all_output(
     ////if (!forced && target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine, unless it's forced.
     //  if (target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine
     uint16_t outlen = (len > MAX_OUTPUT_LENGTH) ? MAX_OUTPUT_LENGTH : len;
-
+#ifdef ENABLE_SEMIHOSTING
+    #warning Semihosting ENABLED
     semihost_write(SEMIHOST_HANDLE, (const unsigned char *) buf, outlen);
+#else
+    #warning Semihosting DISABLED
+#endif  //  ENABLE_SEMIHOSTING
     for (int i = 0; i < MAX_OUTPUT_FUNCS; i++) {
         if (output_funcs[i]) {
             logger_output_func *func = output_funcs[i];

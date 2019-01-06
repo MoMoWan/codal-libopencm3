@@ -25,8 +25,8 @@ uint32_t hal_data_test = 0x87654321;     //  Test whether Data Section is loaded
 static void pre_main() {
 	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
-    //  target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
-    target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
+    target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
+    //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     target_init();               //  Init the STM32 platform.
 
 	//  Test whether Bootloader BSS and Data Sections are loaded correctly.
