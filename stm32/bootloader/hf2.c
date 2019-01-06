@@ -180,7 +180,9 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Write the flash page if valid.
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
-//  #define FLASH_DISABLED
+#ifdef PLATFORMIO
+#define FLASH_DISABLED
+#endif  //  PLATFORMIO
 #ifdef FLASH_DISABLED
                 #warning flash_write disabled
 #else

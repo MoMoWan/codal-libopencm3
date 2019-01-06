@@ -219,6 +219,7 @@ void boot_target_manifest_app(void) {
     debug_println("boot app");
     debug_force_flush(); ////
     backup_write(BKP0, CMD_APP);
+    
 #ifdef NOTUSED
     //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
     if (restart_callback_func) { 
@@ -237,13 +238,12 @@ void boot_target_manifest_bootloader(void) {
     debug_force_flush(); ////
     backup_write(BKP0, CMD_BOOT);
 
+#ifdef NOTUSED
     //  Disconnect the USB port.
     //  boot_target_usb_init(); ////
 
-    st_usbfs_endpoints_reset(&st_usbfs_v1_usb_driver); ////
-    sleep_us(20000); ////
-
-#ifdef NOTUSED
+    // st_usbfs_endpoints_reset(&st_usbfs_v1_usb_driver); ////
+    // sleep_us(20000); ////
 
     // #define USB_CNTR_PWDN		0x0002 /* Power down */
     // #define USB_CNTR_FRES		0x0001 /* Force reset */
