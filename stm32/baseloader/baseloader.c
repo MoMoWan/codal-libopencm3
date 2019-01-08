@@ -147,10 +147,12 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
     return verified;
 }
 
-#define ROM_START 0x08000000
-#define ROM_SIZE     0x10000
+#define ROM_START ((uint32_t) 0x08000000)
+#define ROM_SIZE  ((uint32_t) 0x10000)
 
 void baseloader_start(void) {
+    debug_println("baseloader_start"); debug_force_flush();
+
 	//  Disable interrupts because the vector table may be overwritten during flashing.
     cm_disable_interrupts();
 
@@ -159,11 +161,11 @@ void baseloader_start(void) {
 	RCC_CIR = 0;  //  Disable all interrupts related to clock
 
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	uint32_t *src = (uint32_t *) ROM_START;
-	uint32_t *dest = (uint32_t *) ROM_START + ROM_SIZE - FLASH_PAGE_SIZE;
+	uint32_t *src = (uint32_t *) (ROM_START);
+	uint32_t *dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
 
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println("");
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush();
     debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
 
 	base_flash_unlock();
@@ -171,12 +173,12 @@ void baseloader_start(void) {
 	base_flash_lock();
 
     debug_print("after "); debug_printhex_unsigned(*dest);
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_flush();
+    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
 
-	src = (uint32_t *) ROM_START + FLASH_PAGE_SIZE;
+	src = (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
 
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println("");
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush();
     debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
 
 	base_flash_unlock();
