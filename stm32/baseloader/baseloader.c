@@ -1,7 +1,9 @@
 #include <logger/logger.h>
 #include <libopencm3/cm3/cortex.h>
+#include <libopencm3/cm3/systick.h>  //  For STK_CSR
 #include <libopencm3/stm32/desig.h>  //  For DESIG_FLASH_SIZE
 #include <libopencm3/stm32/flash.h>
+#include <libopencm3/stm32/rcc.h>    //  For RCC_CIR
 #include "flash-config.h"
 #include "baseloader.h"
 
@@ -152,13 +154,17 @@ void baseloader_start(void) {
 	//  Disable interrupts because the vector table may be overwritten during flashing.
     cm_disable_interrupts();
 
+	//  From https://github.com/cnoviello/mastering-stm32
+	STK_CSR = 0;  //  Disables SysTick timer and its related interrupt	
+	RCC_CIR = 0;  //  Disable all interrupts related to clock
+
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
 	uint32_t *src = (uint32_t *) ROM_START;
 	uint32_t *dest = (uint32_t *) ROM_START + ROM_SIZE - FLASH_PAGE_SIZE;
 
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
     debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println("");
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_flush();
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
 
 	base_flash_unlock();
 	bool ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
@@ -171,14 +177,14 @@ void baseloader_start(void) {
 
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
     debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println("");
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_flush();
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
 
 	base_flash_unlock();
 	ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
 	base_flash_lock();
 
     debug_print("after "); debug_printhex_unsigned(*dest);
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_flush();
+    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
 
 	//  Vector table may be overwritten. Restart to use the new vector table.
     //  TODO: scb_reset_system();
