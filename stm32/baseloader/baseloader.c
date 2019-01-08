@@ -112,6 +112,17 @@ static inline uint16_t* get_flash_page_address(uint16_t* dest) {
     debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
     debug_println("");
 
+//  TODO
+#define ROM_START ((uint32_t) 0x08000000)
+#define ROM_SIZE  ((uint32_t) 0x10000)
+
+//  Get Old Base Vector Table at 0x800 0000.  Get Old Application Address from Old Base Vector Table, truncate to block of 1024 bytes.
+//  If Base Magic Number exists at the Old Application Address, then use it as the New Base Vector Table.
+//  Get New Application Address from New Base Vector Table.  
+//  If Base Magic Number exists at the New Application Address, 
+//  then the blocks between Old App Address and New App Address are the new Bootloader Blocks.
+//  Flash them to 0x800 0000 and restart.
+
 bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
     bool verified = true;
     /* Remember the bounds of erased data in the current page */
@@ -153,9 +164,6 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
 #define debug_dump2() \
     debug_print("after "); debug_printhex_unsigned(*dest); \
     debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
-
-#define ROM_START ((uint32_t) 0x08000000)
-#define ROM_SIZE  ((uint32_t) 0x10000)
 
 void baseloader_start(void) {
     debug_println("baseloader_start"); debug_force_flush();

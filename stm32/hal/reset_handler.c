@@ -22,15 +22,19 @@ void null_handler(void);
 
 typedef void (*base_vector_table_entry_t)(void);
 
+//  Baseloader Vector Table
+
 typedef struct {
+	uint32_t magic_number;
 	base_vector_table_entry_t baseloader;
 	base_vector_table_entry_t application;
 } base_vector_table_t;
 
 __attribute__ ((section(".base_vectors")))
 base_vector_table_t base_vector_table = {
-	.baseloader  = baseloader_start,   //  Address of the baseloader function.
-	.application = application_start,  //  Address of application. Also where the bootloader ends.
+	.magic_number = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
+	.baseloader   = baseloader_start,   //  Address of the baseloader function.
+	.application  = application_start,  //  Address of application. Also where the bootloader ends.
 };
 
 uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
