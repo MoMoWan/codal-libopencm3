@@ -1346,8 +1346,8 @@ void baseloader_start(void) {
 
 080004f4 <test_baseloader1>:
 
-static uint16_t* test_dest = NULL;
-static uint16_t* test_src = NULL;
+static uint32_t* test_dest = NULL;
+static uint32_t* test_src = NULL;
 static size_t test_half_word_count = 0;
 
 void test_baseloader1(void) {
@@ -1390,7 +1390,7 @@ void test_baseloader1(void) {
  800053e:	480f      	ldr	r0, [pc, #60]	; (800057c <test_baseloader1+0x88>)
  8000540:	f002 feb6 	bl	80032b0 <debug_print>
  8000544:	682b      	ldr	r3, [r5, #0]
- 8000546:	8818      	ldrh	r0, [r3, #0]
+ 8000546:	6818      	ldr	r0, [r3, #0]
  8000548:	f002 fefa 	bl	8003340 <debug_printhex_unsigned>
  800054c:	4620      	mov	r0, r4
  800054e:	f002 fe83 	bl	8003258 <debug_println>
@@ -1450,7 +1450,7 @@ void test_baseloader2(void) {
  80005c8:	4810      	ldr	r0, [pc, #64]	; (800060c <test_baseloader2+0x8c>)
  80005ca:	f002 fe71 	bl	80032b0 <debug_print>
  80005ce:	682b      	ldr	r3, [r5, #0]
- 80005d0:	8818      	ldrh	r0, [r3, #0]
+ 80005d0:	6818      	ldr	r0, [r3, #0]
  80005d2:	f002 feb5 	bl	8003340 <debug_printhex_unsigned>
  80005d6:	4620      	mov	r0, r4
  80005d8:	f002 fe3e 	bl	8003258 <debug_println>
@@ -1479,7 +1479,7 @@ void test_baseloader_end(void) {
  8000614:	f002 fe4c 	bl	80032b0 <debug_print>
  8000618:	4c0f      	ldr	r4, [pc, #60]	; (8000658 <test_baseloader_end+0x48>)
  800061a:	6823      	ldr	r3, [r4, #0]
- 800061c:	8818      	ldrh	r0, [r3, #0]
+ 800061c:	6818      	ldr	r0, [r3, #0]
  800061e:	f002 fe8f 	bl	8003340 <debug_printhex_unsigned>
  8000622:	480e      	ldr	r0, [pc, #56]	; (800065c <test_baseloader_end+0x4c>)
  8000624:	f002 fe44 	bl	80032b0 <debug_print>
@@ -1487,10 +1487,10 @@ void test_baseloader_end(void) {
  800062a:	7818      	ldrb	r0, [r3, #0]
  800062c:	f002 fe50 	bl	80032d0 <debug_printhex>
  8000630:	6823      	ldr	r3, [r4, #0]
- 8000632:	881a      	ldrh	r2, [r3, #0]
+ 8000632:	681a      	ldr	r2, [r3, #0]
  8000634:	4b0b      	ldr	r3, [pc, #44]	; (8000664 <test_baseloader_end+0x54>)
  8000636:	681b      	ldr	r3, [r3, #0]
- 8000638:	881b      	ldrh	r3, [r3, #0]
+ 8000638:	681b      	ldr	r3, [r3, #0]
  800063a:	429a      	cmp	r2, r3
  800063c:	d008      	beq.n	8000650 <test_baseloader_end+0x40>
  800063e:	480a      	ldr	r0, [pc, #40]	; (8000668 <test_baseloader_end+0x58>)

@@ -261,8 +261,8 @@ bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half
 	debug_println("\r\n"); debug_force_flush(); \
 }
 
-static uint16_t* test_dest = NULL;
-static uint16_t* test_src = NULL;
+static uint32_t* test_dest = NULL;
+static uint32_t* test_src = NULL;
 static size_t test_half_word_count = 0;
 
 void test_baseloader1(void) {
