@@ -29,8 +29,8 @@ typedef struct {
 
 __attribute__ ((section(".base_vectors")))
 base_vector_table_t base_vector_table = {
-	.baseloader = baseloader_start,
-	.application = application_start,
+	.baseloader  = baseloader_start,   //  Address of the baseloader function.
+	.application = application_start,  //  Address of application. Also where the bootloader ends.
 };
 
 uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
@@ -90,6 +90,9 @@ void reset_handler(void) {
 	for (fp = &__boot_init_array_start; fp < &__boot_init_array_end; fp++) {
 		(*fp)();
 	}
+
+    //  Start the baseloader.  This function will not return if the baseloader restarts Blue Pill after flashing.
+    baseloader_start();
 
     //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
     bootloader_start();

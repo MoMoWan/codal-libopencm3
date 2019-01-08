@@ -78,9 +78,14 @@ SECTIONS
 
 		*libbaseloader.a:          	(.text*) 	   	/* Baseloader Code */
 
+		/* List all the Interrupt Service Routines. Ensure they are operational at all times (except when Baseloader is running) */
+
 		* 							(.text.blocking_handler*) /* Default interrupt service routines by libopencm3 */
 		*		 					(.text.null_handler*) 	  /* Default interrupt service routines by libopencm3 */
 		*		 					(.text.*_isr)  /* Custom interrupt service routines e.g. rtc_isr, rtc_alarm_isr */
+
+		/* Startup Code */
+
 		:*reset_handler*			(.text*) 	   /* Custom Reset Handler, also the entry point of the program */
 
 		. = ALIGN(4);  /* Baseloader Read-only data e.g. literal strings */

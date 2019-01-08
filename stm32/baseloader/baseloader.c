@@ -1,7 +1,12 @@
+#include <logger/logger.h>
+#include <libopencm3/cm3/cortex.h>
 #include <libopencm3/stm32/desig.h>  //  For DESIG_FLASH_SIZE
 #include <libopencm3/stm32/flash.h>
+#include "flash-config.h"
 #include "baseloader.h"
 
+//  Flash functions for Baseloader, prefixed by "base_flash". We define them here instead of using libopencm3 to prevent any external references.
+//  We use macros to avoid absolute address references to functions, since the Baseloader must run in low and high memory.
 //  TODO: Support other than F1
 
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/common/flash_common_f.c
@@ -84,12 +89,99 @@ void base_flash_program_half_word(uint32_t address, uint16_t data)
 	}
 }
 
-// boot_target_flash_unlock();
-// bool ok = boot_target_flash_program_array((void *)flashAddr, (void*)flashBuf, FLASH_PAGE_SIZE / 2);
-// boot_target_flash_lock();
-
-void baseloader_start(void) {
-    //  TODO: cm_disable_interrupts();
-    //  TODO: scb_reset_system();
+static uint16_t* get_flash_end(void) {
+#ifdef FLASH_SIZE_OVERRIDE
+    /* Allow access to the flash size we define */
+    return (uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE);
+#else
+    /* Only allow access to the chip's self-reported flash size */
+    return (uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE);
+#endif
 }
 
+static inline uint16_t* get_flash_page_address(uint16_t* dest) {
+    return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
+}
+
+bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
+    bool verified = true;
+
+    /* Remember the bounds of erased data in the current page */
+    static uint16_t* erase_start;
+    static uint16_t* erase_end;
+
+    const uint16_t* flash_end = get_flash_end();
+    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); ////
+    //  debug_print(", data "); debug_printhex_unsigned((size_t) data); 
+    debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); 
+    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count); 
+    debug_println(""); ////
+    while (half_word_count > 0) {
+        /* Avoid writing past the end of flash */
+        if (dest >= flash_end) {
+            //  TODO: Fails here
+            debug_println("dest >= flash_end"); debug_flush();
+            verified = false;
+            break;
+        }
+
+        if (dest >= erase_end || dest < erase_start) {
+            erase_start = get_flash_page_address(dest);
+            erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
+            flash_erase_page((uint32_t)erase_start);
+        }
+        flash_program_half_word((uint32_t)dest, *data);
+        erase_start = dest + 1;
+        if (*dest != *data) {
+            debug_println("*dest != *data"); debug_flush();
+            verified = false;
+            break;
+        }
+        dest++;
+        data++;
+        half_word_count--;
+    }
+
+    return verified;
+}
+
+#define ROM_START 0x08000000
+#define ROM_SIZE     0x10000
+
+void baseloader_start(void) {
+	//  Disable interrupts because the vector table may be overwritten during flashing.
+    cm_disable_interrupts();
+
+	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
+	uint32_t *src = (uint32_t *) ROM_START;
+	uint32_t *dest = (uint32_t *) ROM_START + ROM_SIZE - FLASH_PAGE_SIZE;
+
+    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println("");
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_flush();
+
+	base_flash_unlock();
+	bool ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
+	base_flash_lock();
+
+    debug_print("after "); debug_printhex_unsigned(*dest);
+    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_flush();
+
+	src = (uint32_t *) ROM_START + FLASH_PAGE_SIZE;
+
+    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println("");
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_flush();
+
+	base_flash_unlock();
+	ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
+	base_flash_lock();
+
+    debug_print("after "); debug_printhex_unsigned(*dest);
+    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_flush();
+
+	//  Vector table may be overwritten. Restart to use the new vector table.
+    //  TODO: scb_reset_system();
+	//  Should not return.
+	for (;;) {}
+}

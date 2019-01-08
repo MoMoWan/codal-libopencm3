@@ -11,6 +11,7 @@
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/hid.h>
+#include <baseloader/flash-config.h>  //  For FLASH_SIZE_OVERRIDE
 #include <bluepill/bluepill.h>
 #include <logger/logger.h>
 #include "usb_conf.h"

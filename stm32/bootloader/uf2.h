@@ -1,12 +1,13 @@
 #ifndef UF2FORMAT_H
 #define UF2FORMAT_H 1
 
+#include <baseloader/flash-config.h>  //  For FLASH_SIZE_OVERRIDE
+#include <stdint.h>
+#include <stdbool.h>
+
 #include "uf2cfg.h"
 #include "target.h"
 #include "config.h"
-
-#include <stdint.h>
-#include <stdbool.h>
 
 // All entries are little endian.
 

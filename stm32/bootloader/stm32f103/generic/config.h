@@ -27,13 +27,14 @@
 #define LED_GPIO_PIN    GPIO13 
 #define LED_OPEN_DRAIN  1 
 #define USES_GPIOC      1
-
-extern uint32_t _text;      //  Defined by the linker script where the application starts running.
-#define APP_BASE_ADDRESS    ((uint32_t) &_text)     //  Application starts here, after the bootloader.
-#define FLASH_SIZE_OVERRIDE 0x10000                 //  Assume 64KB of ROM, don't override to 128 KB.
-#define FLASH_PAGE_SIZE     1024
 #define DFU_UPLOAD_AVAILABLE   1
 #define DFU_DOWNLOAD_AVAILABLE 1
+
+//  Moved to baseloader/flash-config.h
+//  extern uint32_t _text;      //  Defined by the linker script where the application starts running.
+//  #define APP_BASE_ADDRESS    ((uint32_t) &_text)     //  Application starts here, after the bootloader.
+//  #define FLASH_SIZE_OVERRIDE 0x10000                 //  Assume 64KB of ROM, don't override to 128 KB.
+//  #define FLASH_PAGE_SIZE     1024
 
 #ifndef HAVE_LED
 #define HAVE_LED 0
