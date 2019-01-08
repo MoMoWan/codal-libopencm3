@@ -26,6 +26,18 @@ base_vector_table_t base_vector_table = {
 //  Given an address X, compute the location of the Base Vector Table of the memory block that contains X.
 #define BASE_VECTOR_TABLE(x) 	 ((base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET))
 
+#ifdef FLASH_SIZE_OVERRIDE
+    /* Allow access to the flash size we define */
+    #define base_get_flash_end() ((uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE))
+#else
+    /* Only allow access to the chip's self-reported flash size */
+    #define base_get_flash_end() ((uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE))
+#endif
+
+static inline uint16_t* base_get_flash_page_address(uint16_t* dest) {
+    return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
+}
+
 //  Flash functions for Baseloader, prefixed by "base_flash". We define them here instead of using libopencm3 to prevent any external references.
 //  We use macros to avoid absolute address references to functions, since the Baseloader must run in low and high memory.
 //  TODO: Support other than F1
@@ -103,24 +115,48 @@ Status bit polling is used to detect end of operation.
 	} \
 }
 
-#ifdef FLASH_SIZE_OVERRIDE
-    /* Allow access to the flash size we define */
-    #define get_flash_end() ((uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE))
-#else
-    /* Only allow access to the chip's self-reported flash size */
-    #define get_flash_end() ((uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE))
-#endif
+/*---------------------------------------------------------------------------*/
+/** @brief Erase a Page of FLASH
+This performs all operations necessary to erase a page in FLASH memory.
+The page should be checked to ensure that it was properly erased. A page must
+first be fully erased before attempting to program it.
+Note that the page sizes differ between devices. See the reference manual or
+the FLASH programming manual for details.
+@param[in] page_address Full address of flash page to be erased.
+*/
 
-static inline uint16_t* get_flash_page_address(uint16_t* dest) {
-    return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
+void base_flash_erase_page(uint32_t page_address)
+{
+	base_flash_wait_for_last_operation();
+
+	if ((DESIG_FLASH_SIZE > 512)
+	    && (page_address >= FLASH_BASE+0x00080000)) {
+		FLASH_CR2 |= FLASH_CR_PER;
+		FLASH_AR2 = page_address;
+		FLASH_CR2 |= FLASH_CR_STRT;
+	} else  {
+		FLASH_CR |= FLASH_CR_PER;
+		FLASH_AR = page_address;
+		FLASH_CR |= FLASH_CR_STRT;
+	}
+
+	base_flash_wait_for_last_operation();
+
+	if ((DESIG_FLASH_SIZE > 512)
+	    && (page_address >= FLASH_BASE+0x00080000)) {
+		FLASH_CR2 &= ~FLASH_CR_PER;
+	} else {
+		FLASH_CR &= ~FLASH_CR_PER;
+	}
 }
 
-#define debug_flash() \
+#define debug_flash() { \
     debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
     debug_print(", data "); debug_printhex_unsigned((size_t) data);  \
     debug_print(" to "); debug_printhex_unsigned((size_t) flash_end);  \
     debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
-    debug_println("");
+    debug_println(""); \
+}
 
 //  TODO
 #define ROM_START ((uint32_t) 0x08000000)
@@ -147,7 +183,7 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
     verified = true;
     erase_start = NULL;
     erase_end = NULL;
-    flash_end = get_flash_end();  /* Remember the bounds of erased data in the current page */
+    flash_end = base_get_flash_end();  /* Remember the bounds of erased data in the current page */
 
 	debug_flash(); ////
 
@@ -159,11 +195,11 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
             break;
         }
         if (dest >= erase_end || dest < erase_start) {
-            erase_start = get_flash_page_address(dest);
+            erase_start = base_get_flash_page_address(dest);
             erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
-            flash_erase_page((uint32_t)erase_start);
+            base_flash_erase_page((uint32_t)erase_start);
         }
-        flash_program_half_word((uint32_t)dest, *data);
+        base_flash_program_half_word((uint32_t)dest, *data);
         erase_start = dest + 1;
         if (*dest != *data) {
             //  debug_println("*dest != *data"); debug_flush();
@@ -177,16 +213,18 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
     return verified;
 }
 
-#define debug_dump() \
+#define debug_dump() { \
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
     debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush(); \
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
+}
 
-#define debug_dump2() \
+#define debug_dump2() { \
     debug_print("after "); debug_printhex_unsigned(*dest); \
     debug_print(" / "); debug_printhex(ok); \
 	debug_print((*dest == *src) ? " OK " : " FAIL "); \
-	debug_println("\r\n"); debug_force_flush();
+	debug_println("\r\n"); debug_force_flush(); \
+}
 
 void baseloader_start(void) {
     debug_println("baseloader_start"); debug_force_flush();
