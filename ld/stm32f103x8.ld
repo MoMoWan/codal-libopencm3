@@ -25,7 +25,11 @@ unit test */
 
 /* Define constants that may be changed to give more or less space to each region */
 
+_baserom_size =  4K;
+
 _bootrom_size = 26K;  /* Size of Bootloader ROM (code + constant data) */
+
+_baseram_size =  2K;
 
 _bootram_size =  4K;  /* Size of Bootloader RAM */
 
@@ -38,13 +42,15 @@ _bootbuf_size = /* Size of the Bootloader buffers... */
 MEMORY
 {
 	/* Available ROM is 64K (0x10000). Reserve lower part for Bootloader, upper part for Application. */
-	bootrom (rx)  : ORIGIN = 0x08000000,                 LENGTH = _bootrom_size
-	rom     (rx)  : ORIGIN = 0x08000000 + _bootrom_size, LENGTH = 64K - _bootrom_size
+	baserom (rx)  : ORIGIN = 0x08000000,                 LENGTH = _baserom_size
+	bootrom (rx)  : ORIGIN = 0x08000000 + _baserom_size, LENGTH = _bootrom_size
+	rom     (rx)  : ORIGIN = 0x08000000 + _baserom_size + _bootrom_size, LENGTH = 64K - _baserom_size - _bootrom_size
 
 	/* Available RAM is 20K (0x5000). Reserve lower part for Bootloader, middle part for Application,
 	   upper part for Bootloader flash buffers (not used in Application Mode). */
-	bootram (rwx) : ORIGIN = 0x20000000,                 LENGTH = _bootram_size
-	ram     (rwx) : ORIGIN = 0x20000000 + _bootram_size, LENGTH = 20K - _bootram_size - _bootbuf_size
+	baseram (rwx) : ORIGIN = 0x20000000,                 LENGTH = _baseram_size
+	bootram (rwx) : ORIGIN = 0x20000000 + _baseram_size, LENGTH = _bootram_size
+	ram     (rwx) : ORIGIN = 0x20000000 + _baseram_size + _bootram_size, LENGTH = 20K - _baseram_size - _bootram_size - _bootbuf_size
 	bootbuf (rwx) : ORIGIN = 0x20005000 - _bootbuf_size, LENGTH = _bootbuf_size
 
 	/* Heap and Stack start after the used part of Application RAM, so we should keep Bootloader RAM small */
@@ -64,13 +70,28 @@ SECTIONS
 {
 	/* Bootloader and Application ROM */
 
+	.base_text : {  /* Baseloader ROM */
+		_base_text = .;				/* We will use _base_text to determine the start of the baseloader. */
+		*                           (.vectors) /* Vector table by libopencm3 */		
+		* 							(.text.blocking_handler*) /* Default interrupt service routines by libopencm3 */
+		*		 					(.text.null_handler*) 	  /* Default interrupt service routines by libopencm3 */
+		*		 					(.text.*_isr)  /* Custom interrupt service routines e.g. rtc_isr, rtc_alarm_isr */
+		:*reset_handler*			(.text*) 	   /* Custom Reset Handler, also the entry point of the program */
+
+		. = ALIGN(4);  /* Baseloader Read-only data e.g. literal strings */
+		* 							(.rodata.blocking_handler*) /* Data for Default interrupt service routines by libopencm3 */
+		*		 					(.rodata.null_handler*) 	/* Data for Default interrupt service routines by libopencm3 */
+		*		 					(.rodata.*_isr)  /* Data for Custom interrupt service routines e.g. rtc_isr, rtc_alarm_isr */
+		:*reset_handler*			(.rodata*) 		 /* Data for Custom Reset Handler */
+
+		. = ALIGN(4);
+		_base_etext = .;			/* End of baseloader code. */
+	} >baserom
+
 	.boot_text : {  /* Bootloader ROM */
 		_boot_text = .;				/* We will use _boot_text to determine the start of the bootloader. */
-		*                           (.vectors) /* Vector table */
 
 		/* Bootloader Code */
-		:*reset_handler*			(.text*) /* Reset Handler (CODAL build) */
-		*libhal.a:*reset_handler*	(.text*) /* Reset Handler */
 		:*codal_target_hal*			(.text*) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(.text*) /* CODAL HAL */
 		:*CortexContextSwitch*	    (.text*) /* Context Switch (PlaformIO build) */
@@ -90,8 +111,6 @@ SECTIONS
 		*libbootloader.a:          	(.text*) /* Bootloader */
 
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
-		:*reset_handler*			(.rodata*) /* Reset Handler */
-		*libhal.a:*reset_handler*	(.rodata*) /* Reset Handler */
 		:*codal_target_hal*			(.rodata*) /* CODAL HAL */
 		*libhal.a:*codal_target_hal*(.rodata*) /* CODAL HAL */
 		:*CortexContextSwitch*	    (.rodata*) /* Context Switch (PlaformIO build) */
@@ -415,3 +434,9 @@ SECTIONS
 PROVIDE(_stack = ORIGIN(bootbuf) + LENGTH(bootbuf));  /*  Application Stack, which includes the bootbuf  */
 
 PROVIDE(_boot_stack = ORIGIN(ram) + LENGTH(ram));     /*  Bootloader Stack, which excludes the bootbuf  */
+
+/* Check for cross references between Bootloader and Application code/data */
+
+NOCROSSREFS_TO(bootrom rom bootdata data bootbuf)
+
+NOCROSSREFS_TO(bootdata bootrom rom data bootbuf)
