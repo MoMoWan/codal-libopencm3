@@ -56,8 +56,9 @@ MEMORY
 	/* Heap and Stack start after the used part of Application RAM, so we should keep Bootloader RAM small */
 }
 
-/* Force vector table to be linked in. */
+/* Force vector tables to be linked in. */
 EXTERN(vector_table)
+EXTERN(base_vector_table)
 
 /* Execution starts at the custom reset_handler() function in stm32/hal/reset_handler.c. */
 ENTRY(reset_handler)
@@ -72,8 +73,10 @@ SECTIONS
 
 	.base_text : {  /* Baseloader ROM */
 		_base_text = .;				/* We will use _base_text to determine the start of the baseloader. */
-		*                           (.vectors) /* Vector table by libopencm3 */		
-		*                           (.custom_vectors) /* Custom Vector table */		
+		*                           (.vectors) 		/* Vector Table by libopencm3 */		
+		*                           (.base_vectors) /* Baseloader Vector table */
+
+		*libbaseloader.a:          	(.text*) 	   	/* Baseloader Code */
 
 		* 							(.text.blocking_handler*) /* Default interrupt service routines by libopencm3 */
 		*		 					(.text.null_handler*) 	  /* Default interrupt service routines by libopencm3 */
@@ -81,6 +84,7 @@ SECTIONS
 		:*reset_handler*			(.text*) 	   /* Custom Reset Handler, also the entry point of the program */
 
 		. = ALIGN(4);  /* Baseloader Read-only data e.g. literal strings */
+		*libbaseloader.a:          	(.rodata*) 		 /* Data for Baseloader */
 		* 							(.rodata.blocking_handler*) /* Data for Default interrupt service routines by libopencm3 */
 		*		 					(.rodata.null_handler*) 	/* Data for Default interrupt service routines by libopencm3 */
 		*		 					(.rodata.*_isr)  /* Data for Custom interrupt service routines e.g. rtc_isr, rtc_alarm_isr */
