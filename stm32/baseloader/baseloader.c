@@ -154,14 +154,14 @@ void baseloader_start(void) {
     debug_println("baseloader_start"); debug_force_flush();
 
 	//  Disable interrupts because the vector table may be overwritten during flashing.
-    cm_disable_interrupts();
+	__asm__("CPSID I\n");  //  Was: cm_disable_interrupts();
 
 	//  From https://github.com/cnoviello/mastering-stm32
 	STK_CSR = 0;  //  Disables SysTick timer and its related interrupt	
 	RCC_CIR = 0;  //  Disable all interrupts related to clock
 
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	uint32_t *src = (uint32_t *) (ROM_START);
+	uint32_t *src =  (uint32_t *) (ROM_START);
 	uint32_t *dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
 
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
