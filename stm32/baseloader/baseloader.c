@@ -87,25 +87,20 @@ Status bit polling is used to detect end of operation.
 @param[in] data half word to write
 */
 
-void base_flash_program_half_word(uint32_t address, uint16_t data)
-{
-	base_flash_wait_for_last_operation();
-
-	if ((DESIG_FLASH_SIZE > 512) && (address >= FLASH_BASE+0x00080000)) {
-		FLASH_CR2 |= FLASH_CR_PG;
-	} else {
-		FLASH_CR |= FLASH_CR_PG;
-	}
-
-	MMIO16(address) = data;
-
-	base_flash_wait_for_last_operation();
-
-	if ((DESIG_FLASH_SIZE > 512) && (address >= FLASH_BASE+0x00080000)) {
-		FLASH_CR2 &= ~FLASH_CR_PG;
-	} else {
-		FLASH_CR &= ~FLASH_CR_PG;
-	}
+#define base_flash_program_half_word(/* uint32_t */ address, /* uint16_t */ data) { \
+	base_flash_wait_for_last_operation(); \
+	if ((DESIG_FLASH_SIZE > 512) && (address >= FLASH_BASE+0x00080000)) { \
+		FLASH_CR2 |= FLASH_CR_PG; \
+	} else { \
+		FLASH_CR |= FLASH_CR_PG; \
+	} \
+	MMIO16(address) = data; \
+	base_flash_wait_for_last_operation(); \
+	if ((DESIG_FLASH_SIZE > 512) && (address >= FLASH_BASE+0x00080000)) { \
+		FLASH_CR2 &= ~FLASH_CR_PG; \
+	} else { \
+		FLASH_CR &= ~FLASH_CR_PG; \
+	} \
 }
 
 static uint16_t* get_flash_end(void) {
