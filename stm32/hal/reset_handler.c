@@ -16,23 +16,14 @@ funcp_t __boot_preinit_array_start, __boot_preinit_array_end;  //  Bootloader C+
 funcp_t __boot_init_array_start, __boot_init_array_end;		 //  Bootloader C++ constructors.
 funcp_t __boot_fini_array_start, __boot_fini_array_end;		 //  Bootloader C++ destructors.
 
-void application_start(void);
-void blocking_handler(void);
-void null_handler(void);
+extern void application_start(void);
 
-typedef void (*base_vector_table_entry_t)(void);
-
-//  Baseloader Vector Table
-
-typedef struct {
-	uint32_t magic_number;
-	base_vector_table_entry_t baseloader;
-	base_vector_table_entry_t application;
-} base_vector_table_t;
+//  Baseloader Vector Table. Located just after STM32 Vector Table.
 
 __attribute__ ((section(".base_vectors")))
 base_vector_table_t base_vector_table = {
 	.magic_number = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
+	.version      = BOOTLOADER_VERSION, //  Bootloader version number e.g. 0x 00 01 00 01 for 1.01.
 	.baseloader   = baseloader_start,   //  Address of the baseloader function.
 	.application  = application_start,  //  Address of application. Also where the bootloader ends.
 };
