@@ -1088,6 +1088,7 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
  800024c:	08000588 	.word	0x08000588
 
 08000250 <baseloader_start>:
+    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
 
 #define ROM_START ((uint32_t) 0x08000000)
 #define ROM_SIZE  ((uint32_t) 0x10000)
@@ -1116,7 +1117,7 @@ void baseloader_start(void) {
 	uint32_t *src =  (uint32_t *) (ROM_START);
 	uint32_t *dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
 
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
+	debug_dump(); ////
  800026a:	f8df 912c 	ldr.w	r9, [pc, #300]	; 8000398 <baseloader_start+0x148>
  800026e:	4648      	mov	r0, r9
  8000270:	f003 f816 	bl	80032a0 <debug_print>
@@ -1125,7 +1126,6 @@ void baseloader_start(void) {
  800027c:	4d42      	ldr	r5, [pc, #264]	; (8000388 <baseloader_start+0x138>)
  800027e:	4628      	mov	r0, r5
  8000280:	f002 ffe2 	bl	8003248 <debug_println>
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush();
  8000284:	f8df b114 	ldr.w	fp, [pc, #276]	; 800039c <baseloader_start+0x14c>
  8000288:	4658      	mov	r0, fp
  800028a:	f003 f809 	bl	80032a0 <debug_print>
@@ -1135,7 +1135,6 @@ void baseloader_start(void) {
  8000296:	4628      	mov	r0, r5
  8000298:	f002 ffd6 	bl	8003248 <debug_println>
  800029c:	f002 ff66 	bl	800316c <debug_force_flush>
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
  80002a0:	f8df a0fc 	ldr.w	sl, [pc, #252]	; 80003a0 <baseloader_start+0x150>
  80002a4:	4650      	mov	r0, sl
  80002a6:	f002 fffb 	bl	80032a0 <debug_print>
@@ -1156,13 +1155,12 @@ void baseloader_start(void) {
 	base_flash_lock();
  80002ce:	f7ff ff53 	bl	8000178 <base_flash_lock>
 
-    debug_print("after "); debug_printhex_unsigned(*dest);
+	debug_dump2(); ////
  80002d2:	f8df 80d0 	ldr.w	r8, [pc, #208]	; 80003a4 <baseloader_start+0x154>
  80002d6:	4640      	mov	r0, r8
  80002d8:	f002 ffe2 	bl	80032a0 <debug_print>
  80002dc:	6820      	ldr	r0, [r4, #0]
  80002de:	f003 f827 	bl	8003330 <debug_printhex_unsigned>
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
  80002e2:	4f2b      	ldr	r7, [pc, #172]	; (8000390 <baseloader_start+0x140>)
  80002e4:	4638      	mov	r0, r7
  80002e6:	f002 ffdb 	bl	80032a0 <debug_print>
@@ -1175,7 +1173,7 @@ void baseloader_start(void) {
 
 	src = (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
 
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
+	debug_dump(); ////
  80002fc:	4648      	mov	r0, r9
  80002fe:	f002 ffcf 	bl	80032a0 <debug_print>
  8000302:	f8df 90a4 	ldr.w	r9, [pc, #164]	; 80003a8 <baseloader_start+0x158>
@@ -1183,7 +1181,6 @@ void baseloader_start(void) {
  8000308:	f003 f812 	bl	8003330 <debug_printhex_unsigned>
  800030c:	4628      	mov	r0, r5
  800030e:	f002 ff9b 	bl	8003248 <debug_println>
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush();
  8000312:	4658      	mov	r0, fp
  8000314:	f002 ffc4 	bl	80032a0 <debug_print>
  8000318:	4620      	mov	r0, r4
@@ -1191,7 +1188,6 @@ void baseloader_start(void) {
  800031e:	4628      	mov	r0, r5
  8000320:	f002 ff92 	bl	8003248 <debug_println>
  8000324:	f002 ff22 	bl	800316c <debug_force_flush>
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
  8000328:	4650      	mov	r0, sl
  800032a:	f002 ffb9 	bl	80032a0 <debug_print>
  800032e:	6820      	ldr	r0, [r4, #0]
@@ -1211,12 +1207,11 @@ void baseloader_start(void) {
 	base_flash_lock();
  8000350:	f7ff ff12 	bl	8000178 <base_flash_lock>
 
-    debug_print("after "); debug_printhex_unsigned(*dest);
+	debug_dump2(); ////
  8000354:	4640      	mov	r0, r8
  8000356:	f002 ffa3 	bl	80032a0 <debug_print>
  800035a:	6820      	ldr	r0, [r4, #0]
  800035c:	f002 ffe8 	bl	8003330 <debug_printhex_unsigned>
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
  8000360:	4638      	mov	r0, r7
  8000362:	f002 ff9d 	bl	80032a0 <debug_print>
  8000366:	4628      	mov	r0, r5

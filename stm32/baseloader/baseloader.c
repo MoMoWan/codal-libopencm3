@@ -147,6 +147,15 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
     return verified;
 }
 
+#define debug_dump() \
+    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush(); \
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
+
+#define debug_dump2() \
+    debug_print("after "); debug_printhex_unsigned(*dest); \
+    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
+
 #define ROM_START ((uint32_t) 0x08000000)
 #define ROM_SIZE  ((uint32_t) 0x10000)
 
@@ -164,29 +173,23 @@ void baseloader_start(void) {
 	uint32_t *src =  (uint32_t *) (ROM_START);
 	uint32_t *dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
 
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush();
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
+	debug_dump(); ////
 
 	base_flash_unlock();
 	bool ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
 	base_flash_lock();
 
-    debug_print("after "); debug_printhex_unsigned(*dest);
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
+	debug_dump2(); ////
 
 	src = (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
 
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println("");
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush();
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush();
+	debug_dump(); ////
 
 	base_flash_unlock();
 	ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
 	base_flash_lock();
 
-    debug_print("after "); debug_printhex_unsigned(*dest);
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
+	debug_dump2(); ////
 
 	//  Vector table may be overwritten. Restart to use the new vector table.
     //  TODO: scb_reset_system();
