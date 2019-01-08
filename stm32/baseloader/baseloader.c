@@ -7,6 +7,25 @@
 #include "flash-config.h"
 #include "baseloader.h"
 
+extern void application_start(void);
+
+//  Baseloader Vector Table. Located just after STM32 Vector Table.
+
+__attribute__ ((section(".base_vectors")))
+base_vector_table_t base_vector_table = {
+	.magic_number = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
+	.version      = BOOTLOADER_VERSION, //  Bootloader version number e.g. 0x 00 01 00 01 for 1.01.
+	.baseloader   = baseloader_start,   //  Address of the baseloader function.
+	.application  = application_start,  //  Address of application. Also where the bootloader ends.
+};
+
+//  Offset of Base Vector Table from the start of the flash page.
+#define BASE_VECTOR_TABLE_OFFSET (((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1))
+#define FLASH_ADDRESS(x) 		 (((uint32_t) x) & ~(FLASH_PAGE_SIZE - 1))
+
+//  Given an address X, compute the location of the Base Vector Table of the memory block that contains X.
+#define BASE_VECTOR_TABLE(x) 	 ((base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET))
+
 //  Flash functions for Baseloader, prefixed by "base_flash". We define them here instead of using libopencm3 to prevent any external references.
 //  We use macros to avoid absolute address references to functions, since the Baseloader must run in low and high memory.
 //  TODO: Support other than F1

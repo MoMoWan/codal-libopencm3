@@ -18,16 +18,6 @@ funcp_t __boot_fini_array_start, __boot_fini_array_end;		 //  Bootloader C++ des
 
 extern void application_start(void);
 
-//  Baseloader Vector Table. Located just after STM32 Vector Table.
-
-__attribute__ ((section(".base_vectors")))
-base_vector_table_t base_vector_table = {
-	.magic_number = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
-	.version      = BOOTLOADER_VERSION, //  Bootloader version number e.g. 0x 00 01 00 01 for 1.01.
-	.baseloader   = baseloader_start,   //  Address of the baseloader function.
-	.application  = application_start,  //  Address of application. Also where the bootloader ends.
-};
-
 uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
 uint32_t hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.
 
