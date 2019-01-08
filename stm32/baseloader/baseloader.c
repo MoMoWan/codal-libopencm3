@@ -34,9 +34,10 @@ base_vector_table_t base_vector_table = {
     #define base_get_flash_end() ((uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE))
 #endif
 
-static inline uint16_t* base_get_flash_page_address(uint16_t* dest) {
-    return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
-}
+//  Returns uint16_t*
+#define base_get_flash_page_address(/* uint16_t* */ dest) ( \
+    (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE) \
+)
 
 //  Flash functions for Baseloader, prefixed by "base_flash". We define them here instead of using libopencm3 to prevent any external references.
 //  We use macros to avoid absolute address references to functions, since the Baseloader must run in low and high memory.

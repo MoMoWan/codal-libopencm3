@@ -29,10 +29,10 @@ SYMBOL TABLE:
 00000000 l    d  .debug_frame	00000000 .debug_frame
 00000000 l    df *ABS*	00000000 vector.c
 00000000 l    df *ABS*	00000000 baseloader.c
-20002850 l     O .bss	00000004 erase_end.5177
-20002854 l     O .bss	00000004 erase_start.5176
-20002858 l     O .bss	00000004 flash_end.5178
-20002a1c l     O .bss	00000001 verified.5175
+20002850 l     O .bss	00000004 erase_end.5174
+20002854 l     O .bss	00000004 erase_start.5173
+20002858 l     O .bss	00000004 flash_end.5175
+20002a1c l     O .bss	00000001 verified.5172
 00000000 l    df *ABS*	00000000 timer.cpp
 08003418 l     F .boot_text	00000074 _ZL25custom_rtc_awake_from_off7rcc_osc
 0800348c l     F .boot_text	00000090 _ZL9rtc_setupv
@@ -1225,10 +1225,9 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
  8000398:	681b      	ldr	r3, [r3, #0]
  800039a:	42a3      	cmp	r3, r4
  800039c:	d90b      	bls.n	80003b6 <base_flash_program_array+0x142>
-    return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
+            erase_start = base_get_flash_page_address(dest);
  800039e:	f424 707f 	bic.w	r0, r4, #1020	; 0x3fc
  80003a2:	f020 0003 	bic.w	r0, r0, #3
-            erase_start = base_get_flash_page_address(dest);
  80003a6:	4b18      	ldr	r3, [pc, #96]	; (8000408 <base_flash_program_array+0x194>)
  80003a8:	6018      	str	r0, [r3, #0]
             erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
