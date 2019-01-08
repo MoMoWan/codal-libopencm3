@@ -103,15 +103,13 @@ Status bit polling is used to detect end of operation.
 	} \
 }
 
-static uint16_t* get_flash_end(void) {
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
-    return (uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE);
+    #define get_flash_end() ((uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE))
 #else
     /* Only allow access to the chip's self-reported flash size */
-    return (uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE);
+    #define get_flash_end() ((uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE))
 #endif
-}
 
 static inline uint16_t* get_flash_page_address(uint16_t* dest) {
     return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
