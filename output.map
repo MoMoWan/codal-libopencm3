@@ -8,6 +8,8 @@ Archive member included to satisfy reference by file (symbol)
                               .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o) (led_setup)
 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
                               .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o (platform_start_timer)
+.pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+                              .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o (baseloader_start)
 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
                               .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o (bootloader_start)
 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
@@ -215,6 +217,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
+ .custom_vectors
+                0x0000000000000000        0x8 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/src/aggregate.o
  .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/src/aggregate.o
  .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/src/aggregate.o
@@ -420,6 +424,14 @@ Discarded input sections
                 0x0000000000000000        0x4 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .text.platform_tick_count
                 0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+ .text.baseloader_start
+                0x0000000000000000        0x2 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+ .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+ .ARM.attributes
+                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
  .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
  .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
  .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
@@ -1449,6 +1461,7 @@ Linker script and memory map
  *(SORT_BY_ALIGNMENT(.vectors))
  .vectors       0x0000000008000000      0x150 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
                 0x0000000008000000                vector_table
+ *(SORT_BY_ALIGNMENT(.custom_vectors))
  *(SORT_BY_ALIGNMENT(.text.blocking_handler*))
  .text.blocking_handler
                 0x0000000008000150        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
@@ -3565,12 +3578,12 @@ LOAD .pioenvs/bluepill_f103c8/lib533/libunittest.a
 LOAD .pioenvs/bluepill_f103c8/lib23b/libboost_config.a
 LOAD .pioenvs/bluepill_f103c8/libf3d/libboost_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib3c5/libboost_core.a
-LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/lib186/libboost_static_assert.a
 LOAD .pioenvs/bluepill_f103c8/lib047/libboost_type_traits.a
+LOAD .pioenvs/bluepill_f103c8/libd23/libboost_preprocessor.a
 LOAD .pioenvs/bluepill_f103c8/lib95e/libboost_detail.a
-LOAD .pioenvs/bluepill_f103c8/lib64e/libboost_predef.a
 LOAD .pioenvs/bluepill_f103c8/libd30/libboost_utility.a
+LOAD .pioenvs/bluepill_f103c8/lib64e/libboost_predef.a
 LOAD .pioenvs/bluepill_f103c8/libe2b/libboost_mpl.a
 LOAD .pioenvs/bluepill_f103c8/lib609/libboost_iterator.a
 LOAD .pioenvs/bluepill_f103c8/libcea/libboost_parameter.a

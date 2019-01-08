@@ -38,6 +38,9 @@
 		},
 		{
 			"path": "stm32/logger"
+		},
+		{
+			"path": "stm32/baseloader"
 		}
 	],
 	"settings": {

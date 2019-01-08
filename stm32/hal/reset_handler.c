@@ -1,6 +1,7 @@
 //  We provide our own implementation of reset_handler() so that Blue Pill bootloader and firmware will be initialised in the right sequence.
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/cm3/vector.c
 #include <libopencm3/cm3/scb.h>
+#include <baseloader/baseloader.h>
 #include <bootloader/bootloader.h>
 #include <logger.h>
 #include "platform_includes.h"
@@ -18,6 +19,19 @@ funcp_t __boot_fini_array_start, __boot_fini_array_end;		 //  Bootloader C++ des
 void application_start(void);
 void blocking_handler(void);
 void null_handler(void);
+
+typedef void (*custom_vector_table_entry_t)(void);
+
+typedef struct {
+	custom_vector_table_entry_t baseloader;
+	custom_vector_table_entry_t application;
+} custom_vector_table_t;
+
+__attribute__ ((section(".custom_vectors")))
+custom_vector_table_t custom_vector_table = {
+	.baseloader = baseloader_start,
+	.application = application_start,
+};
 
 uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
 uint32_t hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.

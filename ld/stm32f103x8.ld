@@ -73,6 +73,8 @@ SECTIONS
 	.base_text : {  /* Baseloader ROM */
 		_base_text = .;				/* We will use _base_text to determine the start of the baseloader. */
 		*                           (.vectors) /* Vector table by libopencm3 */		
+		*                           (.custom_vectors) /* Custom Vector table */		
+
 		* 							(.text.blocking_handler*) /* Default interrupt service routines by libopencm3 */
 		*		 					(.text.null_handler*) 	  /* Default interrupt service routines by libopencm3 */
 		*		 					(.text.*_isr)  /* Custom interrupt service routines e.g. rtc_isr, rtc_alarm_isr */
