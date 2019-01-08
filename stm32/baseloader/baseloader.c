@@ -147,14 +147,6 @@ the FLASH programming manual for details.
 	} \
 }
 
-#define debug_flash() { \
-    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
-    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
-    debug_print(" to "); debug_printhex_unsigned((size_t) flash_end);  \
-    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
-    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
-}
-
 //  Disable interrupts for baseloader only because the vector table may be overwritten during flashing.
 #define disable_interrupts() { \
 	__asm__("CPSID I\n");  /*  Was: cm_disable_interrupts();  */ \
@@ -162,6 +154,32 @@ the FLASH programming manual for details.
 	STK_CSR = 0;  /* Disables SysTick timer and its related interrupt */ \
 	RCC_CIR = 0;  /* Disable all interrupts related to clock */ \
 }
+
+#define DISABLE_DEBUG
+#ifdef DISABLE_DEBUG
+#define debug_flash() {}
+#define debug_dump() {}
+#define debug_dump2() {}
+#else
+#define debug_flash() { \
+    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
+    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
+    debug_print(" to "); debug_printhex_unsigned((size_t) flash_end);  \
+    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
+    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
+}
+#define debug_dump() { \
+    debug_print("src  "); debug_printhex_unsigned((size_t) test_src); debug_println(""); \
+    debug_print("dest "); debug_printhex_unsigned((size_t) test_dest); debug_println(""); debug_force_flush(); \
+    debug_print("before "); debug_printhex_unsigned(*test_dest); debug_println(""); debug_force_flush(); \
+}
+#define debug_dump2() { \
+    debug_print("after "); debug_printhex_unsigned(*test_dest); \
+    debug_print(" / "); debug_printhex(verified); \
+	debug_print((*test_dest == *test_src) ? " OK " : " FAIL "); \
+	debug_println("\r\n"); debug_force_flush(); \
+}
+#endif  //  DISABLE_DEBUG
 
 //  Get Old Base Vector Table at 0x800 0000.  Get Old Application Address from Old Base Vector Table, truncate to block of 1024 bytes.
 //  If Base Magic Number exists at the Old Application Address, then use it as the New Base Vector Table.
@@ -247,19 +265,6 @@ bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half
 //  TODO
 #define ROM_START ((uint32_t) 0x08000000)
 #define ROM_SIZE  ((uint32_t) 0x10000)
-
-#define debug_dump() { \
-    debug_print("src  "); debug_printhex_unsigned((size_t) test_src); debug_println(""); \
-    debug_print("dest "); debug_printhex_unsigned((size_t) test_dest); debug_println(""); debug_force_flush(); \
-    debug_print("before "); debug_printhex_unsigned(*test_dest); debug_println(""); debug_force_flush(); \
-}
-
-#define debug_dump2() { \
-    debug_print("after "); debug_printhex_unsigned(*test_dest); \
-    debug_print(" / "); debug_printhex(verified); \
-	debug_print((*test_dest == *test_src) ? " OK " : " FAIL "); \
-	debug_println("\r\n"); debug_force_flush(); \
-}
 
 static uint32_t* test_dest = NULL;
 static uint32_t* test_src = NULL;
