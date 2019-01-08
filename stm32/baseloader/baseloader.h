@@ -22,6 +22,9 @@ typedef struct {
 } __attribute__((packed)) base_vector_table_t;
 
 void baseloader_start(void);
+void test_baseloader1(void);
+void test_baseloader2(void);
+void test_baseloader_end(void);
 
 #ifdef __cplusplus
 }  //  End of extern C scope.

@@ -149,15 +149,36 @@ the FLASH programming manual for details.
 
 #define debug_flash() { \
     debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
-    debug_print(", data "); debug_printhex_unsigned((size_t) data);  \
+    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
     debug_print(" to "); debug_printhex_unsigned((size_t) flash_end);  \
     debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
-    debug_println(""); \
+    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
 }
 
 //  TODO
 #define ROM_START ((uint32_t) 0x08000000)
 #define ROM_SIZE  ((uint32_t) 0x10000)
+
+#define debug_dump() { \
+    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush(); \
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
+}
+
+#define debug_dump2() { \
+    debug_print("after "); debug_printhex_unsigned(*dest); \
+    debug_print(" / "); debug_printhex(verified); \
+	debug_print((*dest == *src) ? " OK " : " FAIL "); \
+	debug_println("\r\n"); debug_force_flush(); \
+}
+
+//  Disable interrupts for baseloader only because the vector table may be overwritten during flashing.
+#define disable_interrupts() { \
+	__asm__("CPSID I\n");  /*  Was: cm_disable_interrupts();  */ \
+	/* From https://github.com/cnoviello/mastering-stm32 */ \
+	STK_CSR = 0;  /* Disables SysTick timer and its related interrupt */ \
+	RCC_CIR = 0;  /* Disable all interrupts related to clock */ \
+}
 
 //  Get Old Base Vector Table at 0x800 0000.  Get Old Application Address from Old Base Vector Table, truncate to block of 1024 bytes.
 //  If Base Magic Number exists at the Old Application Address, then use it as the New Base Vector Table.
@@ -169,9 +190,14 @@ the FLASH programming manual for details.
 //  To perform flashing, jump to the New Baseloader Address in the New Base Vector Table,
 //  adjusted to the New Base Vector Table Address.
 
-bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
-	//  TODO: Validate before flashing.
-    static bool verified;
+static uint16_t* dest = NULL;
+static uint16_t* src = NULL;
+static size_t half_word_count = 0;
+static bool verified = true;
+static bool should_disable_interrupts = true;
+
+void baseloader_start(void) {
+    debug_println("baseloader_start"); debug_force_flush();
     static uint16_t* erase_start;
     static uint16_t* erase_end;
     static const uint16_t* flash_end;
@@ -182,7 +208,16 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
     erase_end = NULL;
     flash_end = base_get_flash_end();  /* Remember the bounds of erased data in the current page */
 
+	//  TODO: Validate dest, src, half_word_count before flashing.
+
 	debug_flash(); ////
+
+	base_flash_unlock();  //  TODO: Check MakeCode flashing.
+
+	//  Disable interrupts because the vector table may be overwritten during flashing.
+	if (should_disable_interrupts) {
+		disable_interrupts(); // Only for baseloader.
+	}
 
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
@@ -196,63 +231,52 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
             erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
             base_flash_erase_page((uint32_t)erase_start);
         }
-        base_flash_program_half_word((uint32_t)dest, *data);
+        base_flash_program_half_word((uint32_t)dest, *src);
         erase_start = dest + 1;
-        if (*dest != *data) {
-            //  debug_println("*dest != *data"); debug_flush();
+        if (*dest != *src) {
+            //  debug_println("*dest != *src"); debug_flush();
             verified = false;
             break;
         }
         dest++;
-        data++;
+        src++;
         half_word_count--;
     }
-    return verified;
-}
 
-#define debug_dump() { \
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush(); \
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
-}
-
-#define debug_dump2() { \
-    debug_print("after "); debug_printhex_unsigned(*dest); \
-    debug_print(" / "); debug_printhex(ok); \
-	debug_print((*dest == *src) ? " OK " : " FAIL "); \
-	debug_println("\r\n"); debug_force_flush(); \
-}
-
-void baseloader_start(void) {
-    debug_println("baseloader_start"); debug_force_flush();
-
-	//  Disable interrupts because the vector table may be overwritten during flashing.
-	__asm__("CPSID I\n");  //  Was: cm_disable_interrupts();
-
-	//  From https://github.com/cnoviello/mastering-stm32
-	STK_CSR = 0;  //  Disables SysTick timer and its related interrupt	
-	RCC_CIR = 0;  //  Disable all interrupts related to clock
-
-	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	uint32_t *src =  (uint32_t *) (ROM_START);
-	uint32_t *dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
-
-	debug_dump(); ////
-	base_flash_unlock();
-	bool ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
-	base_flash_lock();
-	debug_dump2(); ////
-
-	src = (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
-
-	debug_dump(); ////
-	base_flash_unlock();
-	ok = base_flash_program_array((uint16_t *) dest, (uint16_t *) src, FLASH_PAGE_SIZE / 2);
-	base_flash_lock();
-	debug_dump2(); ////
+	base_flash_lock();  //  TODO: Check MakeCode flashing.
 
 	//  Vector table may be overwritten. Restart to use the new vector table.
-    //  TODO: scb_reset_system();
+    //  TODO: if (should_disable_interrupts) { scb_reset_system(); }
 	//  Should not return.
-	//  for (;;) {}
+}
+
+bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0) {
+	//  TODO: Validate dest, src, half_word_count before flashing.
+	//  Warning: Not reentrant.
+	dest = dest0;
+	src = src0;
+	half_word_count = half_word_count0;
+	should_disable_interrupts = false;
+	baseloader_start();
+	return verified;
+}
+
+void test_baseloader1(void) {
+	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
+	src =  (uint32_t *) (ROM_START);
+	dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+	half_word_count = FLASH_PAGE_SIZE / 2;
+	debug_dump(); ////
+}
+
+void test_baseloader2(void) {
+	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
+	src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
+	dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+	half_word_count = FLASH_PAGE_SIZE / 2;
+	debug_dump(); ////	
+}
+
+void test_baseloader_end(void) {
+	debug_dump2(); ////
 }

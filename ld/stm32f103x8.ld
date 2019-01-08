@@ -320,6 +320,7 @@ SECTIONS
 		_boot_data = .;
 
 		/* Bootloader read-write initialized data */
+		*libbaseloader.a:          	(.data*) /* Baseloader */
 		:*reset_handler*			(.data*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.data*) /* Reset Handler */
 		:*codal_target_hal*			(.data*) /* CODAL HAL */
@@ -356,6 +357,7 @@ SECTIONS
 	.boot_bss : {   /*  Bootloader Variables */
 
 		/*  Bootloader Variables Init With 0 (BSS)  */
+		*libbaseloader.a:          	(.bss*) /* Baseloader */
 		:*reset_handler*			(.bss*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.bss*) /* Reset Handler */
 		:*codal_target_hal*			(.bss*) /* CODAL HAL */
