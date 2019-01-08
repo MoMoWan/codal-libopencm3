@@ -6,10 +6,11 @@
 extern "C" {  //  Allows functions below to be called by C and C++ code.
 #endif
 
-extern uint32_t _text;      //  Defined by the linker script where the application starts running.
-#define APP_BASE_ADDRESS    ((uint32_t) &_text)     //  Application starts here, after the bootloader.
-#define FLASH_SIZE_OVERRIDE 0x10000                 //  Assume 64KB of ROM, don't override to 128 KB.
-#define FLASH_PAGE_SIZE     1024
+extern uint32_t _text;        //  Defined by the linker script where the application starts running.
+#define APP_BASE_ADDRESS      ((uint32_t) &_text)     //  Application starts here, after the bootloader.
+#define FLASH_SIZE_OVERRIDE   0x10000                 //  Assume 64KB of ROM, don't override to 128 KB.
+#define FLASH_PAGE_SIZE       1024                    
+#define FLASH_PAGE_HALF_WORD_COUNT (FLASH_PAGE_SIZE / 2)  //  Number of half-words (16 bits) in a flash page.
 
 #ifdef __cplusplus
 }  //  End of extern C scope.

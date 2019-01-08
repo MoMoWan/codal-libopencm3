@@ -1,4 +1,4 @@
-#define DISABLE_DEBUG
+////#define DISABLE_DEBUG
 #include <logger/logger.h>
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/systick.h>  //  For STK_CSR
@@ -20,12 +20,17 @@ base_vector_table_t base_vector_table = {
 	.application  = application_start,  //  Address of application. Also where the bootloader ends.
 };
 
-//  Offset of Base Vector Table from the start of the flash page.
-#define BASE_VECTOR_TABLE_OFFSET (((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1))
+//  Given an address X, compute the base address of the flash memory page that contains X.
 #define FLASH_ADDRESS(x) 		 (((uint32_t) x) & ~(FLASH_PAGE_SIZE - 1))
 
-//  Given an address X, compute the location of the Base Vector Table of the memory block that contains X.
+//  Offset of Base Vector Table from the start of the flash page.
+#define BASE_VECTOR_TABLE_OFFSET (((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1))
+
+//  Given an address X, compute the location of the Base Vector Table of the flash memory page that contains X.
 #define BASE_VECTOR_TABLE(x) 	 ((base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET))
+
+//  Given an address X, is the Base Vector Table in that flash memory page valid (checks magic number)
+#define IS_VALID_BASE_VECTOR_TABLE(x)  (BASE_VECTOR_TABLE(x)->magic_number == BASE_MAGIC_NUMBER)
 
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
@@ -270,28 +275,62 @@ static uint32_t* test_dest = NULL;
 static uint32_t* test_src = NULL;
 static size_t test_half_word_count = 0;
 
+void test_copy_bootloader(void) {
+	//  Copy bootloader to application space.
+	uint32_t bootloader_size = application_start - ROM_START;
+	test_src =  (uint32_t *) (ROM_START);
+	test_dest = FLASH_ADDRESS(application_start);
+	test_half_word_count = bootloader_size / 2;
+	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+}
+
+void test_copy_vector(void) {
+	//  Copy vector to end of bootloader.
+	uint32_t bootloader_size = application_start - ROM_START;
+	test_src =  (uint32_t *) (ROM_START);
+	test_dest = FLASH_ADDRESS(application_start + bootloader_size);
+	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
+	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+}
+
+void test_copy_end(void) {
+	debug_dump2(); ////
+	uint32_t bootloader_size = application_start - ROM_START;  //  TODO: Compute based on new bootloader size.
+
+	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
+	debug_print("begin_base_vector "); debug_printhex_unsigned(begin_base_vector); debug_println("");
+	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
+	debug_force_flush();
+
+	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(application_start + bootloader_size);
+	debug_print("end_base_vector "); debug_printhex_unsigned(end_base_vector); debug_println("");
+	debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
+	debug_force_flush();
+}
+
 void test_baseloader1(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
 	test_src =  (uint32_t *) (ROM_START);
 	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
-	test_half_word_count = FLASH_PAGE_SIZE / 2;
-	src = test_src;
-	dest = test_dest;
-	half_word_count = test_half_word_count;
-	debug_dump(); ////
+	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
+	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
 }
 
 void test_baseloader2(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
 	test_src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
 	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
-	test_half_word_count = FLASH_PAGE_SIZE / 2;
-	src = test_src;
-	dest = test_dest;
-	half_word_count = test_half_word_count;
-	debug_dump(); ////	
+	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
+	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
 }
 
 void test_baseloader_end(void) {
 	debug_dump2(); ////
+
+	base_vector_table_t *new_base_vector = BASE_VECTOR_TABLE(application_start);
+	debug_print("new_base_vector "); debug_printhex_unsigned(new_base_vector); debug_println("");
+	debug_print("magic "); debug_printhex_unsigned(new_base_vector->magic_number); debug_println("");
+	debug_force_flush();
+
+	for (;;) {} ////
 }

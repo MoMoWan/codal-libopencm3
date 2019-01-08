@@ -77,6 +77,17 @@ void reset_handler(void) {
 	}
 
     //  Start the baseloader.  This function will not return if the baseloader restarts Blue Pill after flashing.
+	test_copy_bootloader(); ////
+	baseloader_start();
+	test_copy_end();
+
+	test_copy_vector(); ////
+	baseloader_start();
+	test_copy_end();
+
+	for (;;) {} ////
+
+#ifdef NOTUSED
 	test_baseloader1(); ////
     baseloader_start();
 	test_baseloader_end(); ////
@@ -84,6 +95,7 @@ void reset_handler(void) {
 	test_baseloader2(); ////
     baseloader_start();
 	test_baseloader_end(); ////
+#endif  //  NOTUSED
 
     //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
     bootloader_start();

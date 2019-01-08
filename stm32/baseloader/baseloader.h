@@ -1,6 +1,7 @@
 //  Baseloader Functions
 #ifndef BASELOADER_H_INCLUDED
 #define BASELOADER_H_INCLUDED
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {  //  Allows functions below to be called by C and C++ code.
@@ -13,7 +14,6 @@ extern "C" {  //  Allows functions below to be called by C and C++ code.
 typedef void (*base_vector_table_entry_t)(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
-
 typedef struct {
 	uint32_t magic_number;					//  Magic number to verify this as a Baseloader Vector Table.
 	uint32_t version;						//  Bootloader version number e.g. 0x 00 01 00 01 for 1.01.
@@ -21,12 +21,15 @@ typedef struct {
 	base_vector_table_entry_t application;	//  Address of application. Also where the bootloader ends.
 } __attribute__((packed)) base_vector_table_t;
 
-void baseloader_start(void);
-bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
+extern void baseloader_start(void);
+// extern bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
 
-void test_baseloader1(void);
-void test_baseloader2(void);
-void test_baseloader_end(void);
+void test_copy_bootloader(void);
+void test_copy_vector(void);
+void test_copy_end(void);
+extern void test_baseloader1(void);
+extern void test_baseloader2(void);
+extern void test_baseloader_end(void);
 
 #ifdef __cplusplus
 }  //  End of extern C scope.
