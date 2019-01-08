@@ -30,10 +30,10 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 vector.c
 00000000 l    df *ABS*	00000000 baseloader.c
 08000160 l     F .base_text	00000008 get_flash_end
-20002850 l     O .bss	00000004 erase_end.5184
-20002854 l     O .bss	00000004 erase_start.5183
-20002858 l     O .bss	00000004 flash_end.5185
-20002a1c l     O .bss	00000001 verified.5182
+20002850 l     O .bss	00000004 erase_end.5181
+20002854 l     O .bss	00000004 erase_start.5180
+20002858 l     O .bss	00000004 flash_end.5182
+20002a1c l     O .bss	00000001 verified.5179
 00000000 l    df *ABS*	00000000 timer.cpp
 08003418 l     F .boot_text	00000074 _ZL25custom_rtc_awake_from_off7rcc_osc
 0800348c l     F .boot_text	00000090 _ZL9rtc_setupv
@@ -947,7 +947,7 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
     static uint16_t* erase_end;
     static const uint16_t* flash_end;
 
-	flags = 0;
+	//  Init manually in case BSS isn't initialised.
     verified = true;
  8000170:	4b2d      	ldr	r3, [pc, #180]	; (8000228 <base_flash_program_array+0xc0>)
  8000172:	2201      	movs	r2, #1
@@ -983,7 +983,7 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
  80001b4:	f003 f8c4 	bl	8003340 <debug_printhex_unsigned>
  80001b8:	4823      	ldr	r0, [pc, #140]	; (8000248 <base_flash_program_array+0xe0>)
  80001ba:	f003 f84d 	bl	8003258 <debug_println>
-	
+
     while (half_word_count > 0) {
  80001be:	e01f      	b.n	8000200 <base_flash_program_array+0x98>
         /* Avoid writing past the end of flash */

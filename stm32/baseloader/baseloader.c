@@ -54,27 +54,27 @@ the lower bank using bitwise OR, without distinction.
 error, bit 5: end of operation.
 */
 
-uint32_t base_flash_get_status_flags(void)
-{
-	uint32_t flags = (FLASH_SR & (FLASH_SR_PGERR |
-			FLASH_SR_EOP |
-			FLASH_SR_WRPRTERR |
-			FLASH_SR_BSY));
-	if (DESIG_FLASH_SIZE > 512) {
-		flags |= (FLASH_SR2 & (FLASH_SR_PGERR |
-			FLASH_SR_EOP |
-			FLASH_SR_WRPRTERR |
-			FLASH_SR_BSY));
-	}
-
-	return flags;
+#define base_flash_get_status_flags(flags) { \
+	flags = (FLASH_SR & (FLASH_SR_PGERR | \
+			FLASH_SR_EOP | \
+			FLASH_SR_WRPRTERR | \
+			FLASH_SR_BSY)); \
+	if (DESIG_FLASH_SIZE > 512) { \
+		flags |= (FLASH_SR2 & (FLASH_SR_PGERR | \
+			FLASH_SR_EOP | \
+			FLASH_SR_WRPRTERR | \
+			FLASH_SR_BSY)); \
+	} \
 }
 
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/common/flash_common_f01.c
 
-void base_flash_wait_for_last_operation(void)
-{
-	while ((base_flash_get_status_flags() & FLASH_SR_BSY) == FLASH_SR_BSY);
+#define base_flash_wait_for_last_operation() { \
+	uint32_t flags; \
+	base_flash_get_status_flags(flags); \
+	while ((flags & FLASH_SR_BSY) == FLASH_SR_BSY) { \
+		base_flash_get_status_flags(flags); \
+	} \
 }
 
 /*---------------------------------------------------------------------------*/
@@ -145,20 +145,19 @@ static inline uint16_t* get_flash_page_address(uint16_t* dest) {
 
 bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
 	//  TODO: Validate before flashing.
-	static uint32_t flags;
     static bool verified;
     static uint16_t* erase_start;
     static uint16_t* erase_end;
     static const uint16_t* flash_end;
 
-	flags = 0;
+	//  Init manually in case BSS isn't initialised.
     verified = true;
     erase_start = NULL;
     erase_end = NULL;
     flash_end = get_flash_end();  /* Remember the bounds of erased data in the current page */
 
 	debug_flash(); ////
-	
+
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
         if (dest >= flash_end) {
