@@ -126,29 +126,25 @@ the FLASH programming manual for details.
 @param[in] page_address Full address of flash page to be erased.
 */
 
-void base_flash_erase_page(uint32_t page_address)
-{
-	base_flash_wait_for_last_operation();
-
-	if ((DESIG_FLASH_SIZE > 512)
-	    && (page_address >= FLASH_BASE+0x00080000)) {
-		FLASH_CR2 |= FLASH_CR_PER;
-		FLASH_AR2 = page_address;
-		FLASH_CR2 |= FLASH_CR_STRT;
-	} else  {
-		FLASH_CR |= FLASH_CR_PER;
-		FLASH_AR = page_address;
-		FLASH_CR |= FLASH_CR_STRT;
-	}
-
-	base_flash_wait_for_last_operation();
-
-	if ((DESIG_FLASH_SIZE > 512)
-	    && (page_address >= FLASH_BASE+0x00080000)) {
-		FLASH_CR2 &= ~FLASH_CR_PER;
-	} else {
-		FLASH_CR &= ~FLASH_CR_PER;
-	}
+#define base_flash_erase_page(/* uint32_t */ page_address) { \
+	base_flash_wait_for_last_operation(); \
+	if ((DESIG_FLASH_SIZE > 512) \
+	    && (page_address >= FLASH_BASE+0x00080000)) { \
+		FLASH_CR2 |= FLASH_CR_PER; \
+		FLASH_AR2 = page_address; \
+		FLASH_CR2 |= FLASH_CR_STRT; \
+	} else  { \
+		FLASH_CR |= FLASH_CR_PER; \
+		FLASH_AR = page_address; \
+		FLASH_CR |= FLASH_CR_STRT; \
+	} \
+	base_flash_wait_for_last_operation(); \
+	if ((DESIG_FLASH_SIZE > 512) \
+	    && (page_address >= FLASH_BASE+0x00080000)) { \
+		FLASH_CR2 &= ~FLASH_CR_PER; \
+	} else { \
+		FLASH_CR &= ~FLASH_CR_PER; \
+	} \
 }
 
 #define debug_flash() { \
