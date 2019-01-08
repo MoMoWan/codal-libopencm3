@@ -1,3 +1,4 @@
+#define DISABLE_DEBUG
 #include <logger/logger.h>
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/systick.h>  //  For STK_CSR
@@ -155,7 +156,6 @@ the FLASH programming manual for details.
 	RCC_CIR = 0;  /* Disable all interrupts related to clock */ \
 }
 
-#define DISABLE_DEBUG
 #ifdef DISABLE_DEBUG
 #define debug_flash() {}
 #define debug_dump() {}
