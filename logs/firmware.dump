@@ -35,33 +35,35 @@ SYMBOL TABLE:
 2000093c l     O .boot_bss	00000004 flash_end.5172
 20000940 l     O .boot_bss	00000004 half_word_count
 20000944 l     O .boot_bss	00000004 src
+20000948 l     O .boot_bss	00000004 test_dest
+2000094c l     O .boot_bss	00000004 test_src
 20000800 l     O .boot_data	00000001 should_disable_interrupts
 20000801 l     O .boot_data	00000001 verified
 00000000 l    df *ABS*	00000000 timer.cpp
 08003418 l     F .boot_text	00000074 _ZL25custom_rtc_awake_from_off7rcc_osc
 0800348c l     F .boot_text	00000090 _ZL9rtc_setupv
-20000c40 l     O .boot_bss	00000004 _ZL10alarmCount
-20000c44 l     O .boot_bss	00000004 _ZL8tickFunc
-20000c48 l     O .boot_bss	00000004 _ZL9alarmFunc
-20000c4c l     O .boot_bss	00000004 _ZL9tickCount
-20000c51 l     O .boot_bss	00000001 _ZZ20platform_start_timerE12timerStarted
+20000c48 l     O .boot_bss	00000004 _ZL10alarmCount
+20000c4c l     O .boot_bss	00000004 _ZL8tickFunc
+20000c50 l     O .boot_bss	00000004 _ZL9alarmFunc
+20000c54 l     O .boot_bss	00000004 _ZL9tickCount
+20000c59 l     O .boot_bss	00000001 _ZZ20platform_start_timerE12timerStarted
 00000000 l    df *ABS*	00000000 uartint.cpp
 08009a50 l     F .text	0000001c _Z41__static_initialization_and_destruction_0ii
 0800abb2 l     F .text	0000000e _GLOBAL__sub_I__ZN13UARTInterfaceC2Ejj
 20002994 l     O .bss	0000006c _ZL13responseQueue
 00000000 l    df *ABS*	00000000 reset_handler.c
-0800070c l     F .base_text	00000050 pre_main
+08000730 l     F .base_text	00000050 pre_main
 00000000 l    df *ABS*	00000000 codal_target_hal.cpp
 08001000 l     F .boot_text	00000024 _ZL11timer_alarmv
 08001024 l     F .boot_text	00000070 _ZL15poll_bootloaderv
 08001094 l     F .boot_text	00000018 _ZL10timer_tickv
 080010ac l     F .boot_text	0000002c _ZL11os_schedulev
-20000960 l     O .boot_bss	00000001 _ZL11initialised
-20000948 l     O .boot_bss	00000004 _ZL11poll_status
-2000094c l     O .boot_bss	00000004 _ZL13tick_callback
-20000950 l     O .boot_bss	00000004 _ZL14alarm_callback
-20000954 l     O .boot_bss	00000004 _ZL16prev_poll_status
-20000958 l     O .boot_bss	00000004 _ZL19bootloader_callback
+20000968 l     O .boot_bss	00000001 _ZL11initialised
+20000950 l     O .boot_bss	00000004 _ZL11poll_status
+20000954 l     O .boot_bss	00000004 _ZL13tick_callback
+20000958 l     O .boot_bss	00000004 _ZL14alarm_callback
+2000095c l     O .boot_bss	00000004 _ZL16prev_poll_status
+20000960 l     O .boot_bss	00000004 _ZL19bootloader_callback
 00000000 l    df *ABS*	00000000 asm/CortexContextSwitch.s.o
 080012b8 l       .boot_text	00000000 store_context_complete
 080012ca l       .boot_text	00000000 store_stack_complete
@@ -110,22 +112,22 @@ SYMBOL TABLE:
 08002300 l     F .boot_text	0000003a usb_control_setup_read
 00000000 l    df *ABS*	00000000 nvic.c
 00000000 l    df *ABS*	00000000 os_event.c
-20000964 l     O .boot_bss	0000000e eventList
-20000a22 l     O .boot_bss	00000001 nEvents
+2000096c l     O .boot_bss	0000000e eventList
+20000a2a l     O .boot_bss	00000001 nEvents
 20000818 l     O .boot_data	00000001 lastSignaledEvent
 00000000 l    df *ABS*	00000000 os_kernel.c
 00000000 l    df *ABS*	00000000 os_msgqueue.c
-20000974 l     O .boot_bss	00000020 msgQList
-20000a23 l     O .boot_bss	00000001 nQueues
+2000097c l     O .boot_bss	00000020 msgQList
+20000a2b l     O .boot_bss	00000001 nQueues
 00000000 l    df *ABS*	00000000 os_sem.c
-20000a24 l     O .boot_bss	00000001 nSemaphores
+20000a2c l     O .boot_bss	00000001 nSemaphores
 00000000 l    df *ABS*	00000000 os_task.c
 08002ce0 l     F .boot_text	0000001c os_task_wait_queue_empty
 08002cfc l     F .boot_text	00000014 task_ready_set
-20000a25 l     O .boot_bss	00000001 nTasks
-20000994 l     O .boot_bss	0000008c task_list
+20000a2d l     O .boot_bss	00000001 nTasks
+2000099c l     O .boot_bss	0000008c task_list
 00000000 l    df *ABS*	00000000 os_assert.c
-20000a20 l     O .boot_bss	00000002 l.4990
+20000a28 l     O .boot_bss	00000002 l.4990
 00000000 l    df *ABS*	00000000 os_cbk.c
 00000000 l    df *ABS*	00000000 memcmp.c
 00000000 l    df *ABS*	00000000 memcpy.c
@@ -137,32 +139,32 @@ SYMBOL TABLE:
 08003288 l     F .boot_text	0000001e _ZL14semihost_writemPKhj
 0800305c l     F .boot_text	0000003c _ZL16write_all_outputPKhtb
 08003098 l     F .boot_text	00000040 _ZL12debug_appendPKcj
-20000c3e l     O .boot_bss	00000001 _ZL10logEnabled
-20000a28 l     O .boot_bss	00000201 _ZL11debugBuffer
-20000c2c l     O .boot_bss	00000010 _ZL12output_funcs
-20000c3c l     O .boot_bss	00000002 _ZL17debugBufferLength
+20000c46 l     O .boot_bss	00000001 _ZL10logEnabled
+20000a30 l     O .boot_bss	00000201 _ZL11debugBuffer
+20000c34 l     O .boot_bss	00000010 _ZL12output_funcs
+20000c44 l     O .boot_bss	00000002 _ZL17debugBufferLength
 00000000 l    df *ABS*	00000000 bluepill.cpp
-20000c50 l     O .boot_bss	00000001 _ZL12debugEnabled
+20000c58 l     O .boot_bss	00000001 _ZL12debugEnabled
 00000000 l    df *ABS*	00000000 led.cpp
 00000000 l    df *ABS*	00000000 bootloader.c
 080035b4 l     F .boot_text	00000034 get_serial_number
 08003608 l     F .boot_text	000000cc poll_loop
-20000c54 l     O .boot_bss	00000004 cycleCount
-20000c58 l     O .boot_bss	00000004 last_poll.6303
-20000c5c l     O .boot_bss	00000004 last_status
-20000c60 l     O .boot_bss	00000004 msTimer
-20000f0c l     O .boot_bss	00000001 poll_restart_requested
-20000c64 l     O .boot_bss	00000004 status
-20000c68 l     O .boot_bss	00000004 usbd_dev
+20000c5c l     O .boot_bss	00000004 cycleCount
+20000c60 l     O .boot_bss	00000004 last_poll.6303
+20000c64 l     O .boot_bss	00000004 last_status
+20000c68 l     O .boot_bss	00000004 msTimer
+20000f14 l     O .boot_bss	00000001 poll_restart_requested
+20000c6c l     O .boot_bss	00000004 status
+20000c70 l     O .boot_bss	00000004 usbd_dev
 2000081c l     O .boot_data	00000004 flushCount
 00000000 l    df *ABS*	00000000 target_stm32f103.c
 08004b4a l     F .boot_text	00000014 sleep_us
 08003780 l     F .boot_text	00000008 get_flash_end
 08003788 l     F .boot_text	0000005c validate_application
-20000c6c l     O .boot_bss	00000004 erase_end.5449
-20000c70 l     O .boot_bss	00000004 erase_start.5448
-20000f0d l     O .boot_bss	00000001 forced_startup_mode
-20000f0e l     O .boot_bss	00000001 startup_mode
+20000c74 l     O .boot_bss	00000004 erase_end.5449
+20000c78 l     O .boot_bss	00000004 erase_start.5448
+20000f15 l     O .boot_bss	00000001 forced_startup_mode
+20000f16 l     O .boot_bss	00000001 startup_mode
 00000000 l    df *ABS*	00000000 usb_conf.c
 08003a84 l     F .boot_text	00000014 hf2_connected
 08004b78 l     F .boot_text	00000004 usb_descriptor_type
@@ -172,14 +174,14 @@ SYMBOL TABLE:
 08003ae8 l     F .boot_text	00000010 sof_callback
 08003af8 l     F .boot_text	00000050 set_aggregate_callback
 08003ef8 l     F .boot_text	000000a8 aggregate_callback
-20000f0f l     O .boot_bss	00000001 cdc_is_connected
-20000c74 l     O .boot_bss	00000028 config_callback
-20000c9c l     O .boot_bss	00000050 control_callback
-20000f10 l     O .boot_bss	00000001 hf2_is_connected
-20000cec l     O .boot_bss	00000004 last_busy_time
-20000cf0 l     O .boot_bss	00000004 last_frame_time
-20000cf4 l     O .boot_bss	00000019 serial_number
-20000e0c l     O .boot_bss	00000100 usbd_control_buffer
+20000f17 l     O .boot_bss	00000001 cdc_is_connected
+20000c7c l     O .boot_bss	00000028 config_callback
+20000ca4 l     O .boot_bss	00000050 control_callback
+20000f18 l     O .boot_bss	00000001 hf2_is_connected
+20000cf4 l     O .boot_bss	00000004 last_busy_time
+20000cf8 l     O .boot_bss	00000004 last_frame_time
+20000cfc l     O .boot_bss	00000019 serial_number
+20000e14 l     O .boot_bss	00000100 usbd_control_buffer
 20000820 l     O .boot_data	00000008 capabilities
 20000828 l     O .boot_data	00000024 usb_strings
 08004f44 l     O .boot_text	00000009 bos_descriptor
@@ -197,7 +199,7 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 webusb.c
 08003fa0 l     F .boot_text	00000028 webusb_set_config
 08003fc8 l     F .boot_text	000000d0 webusb_control_vendor_request
-20000d14 l     O .boot_bss	00000004 webusb_https_url
+20000d1c l     O .boot_bss	00000004 webusb_https_url
 00000000 l    df *ABS*	00000000 winusb.c
 08004b80 l     F .boot_text	00000004 usb_descriptor_type
 08004b84 l     F .boot_text	00000004 usb_descriptor_index
@@ -213,9 +215,9 @@ SYMBOL TABLE:
 08004294 l     F .boot_text	00000064 cdcacm_set_config
 080043ec l     F .boot_text	0000004c cdcacm_data_rx_cb
 080042f8 l     F .boot_text	0000008c cdcacm_control_request
-20000f11 l     O .boot_bss	00000001 connected
-20000d18 l     O .boot_bss	00000004 connected_func
-20000d1c l     O .boot_bss	00000041 rx_buf
+20000f19 l     O .boot_bss	00000001 connected
+20000d20 l     O .boot_bss	00000004 connected_func
+20000d24 l     O .boot_bss	00000041 rx_buf
 080053e8 l     O .boot_text	00000007 line_coding
 00000000 l    df *ABS*	00000000 hf2.c
 08004464 l     F .boot_text	0000001c assert
@@ -225,29 +227,29 @@ SYMBOL TABLE:
 080044c0 l     F .boot_text	000000c8 pokeSend
 08004b88 l     F .boot_text	00000018 send_hf2_response
 08004588 l     F .boot_text	00000298 handle_command
-20000d60 l     O .boot_bss	00000004 _usbd_dev
-20000d64 l     O .boot_bss	00000004 cmdId.5963
-20000f12 l     O .boot_bss	00000001 connected
-20000d68 l     O .boot_bss	00000004 connected_func
-20000d6c l     O .boot_bss	00000004 pkt.5986
-20000d70 l     O .boot_bss	00000004 prevCmdId.5962
-20000d74 l     O .boot_bss	00000004 remDataToSend
-20000f13 l     O .boot_bss	00000001 remDataToSendFlag
-20000d78 l     O .boot_bss	00000004 remDataToSendLength
-20000f14 l     O .boot_bss	00000001 restart_request
-20000d7c l     O .boot_bss	00000040 rx_buf
-20000dbc l     O .boot_bss	00000004 rx_time
-20000dc0 l     O .boot_bss	00000040 tx_buf
+20000d68 l     O .boot_bss	00000004 _usbd_dev
+20000d6c l     O .boot_bss	00000004 cmdId.5963
+20000f1a l     O .boot_bss	00000001 connected
+20000d70 l     O .boot_bss	00000004 connected_func
+20000d74 l     O .boot_bss	00000004 pkt.5986
+20000d78 l     O .boot_bss	00000004 prevCmdId.5962
+20000d7c l     O .boot_bss	00000004 remDataToSend
+20000f1b l     O .boot_bss	00000001 remDataToSendFlag
+20000d80 l     O .boot_bss	00000004 remDataToSendLength
+20000f1c l     O .boot_bss	00000001 restart_request
+20000d84 l     O .boot_bss	00000040 rx_buf
+20000dc4 l     O .boot_bss	00000004 rx_time
+20000dc8 l     O .boot_bss	00000040 tx_buf
 080053fc l     O .boot_text	0000000b bad_packet_message
 00000000 l    df *ABS*	00000000 backup.c
 00000000 l    df *ABS*	00000000 usb21_standard.c
 08004a08 l     F .boot_text	00000028 usb21_set_config
 08004a30 l     F .boot_text	0000005c usb21_standard_get_descriptor
 08004ba0 l     F .boot_text	0000007c build_bos_descriptor
-20000e00 l     O .boot_bss	00000004 usb21_bos
+20000e08 l     O .boot_bss	00000004 usb21_bos
 00000000 l    df *ABS*	00000000 ghostfat.c
-20000e04 l     O .boot_bss	00000004 lastFlush
-20000e08 l     O .boot_bss	00000004 ms
+20000e0c l     O .boot_bss	00000004 lastFlush
+20000e10 l     O .boot_bss	00000004 ms
 2000092c l     O .boot_data	00000001 firstFlush
 20000928 l     O .boot_data	00000004 flashAddr
 00000000 l    df *ABS*	00000000 application.cpp
@@ -325,7 +327,7 @@ SYMBOL TABLE:
 080023b4 g     F .boot_text	0000008a _usbd_control_out
 08001262 g     F .boot_text	00000004 tcb_configure_stack_base
 0800abd0 g     F .text	0000000c _ZN5codal3_cm3SPI12setFrequencyEm
-0800075c g     F .base_text	000000b0 reset_handler
+08000780 g     F .base_text	000000b0 reset_handler
 0800a91e g     F .text	0000000a _ZN5codal3_cm6Serial8unlockRxEv
 080011a8 g     F .boot_text	00000008 fiber_initial_stack_base
 00006800 g       *ABS*	00000000 _bootrom_size
@@ -341,28 +343,28 @@ SYMBOL TABLE:
 0800b214 g     O .text	00000048 PinMap_SPI_MOSI
 08009de6 g     F .text	00000018 _ZN5codal8ListenerD2Ev
 0800125e g     F .boot_text	00000004 tcb_configure_sp
-08000650  w    F .base_text	00000002 usart3_isr
+08000674  w    F .base_text	00000002 usart3_isr
 08000000 g       .base_text	00000000 _base_text
 080079c4  w    F .text	0000004c _ZN5codal13STM32BluePillD2Ev
-08000654  w    F .base_text	00000030 rtc_isr
-080008e4 g       .base_text	00000000 _base_etext
+08000678  w    F .base_text	00000030 rtc_isr
+08000908 g       .base_text	00000000 _base_etext
 0800397c g     F .boot_text	00000020 boot_target_manifest_app
 0800afec g     O .text	00000018 _ZTVN5codal3_cm5TimerE
 08003224 g     F .boot_text	00000034 _Z11debug_printi
 08008718 g     F .text	00000074 _ZN5codal10MessageBusC2Ev
 08003274 g     F .boot_text	00000014 _Z13debug_printlni
 0800a6e2 g     F .text	0000001e _ZN5codal13ManagedStringaSERKS0_
-08000650  w    F .base_text	00000002 tim7_isr
+08000674  w    F .base_text	00000002 tim7_isr
 0800a98c g     F .text	00000010 _ZN5codal3_cm6Serial4baudEi
 08001a28 g     F .boot_text	0000000c exti_reset_request
-2000101c g     O .boot_bss	00000001 running_tid
-08000650  w    F .base_text	00000002 adc1_2_isr
+20001024 g     O .boot_bss	00000001 running_tid
+08000674  w    F .base_text	00000002 adc1_2_isr
 0800a5fc g     F .text	00000022 _ZN5codal14EventQueueItemC2ENS_5EventE
 08008420 g     F .text	00000028 _ZN5codal6SerialD1Ev
 0800a61e g     F .text	0000000e _ZN5codal13ManagedStringD1Ev
 0800b1b0 g     O .text	0000001c _ZTVN5codal13STM32BluePillE
 0800126a g     F .boot_text	00000004 get_current_sp
-08000650  w    F .base_text	00000002 tim1_trg_com_isr
+08000674  w    F .base_text	00000002 tim1_trg_com_isr
 08009f16 g     F .text	00000008 _ZN5codal6Serial7rxInUseEv
 08008420 g     F .text	00000028 _ZN5codal6SerialD2Ev
 0800abcc g     F .text	00000004 _ZN5codal3_cm3I2C12readRegisterEthPhib
@@ -373,35 +375,35 @@ SYMBOL TABLE:
 0800a906  w    F .text	00000004 _ZN5codal3_cm6Serial13configurePinsERNS_3PinES3_
 08002f8a g     F .boot_text	0000000c os_tick
 0800a8ba g     F .text	00000014 _ZN5codal3_cm3Pin13disableEventsEv
-08000650  w    F .base_text	00000002 usb_hp_can_tx_isr
+08000674  w    F .base_text	00000002 usb_hp_can_tx_isr
 0800a8fa  w    F .text	00000004 _ZN5codal3_cm6Serial15enableInterruptENS_19SerialInterruptTypeE
 08009ae4 g     F .text	0000009c _ZN5codal3_cm3SPIC2ERNS0_3PinES3_S3_S3_
 08007918  w    F .text	00000018 _ZN5codal14CodalComponentD2Ev
 0800ad44 g     F .text	0000001e _ZN5codal3I2C13writeRegisterEthh
 080014b8 g     F .boot_text	0000008c flash_erase_page
 0800ad62 g     F .text	00000078 _ZN5codal3I2C4readEtPhib
-08000650  w    F .base_text	00000002 tim6_isr
+08000674  w    F .base_text	00000002 tim6_isr
 080055c0 g       *ABS*	00000000 _boot_data_loadaddr
 0800a8fe  w    F .text	00000004 _ZN5codal3_cm6Serial16disableInterruptENS_19SerialInterruptTypeE
 0800b414 g       .init_array	00000000 _etext
 08002088 g     F .boot_text	0000006c gpio_set_mode
 080055c0 g     O .boot_fini_array	00000004 __boot_fini_array_start
 08009c28 g     F .text	0000002e _ZN5codal11queue_fiberEPNS_5FiberEPS1_
-08000650  w    F .base_text	00000002 usb_wakeup_isr
-08000650 g     F .base_text	00000002 blocking_handler
-2000101d g     O .boot_bss	00000001 running
+08000674  w    F .base_text	00000002 usb_wakeup_isr
+08000674 g     F .base_text	00000002 blocking_handler
+20001025 g     O .boot_bss	00000001 running
 00000800 g       *ABS*	00000000 _baseram_size
 080033bc g     F .boot_text	00000020 led_setup
-08000650  w    F .base_text	00000002 tim5_isr
+08000674  w    F .base_text	00000002 tim5_isr
 08009e74 g     F .text	00000050 _ZN5codal6Serial12initialiseRxEv
 0800a696 g     F .text	00000030 _ZN5codal13ManagedStringC2EPKcs
 08003258 g     F .boot_text	0000001c debug_println
 200047bc g     O .boot_buf	00000442 hf2_buffer
-08000650  w    F .base_text	00000002 otg_fs_isr
+08000674  w    F .base_text	00000002 otg_fs_isr
 080011b0 g     F .boot_text	00000074 test_codal
 0800a82c g     F .text	00000004 _ZN5codal3_cm3Pin14getAnalogValueEv
 08009b80 g     F .text	0000002c pinmap_peripheral
-08000650  w    F .base_text	00000002 spi1_isr
+08000674  w    F .base_text	00000002 spi1_isr
 08009e6a g     F .text	0000000a _ZN5codal6Serial8unlockRxEv
 08001174 g     F .boot_text	00000014 target_wait_us
 080030e4 g     F .boot_text	00000048 logger_add_output
@@ -412,10 +414,10 @@ SYMBOL TABLE:
 08001638 g     F .boot_text	00000014 rcc_set_pll_multiplication_factor
 0800a8ce g     F .text	0000002c _ZN5codal3_cm3Pin7eventOnEi
 08002fb6 g     F .boot_text	0000001a memcpy
-08000650  w    F .base_text	00000002 exti2_isr
-08000650  w    F .base_text	00000002 dma1_channel6_isr
+08000674  w    F .base_text	00000002 exti2_isr
+08000674  w    F .base_text	00000002 dma1_channel6_isr
 20001800 g     O .data	00000004 app_data_test
-08000652 g     F .base_text	00000002 null_handler
+08000676 g     F .base_text	00000002 null_handler
 2000080c g     O .boot_data	00000004 rcc_ahb_frequency
 08008e50 g     F .text	000000a8 _ZN5codal13STM32BluePillC2Ev
 0800ac06 g     F .text	00000054 _ZN5codal3_cm16_codal_setup_pinEPNS0_3PinEmPK6PinMap
@@ -424,16 +426,16 @@ SYMBOL TABLE:
 08001272 g     F .boot_text	00000008 tcb_configure_args
 20002984 g     O .bss	00000004 app_bss_test
 0800493c g     F .boot_text	00000080 hf2_setup
-08000650  w    F .base_text	00000002 can_rx1_isr
+08000674  w    F .base_text	00000002 can_rx1_isr
 0800b414 g       .fini_array	00000000 __fini_array_end
-08000650  w    F .base_text	00000002 dma1_channel5_isr
+08000674  w    F .base_text	00000002 dma1_channel5_isr
 0800ac5a g     F .text	0000002a _ZN5codal3_cm3SPI13startTransferEPKhmPhmPFvPvES5_
 08004b68 g     F .boot_text	00000008 boot_target_flash_unlock
 080020fe g     F .boot_text	00000008 usart_recv
 08008954 g     F .text	0000002c _ZN5codal3_cm3PinC1EhmmtNS_13PinCapabilityE
 0800a788 g     F .text	00000008 _ZN5codal10RefCounted7destroyEv
 08008328  w    F .text	00000054 malloc
-08000650  w    F .base_text	00000002 dma2_channel5_isr
+08000674  w    F .base_text	00000002 dma2_channel5_isr
 08009de6 g     F .text	00000018 _ZN5codal8ListenerD1Ev
 08004c98 g     O .boot_text	00000034 st_usbfs_v1_usb_driver
 08004b40 g     F .boot_text	0000000a bootloader_set_restart_callback
@@ -443,16 +445,16 @@ SYMBOL TABLE:
 08007f40 g     F .text	00000068 _Z14__create_fibermmmi
 08007be4 g     F .text	00000010 codal_dmesg_flush
 0800123c g     F .boot_text	0000000c target_set_bootloader_callback
-08000650  w    F .base_text	00000002 usart1_isr
+08000674  w    F .base_text	00000002 usart1_isr
 0800868c  w    F .text	0000008c _ZN5codal10EventModel6listenINS_10MessageBusEEEittPT_MS3_FvNS_5EventEEt
 00000844 g       *ABS*	00000000 _bootbuf_size
 08007fb8 g     F .text	00000044 _ZN5codal4idleEv
 08004b70 g     F .boot_text	00000008 boot_target_flash_lock
-2000095c g     O .boot_bss	00000004 .hidden __dso_handle
+20000964 g     O .boot_bss	00000004 .hidden __dso_handle
 08009bd4 g     F .text	00000028 pinmap_cnf
 0800126e g     F .boot_text	00000004 tcb_get_sp
 08002958 g     F .boot_text	00000028 usbd_register_set_config_callback
-08000570 g     F .base_text	0000007c test_baseloader2
+08000580 g     F .base_text	00000090 test_baseloader2
 0800a902  w    F .text	00000004 _ZN5codal3_cm6Serial11setBaudrateEm
 08001c48 g     F .boot_text	00000160 st_usbfs_ep_setup
 08001a6c g     F .boot_text	00000010 flash_lock
@@ -462,15 +464,15 @@ SYMBOL TABLE:
 08009cea g     F .text	00000010 _ZN5codal13release_fiberEPv
 0800837c g     F .text	00000044 device_free
 0800a80e  w    F .text	00000006 _ZN5codal3Pin8drainPinEv
-08000650  w    F .base_text	00000002 usage_fault_handler
-08000650  w    F .base_text	00000002 tim8_trg_com_isr
+08000674  w    F .base_text	00000002 usage_fault_handler
+08000674  w    F .base_text	00000002 tim8_trg_com_isr
 08008b28 g     F .text	00000034 _ZN5codal3_cm5TimerC1Ev
-08000650  w    F .base_text	00000002 can2_rx0_isr
+08000674  w    F .base_text	00000002 can2_rx0_isr
 080032d0 g     F .boot_text	00000070 debug_printhex
 08001660 g     F .boot_text	00000014 rcc_set_pllxtpre
 0800ace0 g     F .text	00000006 _ZN5codal3I2C4readENS_15AcknowledgeTypeE
 08002d84 g     F .boot_text	00000044 os_task_highest_prio_ready_task
-08000650  w    F .base_text	00000002 tim1_brk_isr
+08000674  w    F .base_text	00000002 tim1_brk_isr
 08008cf0 g     F .text	000000e0 start_background_tasks
 080085c4 g     F .text	00000088 _ZN5codal10MessageBus7processERNS_5EventEb
 0800abb0 g     F .text	00000002 _ZN13UARTInterfaceC2Ejj
@@ -484,13 +486,13 @@ SYMBOL TABLE:
 08001828 g     F .boot_text	00000024 rtc_exit_config_mode
 08001624 g     F .boot_text	00000014 rcc_set_sysclk_source
 0800b2ec g     O .text	0000002c _ZTVN5codal3_cm3I2CE
-08000650  w    F .base_text	00000002 can2_rx1_isr
+08000674  w    F .base_text	00000002 can2_rx1_isr
 08001448 g     F .boot_text	00000070 flash_program_half_word
 080035a4 g     F .boot_text	00000008 _ZdlPv
 080019a4 g     F .boot_text	00000010 pwr_disable_backup_domain_write_protect
 08008aa8 g     F .text	00000014 _ZN5codal3_cm14alarm_callbackEv
 08001000 g       .boot_text	00000000 _boot_text
-08000650  w    F .base_text	00000002 tim1_cc_isr
+08000674  w    F .base_text	00000002 tim1_cc_isr
 0800a672 g     F .text	00000024 _ZN5codal13ManagedStringC1Ei
 08008494 g     F .text	00000024 _ZN5codal27system_timer_event_every_usEmtt
 0800a90a  w    F .text	00000004 _ZN5codal3_cm6Serial4putcEc
@@ -502,23 +504,23 @@ SYMBOL TABLE:
 0800adda g     F .text	0000001c _ZN5codal3I2C5writeEth
 08003d0c g     F .boot_text	00000048 dump_buffer
 08008abc g     F .text	00000024 _ZN5codal3_cm5Timer9triggerInEm
-08000650  w    F .base_text	00000002 sdio_isr
+08000674  w    F .base_text	00000002 sdio_isr
 0800174c g     F .boot_text	00000014 rcc_set_ppre1
 08003584 g     F .boot_text	0000000c platform_alarm_count
 0800243e g     F .boot_text	00000056 _usbd_control_in
 080049bc g     F .boot_text	00000034 backup_write
-08000650  w    F .base_text	00000002 eth_isr
+08000674  w    F .base_text	00000002 eth_isr
 0800acda g     F .text	00000006 _ZN5codal3I2C5writeEh
 20000810 g     O .boot_data	00000004 rcc_apb1_frequency
 080049f0 g     F .boot_text	00000018 backup_read
 20002a10 g     O .bss	00000001 _ZN5codal14CodalComponent13configurationE
 080037e4 g     F .boot_text	000000b8 boot_target_get_startup_mode
 08001760 g     F .boot_text	00000014 rcc_set_hpre
-08000650  w    F .base_text	00000002 dma1_channel4_isr
-08000650  w    F .base_text	00000002 tim8_brk_isr
+08000674  w    F .base_text	00000002 dma1_channel4_isr
+08000674  w    F .base_text	00000002 tim8_brk_isr
 0800847c g     F .text	00000018 _ZN5codal25system_timer_current_timeEv
 0800a90e  w    F .text	00000006 _ZN5codal3_cm6Serial4getcEv
-08000650  w    F .base_text	00000002 dma2_channel4_5_isr
+08000674  w    F .base_text	00000002 dma2_channel4_5_isr
 08002dc8 g     F .boot_text	0000001c os_task_clear_wait_queue
 08009e60 g     F .text	0000000a _ZN5codal6Serial6lockRxEv
 0800a5fc g     F .text	00000022 _ZN5codal14EventQueueItemC1ENS_5EventE
@@ -540,7 +542,7 @@ SYMBOL TABLE:
 0800233a g     F .boot_text	00000030 usbd_register_control_callback
 0800a1ca g     F .text	00000024 _ZN5codal5Timer4syncEm
 20000804 g     O .boot_data	00000004 hal_data_test
-08000650  w    F .base_text	00000002 pvd_isr
+08000674  w    F .base_text	00000002 pvd_isr
 080021b2 g     F .boot_text	0000000c usbd_ep_read_packet
 08009bfc g     F .text	0000000c _ZN5codal3I2CC2ERNS_3PinES2_
 0800865c  w    F .text	00000030 _ZN5codal22MemberFunctionCallbackC1INS_10MessageBusEEEPT_MS3_FvNS_5EventEE
@@ -553,7 +555,7 @@ SYMBOL TABLE:
 08008ef8 g     F .text	00000b58 _ZN5codal15STM32BluePillIOC2Ev
 08009c8a g     F .text	0000001e _ZN5codal12create_fiberEPFvvES1_
 0800a696 g     F .text	00000030 _ZN5codal13ManagedStringC1EPKcs
-20000d10 g     O .boot_bss	00000004 usbd_dev
+20000d18 g     O .boot_bss	00000004 usbd_dev
 0800a700 g     F .text	0000001c _ZN5codal13ManagedString6charAtEs
 0800124c g     F .boot_text	00000004 target_disable_irq
 080033dc g     F .boot_text	00000014 led_on
@@ -561,11 +563,11 @@ SYMBOL TABLE:
 00001000 g       *ABS*	00000000 _bootram_size
 08000160 g     F .base_text	00000394 baseloader_start
 08002c1c g     F .boot_text	0000000c os_running
-2000101e g     O .boot_bss	00000001 last_running_task
+20001026 g     O .boot_bss	00000001 last_running_task
 0800878c g     F .text	00000050 _ZN5codal10MessageBusD2Ev
-08000652  w    F .base_text	00000002 sv_call_handler
+08000676  w    F .base_text	00000002 sv_call_handler
 20001808 g     O .bss	00001044 bluepill
-08000650  w    F .base_text	00000002 rcc_isr
+08000674  w    F .base_text	00000002 rcc_isr
 0800a1ba g     F .text	00000010 _ZN5codal5Timer12eventEveryUsEmtt
 20002974 g     O .bss	00000004 _ZN5codal13ManagedString11EmptyStringE
 08000000 g     O .base_text	00000150 vector_table
@@ -574,17 +576,17 @@ SYMBOL TABLE:
 08003c88 g     F .boot_text	00000060 aggregate_register_callback
 0800ae8c g     O .text	00000038 _ZTVN5codal6SerialE
 08007800 g     F .text	00000088 application_start
-08000650  w    F .base_text	00000002 flash_isr
+08000674  w    F .base_text	00000002 flash_isr
 0800b414 g       *ABS*	00000000 _data_loadaddr
 08007eb0 g     F .text	00000090 _ZN5codal19fiber_wake_on_eventEtt
 20005000 g       .boot_buf	00000000 end
-08000650  w    F .base_text	00000002 uart4_isr
+08000674  w    F .base_text	00000002 uart4_isr
 0800aba6 g     F .text	00000002 _ZN5codal13STM32BluePill16periodicCallbackEv
 080018c0 g     F .boot_text	00000040 rtc_interrupt_enable
 08008dd0 g     F .text	00000080 _ZN5codal13STM32BluePill4initEv
 080088ec g     F .text	00000068 _ZN5codal3_cm3Pin15setDigitalValueEi
-08000684  w    F .base_text	0000002c rtc_alarm_isr
-08000650  w    F .base_text	00000002 exti15_10_isr
+080006a8  w    F .base_text	0000002c rtc_alarm_isr
+08000674  w    F .base_text	00000002 exti15_10_isr
 080055c0 g     O .boot_init_array	00000004 __boot_init_array_end
 08007d7c g     F .text	00000018 _ZN5codal23fiber_scheduler_runningEv
 0800a1ee g     F .text	000000a4 _ZN5codal5Timer7triggerEv
@@ -601,36 +603,36 @@ SYMBOL TABLE:
 0800a122 g     F .text	00000012 _ZN5codal5Timer17releaseTimerEventEPNS_10TimerEventE
 0800b360 g     O .text	0000001c _ZTVN5codal3_cm3SPIE
 0800b25c g     O .text	00000048 PinMap_SPI_NSS
-08000650  w    F .base_text	00000002 hard_fault_handler
+08000674  w    F .base_text	00000002 hard_fault_handler
 0800ace6 g     F .text	0000005e _ZN5codal3I2C5writeEtPhib
-08000650  w    F .base_text	00000002 exti1_isr
+08000674  w    F .base_text	00000002 exti1_isr
 0800a866 g     F .text	00000006 _ZN5codal3_cm3Pin7setPullENS_8PullModeE
 08008b5c g     F .text	00000060 _ZN5codal3_cm5Timer4initEv
 08002de4 g     F .boot_text	000000ac os_task_tick
 08003ce8 g     F .boot_text	00000024 usb_set_serial_number
-08000650  w    F .base_text	00000002 i2c1_ev_isr
+08000674  w    F .base_text	00000002 i2c1_ev_isr
 080081ec g     F .text	00000070 _ZN5codal13release_fiberEv
 08002122 g     F .boot_text	00000022 rcc_periph_reset_pulse
 0800a65a g     F .text	00000018 _ZN5codal13ManagedStringC2EPNS_10StringDataE
 0800b2a4 g     O .text	00000048 PinMap_SPI_SCK
 08001e28 g     F .boot_text	00000090 st_usbfs_ep_write_packet
 08002a06 g     F .boot_text	0000006c st_usbfs_endpoints_reset
-08000650  w    F .base_text	00000002 dma2_channel1_isr
+08000674  w    F .base_text	00000002 dma2_channel1_isr
 0800a2a4  w    F .text	00000036 _ZN5codal22MemberFunctionCallback10methodCallINS_10MessageBusEEEvPvPmNS_5EventE
 080084cc  w    F .text	00000008 _ZN5codal10EventModel3addEPNS_8ListenerE
 08008328 g     F .text	00000054 device_malloc
 080030d8 g     F .boot_text	0000000c enable_log
-08000652  w    F .base_text	00000002 pend_sv_handler
+08000676  w    F .base_text	00000002 pend_sv_handler
 08003590 g     F .boot_text	0000000c __cxa_pure_virtual
 08007c30 g     F .text	000000c0 _ZN5codal15scheduler_eventENS_5EventE
 08001974 g     F .boot_text	00000030 rtc_check_flag
 00001000 g       *ABS*	00000000 _baserom_size
 0800a99c g     F .text	00000028 _ZN5codal3_cm6Serial7eventOnENS_13ManagedStringENS_10SerialModeE
 0800b1cc g     O .text	00000048 PinMap_SPI_MISO
-08000650  w    F .base_text	00000002 spi2_isr
+08000674  w    F .base_text	00000002 spi2_isr
 080088a4 g     F .text	00000020 _ZN5codal3_cm3Pin14setAnalogValueEi
 080010d8 g     F .boot_text	00000030 target_init
-2000107c g       .boot_bss	00000000 boot_end
+20001084 g       .boot_bss	00000000 boot_end
 08007d94 g     F .text	0000011c _ZN5codal14scheduler_initERNS_10EventModelE
 0800a142 g     F .text	0000000e _ZN5codal5Timer9getTimeUsEv
 08002f28 g     F .boot_text	00000038 os_task_run
@@ -638,16 +640,16 @@ SYMBOL TABLE:
 0800abc4 g     F .text	00000004 _ZN5codal3_cm3I2C5writeEtPhib
 080021ca g     F .boot_text	0000000c usbd_ep_stall_get
 0800a752 g     F .text	00000036 _ZN5codal10RefCounted4decrEv
-08000650  w    F .base_text	00000002 tim8_up_isr
+08000674  w    F .base_text	00000002 tim8_up_isr
 08002ff6 g     F .boot_text	00000040 strncpy
 08002cd4 g     F .boot_text	0000000c os_sem_init
 0800864c g     F .text	00000010 _ZN5codal19allocateNotifyEventEv
 0800a50a  w    F .text	0000003e _ZN5codal8ListenerC2INS_10MessageBusEEEttPT_MS3_FvNS_5EventEEt
 08007a10  w    F .text	00000054 _ZN5codal13STM32BluePillD0Ev
 0800a548  w    F .text	00000044 _ZN5codal10EventModel6ignoreINS_10MessageBusEEEittPT_MS3_FvNS_5EventEE
-080005ec g     F .base_text	00000064 test_baseloader_end
+08000610 g     F .base_text	00000064 test_baseloader_end
 08009c56 g     F .text	00000034 _ZN5codal13dequeue_fiberEPNS_5FiberE
-08000650  w    F .base_text	00000002 dma2_channel2_isr
+08000674  w    F .base_text	00000002 dma2_channel2_isr
 08001a34 g     F .boot_text	00000014 flash_set_ws
 080055c0 g     O .boot_fini_array	00000004 __boot_fini_array_end
 0800a61e g     F .text	0000000e _ZN5codal13ManagedStringD2Ev
@@ -662,24 +664,24 @@ SYMBOL TABLE:
 0800236a g     F .boot_text	0000004a _usbd_control_setup
 0800a858 g     F .text	0000000e _ZN5codal3_cm3Pin8isAnalogEv
 08001738 g     F .boot_text	00000014 rcc_set_ppre2
-08000652  w    F .base_text	00000002 debug_monitor_handler
-08000650  w    F .base_text	00000002 exti3_isr
-08000650  w    F .base_text	00000002 adc3_isr
+08000676  w    F .base_text	00000002 debug_monitor_handler
+08000674  w    F .base_text	00000002 exti3_isr
+08000674  w    F .base_text	00000002 adc3_isr
 08007930  w    F .text	00000020 _ZN5codal14CodalComponentD0Ev
 0800130a g       .boot_text	00000000 save_context
-08000650  w    F .base_text	00000002 tim3_isr
-080006b0  w    F .base_text	0000005c usart2_isr
+08000674  w    F .base_text	00000002 tim3_isr
+080006d4  w    F .base_text	0000005c usart2_isr
 08001bc8 g     F .boot_text	00000010 scb_reset_system
 08001188 g     F .boot_text	00000020 target_panic
 0800a0fe g     F .text	00000024 _ZN5codal5Timer13getTimerEventEv
 080032b0 g     F .boot_text	00000018 debug_print
-08000650  w    F .base_text	00000002 usb_lp_can_rx0_isr
+08000674  w    F .base_text	00000002 usb_lp_can_rx0_isr
 08007800 g       .text	00000000 _text
 08001288 g       .boot_text	00000000 swap_context
 20004c00 g     O .boot_buf	00000400 flashBuf
 08002bcc g     F .boot_text	00000010 os_signal_event
 0800b414 g       .fini_array	00000000 __fini_array_start
-08000650  w    F .base_text	00000002 i2c2_er_isr
+08000674  w    F .base_text	00000002 i2c2_er_isr
 08002f88 g     F .boot_text	00000002 os_cbkSleep
 08001da8 g     F .boot_text	00000080 st_usbfs_ep_nak_set
 0800a6d6 g     F .text	0000000c _ZN5codal13ManagedStringC1Ev
@@ -691,22 +693,22 @@ SYMBOL TABLE:
 08001a7c g     F .boot_text	00000058 usbd_init
 20002850 g     O .bss	000000f0 _ZN5codal14CodalComponent10componentsE
 08009bfc g     F .text	0000000c _ZN5codal3I2CC1ERNS_3PinES2_
-08000650  w    F .base_text	00000002 i2c2_ev_isr
+08000674  w    F .base_text	00000002 i2c2_ev_isr
 08002bdc g     F .boot_text	00000010 os_event_set_signaling_tid
 08007950 g     F .text	00000074 _Z10Blink_mainRN5codal13STM32BluePillE
-08000650  w    F .base_text	00000002 uart5_isr
+08000674  w    F .base_text	00000002 uart5_isr
 20002964 g     O .bss	00000008 heap
 08003550 g     F .boot_text	00000034 platform_set_alarm
-20001020 g     O .boot_bss	0000005b hf2_buffer_mini
+20001028 g     O .boot_bss	0000005b hf2_buffer_mini
 0800abee g     F .text	00000018 _ZN5codal3_cm3SPI7setModeEii
-08000652  w    F .base_text	00000002 sys_tick_handler
+08000676  w    F .base_text	00000002 sys_tick_handler
 0800aedc  w    O .text	00000014 _ZTVN5codal10EventModelE
 08002f60 g     F .boot_text	00000028 os_on_assert
 0800878c g     F .text	00000050 _ZN5codal10MessageBusD1Ev
 0800b414 g       .init_array	00000000 __init_array_end
-08000650  w    F .base_text	00000002 fsmc_isr
-08000650  w    F .base_text	00000002 dma1_channel1_isr
-08000650  w    F .base_text	00000002 exti4_isr
+08000674  w    F .base_text	00000002 fsmc_isr
+08000674  w    F .base_text	00000002 dma1_channel1_isr
+08000674  w    F .base_text	00000002 exti4_isr
 08008b28 g     F .text	00000034 _ZN5codal3_cm5TimerC2Ev
 0800af38 g     O .text	00000054 _ZTVN5codal3_cm3PinE
 20000808 g     O .boot_data	00000004 codal_heap_start
@@ -728,7 +730,7 @@ SYMBOL TABLE:
 08001a10 g     F .boot_text	00000018 exti_enable_request
 080019c4 g     F .boot_text	0000004c exti_set_trigger
 08001a48 g     F .boot_text	00000024 flash_unlock
-08000650  w    F .base_text	00000002 mem_manage_handler
+08000674  w    F .base_text	00000002 mem_manage_handler
 08008c94 g     F .text	0000005c restart_callback
 0800a830 g     F .text	0000000e _ZN5codal3_cm3Pin7isInputEv
 0800a84c g     F .text	0000000c _ZN5codal3_cm3Pin9isDigitalEv
@@ -740,14 +742,14 @@ SYMBOL TABLE:
 0800127a g     F .boot_text	00000002 _fini
 0800a62c g     F .text	0000002e _ZN5codal13ManagedString10initStringEPKci
 08001118 g     F .boot_text	0000005c target_wait
-08000650  w    F .base_text	00000002 can2_tx_isr
+08000674  w    F .base_text	00000002 can2_tx_isr
 08009a6c g     F .text	0000001c _ZN5codal3_cm3I2CC1ERNS_3PinES3_
 080039bc g     F .boot_text	000000c8 boot_target_flash_program_array
 0800825c g     F .text	00000090 _ZN5codal6invokeEPFvPvES0_
-08000650  w    F .base_text	00000002 exti9_5_isr
+08000674  w    F .base_text	00000002 exti9_5_isr
 080033f0 g     F .boot_text	00000014 led_off
 0800a802  w    F .text	00000006 _ZN5codal3Pin15setServoPulseUsEm
-08000650  w    F .base_text	00000002 dma2_channel3_isr
+08000674  w    F .base_text	00000002 dma2_channel3_isr
 0800a72a g     F .text	00000028 _ZN5codal10RefCounted4incrEv
 08001674 g     F .boot_text	00000010 rcc_enable_rtc_clock
 0800a2da g     F .text	00000096 _Z14async_callbackPv
@@ -760,12 +762,12 @@ SYMBOL TABLE:
 08003404 g     F .boot_text	00000014 led_wait
 08001280 g     F .boot_text	00000008 target_enable_debug
 08008ef8 g     F .text	00000b58 _ZN5codal15STM32BluePillIOC1Ev
-08000650  w    F .base_text	00000002 dma1_channel7_isr
+08000674  w    F .base_text	00000002 dma1_channel7_isr
 08003928 g     F .boot_text	00000034 boot_target_usb_init
 0800351c g     F .boot_text	00000034 platform_start_timer
 08009dbe g     F .text	00000028 _ZN5codal8ListenerC1EttPFvNS_5EventEEt
 08004438 g     F .boot_text	0000002c cdc_setup
-08000650  w    F .base_text	00000002 tim1_up_isr
+08000674  w    F .base_text	00000002 tim1_up_isr
 20001800 g       .data	00000000 _data
 0800186c g     F .boot_text	00000020 rtc_set_prescale_val
 0800141c g     F .boot_text	0000002c flash_get_status_flags
@@ -783,42 +785,42 @@ SYMBOL TABLE:
 0800188c g     F .boot_text	00000014 rtc_get_counter_val
 0800a808  w    F .text	00000006 _ZN5codal3Pin17setAnalogPeriodUsEm
 0800a8aa g     F .text	00000010 _ZN5codal3_cm3Pin15setAnalogPeriodEi
-08000650  w    F .base_text	00000002 can2_sce_isr
+08000674  w    F .base_text	00000002 can2_sce_isr
 080019b4 g     F .boot_text	00000010 pwr_enable_backup_domain_write_protect
-08000650  w    F .base_text	00000002 tim4_isr
+08000674  w    F .base_text	00000002 tim4_isr
 0800b3d4 g     O .text	0000002c _ZTVN5codal3I2CE
 0800a3e6 g     F .text	00000024 _ZN5codal10MessageBus12dequeueEventEv
 08002a72 g     F .boot_text	00000108 st_usbfs_ep_stall_set
 0800a40a g     F .text	0000004c _ZN5codal10MessageBus21deleteMarkedListenersEv
 08003b48 g     F .boot_text	000000ac usb_setup
-2000107c g       .boot_bss	00000000 _boot_ebss
+20001084 g       .boot_bss	00000000 _boot_ebss
 08008954 g     F .text	0000002c _ZN5codal3_cm3PinC2EhmmtNS_13PinCapabilityE
 20001808 g       .data	00000000 _edata
 08009cfa g     F .text	00000018 _ZN5codal22launch_new_fiber_paramEPFvPvES2_S0_
 080084dc g     F .text	000000e8 _ZN5codal10MessageBus3addEPNS_8ListenerE
 0800af8c g     O .text	00000038 _ZTVN5codal3_cm6SerialE
-08000650  w    F .base_text	00000002 dma1_channel2_isr
+08000674  w    F .base_text	00000002 dma1_channel2_isr
 0800a6c6 g     F .text	00000010 _ZN5codal13ManagedStringC1ERKS0_
-08000650  w    F .base_text	00000002 i2c1_er_isr
+08000674  w    F .base_text	00000002 i2c1_er_isr
 0800a5e0 g     F .text	0000001c _ZN5codal5EventC2EttmNS_15EventLaunchModeE
 08001ad4 g     F .boot_text	0000004c _usbd_standard_request_device
 08007cf0 g     F .text	00000058 _Z15getFiberContextv
 08001248 g     F .boot_text	00000004 target_enable_irq
 0800a0ea g     F .text	0000000a _ZN5codal5Timer17disableInterruptsEv
-08000650  w    F .base_text	00000002 can_sce_isr
+08000674  w    F .base_text	00000002 can_sce_isr
 0800abea g     F .text	00000004 _ZN5codal3_cm3SPI8transferEPKhmPhm
-08000652  w    F .base_text	00000002 nmi_handler
+08000676  w    F .base_text	00000002 nmi_handler
 0800a50a  w    F .text	0000003e _ZN5codal8ListenerC1INS_10MessageBusEEEttPT_MS3_FvNS_5EventEEt
 08001900 g     F .boot_text	00000040 rtc_interrupt_disable
 080055c0 g     O .boot_preinit_array	00000004 __boot_preinit_array_end
 0800312c g     F .boot_text	00000050 _Z20debug_flush_internalb
 0800359c g     F .boot_text	00000008 _Znwj
-20000f1c g     O .boot_bss	00000008 st_usbfs_force_nak
+20000f24 g     O .boot_bss	00000008 st_usbfs_force_nak
 0800aef0 g     O .text	0000003c _ZTVN5codal10MessageBusE
 20000800 g       .boot_data	00000000 _boot_data
 08009d12 g     F .text	0000000c _ZN5codal9idle_taskEv
 0800a5a6 g     F .text	00000008 _ZThn8_N5codal10MessageBusD0Ev
-08000650  w    F .base_text	00000002 tim8_cc_isr
+08000674  w    F .base_text	00000002 tim8_cc_isr
 08009a88 g     F .text	0000005c _ZN5codal3_cm3SPI4initEv
 08008e50 g     F .text	000000a8 _ZN5codal13STM32BluePillC1Ev
 080015b4 g     F .boot_text	00000070 rcc_osc_on
@@ -832,14 +834,14 @@ SYMBOL TABLE:
 0800a964 g     F .text	00000028 _ZN5codal3_cm6Serial12circularCopyEPhhS2_tt
 08008980 g     F .text	00000078 _ZN5codal3_cm3Pin13setServoValueEiii
 080038bc g     F .boot_text	0000006c boot_target_gpio_setup
-20000f18 g     O .boot_bss	00000004 hal_bss_test
-08000650  w    F .base_text	00000002 tamper_isr
-080004f4 g     F .base_text	0000007c test_baseloader1
+20000f20 g     O .boot_bss	00000004 hal_bss_test
+08000674  w    F .base_text	00000002 tamper_isr
+080004f4 g     F .base_text	0000008c test_baseloader1
 0800b400 g       .init_array	00000000 __init_array_start
 080020f8 g     F .boot_text	00000006 gpio_clear
 08003c48 g     F .boot_text	00000040 aggregate_register_config_callback
 08007af0 g     F .text	000000cc _ZN5codal14CodalComponent12addComponentEv
-08000650  w    F .base_text	00000002 eth_wkup_isr
+08000674  w    F .base_text	00000002 eth_wkup_isr
 080033a8 g     F .boot_text	00000014 enable_debug
 080029b2 g     F .boot_text	00000018 st_usbfs_copy_to_pm
 0800a4cc g     F .text	0000003e _ZN5codal10MessageBus4idleENS_5EventE
@@ -862,20 +864,20 @@ SYMBOL TABLE:
 080020f4 g     F .boot_text	00000004 gpio_set
 0800a86c g     F .text	0000001c _ZN5codal3_cm3Pin5setupEhh
 08009dfe g     F .text	00000062 _ZN5codal8Listener5queueENS_5EventE
-08000650  w    F .base_text	00000002 bus_fault_handler
-08000650  w    F .base_text	00000002 wwdg_isr
-08000650  w    F .base_text	00000002 dma1_channel3_isr
+08000674  w    F .base_text	00000002 bus_fault_handler
+08000674  w    F .base_text	00000002 wwdg_isr
+08000674  w    F .base_text	00000002 dma1_channel3_isr
 0800a0f4 g     F .text	0000000a _ZN5codal5Timer16enableInterruptsEv
 0800883c g     F .text	00000068 _ZN5codal4itoaEiPc
 080018a0 g     F .boot_text	00000020 rtc_set_counter_val
-20000f24 g     O .boot_bss	000000f8 st_usbfs_dev
+20000f2c g     O .boot_bss	000000f8 st_usbfs_dev
 0800a292 g     F .text	00000002 _ZN5codal5TimerD1Ev
 0800a928 g     F .text	0000003c _ZN5codal3_cm6Serial12initialiseRxEv
 0800a672 g     F .text	00000024 _ZN5codal13ManagedStringC2Ei
 08002c28 g     F .boot_text	00000038 os_msgQ_init
 0800b400 g       .preinit_array	00000000 __preinit_array_start
 08001eb8 g     F .boot_text	000000d4 st_usbfs_ep_read_packet
-08000650  w    F .base_text	00000002 spi3_isr
+08000674  w    F .base_text	00000002 spi3_isr
 08009ae4 g     F .text	0000009c _ZN5codal3_cm3SPIC1ERNS0_3PinES3_S3_S3_
 0800127c g     F .boot_text	00000004 __aeabi_atexit
 08005568 g     O .boot_text	00000055 infoUf2File
@@ -885,12 +887,12 @@ SYMBOL TABLE:
 080088c4 g     F .text	00000008 _ZN5codal3_cm3Pin9isTouchedEv
 08001224 g     F .boot_text	0000000c target_set_tick_callback
 08003bf4 g     F .boot_text	0000001c set_usb_busy
-08000650  w    F .base_text	00000002 tim2_isr
+08000674  w    F .base_text	00000002 tim2_isr
 080032c8 g     F .boot_text	00000008 debug_print_unsigned
 080052f8 g     O .boot_text	0000001c microsoft_platform_capability_descriptor
 0800837c  w    F .text	00000044 free
 08001804 g     F .boot_text	00000024 rtc_enter_config_mode
-08000650  w    F .base_text	00000002 exti0_isr
+08000674  w    F .base_text	00000002 exti0_isr
 08001bd8 g     F .boot_text	00000010 st_usbfs_set_address
 0800acce g     F .text	00000006 _ZN5codal3I2C5startEv
 08009eec g     F .text	0000002a _ZN5codal6Serial7eventOnENS_13ManagedStringENS_10SerialModeE
@@ -900,28 +902,28 @@ SYMBOL TABLE:
 Disassembly of section .base_text:
 
 08000000 <vector_table>:
- 8000000:	00 50 00 20 5d 07 00 08 53 06 00 08 51 06 00 08     .P. ]...S...Q...
- 8000010:	51 06 00 08 51 06 00 08 51 06 00 08 00 00 00 00     Q...Q...Q.......
+ 8000000:	00 50 00 20 81 07 00 08 77 06 00 08 75 06 00 08     .P. ....w...u...
+ 8000010:	75 06 00 08 75 06 00 08 75 06 00 08 00 00 00 00     u...u...u.......
 	...
- 800002c:	53 06 00 08 53 06 00 08 00 00 00 00 53 06 00 08     S...S.......S...
- 800003c:	53 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     S...Q...Q...Q...
- 800004c:	55 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     U...Q...Q...Q...
- 800005c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800006c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800007c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800008c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800009c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 80000ac:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 80000bc:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 80000cc:	51 06 00 08 51 06 00 08 51 06 00 08 b1 06 00 08     Q...Q...Q.......
- 80000dc:	51 06 00 08 51 06 00 08 85 06 00 08 51 06 00 08     Q...Q.......Q...
- 80000ec:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 80000fc:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800010c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800011c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800012c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800013c:	51 06 00 08 51 06 00 08 51 06 00 08 51 06 00 08     Q...Q...Q...Q...
- 800014c:	51 06 00 08                                         Q...
+ 800002c:	77 06 00 08 77 06 00 08 00 00 00 00 77 06 00 08     w...w.......w...
+ 800003c:	77 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     w...u...u...u...
+ 800004c:	79 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     y...u...u...u...
+ 800005c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800006c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800007c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800008c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800009c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 80000ac:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 80000bc:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 80000cc:	75 06 00 08 75 06 00 08 75 06 00 08 d5 06 00 08     u...u...u.......
+ 80000dc:	75 06 00 08 75 06 00 08 a9 06 00 08 75 06 00 08     u...u.......u...
+ 80000ec:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 80000fc:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800010c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800011c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800012c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800013c:	75 06 00 08 75 06 00 08 75 06 00 08 75 06 00 08     u...u...u...u...
+ 800014c:	75 06 00 08                                         u...
 
 08000150 <base_vector_table>:
  8000150:	69 19 05 22 01 00 01 00 61 01 00 08 01 78 00 08     i.."....a....x..
@@ -1218,26 +1220,26 @@ void baseloader_start(void) {
  80003a6:	6013      	str	r3, [r2, #0]
  80003a8:	e03d      	b.n	8000426 <baseloader_start+0x2c6>
  80003aa:	bf00      	nop
- 80003ac:	08000838 	.word	0x08000838
+ 80003ac:	0800085c 	.word	0x0800085c
  80003b0:	20000801 	.word	0x20000801
  80003b4:	20000938 	.word	0x20000938
  80003b8:	20000934 	.word	0x20000934
  80003bc:	2000093c 	.word	0x2000093c
  80003c0:	08010000 	.word	0x08010000
- 80003c4:	0800084c 	.word	0x0800084c
+ 80003c4:	08000870 	.word	0x08000870
  80003c8:	20000930 	.word	0x20000930
- 80003cc:	0800085c 	.word	0x0800085c
+ 80003cc:	08000880 	.word	0x08000880
  80003d0:	20000944 	.word	0x20000944
- 80003d4:	08000864 	.word	0x08000864
- 80003d8:	0800086c 	.word	0x0800086c
+ 80003d4:	08000888 	.word	0x08000888
+ 80003d8:	08000890 	.word	0x08000890
  80003dc:	20000940 	.word	0x20000940
  80003e0:	20000800 	.word	0x20000800
- 80003e4:	0800080c 	.word	0x0800080c
+ 80003e4:	08000830 	.word	0x08000830
  80003e8:	40022004 	.word	0x40022004
  80003ec:	45670123 	.word	0x45670123
  80003f0:	e000e010 	.word	0xe000e010
  80003f4:	40021008 	.word	0x40021008
- 80003f8:	08000824 	.word	0x08000824
+ 80003f8:	08000848 	.word	0x08000848
  80003fc:	40022010 	.word	0x40022010
  8000400:	4002200c 	.word	0x4002200c
  8000404:	1ffff7e0 	.word	0x1ffff7e0
@@ -1343,551 +1345,571 @@ void baseloader_start(void) {
  80004f0:	20000801 	.word	0x20000801
 
 080004f4 <test_baseloader1>:
-	should_disable_interrupts = false;
-	baseloader_start();
-	return verified;
-}
+
+static uint16_t* test_dest = NULL;
+static uint16_t* test_src = NULL;
+static size_t test_half_word_count = 0;
 
 void test_baseloader1(void) {
  80004f4:	b538      	push	{r3, r4, r5, lr}
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	src =  (uint32_t *) (ROM_START);
- 80004f6:	4c17      	ldr	r4, [pc, #92]	; (8000554 <test_baseloader1+0x60>)
- 80004f8:	f04f 6300 	mov.w	r3, #134217728	; 0x8000000
- 80004fc:	6023      	str	r3, [r4, #0]
-	dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
- 80004fe:	4d16      	ldr	r5, [pc, #88]	; (8000558 <test_baseloader1+0x64>)
- 8000500:	f503 437c 	add.w	r3, r3, #64512	; 0xfc00
- 8000504:	602b      	str	r3, [r5, #0]
-	half_word_count = FLASH_PAGE_SIZE / 2;
- 8000506:	4b15      	ldr	r3, [pc, #84]	; (800055c <test_baseloader1+0x68>)
- 8000508:	f44f 7200 	mov.w	r2, #512	; 0x200
- 800050c:	601a      	str	r2, [r3, #0]
+	test_src =  (uint32_t *) (ROM_START);
+ 80004f6:	4c18      	ldr	r4, [pc, #96]	; (8000558 <test_baseloader1+0x64>)
+ 80004f8:	f04f 6200 	mov.w	r2, #134217728	; 0x8000000
+ 80004fc:	6022      	str	r2, [r4, #0]
+	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+ 80004fe:	4d17      	ldr	r5, [pc, #92]	; (800055c <test_baseloader1+0x68>)
+ 8000500:	4b17      	ldr	r3, [pc, #92]	; (8000560 <test_baseloader1+0x6c>)
+ 8000502:	602b      	str	r3, [r5, #0]
+	test_half_word_count = FLASH_PAGE_SIZE / 2;
+	src = test_src;
+ 8000504:	4917      	ldr	r1, [pc, #92]	; (8000564 <test_baseloader1+0x70>)
+ 8000506:	600a      	str	r2, [r1, #0]
+	dest = test_dest;
+ 8000508:	4a17      	ldr	r2, [pc, #92]	; (8000568 <test_baseloader1+0x74>)
+ 800050a:	6013      	str	r3, [r2, #0]
+	half_word_count = test_half_word_count;
+ 800050c:	4b17      	ldr	r3, [pc, #92]	; (800056c <test_baseloader1+0x78>)
+ 800050e:	f44f 7200 	mov.w	r2, #512	; 0x200
+ 8000512:	601a      	str	r2, [r3, #0]
 	debug_dump(); ////
- 800050e:	4814      	ldr	r0, [pc, #80]	; (8000560 <test_baseloader1+0x6c>)
- 8000510:	f002 fece 	bl	80032b0 <debug_print>
- 8000514:	6820      	ldr	r0, [r4, #0]
- 8000516:	f002 ff13 	bl	8003340 <debug_printhex_unsigned>
- 800051a:	4c12      	ldr	r4, [pc, #72]	; (8000564 <test_baseloader1+0x70>)
- 800051c:	4620      	mov	r0, r4
- 800051e:	f002 fe9b 	bl	8003258 <debug_println>
- 8000522:	4811      	ldr	r0, [pc, #68]	; (8000568 <test_baseloader1+0x74>)
- 8000524:	f002 fec4 	bl	80032b0 <debug_print>
- 8000528:	6828      	ldr	r0, [r5, #0]
- 800052a:	f002 ff09 	bl	8003340 <debug_printhex_unsigned>
- 800052e:	4620      	mov	r0, r4
- 8000530:	f002 fe92 	bl	8003258 <debug_println>
- 8000534:	f002 fe22 	bl	800317c <debug_force_flush>
- 8000538:	480c      	ldr	r0, [pc, #48]	; (800056c <test_baseloader1+0x78>)
- 800053a:	f002 feb9 	bl	80032b0 <debug_print>
- 800053e:	682b      	ldr	r3, [r5, #0]
- 8000540:	8818      	ldrh	r0, [r3, #0]
- 8000542:	f002 fefd 	bl	8003340 <debug_printhex_unsigned>
- 8000546:	4620      	mov	r0, r4
- 8000548:	f002 fe86 	bl	8003258 <debug_println>
- 800054c:	f002 fe16 	bl	800317c <debug_force_flush>
+ 8000514:	4816      	ldr	r0, [pc, #88]	; (8000570 <test_baseloader1+0x7c>)
+ 8000516:	f002 fecb 	bl	80032b0 <debug_print>
+ 800051a:	6820      	ldr	r0, [r4, #0]
+ 800051c:	f002 ff10 	bl	8003340 <debug_printhex_unsigned>
+ 8000520:	4c14      	ldr	r4, [pc, #80]	; (8000574 <test_baseloader1+0x80>)
+ 8000522:	4620      	mov	r0, r4
+ 8000524:	f002 fe98 	bl	8003258 <debug_println>
+ 8000528:	4813      	ldr	r0, [pc, #76]	; (8000578 <test_baseloader1+0x84>)
+ 800052a:	f002 fec1 	bl	80032b0 <debug_print>
+ 800052e:	6828      	ldr	r0, [r5, #0]
+ 8000530:	f002 ff06 	bl	8003340 <debug_printhex_unsigned>
+ 8000534:	4620      	mov	r0, r4
+ 8000536:	f002 fe8f 	bl	8003258 <debug_println>
+ 800053a:	f002 fe1f 	bl	800317c <debug_force_flush>
+ 800053e:	480f      	ldr	r0, [pc, #60]	; (800057c <test_baseloader1+0x88>)
+ 8000540:	f002 feb6 	bl	80032b0 <debug_print>
+ 8000544:	682b      	ldr	r3, [r5, #0]
+ 8000546:	8818      	ldrh	r0, [r3, #0]
+ 8000548:	f002 fefa 	bl	8003340 <debug_printhex_unsigned>
+ 800054c:	4620      	mov	r0, r4
+ 800054e:	f002 fe83 	bl	8003258 <debug_println>
+ 8000552:	f002 fe13 	bl	800317c <debug_force_flush>
 }
- 8000550:	bd38      	pop	{r3, r4, r5, pc}
- 8000552:	bf00      	nop
- 8000554:	20000944 	.word	0x20000944
- 8000558:	20000930 	.word	0x20000930
- 800055c:	20000940 	.word	0x20000940
- 8000560:	08000874 	.word	0x08000874
- 8000564:	080008d0 	.word	0x080008d0
- 8000568:	0800087c 	.word	0x0800087c
- 800056c:	08000884 	.word	0x08000884
+ 8000556:	bd38      	pop	{r3, r4, r5, pc}
+ 8000558:	2000094c 	.word	0x2000094c
+ 800055c:	20000948 	.word	0x20000948
+ 8000560:	0800fc00 	.word	0x0800fc00
+ 8000564:	20000944 	.word	0x20000944
+ 8000568:	20000930 	.word	0x20000930
+ 800056c:	20000940 	.word	0x20000940
+ 8000570:	08000898 	.word	0x08000898
+ 8000574:	080008f4 	.word	0x080008f4
+ 8000578:	080008a0 	.word	0x080008a0
+ 800057c:	080008a8 	.word	0x080008a8
 
-08000570 <test_baseloader2>:
+08000580 <test_baseloader2>:
 
 void test_baseloader2(void) {
- 8000570:	b538      	push	{r3, r4, r5, lr}
+ 8000580:	b538      	push	{r3, r4, r5, lr}
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
- 8000572:	4c16      	ldr	r4, [pc, #88]	; (80005cc <test_baseloader2+0x5c>)
- 8000574:	4b16      	ldr	r3, [pc, #88]	; (80005d0 <test_baseloader2+0x60>)
- 8000576:	6023      	str	r3, [r4, #0]
-	dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
- 8000578:	4d16      	ldr	r5, [pc, #88]	; (80005d4 <test_baseloader2+0x64>)
- 800057a:	f503 4378 	add.w	r3, r3, #63488	; 0xf800
- 800057e:	602b      	str	r3, [r5, #0]
-	half_word_count = FLASH_PAGE_SIZE / 2;
- 8000580:	4b15      	ldr	r3, [pc, #84]	; (80005d8 <test_baseloader2+0x68>)
- 8000582:	f44f 7200 	mov.w	r2, #512	; 0x200
- 8000586:	601a      	str	r2, [r3, #0]
+	test_src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
+ 8000582:	4c18      	ldr	r4, [pc, #96]	; (80005e4 <test_baseloader2+0x64>)
+ 8000584:	4a18      	ldr	r2, [pc, #96]	; (80005e8 <test_baseloader2+0x68>)
+ 8000586:	6022      	str	r2, [r4, #0]
+	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+ 8000588:	4d18      	ldr	r5, [pc, #96]	; (80005ec <test_baseloader2+0x6c>)
+ 800058a:	4b19      	ldr	r3, [pc, #100]	; (80005f0 <test_baseloader2+0x70>)
+ 800058c:	602b      	str	r3, [r5, #0]
+	test_half_word_count = FLASH_PAGE_SIZE / 2;
+	src = test_src;
+ 800058e:	4919      	ldr	r1, [pc, #100]	; (80005f4 <test_baseloader2+0x74>)
+ 8000590:	600a      	str	r2, [r1, #0]
+	dest = test_dest;
+ 8000592:	4a19      	ldr	r2, [pc, #100]	; (80005f8 <test_baseloader2+0x78>)
+ 8000594:	6013      	str	r3, [r2, #0]
+	half_word_count = test_half_word_count;
+ 8000596:	4b19      	ldr	r3, [pc, #100]	; (80005fc <test_baseloader2+0x7c>)
+ 8000598:	f44f 7200 	mov.w	r2, #512	; 0x200
+ 800059c:	601a      	str	r2, [r3, #0]
 	debug_dump(); ////	
- 8000588:	4814      	ldr	r0, [pc, #80]	; (80005dc <test_baseloader2+0x6c>)
- 800058a:	f002 fe91 	bl	80032b0 <debug_print>
- 800058e:	6820      	ldr	r0, [r4, #0]
- 8000590:	f002 fed6 	bl	8003340 <debug_printhex_unsigned>
- 8000594:	4c12      	ldr	r4, [pc, #72]	; (80005e0 <test_baseloader2+0x70>)
- 8000596:	4620      	mov	r0, r4
- 8000598:	f002 fe5e 	bl	8003258 <debug_println>
- 800059c:	4811      	ldr	r0, [pc, #68]	; (80005e4 <test_baseloader2+0x74>)
- 800059e:	f002 fe87 	bl	80032b0 <debug_print>
- 80005a2:	6828      	ldr	r0, [r5, #0]
- 80005a4:	f002 fecc 	bl	8003340 <debug_printhex_unsigned>
- 80005a8:	4620      	mov	r0, r4
- 80005aa:	f002 fe55 	bl	8003258 <debug_println>
- 80005ae:	f002 fde5 	bl	800317c <debug_force_flush>
- 80005b2:	480d      	ldr	r0, [pc, #52]	; (80005e8 <test_baseloader2+0x78>)
+ 800059e:	4818      	ldr	r0, [pc, #96]	; (8000600 <test_baseloader2+0x80>)
+ 80005a0:	f002 fe86 	bl	80032b0 <debug_print>
+ 80005a4:	6820      	ldr	r0, [r4, #0]
+ 80005a6:	f002 fecb 	bl	8003340 <debug_printhex_unsigned>
+ 80005aa:	4c16      	ldr	r4, [pc, #88]	; (8000604 <test_baseloader2+0x84>)
+ 80005ac:	4620      	mov	r0, r4
+ 80005ae:	f002 fe53 	bl	8003258 <debug_println>
+ 80005b2:	4815      	ldr	r0, [pc, #84]	; (8000608 <test_baseloader2+0x88>)
  80005b4:	f002 fe7c 	bl	80032b0 <debug_print>
- 80005b8:	682b      	ldr	r3, [r5, #0]
- 80005ba:	8818      	ldrh	r0, [r3, #0]
- 80005bc:	f002 fec0 	bl	8003340 <debug_printhex_unsigned>
- 80005c0:	4620      	mov	r0, r4
- 80005c2:	f002 fe49 	bl	8003258 <debug_println>
- 80005c6:	f002 fdd9 	bl	800317c <debug_force_flush>
+ 80005b8:	6828      	ldr	r0, [r5, #0]
+ 80005ba:	f002 fec1 	bl	8003340 <debug_printhex_unsigned>
+ 80005be:	4620      	mov	r0, r4
+ 80005c0:	f002 fe4a 	bl	8003258 <debug_println>
+ 80005c4:	f002 fdda 	bl	800317c <debug_force_flush>
+ 80005c8:	4810      	ldr	r0, [pc, #64]	; (800060c <test_baseloader2+0x8c>)
+ 80005ca:	f002 fe71 	bl	80032b0 <debug_print>
+ 80005ce:	682b      	ldr	r3, [r5, #0]
+ 80005d0:	8818      	ldrh	r0, [r3, #0]
+ 80005d2:	f002 feb5 	bl	8003340 <debug_printhex_unsigned>
+ 80005d6:	4620      	mov	r0, r4
+ 80005d8:	f002 fe3e 	bl	8003258 <debug_println>
+ 80005dc:	f002 fdce 	bl	800317c <debug_force_flush>
 }
- 80005ca:	bd38      	pop	{r3, r4, r5, pc}
- 80005cc:	20000944 	.word	0x20000944
- 80005d0:	08000400 	.word	0x08000400
- 80005d4:	20000930 	.word	0x20000930
- 80005d8:	20000940 	.word	0x20000940
- 80005dc:	08000874 	.word	0x08000874
- 80005e0:	080008d0 	.word	0x080008d0
- 80005e4:	0800087c 	.word	0x0800087c
- 80005e8:	08000884 	.word	0x08000884
+ 80005e0:	bd38      	pop	{r3, r4, r5, pc}
+ 80005e2:	bf00      	nop
+ 80005e4:	2000094c 	.word	0x2000094c
+ 80005e8:	08000400 	.word	0x08000400
+ 80005ec:	20000948 	.word	0x20000948
+ 80005f0:	0800fc00 	.word	0x0800fc00
+ 80005f4:	20000944 	.word	0x20000944
+ 80005f8:	20000930 	.word	0x20000930
+ 80005fc:	20000940 	.word	0x20000940
+ 8000600:	08000898 	.word	0x08000898
+ 8000604:	080008f4 	.word	0x080008f4
+ 8000608:	080008a0 	.word	0x080008a0
+ 800060c:	080008a8 	.word	0x080008a8
 
-080005ec <test_baseloader_end>:
+08000610 <test_baseloader_end>:
 
 void test_baseloader_end(void) {
- 80005ec:	b510      	push	{r4, lr}
+ 8000610:	b510      	push	{r4, lr}
 	debug_dump2(); ////
- 80005ee:	4810      	ldr	r0, [pc, #64]	; (8000630 <test_baseloader_end+0x44>)
- 80005f0:	f002 fe5e 	bl	80032b0 <debug_print>
- 80005f4:	4c0f      	ldr	r4, [pc, #60]	; (8000634 <test_baseloader_end+0x48>)
- 80005f6:	6823      	ldr	r3, [r4, #0]
- 80005f8:	8818      	ldrh	r0, [r3, #0]
- 80005fa:	f002 fea1 	bl	8003340 <debug_printhex_unsigned>
- 80005fe:	480e      	ldr	r0, [pc, #56]	; (8000638 <test_baseloader_end+0x4c>)
- 8000600:	f002 fe56 	bl	80032b0 <debug_print>
- 8000604:	4b0d      	ldr	r3, [pc, #52]	; (800063c <test_baseloader_end+0x50>)
- 8000606:	7818      	ldrb	r0, [r3, #0]
- 8000608:	f002 fe62 	bl	80032d0 <debug_printhex>
- 800060c:	6823      	ldr	r3, [r4, #0]
- 800060e:	881a      	ldrh	r2, [r3, #0]
- 8000610:	4b0b      	ldr	r3, [pc, #44]	; (8000640 <test_baseloader_end+0x54>)
- 8000612:	681b      	ldr	r3, [r3, #0]
- 8000614:	881b      	ldrh	r3, [r3, #0]
- 8000616:	429a      	cmp	r2, r3
- 8000618:	d008      	beq.n	800062c <test_baseloader_end+0x40>
- 800061a:	480a      	ldr	r0, [pc, #40]	; (8000644 <test_baseloader_end+0x58>)
- 800061c:	f002 fe48 	bl	80032b0 <debug_print>
- 8000620:	4809      	ldr	r0, [pc, #36]	; (8000648 <test_baseloader_end+0x5c>)
- 8000622:	f002 fe19 	bl	8003258 <debug_println>
- 8000626:	f002 fda9 	bl	800317c <debug_force_flush>
+ 8000612:	4810      	ldr	r0, [pc, #64]	; (8000654 <test_baseloader_end+0x44>)
+ 8000614:	f002 fe4c 	bl	80032b0 <debug_print>
+ 8000618:	4c0f      	ldr	r4, [pc, #60]	; (8000658 <test_baseloader_end+0x48>)
+ 800061a:	6823      	ldr	r3, [r4, #0]
+ 800061c:	8818      	ldrh	r0, [r3, #0]
+ 800061e:	f002 fe8f 	bl	8003340 <debug_printhex_unsigned>
+ 8000622:	480e      	ldr	r0, [pc, #56]	; (800065c <test_baseloader_end+0x4c>)
+ 8000624:	f002 fe44 	bl	80032b0 <debug_print>
+ 8000628:	4b0d      	ldr	r3, [pc, #52]	; (8000660 <test_baseloader_end+0x50>)
+ 800062a:	7818      	ldrb	r0, [r3, #0]
+ 800062c:	f002 fe50 	bl	80032d0 <debug_printhex>
+ 8000630:	6823      	ldr	r3, [r4, #0]
+ 8000632:	881a      	ldrh	r2, [r3, #0]
+ 8000634:	4b0b      	ldr	r3, [pc, #44]	; (8000664 <test_baseloader_end+0x54>)
+ 8000636:	681b      	ldr	r3, [r3, #0]
+ 8000638:	881b      	ldrh	r3, [r3, #0]
+ 800063a:	429a      	cmp	r2, r3
+ 800063c:	d008      	beq.n	8000650 <test_baseloader_end+0x40>
+ 800063e:	480a      	ldr	r0, [pc, #40]	; (8000668 <test_baseloader_end+0x58>)
+ 8000640:	f002 fe36 	bl	80032b0 <debug_print>
+ 8000644:	4809      	ldr	r0, [pc, #36]	; (800066c <test_baseloader_end+0x5c>)
+ 8000646:	f002 fe07 	bl	8003258 <debug_println>
+ 800064a:	f002 fd97 	bl	800317c <debug_force_flush>
 }
- 800062a:	bd10      	pop	{r4, pc}
+ 800064e:	bd10      	pop	{r4, pc}
 	debug_dump2(); ////
- 800062c:	4807      	ldr	r0, [pc, #28]	; (800064c <test_baseloader_end+0x60>)
- 800062e:	e7f5      	b.n	800061c <test_baseloader_end+0x30>
- 8000630:	0800089c 	.word	0x0800089c
- 8000634:	20000930 	.word	0x20000930
- 8000638:	080008a4 	.word	0x080008a4
- 800063c:	20000801 	.word	0x20000801
- 8000640:	20000944 	.word	0x20000944
- 8000644:	08000894 	.word	0x08000894
- 8000648:	080008a8 	.word	0x080008a8
- 800064c:	0800088c 	.word	0x0800088c
+ 8000650:	4807      	ldr	r0, [pc, #28]	; (8000670 <test_baseloader_end+0x60>)
+ 8000652:	e7f5      	b.n	8000640 <test_baseloader_end+0x30>
+ 8000654:	080008c0 	.word	0x080008c0
+ 8000658:	20000948 	.word	0x20000948
+ 800065c:	080008c8 	.word	0x080008c8
+ 8000660:	20000801 	.word	0x20000801
+ 8000664:	2000094c 	.word	0x2000094c
+ 8000668:	080008b8 	.word	0x080008b8
+ 800066c:	080008cc 	.word	0x080008cc
+ 8000670:	080008b0 	.word	0x080008b0
 
-08000650 <blocking_handler>:
+08000674 <blocking_handler>:
 	}
 
 }
 
 void blocking_handler(void)
 {
- 8000650:	e7fe      	b.n	8000650 <blocking_handler>
+ 8000674:	e7fe      	b.n	8000674 <blocking_handler>
 
-08000652 <null_handler>:
+08000676 <null_handler>:
 }
 
 void null_handler(void)
 {
 	/* Do nothing. */
 }
- 8000652:	4770      	bx	lr
+ 8000676:	4770      	bx	lr
 
-08000654 <rtc_isr>:
+08000678 <rtc_isr>:
 volatile uint32_t platform_get_alarm(void) {
 	//  Get alarm time.
 	return rtc_get_alarm_val();
 }
 
 void rtc_isr(void) {
- 8000654:	b508      	push	{r3, lr}
+ 8000678:	b508      	push	{r3, lr}
 	//  Interrupt Service Routine for RTC Tick, Alarm, Overflow.  Don't call any I/O functions here.
 	if (rtc_check_flag(RTC_SEC)) {
- 8000656:	2000      	movs	r0, #0
- 8000658:	f001 f98c 	bl	8001974 <rtc_check_flag>
- 800065c:	b900      	cbnz	r0, 8000660 <rtc_isr+0xc>
+ 800067a:	2000      	movs	r0, #0
+ 800067c:	f001 f97a 	bl	8001974 <rtc_check_flag>
+ 8000680:	b900      	cbnz	r0, 8000684 <rtc_isr+0xc>
 		//  Call the alarm function.
 		if (alarmFunc != NULL) { alarmFunc(); }
 		return;
 	}
 #endif  //  NOTUSED
 }
- 800065e:	bd08      	pop	{r3, pc}
+ 8000682:	bd08      	pop	{r3, pc}
 		rtc_clear_flag(RTC_SEC);
- 8000660:	2000      	movs	r0, #0
- 8000662:	f001 f96d 	bl	8001940 <rtc_clear_flag>
+ 8000684:	2000      	movs	r0, #0
+ 8000686:	f001 f95b 	bl	8001940 <rtc_clear_flag>
 		tickCount++;
- 8000666:	4a05      	ldr	r2, [pc, #20]	; (800067c <rtc_isr+0x28>)
- 8000668:	6813      	ldr	r3, [r2, #0]
- 800066a:	3301      	adds	r3, #1
- 800066c:	6013      	str	r3, [r2, #0]
+ 800068a:	4a05      	ldr	r2, [pc, #20]	; (80006a0 <rtc_isr+0x28>)
+ 800068c:	6813      	ldr	r3, [r2, #0]
+ 800068e:	3301      	adds	r3, #1
+ 8000690:	6013      	str	r3, [r2, #0]
 		if (tickFunc != NULL) { tickFunc(); }
- 800066e:	4b04      	ldr	r3, [pc, #16]	; (8000680 <rtc_isr+0x2c>)
- 8000670:	681b      	ldr	r3, [r3, #0]
- 8000672:	2b00      	cmp	r3, #0
- 8000674:	d0f3      	beq.n	800065e <rtc_isr+0xa>
- 8000676:	4798      	blx	r3
- 8000678:	e7f1      	b.n	800065e <rtc_isr+0xa>
- 800067a:	bf00      	nop
- 800067c:	20000c4c 	.word	0x20000c4c
- 8000680:	20000c44 	.word	0x20000c44
+ 8000692:	4b04      	ldr	r3, [pc, #16]	; (80006a4 <rtc_isr+0x2c>)
+ 8000694:	681b      	ldr	r3, [r3, #0]
+ 8000696:	2b00      	cmp	r3, #0
+ 8000698:	d0f3      	beq.n	8000682 <rtc_isr+0xa>
+ 800069a:	4798      	blx	r3
+ 800069c:	e7f1      	b.n	8000682 <rtc_isr+0xa>
+ 800069e:	bf00      	nop
+ 80006a0:	20000c54 	.word	0x20000c54
+ 80006a4:	20000c4c 	.word	0x20000c4c
 
-08000684 <rtc_alarm_isr>:
+080006a8 <rtc_alarm_isr>:
 
 void rtc_alarm_isr(void) {
- 8000684:	b508      	push	{r3, lr}
+ 80006a8:	b508      	push	{r3, lr}
 	//  Interrupt Service Routine for RTC Alarm Wakeup.  Don't call any I/O functions here.
 	//  The RTC alarm appears as EXTI 17 which must be reset independently of the RTC alarm flag.
 	exti_reset_request(EXTI17);
- 8000686:	f44f 3000 	mov.w	r0, #131072	; 0x20000
- 800068a:	f001 f9cd 	bl	8001a28 <exti_reset_request>
+ 80006aa:	f44f 3000 	mov.w	r0, #131072	; 0x20000
+ 80006ae:	f001 f9bb 	bl	8001a28 <exti_reset_request>
 	rtc_clear_flag(RTC_ALR);
- 800068e:	2001      	movs	r0, #1
- 8000690:	f001 f956 	bl	8001940 <rtc_clear_flag>
+ 80006b2:	2001      	movs	r0, #1
+ 80006b4:	f001 f944 	bl	8001940 <rtc_clear_flag>
 	alarmCount++;
- 8000694:	4a04      	ldr	r2, [pc, #16]	; (80006a8 <rtc_alarm_isr+0x24>)
- 8000696:	6813      	ldr	r3, [r2, #0]
- 8000698:	3301      	adds	r3, #1
- 800069a:	6013      	str	r3, [r2, #0]
+ 80006b8:	4a04      	ldr	r2, [pc, #16]	; (80006cc <rtc_alarm_isr+0x24>)
+ 80006ba:	6813      	ldr	r3, [r2, #0]
+ 80006bc:	3301      	adds	r3, #1
+ 80006be:	6013      	str	r3, [r2, #0]
 	//  Call the alarm function.
 	if (alarmFunc != NULL) { alarmFunc(); }
- 800069c:	4b03      	ldr	r3, [pc, #12]	; (80006ac <rtc_alarm_isr+0x28>)
- 800069e:	681b      	ldr	r3, [r3, #0]
- 80006a0:	b103      	cbz	r3, 80006a4 <rtc_alarm_isr+0x20>
- 80006a2:	4798      	blx	r3
+ 80006c0:	4b03      	ldr	r3, [pc, #12]	; (80006d0 <rtc_alarm_isr+0x28>)
+ 80006c2:	681b      	ldr	r3, [r3, #0]
+ 80006c4:	b103      	cbz	r3, 80006c8 <rtc_alarm_isr+0x20>
+ 80006c6:	4798      	blx	r3
 }
- 80006a4:	bd08      	pop	{r3, pc}
- 80006a6:	bf00      	nop
- 80006a8:	20000c40 	.word	0x20000c40
- 80006ac:	20000c48 	.word	0x20000c48
+ 80006c8:	bd08      	pop	{r3, pc}
+ 80006ca:	bf00      	nop
+ 80006cc:	20000c48 	.word	0x20000c48
+ 80006d0:	20000c50 	.word	0x20000c50
 
-080006b0 <usart2_isr>:
+080006d4 <usart2_isr>:
 	usart_set_stopbits(USART2, USART_STOPBITS_1);
 	usart_set_flow_control(USART2, USART_FLOWCONTROL_NONE);
 	usart_set_mode(USART2, USART_MODE_TX_RX);
 }
 
 void usart2_isr(void) {
- 80006b0:	b508      	push	{r3, lr}
+ 80006d4:	b508      	push	{r3, lr}
     //  Interrupt service routine for USART2. We enqueue each byte received.
 	//  Check if we were called because of received data (RXNE). */
 	if (((USART_CR1(USART2) & USART_CR1_RXNEIE) != 0) &&
- 80006b2:	4b12      	ldr	r3, [pc, #72]	; (80006fc <usart2_isr+0x4c>)
- 80006b4:	681b      	ldr	r3, [r3, #0]
- 80006b6:	f013 0f20 	tst.w	r3, #32
- 80006ba:	d004      	beq.n	80006c6 <usart2_isr+0x16>
+ 80006d6:	4b12      	ldr	r3, [pc, #72]	; (8000720 <usart2_isr+0x4c>)
+ 80006d8:	681b      	ldr	r3, [r3, #0]
+ 80006da:	f013 0f20 	tst.w	r3, #32
+ 80006de:	d004      	beq.n	80006ea <usart2_isr+0x16>
 	    ((USART_SR(USART2) & USART_SR_RXNE) != 0)) {
- 80006bc:	4b10      	ldr	r3, [pc, #64]	; (8000700 <usart2_isr+0x50>)
- 80006be:	681b      	ldr	r3, [r3, #0]
+ 80006e0:	4b10      	ldr	r3, [pc, #64]	; (8000724 <usart2_isr+0x50>)
+ 80006e2:	681b      	ldr	r3, [r3, #0]
 	if (((USART_CR1(USART2) & USART_CR1_RXNEIE) != 0) &&
- 80006c0:	f013 0f20 	tst.w	r3, #32
- 80006c4:	d100      	bne.n	80006c8 <usart2_isr+0x18>
+ 80006e4:	f013 0f20 	tst.w	r3, #32
+ 80006e8:	d100      	bne.n	80006ec <usart2_isr+0x18>
 		//  Read the next received byte and add to response queue.
 		uint8_t ch = usart_recv(USART2);
         responseQueue.push(ch);
 	}
 }
- 80006c6:	bd08      	pop	{r3, pc}
+ 80006ea:	bd08      	pop	{r3, pc}
 		uint8_t ch = usart_recv(USART2);
- 80006c8:	480d      	ldr	r0, [pc, #52]	; (8000700 <usart2_isr+0x50>)
- 80006ca:	f001 fd18 	bl	80020fe <usart_recv>
- 80006ce:	b2c0      	uxtb	r0, r0
+ 80006ec:	480d      	ldr	r0, [pc, #52]	; (8000724 <usart2_isr+0x50>)
+ 80006ee:	f001 fd06 	bl	80020fe <usart_recv>
+ 80006f2:	b2c0      	uxtb	r0, r0
       {
 	memory_order __b = __m & __memory_order_mask;
 	__glibcxx_assert(__b != memory_order_release);
 	__glibcxx_assert(__b != memory_order_acq_rel);
 
 	return __atomic_load_n(&_M_i, __m);
- 80006d0:	4b0c      	ldr	r3, [pc, #48]	; (8000704 <usart2_isr+0x54>)
- 80006d2:	681a      	ldr	r2, [r3, #0]
+ 80006f4:	4b0c      	ldr	r3, [pc, #48]	; (8000728 <usart2_isr+0x54>)
+ 80006f6:	681a      	ldr	r2, [r3, #0]
         write_index_(0), read_index_(0)
     {}
 
     static size_t next_index(size_t arg, size_t max_size)
     {
         size_t ret = arg + 1;
- 80006d4:	1c53      	adds	r3, r2, #1
+ 80006f8:	1c53      	adds	r3, r2, #1
         while (BOOST_UNLIKELY(ret >= max_size))
- 80006d6:	2b25      	cmp	r3, #37	; 0x25
- 80006d8:	d80e      	bhi.n	80006f8 <usart2_isr+0x48>
- 80006da:	490a      	ldr	r1, [pc, #40]	; (8000704 <usart2_isr+0x54>)
- 80006dc:	6c09      	ldr	r1, [r1, #64]	; 0x40
- 80006de:	f3bf 8f5b 	dmb	ish
+ 80006fa:	2b25      	cmp	r3, #37	; 0x25
+ 80006fc:	d80e      	bhi.n	800071c <usart2_isr+0x48>
+ 80006fe:	490a      	ldr	r1, [pc, #40]	; (8000728 <usart2_isr+0x54>)
+ 8000700:	6c09      	ldr	r1, [r1, #64]	; 0x40
+ 8000702:	f3bf 8f5b 	dmb	ish
     bool push(T const & t, T * buffer, size_t max_size)
     {
         const size_t write_index = write_index_.load(memory_order_relaxed);  // only written from push thread
         const size_t next = next_index(write_index, max_size);
 
         if (next == read_index_.load(memory_order_acquire))
- 80006e2:	428b      	cmp	r3, r1
- 80006e4:	d0ef      	beq.n	80006c6 <usart2_isr+0x16>
+ 8000706:	428b      	cmp	r3, r1
+ 8000708:	d0ef      	beq.n	80006ea <usart2_isr+0x16>
             return false; /* ringbuffer is full */
 
         new (buffer + write_index) T(t); // copy-construct
- 80006e6:	4908      	ldr	r1, [pc, #32]	; (8000708 <usart2_isr+0x58>)
- 80006e8:	42d1      	cmn	r1, r2
- 80006ea:	d000      	beq.n	80006ee <usart2_isr+0x3e>
- 80006ec:	5488      	strb	r0, [r1, r2]
+ 800070a:	4908      	ldr	r1, [pc, #32]	; (800072c <usart2_isr+0x58>)
+ 800070c:	42d1      	cmn	r1, r2
+ 800070e:	d000      	beq.n	8000712 <usart2_isr+0x3e>
+ 8000710:	5488      	strb	r0, [r1, r2]
 	__atomic_store_n(&_M_i, __i, __m);
- 80006ee:	f3bf 8f5b 	dmb	ish
- 80006f2:	4a04      	ldr	r2, [pc, #16]	; (8000704 <usart2_isr+0x54>)
- 80006f4:	6013      	str	r3, [r2, #0]
+ 8000712:	f3bf 8f5b 	dmb	ish
+ 8000716:	4a04      	ldr	r2, [pc, #16]	; (8000728 <usart2_isr+0x54>)
+ 8000718:	6013      	str	r3, [r2, #0]
 }
- 80006f6:	e7e6      	b.n	80006c6 <usart2_isr+0x16>
+ 800071a:	e7e6      	b.n	80006ea <usart2_isr+0x16>
             ret -= max_size;
- 80006f8:	3b26      	subs	r3, #38	; 0x26
- 80006fa:	e7ec      	b.n	80006d6 <usart2_isr+0x26>
- 80006fc:	4000440c 	.word	0x4000440c
- 8000700:	40004400 	.word	0x40004400
- 8000704:	20002994 	.word	0x20002994
- 8000708:	200029d8 	.word	0x200029d8
+ 800071c:	3b26      	subs	r3, #38	; 0x26
+ 800071e:	e7ec      	b.n	80006fa <usart2_isr+0x26>
+ 8000720:	4000440c 	.word	0x4000440c
+ 8000724:	40004400 	.word	0x40004400
+ 8000728:	20002994 	.word	0x20002994
+ 800072c:	200029d8 	.word	0x200029d8
 
-0800070c <pre_main>:
+08000730 <pre_main>:
 extern void application_start(void);
 
 uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
 uint32_t hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.
 
 static void pre_main() {
- 800070c:	b508      	push	{r3, lr}
+ 8000730:	b508      	push	{r3, lr}
 	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
     //  Note: Must disable debug when testing Deep Sleep.  Else device will not run without ST Link.
     target_enable_debug();       //  Uncomment to allow display of debug messages in development devices. NOTE: This will hang if no Arm Semihosting debugger is attached.
- 800070e:	f000 fdb7 	bl	8001280 <target_enable_debug>
+ 8000732:	f000 fda5 	bl	8001280 <target_enable_debug>
     //  target_disable_debug();  //  Uncomment to disable display of debug messages.  For use in production devices.
     target_init();               //  Init the STM32 platform.
- 8000712:	f000 fce1 	bl	80010d8 <target_init>
+ 8000736:	f000 fccf 	bl	80010d8 <target_init>
 
 	//  Test whether Bootloader BSS and Data Sections are loaded correctly.
     if (hal_bss_test != 0x0 || hal_data_test != 0x87654321) {
- 8000716:	4b0c      	ldr	r3, [pc, #48]	; (8000748 <pre_main+0x3c>)
- 8000718:	681b      	ldr	r3, [r3, #0]
- 800071a:	b923      	cbnz	r3, 8000726 <pre_main+0x1a>
- 800071c:	4b0b      	ldr	r3, [pc, #44]	; (800074c <pre_main+0x40>)
- 800071e:	681a      	ldr	r2, [r3, #0]
- 8000720:	4b0b      	ldr	r3, [pc, #44]	; (8000750 <pre_main+0x44>)
- 8000722:	429a      	cmp	r2, r3
- 8000724:	d00e      	beq.n	8000744 <pre_main+0x38>
+ 800073a:	4b0c      	ldr	r3, [pc, #48]	; (800076c <pre_main+0x3c>)
+ 800073c:	681b      	ldr	r3, [r3, #0]
+ 800073e:	b923      	cbnz	r3, 800074a <pre_main+0x1a>
+ 8000740:	4b0b      	ldr	r3, [pc, #44]	; (8000770 <pre_main+0x40>)
+ 8000742:	681a      	ldr	r2, [r3, #0]
+ 8000744:	4b0b      	ldr	r3, [pc, #44]	; (8000774 <pre_main+0x44>)
+ 8000746:	429a      	cmp	r2, r3
+ 8000748:	d00e      	beq.n	8000768 <pre_main+0x38>
         debug_print("*** hal bss/data failed, bss_test = "); debug_printhex_unsigned(hal_bss_test);
- 8000726:	480b      	ldr	r0, [pc, #44]	; (8000754 <pre_main+0x48>)
- 8000728:	f002 fdc2 	bl	80032b0 <debug_print>
- 800072c:	4b06      	ldr	r3, [pc, #24]	; (8000748 <pre_main+0x3c>)
- 800072e:	6818      	ldr	r0, [r3, #0]
- 8000730:	f002 fe06 	bl	8003340 <debug_printhex_unsigned>
+ 800074a:	480b      	ldr	r0, [pc, #44]	; (8000778 <pre_main+0x48>)
+ 800074c:	f002 fdb0 	bl	80032b0 <debug_print>
+ 8000750:	4b06      	ldr	r3, [pc, #24]	; (800076c <pre_main+0x3c>)
+ 8000752:	6818      	ldr	r0, [r3, #0]
+ 8000754:	f002 fdf4 	bl	8003340 <debug_printhex_unsigned>
         debug_print(", data_test = "); debug_printhex_unsigned(hal_data_test);
- 8000734:	4808      	ldr	r0, [pc, #32]	; (8000758 <pre_main+0x4c>)
- 8000736:	f002 fdbb 	bl	80032b0 <debug_print>
- 800073a:	4b04      	ldr	r3, [pc, #16]	; (800074c <pre_main+0x40>)
- 800073c:	6818      	ldr	r0, [r3, #0]
- 800073e:	f002 fdff 	bl	8003340 <debug_printhex_unsigned>
- 8000742:	e7fe      	b.n	8000742 <pre_main+0x36>
+ 8000758:	4808      	ldr	r0, [pc, #32]	; (800077c <pre_main+0x4c>)
+ 800075a:	f002 fda9 	bl	80032b0 <debug_print>
+ 800075e:	4b04      	ldr	r3, [pc, #16]	; (8000770 <pre_main+0x40>)
+ 8000760:	6818      	ldr	r0, [r3, #0]
+ 8000762:	f002 fded 	bl	8003340 <debug_printhex_unsigned>
+ 8000766:	e7fe      	b.n	8000766 <pre_main+0x36>
     }
 #ifdef UNIT_TEST
     //  Run the unit tests if any.  Don't run unit test in bootloader, because we will run out of space in bootrom.
     run_unit_test();	
 #endif  //  UNIT_TEST
 }
- 8000744:	bd08      	pop	{r3, pc}
- 8000746:	bf00      	nop
- 8000748:	20000f18 	.word	0x20000f18
- 800074c:	20000804 	.word	0x20000804
- 8000750:	87654321 	.word	0x87654321
- 8000754:	080008ac 	.word	0x080008ac
- 8000758:	080008d4 	.word	0x080008d4
+ 8000768:	bd08      	pop	{r3, pc}
+ 800076a:	bf00      	nop
+ 800076c:	20000f20 	.word	0x20000f20
+ 8000770:	20000804 	.word	0x20000804
+ 8000774:	87654321 	.word	0x87654321
+ 8000778:	080008d0 	.word	0x080008d0
+ 800077c:	080008f8 	.word	0x080008f8
 
-0800075c <reset_handler>:
+08000780 <reset_handler>:
 
 void reset_handler(void) {
- 800075c:	b510      	push	{r4, lr}
+ 8000780:	b510      	push	{r4, lr}
 	//  We also call the constructors.  The vector table points to this function.
 	volatile unsigned *src, *boot_dest;
 	funcp_t *fp;
 
 	//  Copy Bootloader data section from ROM to RAM.
 	for (src = &_boot_data_loadaddr, boot_dest = &_boot_data;
- 800075e:	4b20      	ldr	r3, [pc, #128]	; (80007e0 <reset_handler+0x84>)
- 8000760:	4920      	ldr	r1, [pc, #128]	; (80007e4 <reset_handler+0x88>)
- 8000762:	e003      	b.n	800076c <reset_handler+0x10>
+ 8000782:	4b20      	ldr	r3, [pc, #128]	; (8000804 <reset_handler+0x84>)
+ 8000784:	4920      	ldr	r1, [pc, #128]	; (8000808 <reset_handler+0x88>)
+ 8000786:	e003      	b.n	8000790 <reset_handler+0x10>
 		boot_dest < &_boot_edata;  //  Bootloader
 		src++, boot_dest++) {
 		*boot_dest = *src;
- 8000764:	f851 2b04 	ldr.w	r2, [r1], #4
- 8000768:	f843 2b04 	str.w	r2, [r3], #4
+ 8000788:	f851 2b04 	ldr.w	r2, [r1], #4
+ 800078c:	f843 2b04 	str.w	r2, [r3], #4
 	for (src = &_boot_data_loadaddr, boot_dest = &_boot_data;
- 800076c:	4a1e      	ldr	r2, [pc, #120]	; (80007e8 <reset_handler+0x8c>)
- 800076e:	4293      	cmp	r3, r2
- 8000770:	d3f8      	bcc.n	8000764 <reset_handler+0x8>
- 8000772:	e002      	b.n	800077a <reset_handler+0x1e>
+ 8000790:	4a1e      	ldr	r2, [pc, #120]	; (800080c <reset_handler+0x8c>)
+ 8000792:	4293      	cmp	r3, r2
+ 8000794:	d3f8      	bcc.n	8000788 <reset_handler+0x8>
+ 8000796:	e002      	b.n	800079e <reset_handler+0x1e>
 	}
 
 	//  Init variables in Bootloader BSS section to null.
 	while (boot_dest < &_boot_ebss) { *boot_dest++ = 0; }
- 8000774:	2200      	movs	r2, #0
- 8000776:	601a      	str	r2, [r3, #0]
- 8000778:	3304      	adds	r3, #4
- 800077a:	4a1c      	ldr	r2, [pc, #112]	; (80007ec <reset_handler+0x90>)
- 800077c:	4293      	cmp	r3, r2
- 800077e:	d3f9      	bcc.n	8000774 <reset_handler+0x18>
+ 8000798:	2200      	movs	r2, #0
+ 800079a:	601a      	str	r2, [r3, #0]
+ 800079c:	3304      	adds	r3, #4
+ 800079e:	4a1c      	ldr	r2, [pc, #112]	; (8000810 <reset_handler+0x90>)
+ 80007a0:	4293      	cmp	r3, r2
+ 80007a2:	d3f9      	bcc.n	8000798 <reset_handler+0x18>
 
 	/* Ensure 8-byte alignment of stack pointer on interrupts */
 	/* Enabled by default on most Cortex-M parts, but not M3 r1 */
 	SCB_CCR |= SCB_CCR_STKALIGN;
- 8000780:	4a1b      	ldr	r2, [pc, #108]	; (80007f0 <reset_handler+0x94>)
- 8000782:	6813      	ldr	r3, [r2, #0]
- 8000784:	f443 7300 	orr.w	r3, r3, #512	; 0x200
- 8000788:	6013      	str	r3, [r2, #0]
+ 80007a4:	4a1b      	ldr	r2, [pc, #108]	; (8000814 <reset_handler+0x94>)
+ 80007a6:	6813      	ldr	r3, [r2, #0]
+ 80007a8:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 80007ac:	6013      	str	r3, [r2, #0]
 
 	//  Perform our platform initialisation.  pre_main() will not return if bootloader decides to run in Bootloader Mode.
 	pre_main();
- 800078a:	f7ff ffbf 	bl	800070c <pre_main>
+ 80007ae:	f7ff ffbf 	bl	8000730 <pre_main>
 	//  Application constructors will be called by application_start().
 	//  TODO: Fix these bootloader constructors:
 	// .init_array    0x0000000008009778        0x4 .pioenvs/bluepill_f103c8/src/uart.o
  	// .init_array    0x000000000800977c        0x4 .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
  	// .init_array    0x0000000008009780        0x4 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
 	for (fp = &__boot_preinit_array_start; fp < &__boot_preinit_array_end; fp++) {
- 800078e:	4c19      	ldr	r4, [pc, #100]	; (80007f4 <reset_handler+0x98>)
- 8000790:	e002      	b.n	8000798 <reset_handler+0x3c>
+ 80007b2:	4c19      	ldr	r4, [pc, #100]	; (8000818 <reset_handler+0x98>)
+ 80007b4:	e002      	b.n	80007bc <reset_handler+0x3c>
 		(*fp)();
- 8000792:	f854 3b04 	ldr.w	r3, [r4], #4
- 8000796:	4798      	blx	r3
+ 80007b6:	f854 3b04 	ldr.w	r3, [r4], #4
+ 80007ba:	4798      	blx	r3
 	for (fp = &__boot_preinit_array_start; fp < &__boot_preinit_array_end; fp++) {
- 8000798:	4b17      	ldr	r3, [pc, #92]	; (80007f8 <reset_handler+0x9c>)
- 800079a:	429c      	cmp	r4, r3
- 800079c:	d3f9      	bcc.n	8000792 <reset_handler+0x36>
+ 80007bc:	4b17      	ldr	r3, [pc, #92]	; (800081c <reset_handler+0x9c>)
+ 80007be:	429c      	cmp	r4, r3
+ 80007c0:	d3f9      	bcc.n	80007b6 <reset_handler+0x36>
 	}
 	for (fp = &__boot_init_array_start; fp < &__boot_init_array_end; fp++) {
- 800079e:	4c17      	ldr	r4, [pc, #92]	; (80007fc <reset_handler+0xa0>)
- 80007a0:	e002      	b.n	80007a8 <reset_handler+0x4c>
+ 80007c2:	4c17      	ldr	r4, [pc, #92]	; (8000820 <reset_handler+0xa0>)
+ 80007c4:	e002      	b.n	80007cc <reset_handler+0x4c>
 		(*fp)();
- 80007a2:	f854 3b04 	ldr.w	r3, [r4], #4
- 80007a6:	4798      	blx	r3
+ 80007c6:	f854 3b04 	ldr.w	r3, [r4], #4
+ 80007ca:	4798      	blx	r3
 	for (fp = &__boot_init_array_start; fp < &__boot_init_array_end; fp++) {
- 80007a8:	4b15      	ldr	r3, [pc, #84]	; (8000800 <reset_handler+0xa4>)
- 80007aa:	429c      	cmp	r4, r3
- 80007ac:	d3f9      	bcc.n	80007a2 <reset_handler+0x46>
+ 80007cc:	4b15      	ldr	r3, [pc, #84]	; (8000824 <reset_handler+0xa4>)
+ 80007ce:	429c      	cmp	r4, r3
+ 80007d0:	d3f9      	bcc.n	80007c6 <reset_handler+0x46>
 	}
 
     //  Start the baseloader.  This function will not return if the baseloader restarts Blue Pill after flashing.
 	test_baseloader1(); ////
- 80007ae:	f7ff fea1 	bl	80004f4 <test_baseloader1>
+ 80007d2:	f7ff fe8f 	bl	80004f4 <test_baseloader1>
     baseloader_start();
- 80007b2:	f7ff fcd5 	bl	8000160 <baseloader_start>
+ 80007d6:	f7ff fcc3 	bl	8000160 <baseloader_start>
 	test_baseloader_end(); ////
- 80007b6:	f7ff ff19 	bl	80005ec <test_baseloader_end>
+ 80007da:	f7ff ff19 	bl	8000610 <test_baseloader_end>
 
 	test_baseloader2(); ////
- 80007ba:	f7ff fed9 	bl	8000570 <test_baseloader2>
+ 80007de:	f7ff fecf 	bl	8000580 <test_baseloader2>
     baseloader_start();
- 80007be:	f7ff fccf 	bl	8000160 <baseloader_start>
+ 80007e2:	f7ff fcbd 	bl	8000160 <baseloader_start>
 	test_baseloader_end(); ////
- 80007c2:	f7ff ff13 	bl	80005ec <test_baseloader_end>
+ 80007e6:	f7ff ff13 	bl	8000610 <test_baseloader_end>
 
     //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
     bootloader_start();
- 80007c6:	f002 ffa9 	bl	800371c <bootloader_start>
+ 80007ea:	f002 ff97 	bl	800371c <bootloader_start>
 
 	//  If we return here, that means we are running in Application Mode.
 	//  Call the application's entry point. application_start() is always located at a fixed address (_text) so we can change the application easily.
 	application_start();
- 80007ca:	f007 f819 	bl	8007800 <application_start>
+ 80007ee:	f007 f807 	bl	8007800 <application_start>
 
 	//  TODO: We should not allow our low-level STM32 functions to have C++ destructors.
 	//  Application destructors will be called by application_start().
 	for (fp = &__boot_fini_array_start; fp < &__boot_fini_array_end; fp++) {
- 80007ce:	4c0d      	ldr	r4, [pc, #52]	; (8000804 <reset_handler+0xa8>)
- 80007d0:	e002      	b.n	80007d8 <reset_handler+0x7c>
+ 80007f2:	4c0d      	ldr	r4, [pc, #52]	; (8000828 <reset_handler+0xa8>)
+ 80007f4:	e002      	b.n	80007fc <reset_handler+0x7c>
 		(*fp)();
- 80007d2:	f854 3b04 	ldr.w	r3, [r4], #4
- 80007d6:	4798      	blx	r3
+ 80007f6:	f854 3b04 	ldr.w	r3, [r4], #4
+ 80007fa:	4798      	blx	r3
 	for (fp = &__boot_fini_array_start; fp < &__boot_fini_array_end; fp++) {
- 80007d8:	4b0b      	ldr	r3, [pc, #44]	; (8000808 <reset_handler+0xac>)
- 80007da:	429c      	cmp	r4, r3
- 80007dc:	d3f9      	bcc.n	80007d2 <reset_handler+0x76>
+ 80007fc:	4b0b      	ldr	r3, [pc, #44]	; (800082c <reset_handler+0xac>)
+ 80007fe:	429c      	cmp	r4, r3
+ 8000800:	d3f9      	bcc.n	80007f6 <reset_handler+0x76>
 	}
 
 }
- 80007de:	bd10      	pop	{r4, pc}
- 80007e0:	20000800 	.word	0x20000800
- 80007e4:	080055c0 	.word	0x080055c0
- 80007e8:	20000930 	.word	0x20000930
- 80007ec:	2000107c 	.word	0x2000107c
- 80007f0:	e000ed14 	.word	0xe000ed14
- 80007f4:	080055c0 	.word	0x080055c0
- 80007f8:	080055c0 	.word	0x080055c0
- 80007fc:	080055c0 	.word	0x080055c0
- 8000800:	080055c0 	.word	0x080055c0
- 8000804:	080055c0 	.word	0x080055c0
+ 8000802:	bd10      	pop	{r4, pc}
+ 8000804:	20000800 	.word	0x20000800
  8000808:	080055c0 	.word	0x080055c0
- 800080c:	53494420 	.word	0x53494420
- 8000810:	454c4241 	.word	0x454c4241
- 8000814:	544e4920 	.word	0x544e4920
- 8000818:	55525245 	.word	0x55525245
- 800081c:	20535450 	.word	0x20535450
- 8000820:	00000000 	.word	0x00000000
- 8000824:	616e6520 	.word	0x616e6520
- 8000828:	20656c62 	.word	0x20656c62
- 800082c:	65746e69 	.word	0x65746e69
- 8000830:	70757272 	.word	0x70757272
- 8000834:	00207374 	.word	0x00207374
- 8000838:	65736162 	.word	0x65736162
- 800083c:	64616f6c 	.word	0x64616f6c
- 8000840:	735f7265 	.word	0x735f7265
- 8000844:	74726174 	.word	0x74726174
- 8000848:	00000000 	.word	0x00000000
- 800084c:	67726174 	.word	0x67726174
- 8000850:	665f7465 	.word	0x665f7465
- 8000854:	6873616c 	.word	0x6873616c
- 8000858:	00000020 	.word	0x00000020
- 800085c:	7273202c 	.word	0x7273202c
- 8000860:	00002063 	.word	0x00002063
- 8000864:	206f7420 	.word	0x206f7420
- 8000868:	00000000 	.word	0x00000000
- 800086c:	6c68202c 	.word	0x6c68202c
- 8000870:	00206e65 	.word	0x00206e65
- 8000874:	20637273 	.word	0x20637273
- 8000878:	00000020 	.word	0x00000020
- 800087c:	74736564 	.word	0x74736564
- 8000880:	00000020 	.word	0x00000020
- 8000884:	6f666562 	.word	0x6f666562
- 8000888:	00206572 	.word	0x00206572
- 800088c:	204b4f20 	.word	0x204b4f20
- 8000890:	00000000 	.word	0x00000000
- 8000894:	49414620 	.word	0x49414620
- 8000898:	0000204c 	.word	0x0000204c
- 800089c:	65746661 	.word	0x65746661
- 80008a0:	00002072 	.word	0x00002072
- 80008a4:	00202f20 	.word	0x00202f20
- 80008a8:	00000a0d 	.word	0x00000a0d
- 80008ac:	202a2a2a 	.word	0x202a2a2a
- 80008b0:	206c6168 	.word	0x206c6168
- 80008b4:	2f737362 	.word	0x2f737362
- 80008b8:	61746164 	.word	0x61746164
- 80008bc:	69616620 	.word	0x69616620
- 80008c0:	2c64656c 	.word	0x2c64656c
- 80008c4:	73736220 	.word	0x73736220
- 80008c8:	7365745f 	.word	0x7365745f
- 80008cc:	203d2074 	.word	0x203d2074
- 80008d0:	00000000 	.word	0x00000000
- 80008d4:	6164202c 	.word	0x6164202c
- 80008d8:	745f6174 	.word	0x745f6174
- 80008dc:	20747365 	.word	0x20747365
- 80008e0:	0000203d 	.word	0x0000203d
+ 800080c:	20000930 	.word	0x20000930
+ 8000810:	20001084 	.word	0x20001084
+ 8000814:	e000ed14 	.word	0xe000ed14
+ 8000818:	080055c0 	.word	0x080055c0
+ 800081c:	080055c0 	.word	0x080055c0
+ 8000820:	080055c0 	.word	0x080055c0
+ 8000824:	080055c0 	.word	0x080055c0
+ 8000828:	080055c0 	.word	0x080055c0
+ 800082c:	080055c0 	.word	0x080055c0
+ 8000830:	53494420 	.word	0x53494420
+ 8000834:	454c4241 	.word	0x454c4241
+ 8000838:	544e4920 	.word	0x544e4920
+ 800083c:	55525245 	.word	0x55525245
+ 8000840:	20535450 	.word	0x20535450
+ 8000844:	00000000 	.word	0x00000000
+ 8000848:	616e6520 	.word	0x616e6520
+ 800084c:	20656c62 	.word	0x20656c62
+ 8000850:	65746e69 	.word	0x65746e69
+ 8000854:	70757272 	.word	0x70757272
+ 8000858:	00207374 	.word	0x00207374
+ 800085c:	65736162 	.word	0x65736162
+ 8000860:	64616f6c 	.word	0x64616f6c
+ 8000864:	735f7265 	.word	0x735f7265
+ 8000868:	74726174 	.word	0x74726174
+ 800086c:	00000000 	.word	0x00000000
+ 8000870:	67726174 	.word	0x67726174
+ 8000874:	665f7465 	.word	0x665f7465
+ 8000878:	6873616c 	.word	0x6873616c
+ 800087c:	00000020 	.word	0x00000020
+ 8000880:	7273202c 	.word	0x7273202c
+ 8000884:	00002063 	.word	0x00002063
+ 8000888:	206f7420 	.word	0x206f7420
+ 800088c:	00000000 	.word	0x00000000
+ 8000890:	6c68202c 	.word	0x6c68202c
+ 8000894:	00206e65 	.word	0x00206e65
+ 8000898:	20637273 	.word	0x20637273
+ 800089c:	00000020 	.word	0x00000020
+ 80008a0:	74736564 	.word	0x74736564
+ 80008a4:	00000020 	.word	0x00000020
+ 80008a8:	6f666562 	.word	0x6f666562
+ 80008ac:	00206572 	.word	0x00206572
+ 80008b0:	204b4f20 	.word	0x204b4f20
+ 80008b4:	00000000 	.word	0x00000000
+ 80008b8:	49414620 	.word	0x49414620
+ 80008bc:	0000204c 	.word	0x0000204c
+ 80008c0:	65746661 	.word	0x65746661
+ 80008c4:	00002072 	.word	0x00002072
+ 80008c8:	00202f20 	.word	0x00202f20
+ 80008cc:	00000a0d 	.word	0x00000a0d
+ 80008d0:	202a2a2a 	.word	0x202a2a2a
+ 80008d4:	206c6168 	.word	0x206c6168
+ 80008d8:	2f737362 	.word	0x2f737362
+ 80008dc:	61746164 	.word	0x61746164
+ 80008e0:	69616620 	.word	0x69616620
+ 80008e4:	2c64656c 	.word	0x2c64656c
+ 80008e8:	73736220 	.word	0x73736220
+ 80008ec:	7365745f 	.word	0x7365745f
+ 80008f0:	203d2074 	.word	0x203d2074
+ 80008f4:	00000000 	.word	0x00000000
+ 80008f8:	6164202c 	.word	0x6164202c
+ 80008fc:	745f6174 	.word	0x745f6174
+ 8000900:	20747365 	.word	0x20747365
+ 8000904:	0000203d 	.word	0x0000203d
 
 Disassembly of section .boot_text:
 
@@ -1920,7 +1942,7 @@ static void timer_alarm() {
  8001016:	f002 f94b 	bl	80032b0 <debug_print>
 }
  800101a:	e7f6      	b.n	800100a <_ZL11timer_alarmv+0xa>
- 800101c:	20000950 	.word	0x20000950
+ 800101c:	20000958 	.word	0x20000958
  8001020:	08004c1c 	.word	0x08004c1c
 
 08001024 <_ZL15poll_bootloaderv>:
@@ -1981,9 +2003,9 @@ static void poll_bootloader() {
  800107a:	bd10      	pop	{r4, pc}
  800107c:	4770      	bx	lr
  800107e:	bf00      	nop
- 8001080:	20000958 	.word	0x20000958
- 8001084:	20000948 	.word	0x20000948
- 8001088:	20000954 	.word	0x20000954
+ 8001080:	20000960 	.word	0x20000960
+ 8001084:	20000950 	.word	0x20000950
+ 8001088:	2000095c 	.word	0x2000095c
  800108c:	08004c20 	.word	0x08004c20
  8001090:	08004c24 	.word	0x08004c24
 
@@ -2001,7 +2023,7 @@ static void timer_tick() {
  80010a2:	f001 ff72 	bl	8002f8a <os_tick>
 }
  80010a6:	bd08      	pop	{r3, pc}
- 80010a8:	2000094c 	.word	0x2000094c
+ 80010a8:	20000954 	.word	0x20000954
 
 080010ac <_ZL11os_schedulev>:
     if (os_running()) { return; }  //  Already running.
@@ -2039,7 +2061,7 @@ static void os_schedule( void ) {
  80010cc:	f001 ff5c 	bl	8002f88 <os_cbkSleep>
  80010d0:	e7f0      	b.n	80010b4 <_ZL11os_schedulev+0x8>
  80010d2:	bf00      	nop
- 80010d4:	2000101c 	.word	0x2000101c
+ 80010d4:	20001024 	.word	0x20001024
 
 080010d8 <target_init>:
 void target_init(void) {
@@ -2064,7 +2086,7 @@ void target_init(void) {
  80010f4:	f002 fa12 	bl	800351c <platform_start_timer>
  80010f8:	e7f2      	b.n	80010e0 <target_init+0x8>
  80010fa:	bf00      	nop
- 80010fc:	20000960 	.word	0x20000960
+ 80010fc:	20000968 	.word	0x20000968
  8001100:	08001001 	.word	0x08001001
  8001104:	08001095 	.word	0x08001095
 
@@ -2078,7 +2100,7 @@ void target_init(void) {
 }
  8001110:	4770      	bx	lr
  8001112:	bf00      	nop
- 8001114:	20000960 	.word	0x20000960
+ 8001114:	20000968 	.word	0x20000968
 
 08001118 <target_wait>:
     if (milliseconds <= 0) { return; }
@@ -2121,7 +2143,7 @@ void target_wait(uint32_t milliseconds) {
  800115e:	e7e1      	b.n	8001124 <target_wait+0xc>
  8001160:	4770      	bx	lr
  8001162:	bf00      	nop
- 8001164:	20000960 	.word	0x20000960
+ 8001164:	20000968 	.word	0x20000968
  8001168:	08004c3c 	.word	0x08004c3c
  800116c:	10624dd3 	.word	0x10624dd3
  8001170:	08004c44 	.word	0x08004c44
@@ -2219,7 +2241,7 @@ void test_codal() {
 }
  8001228:	4770      	bx	lr
  800122a:	bf00      	nop
- 800122c:	2000094c 	.word	0x2000094c
+ 800122c:	20000954 	.word	0x20000954
 
 08001230 <target_set_alarm_callback>:
     alarm_callback = alarm_callback0;
@@ -2228,7 +2250,7 @@ void test_codal() {
 }
  8001234:	4770      	bx	lr
  8001236:	bf00      	nop
- 8001238:	20000950 	.word	0x20000950
+ 8001238:	20000958 	.word	0x20000958
 
 0800123c <target_set_bootloader_callback>:
     bootloader_callback = bootloader_callback0;
@@ -2237,7 +2259,7 @@ void test_codal() {
 }
  8001240:	4770      	bx	lr
  8001242:	bf00      	nop
- 8001244:	20000958 	.word	0x20000958
+ 8001244:	20000960 	.word	0x20000960
 
 08001248 <target_enable_irq>:
  *
@@ -4343,7 +4365,7 @@ static usbd_device *st_usbfs_v1_usbd_init(void)
  8001bba:	bf00      	nop
  8001bbc:	40005c40 	.word	0x40005c40
  8001bc0:	40005c50 	.word	0x40005c50
- 8001bc4:	20000f24 	.word	0x20000f24
+ 8001bc4:	20000f2c 	.word	0x20000f2c
 
 08001bc8 <scb_reset_system>:
 }
@@ -4667,7 +4689,7 @@ void st_usbfs_ep_nak_set(usbd_device *dev, uint8_t addr, uint8_t nak)
 	}
 }
  8001e22:	4770      	bx	lr
- 8001e24:	20000f1c 	.word	0x20000f1c
+ 8001e24:	20000f24 	.word	0x20000f24
 
 08001e28 <st_usbfs_ep_write_packet>:
 
@@ -4846,7 +4868,7 @@ uint16_t st_usbfs_ep_read_packet(usbd_device *dev, uint8_t addr,
  8001f80:	e7fb      	b.n	8001f7a <st_usbfs_ep_read_packet+0xc2>
  8001f82:	bf00      	nop
  8001f84:	40005c50 	.word	0x40005c50
- 8001f88:	20000f1c 	.word	0x20000f1c
+ 8001f88:	20000f24 	.word	0x20000f24
 
 08001f8c <st_usbfs_poll>:
 
@@ -6888,7 +6910,7 @@ void os_event_init(void) {
 #endif
 }
  8002bc6:	4770      	bx	lr
- 8002bc8:	20000a22 	.word	0x20000a22
+ 8002bc8:	20000a2a 	.word	0x20000a2a
 
 08002bcc <os_signal_event>:
     }
@@ -6920,7 +6942,7 @@ void os_event_set_signaling_tid( Evt_t ev, uint8_t tid ) {
 }
  8002be4:	4770      	bx	lr
  8002be6:	bf00      	nop
- 8002be8:	20000964 	.word	0x20000964
+ 8002be8:	2000096c 	.word	0x2000096c
 
 08002bec <os_init>:
 *   }
@@ -6951,9 +6973,9 @@ void os_init( void ) {
  8002c0a:	f000 f881 	bl	8002d10 <os_task_init>
 }
  8002c0e:	bd08      	pop	{r3, pc}
- 8002c10:	2000101c 	.word	0x2000101c
- 8002c14:	2000101e 	.word	0x2000101e
- 8002c18:	2000101d 	.word	0x2000101d
+ 8002c10:	20001024 	.word	0x20001024
+ 8002c14:	20001026 	.word	0x20001026
+ 8002c18:	20001025 	.word	0x20001025
 
 08002c1c <os_running>:
 }
@@ -6966,7 +6988,7 @@ uint8_t os_running( void ) {
  8002c1e:	7818      	ldrb	r0, [r3, #0]
  8002c20:	4770      	bx	lr
  8002c22:	bf00      	nop
- 8002c24:	2000101d 	.word	0x2000101d
+ 8002c24:	20001025 	.word	0x20001025
 
 08002c28 <os_msgQ_init>:
 
@@ -7012,8 +7034,8 @@ void os_msgQ_init() {
  8002c52:	bc10      	pop	{r4}
  8002c54:	4770      	bx	lr
  8002c56:	4770      	bx	lr
- 8002c58:	20000a23 	.word	0x20000a23
- 8002c5c:	20000974 	.word	0x20000974
+ 8002c58:	20000a2b 	.word	0x20000a2b
+ 8002c5c:	2000097c 	.word	0x2000097c
 
 08002c60 <os_msgQ_tick>:
 #else
@@ -7090,7 +7112,7 @@ void os_msgQ_tick( MsgQ_t queue ) {
 #endif    
 }
  8002ccc:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
- 8002cd0:	20000974 	.word	0x20000974
+ 8002cd0:	2000097c 	.word	0x2000097c
 
 08002cd4 <os_sem_init>:
 static Sem_t nSemaphores;
@@ -7105,7 +7127,7 @@ void os_sem_init(void) {
 #endif
 }
  8002cda:	4770      	bx	lr
- 8002cdc:	20000a24 	.word	0x20000a24
+ 8002cdc:	20000a2c 	.word	0x20000a2c
 
 08002ce0 <os_task_wait_queue_empty>:
     result = 1;
@@ -7133,7 +7155,7 @@ void os_sem_init(void) {
  8002cf2:	2001      	movs	r0, #1
  8002cf4:	4770      	bx	lr
  8002cf6:	bf00      	nop
- 8002cf8:	20000994 	.word	0x20000994
+ 8002cf8:	2000099c 	.word	0x2000099c
 
 08002cfc <task_ready_set>:
     task_list[ tid ].semaphore = sem;
@@ -7150,7 +7172,7 @@ static void task_ready_set( uint8_t tid ) {
  8002d08:	711a      	strb	r2, [r3, #4]
 }
  8002d0a:	4770      	bx	lr
- 8002d0c:	20000994 	.word	0x20000994
+ 8002d0c:	2000099c 	.word	0x2000099c
 
 08002d10 <os_task_init>:
     nTasks = 0;
@@ -7229,8 +7251,8 @@ void os_task_init( void ) {
  8002d76:	b2db      	uxtb	r3, r3
  8002d78:	e7e6      	b.n	8002d48 <os_task_init+0x38>
  8002d7a:	4770      	bx	lr
- 8002d7c:	20000a25 	.word	0x20000a25
- 8002d80:	20000994 	.word	0x20000994
+ 8002d7c:	20000a2d 	.word	0x20000a2d
+ 8002d80:	2000099c 	.word	0x2000099c
 
 08002d84 <os_task_highest_prio_ready_task>:
 uint8_t os_task_highest_prio_ready_task( void ) {
@@ -7274,8 +7296,8 @@ uint8_t os_task_highest_prio_ready_task( void ) {
 }
  8002dbc:	bc70      	pop	{r4, r5, r6}
  8002dbe:	4770      	bx	lr
- 8002dc0:	20000a25 	.word	0x20000a25
- 8002dc4:	20000994 	.word	0x20000994
+ 8002dc0:	20000a2d 	.word	0x20000a2d
+ 8002dc4:	2000099c 	.word	0x2000099c
 
 08002dc8 <os_task_clear_wait_queue>:
 void os_task_clear_wait_queue( uint8_t tid ) {
@@ -7294,7 +7316,7 @@ void os_task_clear_wait_queue( uint8_t tid ) {
  8002dda:	bc10      	pop	{r4}
  8002ddc:	4770      	bx	lr
  8002dde:	bf00      	nop
- 8002de0:	20000994 	.word	0x20000994
+ 8002de0:	2000099c 	.word	0x2000099c
 
 08002de4 <os_task_tick>:
 void os_task_tick( uint8_t id, uint32_t tickSize ) {
@@ -7390,8 +7412,8 @@ void os_task_tick( uint8_t id, uint32_t tickSize ) {
 }
  8002e84:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
  8002e86:	bf00      	nop
- 8002e88:	20000994 	.word	0x20000994
- 8002e8c:	20000a25 	.word	0x20000a25
+ 8002e88:	2000099c 	.word	0x2000099c
+ 8002e8c:	20000a2d 	.word	0x20000a2d
 
 08002e90 <os_task_signal_event>:
 void os_task_signal_event( Evt_t eventId ) {
@@ -7470,8 +7492,8 @@ void os_task_signal_event( Evt_t eventId ) {
  8002f1c:	e7c0      	b.n	8002ea0 <os_task_signal_event+0x10>
 }
  8002f1e:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
- 8002f20:	20000a25 	.word	0x20000a25
- 8002f24:	20000994 	.word	0x20000994
+ 8002f20:	20000a2d 	.word	0x20000a2d
+ 8002f24:	2000099c 	.word	0x2000099c
 
 08002f28 <os_task_run>:
 void os_task_run( void ) {
@@ -7498,9 +7520,9 @@ void os_task_run( void ) {
  8002f4c:	f000 f808 	bl	8002f60 <os_on_assert>
  8002f50:	e7f1      	b.n	8002f36 <os_task_run+0xe>
  8002f52:	bf00      	nop
- 8002f54:	2000101c 	.word	0x2000101c
- 8002f58:	20000a25 	.word	0x20000a25
- 8002f5c:	20000994 	.word	0x20000994
+ 8002f54:	20001024 	.word	0x20001024
+ 8002f58:	20000a2d 	.word	0x20000a2d
+ 8002f5c:	2000099c 	.word	0x2000099c
 
 08002f60 <os_on_assert>:
 
@@ -7528,7 +7550,7 @@ void os_on_assert( uint16_t line ) {
  8002f7c:	801a      	strh	r2, [r3, #0]
  8002f7e:	e7fe      	b.n	8002f7e <os_on_assert+0x1e>
  8002f80:	08004cd4 	.word	0x08004cd4
- 8002f84:	20000a20 	.word	0x20000a20
+ 8002f84:	20000a28 	.word	0x20000a28
 
 08002f88 <os_cbkSleep>:
 *       
@@ -7778,7 +7800,7 @@ static int __semihost(int command, void* message) {
 }
  8003054:	4770      	bx	lr
  8003056:	bf00      	nop
- 8003058:	20000c3e 	.word	0x20000c3e
+ 8003058:	20000c46 	.word	0x20000c46
 
 0800305c <_ZL16write_all_outputPKhtb>:
 #define MAX_OUTPUT_LENGTH 60  //  Output at most 60 bytes at a time.
@@ -7836,7 +7858,7 @@ static uint16_t write_all_output(
  800308e:	4628      	mov	r0, r5
  8003090:	bd70      	pop	{r4, r5, r6, pc}
  8003092:	bf00      	nop
- 8003094:	20000c2c 	.word	0x20000c2c
+ 8003094:	20000c34 	.word	0x20000c34
 
 08003098 <_ZL12debug_appendPKcj>:
     }
@@ -7882,8 +7904,8 @@ static void debug_append(const char *buffer, unsigned int length) {
 }
  80030cc:	bd38      	pop	{r3, r4, r5, pc}
  80030ce:	4770      	bx	lr
- 80030d0:	20000c3c 	.word	0x20000c3c
- 80030d4:	20000a28 	.word	0x20000a28
+ 80030d0:	20000c44 	.word	0x20000c44
+ 80030d4:	20000a30 	.word	0x20000a30
 
 080030d8 <enable_log>:
 void enable_log(void) { logEnabled = true; }
@@ -7891,7 +7913,7 @@ void enable_log(void) { logEnabled = true; }
  80030da:	2201      	movs	r2, #1
  80030dc:	701a      	strb	r2, [r3, #0]
  80030de:	4770      	bx	lr
- 80030e0:	20000c3e 	.word	0x20000c3e
+ 80030e0:	20000c46 	.word	0x20000c46
 
 080030e4 <logger_add_output>:
     if (!func) { return -1; }
@@ -7936,7 +7958,7 @@ void enable_log(void) { logEnabled = true; }
  8003122:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
 }
  8003126:	4770      	bx	lr
- 8003128:	20000c2c 	.word	0x20000c2c
+ 8003128:	20000c34 	.word	0x20000c34
 
 0800312c <_Z20debug_flush_internalb>:
 void debug_flush_internal(bool forced) {
@@ -7983,8 +8005,8 @@ void debug_flush_internal(bool forced) {
  800316e:	b2a4      	uxth	r4, r4
  8003170:	802c      	strh	r4, [r5, #0]
  8003172:	e7e0      	b.n	8003136 <_Z20debug_flush_internalb+0xa>
- 8003174:	20000c3c 	.word	0x20000c3c
- 8003178:	20000a28 	.word	0x20000a28
+ 8003174:	20000c44 	.word	0x20000c44
+ 8003178:	20000a30 	.word	0x20000a30
 
 0800317c <debug_force_flush>:
 void debug_force_flush(void) {
@@ -8006,7 +8028,7 @@ void debug_force_flush(void) {
  8003194:	e7f4      	b.n	8003180 <debug_force_flush+0x4>
 }
  8003196:	bd10      	pop	{r4, pc}
- 8003198:	20000c3c 	.word	0x20000c3c
+ 8003198:	20000c44 	.word	0x20000c44
 
 0800319c <_Z11debug_printj>:
 
@@ -8376,7 +8398,7 @@ void platform_setup(void) {
  8003398:	f000 f820 	bl	80033dc <led_on>
  800339c:	e7e6      	b.n	800336c <platform_setup+0x10>
  800339e:	bf00      	nop
- 80033a0:	20000c50 	.word	0x20000c50
+ 80033a0:	20000c58 	.word	0x20000c58
  80033a4:	08004d08 	.word	0x08004d08
 
 080033a8 <enable_debug>:
@@ -8393,7 +8415,7 @@ void enable_debug(void) {
 }
  80033b4:	bd08      	pop	{r3, pc}
  80033b6:	bf00      	nop
- 80033b8:	20000c50 	.word	0x20000c50
+ 80033b8:	20000c58 	.word	0x20000c58
 
 080033bc <led_setup>:
 //  Blink code from https://github.com/Apress/Beg-STM32-Devel-FreeRTOS-libopencm3-GCC
@@ -8646,9 +8668,9 @@ void platform_start_timer(void (*tickFunc0)(void), void (*alarmFunc0)(void)) {
 	rtc_setup();
  800353a:	f7ff ffa7 	bl	800348c <_ZL9rtc_setupv>
  800353e:	e7f5      	b.n	800352c <platform_start_timer+0x10>
- 8003540:	20000c44 	.word	0x20000c44
- 8003544:	20000c48 	.word	0x20000c48
- 8003548:	20000c51 	.word	0x20000c51
+ 8003540:	20000c4c 	.word	0x20000c4c
+ 8003544:	20000c50 	.word	0x20000c50
+ 8003548:	20000c59 	.word	0x20000c59
  800354c:	08004d44 	.word	0x08004d44
 
 08003550 <platform_set_alarm>:
@@ -8677,7 +8699,7 @@ void platform_set_alarm(uint32_t millisec) {
  8003574:	f7ff fe9c 	bl	80032b0 <debug_print>
  8003578:	e7f0      	b.n	800355c <platform_set_alarm+0xc>
  800357a:	bf00      	nop
- 800357c:	20000c48 	.word	0x20000c48
+ 800357c:	20000c50 	.word	0x20000c50
  8003580:	08004d3c 	.word	0x08004d3c
 
 08003584 <platform_alarm_count>:
@@ -8687,7 +8709,7 @@ void platform_set_alarm(uint32_t millisec) {
 }
  8003588:	4770      	bx	lr
  800358a:	bf00      	nop
- 800358c:	20000c40 	.word	0x20000c40
+ 800358c:	20000c48 	.word	0x20000c48
 
 08003590 <__cxa_pure_virtual>:
 }
@@ -8782,7 +8804,7 @@ int poll_restart_callback(void) {
  80035fc:	bd08      	pop	{r3, pc}
  80035fe:	bf00      	nop
  8003600:	08004dd8 	.word	0x08004dd8
- 8003604:	20000f0c 	.word	0x20000f0c
+ 8003604:	20000f14 	.word	0x20000f14
 
 08003608 <poll_loop>:
 static void poll_loop(void) {
@@ -8867,11 +8889,11 @@ static void poll_loop(void) {
  80036aa:	e7f2      	b.n	8003692 <poll_loop+0x8a>
  80036ac:	08004db0 	.word	0x08004db0
  80036b0:	080035e9 	.word	0x080035e9
- 80036b4:	20000c68 	.word	0x20000c68
- 80036b8:	20000c54 	.word	0x20000c54
- 80036bc:	20000c60 	.word	0x20000c60
+ 80036b4:	20000c70 	.word	0x20000c70
+ 80036b8:	20000c5c 	.word	0x20000c5c
+ 80036bc:	20000c68 	.word	0x20000c68
  80036c0:	2000081c 	.word	0x2000081c
- 80036c4:	20000f0c 	.word	0x20000f0c
+ 80036c4:	20000f14 	.word	0x20000f14
  80036c8:	08004dc0 	.word	0x08004dc0
  80036cc:	0098967f 	.word	0x0098967f
  80036d0:	08004dd0 	.word	0x08004dd0
@@ -8911,10 +8933,10 @@ int bootloader_poll(void) {
     if (!usbd_dev) { return -1; }
  8003706:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  800370a:	e7f8      	b.n	80036fe <bootloader_poll+0x2a>
- 800370c:	20000c58 	.word	0x20000c58
- 8003710:	20000c68 	.word	0x20000c68
- 8003714:	20000c64 	.word	0x20000c64
- 8003718:	20000c5c 	.word	0x20000c5c
+ 800370c:	20000c60 	.word	0x20000c60
+ 8003710:	20000c70 	.word	0x20000c70
+ 8003714:	20000c6c 	.word	0x20000c6c
+ 8003718:	20000c64 	.word	0x20000c64
 
 0800371c <bootloader_start>:
 int bootloader_start(void) {
@@ -8962,7 +8984,7 @@ int bootloader_start(void) {
     poll_loop();
  8003766:	f7ff ff4f 	bl	8003608 <poll_loop>
  800376a:	bf00      	nop
- 800376c:	20000c68 	.word	0x20000c68
+ 800376c:	20000c70 	.word	0x20000c70
  8003770:	08004d5c 	.word	0x08004d5c
  8003774:	08004d6c 	.word	0x08004d6c
  8003778:	080036d5 	.word	0x080036d5
@@ -9106,9 +9128,9 @@ enum StartupMode boot_target_get_startup_mode(void) {
         debug_print("----application mode"); debug_println((forced_startup_mode == APPLICATION_MODE) ? " (forced)" : "");
  8003874:	4808      	ldr	r0, [pc, #32]	; (8003898 <boot_target_get_startup_mode+0xb4>)
  8003876:	e7f7      	b.n	8003868 <boot_target_get_startup_mode+0x84>
- 8003878:	20000f0e 	.word	0x20000f0e
+ 8003878:	20000f16 	.word	0x20000f16
  800387c:	3f82722a 	.word	0x3f82722a
- 8003880:	20000f0d 	.word	0x20000f0d
+ 8003880:	20000f15 	.word	0x20000f15
  8003884:	544f4f42 	.word	0x544f4f42
  8003888:	08004e5c 	.word	0x08004e5c
  800388c:	08004e3c 	.word	0x08004e3c
@@ -9386,8 +9408,8 @@ bool boot_target_flash_program_array(uint16_t* dest, const uint16_t* data, size_
  8003a6c:	08004e04 	.word	0x08004e04
  8003a70:	08004c68 	.word	0x08004c68
  8003a74:	08004e0c 	.word	0x08004e0c
- 8003a78:	20000c70 	.word	0x20000c70
- 8003a7c:	20000c6c 	.word	0x20000c6c
+ 8003a78:	20000c78 	.word	0x20000c78
+ 8003a7c:	20000c74 	.word	0x20000c74
  8003a80:	08004e20 	.word	0x08004e20
 
 08003a84 <hf2_connected>:
@@ -9408,7 +9430,7 @@ static void hf2_connected(void) {
 }
  8003a90:	4770      	bx	lr
  8003a92:	bf00      	nop
- 8003a94:	20000f10 	.word	0x20000f10
+ 8003a94:	20000f18 	.word	0x20000f18
 
 08003a98 <cdc_connected>:
 static void cdc_connected(void) {
@@ -9427,7 +9449,7 @@ static void cdc_connected(void) {
  8003aa8:	4802      	ldr	r0, [pc, #8]	; (8003ab4 <cdc_connected+0x1c>)
  8003aaa:	f7ff fb1b 	bl	80030e4 <logger_add_output>
  8003aae:	e7f7      	b.n	8003aa0 <cdc_connected+0x8>
- 8003ab0:	20000f0f 	.word	0x20000f0f
+ 8003ab0:	20000f17 	.word	0x20000f17
  8003ab4:	08003ab9 	.word	0x08003ab9
 
 08003ab8 <usb_cdc_transmit>:
@@ -9453,8 +9475,8 @@ static void cdc_connected(void) {
  8003ad8:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  8003adc:	e7f8      	b.n	8003ad0 <usb_cdc_transmit+0x18>
  8003ade:	bf00      	nop
- 8003ae0:	20000d10 	.word	0x20000d10
- 8003ae4:	20000f0f 	.word	0x20000f0f
+ 8003ae0:	20000d18 	.word	0x20000d18
+ 8003ae4:	20000f17 	.word	0x20000f17
 
 08003ae8 <sof_callback>:
 static void sof_callback(void) {
@@ -9465,7 +9487,7 @@ static void sof_callback(void) {
  8003af0:	6018      	str	r0, [r3, #0]
 }
  8003af2:	bd08      	pop	{r3, pc}
- 8003af4:	20000cf0 	.word	0x20000cf0
+ 8003af4:	20000cf8 	.word	0x20000cf8
 
 08003af8 <set_aggregate_callback>:
 	return USBD_REQ_NEXT_CALLBACK;
@@ -9525,7 +9547,7 @@ static void set_aggregate_callback(
  8003b36:	f7ff fbb6 	bl	80032a6 <debug_flush>
 }
  8003b3a:	e7f8      	b.n	8003b2e <set_aggregate_callback+0x36>
- 8003b3c:	20000c74 	.word	0x20000c74
+ 8003b3c:	20000c7c 	.word	0x20000c7c
  8003b40:	08003ef9 	.word	0x08003ef9
  8003b44:	080050ec 	.word	0x080050ec
 
@@ -9592,11 +9614,11 @@ usbd_device* usb_setup(void) {
  8003bba:	f7ff fb4d 	bl	8003258 <debug_println>
  8003bbe:	f7ff fb72 	bl	80032a6 <debug_flush>
  8003bc2:	e7f0      	b.n	8003ba6 <usb_setup+0x5e>
- 8003bc4:	20000e0c 	.word	0x20000e0c
+ 8003bc4:	20000e14 	.word	0x20000e14
  8003bc8:	20000828 	.word	0x20000828
  8003bcc:	08004f94 	.word	0x08004f94
  8003bd0:	08004fdc 	.word	0x08004fdc
- 8003bd4:	20000d10 	.word	0x20000d10
+ 8003bd4:	20000d18 	.word	0x20000d18
  8003bd8:	08003ae9 	.word	0x08003ae9
  8003bdc:	08003a99 	.word	0x08003a99
  8003be0:	08003a85 	.word	0x08003a85
@@ -9618,7 +9640,7 @@ void set_usb_busy(void) {
 }
  8003c04:	bd08      	pop	{r3, pc}
  8003c06:	bf00      	nop
- 8003c08:	20000cec 	.word	0x20000cec
+ 8003c08:	20000cf4 	.word	0x20000cf4
  8003c0c:	08004dcc 	.word	0x08004dcc
 
 08003c10 <get_usb_status>:
@@ -9653,7 +9675,7 @@ volatile int get_usb_status(void) {
         return 1; 
  8003c40:	2001      	movs	r0, #1
  8003c42:	e7fa      	b.n	8003c3a <get_usb_status+0x2a>
- 8003c44:	20000cec 	.word	0x20000cec
+ 8003c44:	20000cf4 	.word	0x20000cf4
 
 08003c48 <aggregate_register_config_callback>:
 	usbd_set_config_callback callback) {
@@ -9690,7 +9712,7 @@ volatile int get_usb_status(void) {
 }
  8003c7c:	bd08      	pop	{r3, pc}
  8003c7e:	bf00      	nop
- 8003c80:	20000c74 	.word	0x20000c74
+ 8003c80:	20000c7c 	.word	0x20000c7c
  8003c84:	08004f1c 	.word	0x08004f1c
 
 08003c88 <aggregate_register_callback>:
@@ -9745,7 +9767,7 @@ volatile int get_usb_status(void) {
  8003cd8:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  8003cdc:	e7ed      	b.n	8003cba <aggregate_register_callback+0x32>
  8003cde:	bf00      	nop
- 8003ce0:	20000c9c 	.word	0x20000c9c
+ 8003ce0:	20000ca4 	.word	0x20000ca4
  8003ce4:	08004ef4 	.word	0x08004ef4
 
 08003ce8 <usb_set_serial_number>:
@@ -9773,7 +9795,7 @@ void usb_set_serial_number(const char* serial) {
  8003d02:	bd10      	pop	{r4, pc}
  8003d04:	4770      	bx	lr
  8003d06:	bf00      	nop
- 8003d08:	20000cf4 	.word	0x20000cf4
+ 8003d08:	20000cfc 	.word	0x20000cfc
 
 08003d0c <dump_buffer>:
 
@@ -10096,7 +10118,7 @@ void dump_usb_request(const char *msg, struct usb_setup_data *req) {
  8003f90:	e7fa      	b.n	8003f88 <aggregate_callback+0x90>
  8003f92:	bf00      	nop
  8003f94:	08004ee8 	.word	0x08004ee8
- 8003f98:	20000c9c 	.word	0x20000c9c
+ 8003f98:	20000ca4 	.word	0x20000ca4
  8003f9c:	08004ef0 	.word	0x08004ef0
 
 08003fa0 <webusb_set_config>:
@@ -10239,7 +10261,7 @@ static void webusb_set_config(usbd_device* usbd_dev, uint16_t wValue) {
  8004084:	080051d4 	.word	0x080051d4
  8004088:	08004c68 	.word	0x08004c68
  800408c:	080051f0 	.word	0x080051f0
- 8004090:	20000d14 	.word	0x20000d14
+ 8004090:	20000d1c 	.word	0x20000d1c
  8004094:	080051f8 	.word	0x080051f8
 
 08004098 <webusb_setup>:
@@ -10287,7 +10309,7 @@ void webusb_setup(usbd_device* usbd_dev, const char* https_url) {
  80040ce:	f7ff f8ea 	bl	80032a6 <debug_flush>
 }
  80040d2:	e7f2      	b.n	80040ba <webusb_setup+0x22>
- 80040d4:	20000d14 	.word	0x20000d14
+ 80040d4:	20000d1c 	.word	0x20000d1c
  80040d8:	08003fc9 	.word	0x08003fc9
  80040dc:	08003fa1 	.word	0x08003fa1
  80040e0:	0800524c 	.word	0x0800524c
@@ -10778,7 +10800,7 @@ static void cdcacm_set_config(
 		if (status != tx_len) { return 0; }  //  Stop if error.
  80043e4:	2000      	movs	r0, #0
  80043e6:	e7fc      	b.n	80043e2 <cdcadm_transmit+0x5e>
- 80043e8:	20000f11 	.word	0x20000f11
+ 80043e8:	20000f19 	.word	0x20000f19
 
 080043ec <cdcacm_data_rx_cb>:
 ) {
@@ -10821,9 +10843,9 @@ static void cdcacm_set_config(
  8004426:	f7ff ffad 	bl	8004384 <cdcadm_transmit>
 }
  800442a:	bd38      	pop	{r3, r4, r5, pc}
- 800442c:	20000d1c 	.word	0x20000d1c
- 8004430:	20000f11 	.word	0x20000f11
- 8004434:	20000d18 	.word	0x20000d18
+ 800442c:	20000d24 	.word	0x20000d24
+ 8004430:	20000f19 	.word	0x20000f19
+ 8004434:	20000d20 	.word	0x20000d20
 
 08004438 <cdc_setup>:
 
@@ -10849,7 +10871,7 @@ void cdc_setup(usbd_device* usbd_dev, connected_callback *connected_func0) {
 }
  8004454:	e7f8      	b.n	8004448 <cdc_setup+0x10>
  8004456:	bf00      	nop
- 8004458:	20000d18 	.word	0x20000d18
+ 8004458:	20000d20 	.word	0x20000d20
  800445c:	08004295 	.word	0x08004295
  8004460:	08005380 	.word	0x08005380
 
@@ -11015,11 +11037,11 @@ static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wVal
  8004560:	4808      	ldr	r0, [pc, #32]	; (8004584 <pokeSend+0xc4>)
  8004562:	f7ff fbd3 	bl	8003d0c <dump_buffer>
  8004566:	e7cc      	b.n	8004502 <pokeSend+0x42>
- 8004568:	20000dc0 	.word	0x20000dc0
- 800456c:	20000d60 	.word	0x20000d60
- 8004570:	20000d74 	.word	0x20000d74
- 8004574:	20000d78 	.word	0x20000d78
- 8004578:	20000f13 	.word	0x20000f13
+ 8004568:	20000dc8 	.word	0x20000dc8
+ 800456c:	20000d68 	.word	0x20000d68
+ 8004570:	20000d7c 	.word	0x20000d7c
+ 8004574:	20000d80 	.word	0x20000d80
+ 8004578:	20000f1b 	.word	0x20000f1b
  800457c:	08005504 	.word	0x08005504
  8004580:	08004c68 	.word	0x08004c68
  8004584:	080054fc 	.word	0x080054fc
@@ -11328,10 +11350,10 @@ static void handle_command(HF2_Buffer *pkt) {
  80047bc:	f000 f9e4 	bl	8004b88 <send_hf2_response>
  80047c0:	e798      	b.n	80046f4 <handle_command+0x16c>
  80047c2:	bf00      	nop
- 80047c4:	20000f12 	.word	0x20000f12
- 80047c8:	20000d68 	.word	0x20000d68
- 80047cc:	20000d64 	.word	0x20000d64
- 80047d0:	20000d70 	.word	0x20000d70
+ 80047c4:	20000f1a 	.word	0x20000f1a
+ 80047c8:	20000d70 	.word	0x20000d70
+ 80047cc:	20000d6c 	.word	0x20000d6c
+ 80047d0:	20000d78 	.word	0x20000d78
  80047d4:	08005410 	.word	0x08005410
  80047d8:	08005420 	.word	0x08005420
  80047dc:	08005434 	.word	0x08005434
@@ -11345,7 +11367,7 @@ static void handle_command(HF2_Buffer *pkt) {
  80047fc:	08005470 	.word	0x08005470
  8004800:	08005074 	.word	0x08005074
  8004804:	08004ef0 	.word	0x08004ef0
- 8004808:	20000f14 	.word	0x20000f14
+ 8004808:	20000f1c 	.word	0x20000f1c
  800480c:	08005490 	.word	0x08005490
  8004810:	0800549c 	.word	0x0800549c
  8004814:	080054a8 	.word	0x080054a8
@@ -11447,13 +11469,13 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
  80048c0:	f7ff fe62 	bl	8004588 <handle_command>
  80048c4:	e7f3      	b.n	80048ae <hf2_data_rx_cb+0x8e>
  80048c6:	bf00      	nop
- 80048c8:	20000d7c 	.word	0x20000d7c
- 80048cc:	20000dbc 	.word	0x20000dbc
- 80048d0:	20000d6c 	.word	0x20000d6c
- 80048d4:	20001020 	.word	0x20001020
+ 80048c8:	20000d84 	.word	0x20000d84
+ 80048cc:	20000dc4 	.word	0x20000dc4
+ 80048d0:	20000d74 	.word	0x20000d74
+ 80048d4:	20001028 	.word	0x20001028
  80048d8:	200047bc 	.word	0x200047bc
  80048dc:	080053fc 	.word	0x080053fc
- 80048e0:	20000d7d 	.word	0x20000d7d
+ 80048e0:	20000d85 	.word	0x20000d85
 
 080048e4 <hf2_data_tx_cb>:
 static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) { (void)usbd_dev; (void)ep;
@@ -11501,10 +11523,10 @@ static void hf2_data_tx_cb(usbd_device *usbd_dev, uint8_t ep) { (void)usbd_dev; 
 }
  8004928:	e7e9      	b.n	80048fe <hf2_data_tx_cb+0x1a>
  800492a:	bf00      	nop
- 800492c:	20000d78 	.word	0x20000d78
- 8004930:	20000f14 	.word	0x20000f14
- 8004934:	20000f13 	.word	0x20000f13
- 8004938:	20000d74 	.word	0x20000d74
+ 800492c:	20000d80 	.word	0x20000d80
+ 8004930:	20000f1c 	.word	0x20000f1c
+ 8004934:	20000f1b 	.word	0x20000f1b
+ 8004938:	20000d7c 	.word	0x20000d7c
 
 0800493c <hf2_setup>:
 void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
@@ -11557,8 +11579,8 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
  800499c:	08004dfc 	.word	0x08004dfc
  80049a0:	08010000 	.word	0x08010000
  80049a4:	08004c68 	.word	0x08004c68
- 80049a8:	20000d60 	.word	0x20000d60
- 80049ac:	20000d68 	.word	0x20000d68
+ 80049a8:	20000d68 	.word	0x20000d68
+ 80049ac:	20000d70 	.word	0x20000d70
  80049b0:	08004481 	.word	0x08004481
  80049b4:	200047bc 	.word	0x200047bc
  80049b8:	080054e4 	.word	0x080054e4
@@ -11699,7 +11721,7 @@ static void usb21_set_config(usbd_device* usbd_dev, uint16_t wValue) {
  8004a7c:	2002      	movs	r0, #2
 }
  8004a7e:	4770      	bx	lr
- 8004a80:	20000e00 	.word	0x20000e00
+ 8004a80:	20000e08 	.word	0x20000e08
  8004a84:	08005540 	.word	0x08005540
  8004a88:	08005560 	.word	0x08005560
 
@@ -11732,7 +11754,7 @@ void usb21_setup(usbd_device* usbd_dev, const struct usb_bos_descriptor* binary_
  8004aae:	f7fe fbfa 	bl	80032a6 <debug_flush>
 }
  8004ab2:	e7f8      	b.n	8004aa6 <usb21_setup+0x1a>
- 8004ab4:	20000e00 	.word	0x20000e00
+ 8004ab4:	20000e08 	.word	0x20000e08
  8004ab8:	08004a09 	.word	0x08004a09
  8004abc:	08005528 	.word	0x08005528
 
@@ -11802,8 +11824,8 @@ void flash_flush(void) {
  8004b1e:	e7e5      	b.n	8004aec <flash_flush+0x2c>
  8004b20:	4770      	bx	lr
  8004b22:	bf00      	nop
- 8004b24:	20000e08 	.word	0x20000e08
- 8004b28:	20000e04 	.word	0x20000e04
+ 8004b24:	20000e10 	.word	0x20000e10
+ 8004b28:	20000e0c 	.word	0x20000e0c
  8004b2c:	20000928 	.word	0x20000928
  8004b30:	2000092c 	.word	0x2000092c
  8004b34:	20004c00 	.word	0x20004c00
@@ -12372,7 +12394,7 @@ STM32BluePill bluepill;
 }
  800790a:	bd10      	pop	{r4, pc}
  800790c:	20001808 	.word	0x20001808
- 8007910:	2000095c 	.word	0x2000095c
+ 8007910:	20000964 	.word	0x20000964
  8007914:	080079c5 	.word	0x080079c5
 
 08007918 <_ZN5codal14CodalComponentD1Ev>:
@@ -14908,7 +14930,7 @@ ManagedString ManagedString::EmptyString(EMPTY_DATA);
  800882a:	bf00      	nop
  800882c:	20002974 	.word	0x20002974
  8008830:	0800af2c 	.word	0x0800af2c
- 8008834:	2000095c 	.word	0x2000095c
+ 8008834:	20000964 	.word	0x20000964
  8008838:	0800a61f 	.word	0x0800a61f
 
 0800883c <_ZN5codal4itoaEiPc>:

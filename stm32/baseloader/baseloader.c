@@ -155,23 +155,6 @@ the FLASH programming manual for details.
     debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
 }
 
-//  TODO
-#define ROM_START ((uint32_t) 0x08000000)
-#define ROM_SIZE  ((uint32_t) 0x10000)
-
-#define debug_dump() { \
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); debug_force_flush(); \
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
-}
-
-#define debug_dump2() { \
-    debug_print("after "); debug_printhex_unsigned(*dest); \
-    debug_print(" / "); debug_printhex(verified); \
-	debug_print((*dest == *src) ? " OK " : " FAIL "); \
-	debug_println("\r\n"); debug_force_flush(); \
-}
-
 //  Disable interrupts for baseloader only because the vector table may be overwritten during flashing.
 #define disable_interrupts() { \
 	__asm__("CPSID I\n");  /*  Was: cm_disable_interrupts();  */ \
@@ -261,19 +244,46 @@ bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half
 	return verified;
 }
 
+//  TODO
+#define ROM_START ((uint32_t) 0x08000000)
+#define ROM_SIZE  ((uint32_t) 0x10000)
+
+#define debug_dump() { \
+    debug_print("src  "); debug_printhex_unsigned((size_t) test_src); debug_println(""); \
+    debug_print("dest "); debug_printhex_unsigned((size_t) test_dest); debug_println(""); debug_force_flush(); \
+    debug_print("before "); debug_printhex_unsigned(*test_dest); debug_println(""); debug_force_flush(); \
+}
+
+#define debug_dump2() { \
+    debug_print("after "); debug_printhex_unsigned(*test_dest); \
+    debug_print(" / "); debug_printhex(verified); \
+	debug_print((*test_dest == *test_src) ? " OK " : " FAIL "); \
+	debug_println("\r\n"); debug_force_flush(); \
+}
+
+static uint16_t* test_dest = NULL;
+static uint16_t* test_src = NULL;
+static size_t test_half_word_count = 0;
+
 void test_baseloader1(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	src =  (uint32_t *) (ROM_START);
-	dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
-	half_word_count = FLASH_PAGE_SIZE / 2;
+	test_src =  (uint32_t *) (ROM_START);
+	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+	test_half_word_count = FLASH_PAGE_SIZE / 2;
+	src = test_src;
+	dest = test_dest;
+	half_word_count = test_half_word_count;
 	debug_dump(); ////
 }
 
 void test_baseloader2(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
-	dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
-	half_word_count = FLASH_PAGE_SIZE / 2;
+	test_src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
+	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+	test_half_word_count = FLASH_PAGE_SIZE / 2;
+	src = test_src;
+	dest = test_dest;
+	half_word_count = test_half_word_count;
 	debug_dump(); ////	
 }
 
