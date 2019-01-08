@@ -123,7 +123,11 @@ static inline uint16_t* get_flash_page_address(uint16_t* dest) {
 //  then the blocks between Old App Address and New App Address are the new Bootloader Blocks.
 //  Flash them to 0x800 0000 and restart.
 
+//  To perform flashing, jump to the New Baseloader Address in the New Base Vector Table,
+//  adjusted to the New Base Vector Table Address.
+
 bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
+	//  TODO: Validate before flashing.
     bool verified = true;
     /* Remember the bounds of erased data in the current page */
     static uint16_t* erase_start;
