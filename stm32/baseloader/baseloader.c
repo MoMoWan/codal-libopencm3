@@ -32,16 +32,14 @@ base_vector_table_t base_vector_table = {
 
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/common/flash_common_f.c
 
-void base_flash_unlock(void)
-{
-	/* Authorize the FPEC access. */
-	FLASH_KEYR = FLASH_KEYR_KEY1;
-	FLASH_KEYR = FLASH_KEYR_KEY2;
+/* Authorize the FPEC access. */
+#define base_flash_unlock() { \
+	FLASH_KEYR = FLASH_KEYR_KEY1; \
+	FLASH_KEYR = FLASH_KEYR_KEY2; \
 }
 
-void base_flash_lock(void)
-{
-	FLASH_CR |= FLASH_CR_LOCK;
+#define base_flash_lock() { \
+	FLASH_CR |= FLASH_CR_LOCK; \
 }
 
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/f1/flash.c
@@ -147,12 +145,20 @@ static inline uint16_t* get_flash_page_address(uint16_t* dest) {
 
 bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
 	//  TODO: Validate before flashing.
-    bool verified = true;
-    /* Remember the bounds of erased data in the current page */
+	static uint32_t flags;
+    static bool verified;
     static uint16_t* erase_start;
     static uint16_t* erase_end;
-    const uint16_t* flash_end = get_flash_end();
+    static const uint16_t* flash_end;
+
+	flags = 0;
+    verified = true;
+    erase_start = NULL;
+    erase_end = NULL;
+    flash_end = get_flash_end();  /* Remember the bounds of erased data in the current page */
+
 	debug_flash(); ////
+	
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
         if (dest >= flash_end) {
@@ -186,7 +192,9 @@ bool base_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_
 
 #define debug_dump2() \
     debug_print("after "); debug_printhex_unsigned(*dest); \
-    debug_print(" / "); debug_printhex(ok); debug_println("\r\n"); debug_force_flush();
+    debug_print(" / "); debug_printhex(ok); \
+	debug_print((*dest == *src) ? " OK " : " FAIL "); \
+	debug_println("\r\n"); debug_force_flush();
 
 void baseloader_start(void) {
     debug_println("baseloader_start"); debug_force_flush();
