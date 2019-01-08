@@ -22,6 +22,8 @@ typedef struct {
 } __attribute__((packed)) base_vector_table_t;
 
 void baseloader_start(void);
+bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
+
 void test_baseloader1(void);
 void test_baseloader2(void);
 void test_baseloader_end(void);
