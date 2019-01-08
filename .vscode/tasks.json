@@ -39,7 +39,7 @@
             "type": "shell",
             "windows": {
                 "command": 
-                " c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd"
+                " c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash-codal.ocd "
             },
             "osx": {
                 "command": 
@@ -60,8 +60,11 @@
             "label": "📲 Flash STM32 Blue Pill",
             "type": "shell",
             "windows": {
-                "command": 
-                " platformio debug && c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd"
+                "command": "cmd",
+                "args": [
+                    "/c",
+                    "platformio debug && c:\\openocd\\bin\\openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd"
+                ]
             },
             "osx": {
                 "command": 
