@@ -191,5 +191,5 @@ void baseloader_start(void) {
 	//  Vector table may be overwritten. Restart to use the new vector table.
     //  TODO: scb_reset_system();
 	//  Should not return.
-	for (;;) {}
+	//  for (;;) {}
 }
