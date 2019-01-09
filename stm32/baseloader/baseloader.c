@@ -256,6 +256,30 @@ int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
 	return verified ? 1 : 0;
 }
 
+int baseloader_get_address(baseloader_func *baseloader_addr) {
+	//  Return the address of the baseloader function, located in the Second Base Vector Table.
+	if (!baseloader_addr) { return -1; }
+	//  Search for the First and Second Base Vector Tables and find the bootloader range.
+	//  First Base Vector Table is in the start of the application ROM.
+	if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) { return -2; }  //  Quit if First Base Vector Table is not found.
+	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
+
+	//  Get size of new bootloader from the First Base Vector Table (same as the Application address).
+	uint32_t bootloader_size = (uint32_t) (begin_base_vector->application) - FLASH_BASE;
+	if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
+		>= FLASH_BASE + FLASH_SIZE_OVERRIDE) { return -3; }  //  Quit if bootloader size is too big.
+
+	//  Second Base Vector Table is at start of application ROM + bootloader size.  Round up to the next flash page.
+	uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
+	if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) { return -4; }  //  Quit if Second Base Vector Table is not found.
+	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
+
+	//  Jump to the baseloader in the Second Base Vector Table.
+	*baseloader_addr = (baseloader_func) ((uint32_t) (end_base_vector->baseloader) - FLASH_BASE + flash_page_addr);
+	//  TODO: int status = baseloader_addr();
+	return 0;
+}
+
 bool base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
 	//  TODO: Validate dest, src, half_word_count before flashing.
 	int status = baseloader_start((uint32_t *) dest0, (const uint32_t *) src0, half_word_count0 * 2);
