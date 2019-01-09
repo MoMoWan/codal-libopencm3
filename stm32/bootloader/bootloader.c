@@ -28,6 +28,7 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/msc.h>
 #include <libopencm3/stm32/gpio.h>
+#include <baseloader/baseloader.h>
 #include <bluepill/bluepill.h>
 #include <logger/logger.h>
 #include <hal/platform_includes.h>
@@ -52,6 +53,12 @@ static uint32_t cycleCount = 0;
 static uint32_t flushCount = 1;
 static uint32_t msTimer = 0;
 static usbd_device* usbd_dev = NULL;
+
+static int baseloader_status;
+static baseloader_func baseloader_addr;
+static uint32_t *dest;
+static const uint32_t *src;
+static size_t byte_count;
 
 static inline void __set_MSP(uint32_t topOfMainStack) {
     //  Set the stack pointer.
@@ -80,6 +87,38 @@ int bootloader_start(void) {
         target_set_bootloader_callback(bootloader_poll);
         return 0; 
     }
+
+#define TEST_BASELOADER
+#ifdef TEST_BASELOADER
+	test_copy_bootloader(); ////
+	test_copy_baseloader(); ////
+	// for (;;) {} ////
+#endif  //  TEST_BASELOADER
+
+#ifdef NOTUSED
+	test_baseloader1(); ////
+    baseloader_start();
+	test_baseloader_end(); ////
+
+	test_baseloader2(); ////
+    baseloader_start();
+	test_baseloader_end(); ////
+#endif  //  NOTUSED
+
+    //  Start the baseloader.  The baseloader will not return if the baseloader restarts Blue Pill after flashing.
+	baseloader_addr = NULL;
+	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
+	debug_print("----baseloader "); if (baseloader_status == 0) { 
+		debug_printhex_unsigned((uint32_t) baseloader_addr); 
+		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
+		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
+		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
+		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
+	} else { debug_print_int(baseloader_status); }; debug_println(""); debug_force_flush();
+	if (baseloader_status == 0 && baseloader_addr) {
+		baseloader_status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
+		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
+	}
 
     //  If we are in Bootloader Mode, poll forever here.
     poll_loop();

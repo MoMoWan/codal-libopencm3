@@ -1,7 +1,6 @@
 //  We provide our own implementation of reset_handler() so that Blue Pill bootloader and firmware will be initialised in the right sequence.
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/cm3/vector.c
 #include <logger/logger.h>
-#include <baseloader/baseloader.h>
 #include <bootloader/bootloader.h>
 #include <libopencm3/cm3/scb.h>
 #include "platform_includes.h"
@@ -20,11 +19,6 @@ extern void application_start(void);
 
 uint32_t hal_bss_test;                   //  Test whether BSS Section is loaded correctly.
 uint32_t hal_data_test = 0x87654321;     //  Test whether Data Section is loaded correctly.
-static int status;
-static baseloader_func baseloader_addr;
-static uint32_t *dest;
-static const uint32_t *src;
-static size_t byte_count;
 
 static void pre_main() {
 	//  Init the STM32 platform and start the timer.  Note: Constructors are not called yet.
@@ -79,38 +73,6 @@ void reset_handler(void) {
 	}
 	for (fp = &__boot_init_array_start; fp < &__boot_init_array_end; fp++) {
 		(*fp)();
-	}
-
-#define TEST_BASELOADER
-#ifdef TEST_BASELOADER
-	test_copy_bootloader(); ////
-	test_copy_baseloader(); ////
-	// for (;;) {} ////
-#endif  //  TEST_BASELOADER
-
-#ifdef NOTUSED
-	test_baseloader1(); ////
-    baseloader_start();
-	test_baseloader_end(); ////
-
-	test_baseloader2(); ////
-    baseloader_start();
-	test_baseloader_end(); ////
-#endif  //  NOTUSED
-
-    //  Start the baseloader.  The baseloader will not return if the baseloader restarts Blue Pill after flashing.
-	baseloader_addr = NULL;
-	status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
-	debug_print("----baseloader "); if (status == 0) { 
-		debug_printhex_unsigned((uint32_t) baseloader_addr); 
-		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
-		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
-		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
-		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
-	} else { debug_print_int(status); }; debug_println(""); debug_force_flush();
-	if (status == 0 && baseloader_addr) {
-		status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
-		debug_print("baseloader failed "); debug_print_int(status); debug_println("");  //  If it returned, it must have failed.
 	}
 
     //  Start the bootloader.  This function will not return if the bootloader decides to run in Bootloader Mode (polling forever for USB commands).
