@@ -178,11 +178,14 @@ static void handle_command(HF2_Buffer *pkt) {
             //  First send ACK and then start writing, while getting the next packet.
             send_hf2_response(pkt, 0);
 
+            //  TODO: If we are writing to a Bootloader page, write it to the Application space first.
+            //  If there are changes in the Bootloader code, restart to let Baseloader replace the Bootloader code.
+
             //  Write the flash page if valid.
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
             if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
 #ifdef PLATFORMIO
-#define FLASH_DISABLED
+// #define FLASH_DISABLED
 #endif  //  PLATFORMIO
 #ifdef FLASH_DISABLED
                 #warning flash_write disabled

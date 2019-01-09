@@ -231,7 +231,8 @@ int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
     }
 	base_flash_lock();  //  TODO: Check MakeCode flashing.
 
-	//  Vector table may be overwritten. Restart to use the new vector table.
+	//  Vector table may have been overwritten. Restart to use the new vector table.
+	//  TODO: Erase the second vector table.
     //  TODO: if (should_disable_interrupts) { scb_reset_system(); }
 	
 	return verified ? 1 : 0;
