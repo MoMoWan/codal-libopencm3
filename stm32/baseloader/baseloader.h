@@ -11,7 +11,7 @@ extern "C" {  //  Allows functions below to be called by C and C++ code.
 
 #define BASE_MAGIC_NUMBER  ((uint32_t) 0x22051969)
 
-typedef int (*baseloader_func)(void);
+typedef int (*baseloader_func)(uint32_t *dest, const uint32_t *src, size_t byte_count);
 typedef void (*application_func)(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
@@ -23,11 +23,11 @@ typedef struct {
 	application_func application;	//  Address of application. Also where the bootloader ends.
 } __attribute__((packed)) base_vector_table_t;
 
-extern int baseloader_start(void);
+extern int baseloader_start(uint32_t *dest, const uint32_t *src, size_t byte_count);
 // extern bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
 
 extern void test_copy_bootloader(void);
-extern void test_copy_vector(void);
+extern void test_copy_baseloader(void);
 extern void test_copy_end(void);
 extern void test_baseloader1(void);
 extern void test_baseloader2(void);

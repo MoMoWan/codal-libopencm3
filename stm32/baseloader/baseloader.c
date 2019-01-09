@@ -8,12 +8,14 @@
 #include "flash-config.h"
 #include "baseloader.h"
 
+#ifdef NOTUSED
 //  These must be always at the beginning of the BSS so that different versions of the Baseloader can run.
 static uint16_t* dest = NULL;
 static uint16_t* src = NULL;
 static size_t half_word_count = 0;
 static bool verified = false;
 static bool should_disable_interrupts = true;
+#endif  //  NOTUSED
 
 extern uint32_t _base_etext;  //  End of baseloader code and data, defined in the linker script.
 extern void application_start(void);
@@ -173,31 +175,6 @@ the FLASH programming manual for details.
 	RCC_CIR = 0;  /* Disable all interrupts related to clock */ \
 }
 
-#ifdef DISABLE_DEBUG
-#define debug_flash() {}
-#define debug_dump() {}
-#define debug_dump2() {}
-#else
-#define debug_flash() { \
-    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
-    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
-    /* debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); */ \
-    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
-    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
-}
-#define debug_dump() { \
-    debug_print("src  "); debug_printhex_unsigned((size_t) test_src); debug_println(""); \
-    debug_print("dest "); debug_printhex_unsigned((size_t) test_dest); debug_println(""); debug_force_flush(); \
-    debug_print("before "); debug_printhex_unsigned(*test_dest); debug_println(""); debug_force_flush(); \
-}
-#define debug_dump2() { \
-    debug_print("after "); debug_printhex_unsigned(*test_dest); \
-    debug_print(" / "); debug_printhex(verified); \
-	debug_print((*test_dest == *test_src) ? " OK " : " FAIL "); \
-	debug_println("\r\n"); debug_force_flush(); \
-}
-#endif  //  DISABLE_DEBUG
-
 //  Get Old Base Vector Table at 0x800 0000.  Get Old Application Address from Old Base Vector Table, truncate to block of 1024 bytes.
 //  If Base Magic Number exists at the Old Application Address, then use it as the New Base Vector Table.
 //  Get New Application Address from New Base Vector Table.  
@@ -208,13 +185,25 @@ the FLASH programming manual for details.
 //  To perform flashing, jump to the New Baseloader Address in the End Base Vector Table,
 //  adjusted to the End Base Vector Table Address.
 
-int baseloader_start(void) {
+//  This must be the first function in the file.  Macros appearing before the function are OK.
+int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
     //  debug_println("baseloader_start"); debug_force_flush();
+	static uint16_t *dest;
+	static uint16_t *src;
+	static size_t half_word_count;
+	static bool verified, should_disable_interrupts;
+
+	dest = (uint16_t *) dest0;
+	src =  (uint16_t *) src0;
+	half_word_count = byte_count / 2;
+	should_disable_interrupts = false;
+
     static uint16_t *erase_start, *erase_end, *flash_end;
     verified = true; erase_start = NULL; erase_end = NULL;
     flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
 	//  TODO: Validate dest, src, half_word_count before flashing.
 	if (dest == NULL && src == NULL) {
+		should_disable_interrupts = true;
 		//  Search for the First and Second Base Vector Tables and find the bootloader range.
 		//  First Base Vector Table is in the start of the application ROM.
 		if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) { return -1; }  //  Quit if First Base Vector Table is not found.
@@ -267,49 +256,67 @@ int baseloader_start(void) {
 	return verified ? 1 : 0;
 }
 
-bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0) {
+bool base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
 	//  TODO: Validate dest, src, half_word_count before flashing.
-	//  Warning: Not reentrant.
-	dest = dest0;
-	src = (uint16_t*) src0;
-	half_word_count = half_word_count0;
-	should_disable_interrupts = false;
-	int status = baseloader_start();
+	int status = baseloader_start((uint32_t *) dest0, (const uint32_t *) src0, half_word_count0 * 2);
 	return (status == 1);
 }
 
-static uint32_t* test_dest = NULL;
-static uint32_t* test_src = NULL;
-static size_t test_half_word_count = 0;
+#ifdef DISABLE_DEBUG
+#define debug_flash() {}
+#define debug_dump() {}
+#define debug_dump2() {}
+#else
+#define debug_flash() { \
+    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
+    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
+    /* debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); */ \
+    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
+    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
+}
+#define debug_dump() { \
+    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); \
+    debug_print("size "); debug_printhex_unsigned((size_t) byte_count); debug_println(""); debug_force_flush(); \
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
+}
+#define debug_dump2() { \
+    debug_print("after "); debug_printhex_unsigned(*dest); \
+    debug_print(" / "); debug_printhex(status); \
+	debug_print((*dest == *src) ? " OK " : " FAIL "); \
+	debug_println("\r\n"); debug_force_flush(); \
+}
+#endif  //  DISABLE_DEBUG
 
 void test_copy_bootloader(void) {
 	//  Copy bootloader to application space.
 	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
-	test_src =  (uint32_t *) (FLASH_BASE);
-	test_dest = (uint32_t *) FLASH_ADDRESS(application_start);
-	test_half_word_count = bootloader_size / 2;
-	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
-}
+	uint32_t *src =  (uint32_t *) (FLASH_BASE);
+	uint32_t *dest = (uint32_t *) FLASH_ADDRESS(application_start);
+	size_t byte_count = bootloader_size;
+	debug_dump(); ////
 
-void test_copy_vector(void) {
-	//  Copy vector to end of bootloader.
-	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
-	test_src =  (uint32_t *) (FLASH_BASE);
-	test_dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
-	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
-	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
-}
-
-void test_copy_end(void) {
-	dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
-
-	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;  //  TODO: Compute based on new bootloader size.
+	int status = baseloader_start(dest, src, byte_count);
+	debug_dump2(); ////
 
 	//  Dump the first base vector.
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
 	debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
 	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
 	debug_force_flush();
+}
+
+void test_copy_baseloader(void) {
+	//  Copy baseloader to end of bootloader.
+	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+	uint32_t baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
+	uint32_t *src =  (uint32_t *) (FLASH_BASE);
+	uint32_t *dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
+	size_t byte_count = baseloader_size;
+	debug_dump(); ////
+
+	int status = baseloader_start(dest, src, byte_count);
+	debug_dump2(); ////
 
 	//  Dump the second base vector.
 	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
@@ -318,6 +325,7 @@ void test_copy_end(void) {
 	debug_force_flush();
 }
 
+#ifdef NOTUSED
 void test_baseloader1(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
 	test_src =  (uint32_t *) (FLASH_BASE);
@@ -337,3 +345,4 @@ void test_baseloader2(void) {
 void test_baseloader_end(void) {
 	dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
 }
+#endif  //  NOTUSED
