@@ -24,7 +24,7 @@ typedef struct {
 } __attribute__((packed)) base_vector_table_t;
 
 extern int baseloader_start(uint32_t *dest, const uint32_t *src, size_t byte_count);
-extern int baseloader_get_address(baseloader_func *baseloader_addr);
+extern int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count);
 // extern bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
 
 extern void test_copy_bootloader(void);
