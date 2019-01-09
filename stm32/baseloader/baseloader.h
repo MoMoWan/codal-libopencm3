@@ -18,9 +18,9 @@ typedef void (*application_func)(void);
 typedef struct {
 	uint32_t magic_number;			//  Magic number to verify this as a Baseloader Vector Table: 0x22051969
 	uint32_t version;				//  Bootloader version number e.g. 0x 00 01 00 01 for 1.01
-	baseloader_func baseloader;		//  Address of the baseloader function.
-	uint32_t *baseloader_end;       //  End of the baseloader code and data.
-	application_func application;	//  Address of application. Also where the bootloader ends.
+	baseloader_func baseloader;		//  Address of the Baseloader function in ROM.
+	uint32_t *baseloader_end;       //  End of Baseloader ROM (code and data).
+	application_func application;	//  Start address of Application ROM. Also where the bootloader ends.
 } __attribute__((packed)) base_vector_table_t;
 
 extern int baseloader_start(uint32_t *dest, const uint32_t *src, size_t byte_count);

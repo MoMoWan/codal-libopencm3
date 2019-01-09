@@ -17,7 +17,6 @@ static bool verified = false;
 static bool should_disable_interrupts = true;
 #endif  //  NOTUSED
 
-extern uint32_t _base_etext;  //  End of baseloader code and data, defined in the linker script.
 extern void application_start(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
@@ -30,21 +29,6 @@ base_vector_table_t base_vector_table = {
 	.baseloader_end = &_base_etext,       //  End of the baseloader code and data.
 	.application    = application_start,  //  Address of application. Also where the bootloader ends.
 };
-
-//  Given an address X, compute the base address of the flash memory page that contains X.
-#define FLASH_ADDRESS(x) 		 ( ((uint32_t) x) & ~(FLASH_PAGE_SIZE - 1) )
-
-//  Given an address X, compute the base address of the flash memory page that is >= X (ceiling).
-#define FLASH_CEIL_ADDRESS(x)    ( (FLASH_ADDRESS(x) >= (uint32_t) x) ? FLASH_ADDRESS(x) : (FLASH_PAGE_SIZE + FLASH_ADDRESS(x)) )
-
-//  Offset of Base Vector Table from the start of the flash page.
-#define BASE_VECTOR_TABLE_OFFSET ( ((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1) )
-
-//  Given an address X, compute the location of the Base Vector Table of the flash memory page that contains X.
-#define BASE_VECTOR_TABLE(x) 	 ( (base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET) )
-
-//  Given an address X, is the Base Vector Table in that flash memory page valid (checks magic number)
-#define IS_VALID_BASE_VECTOR_TABLE(x)  ( BASE_VECTOR_TABLE(x)->magic_number == BASE_MAGIC_NUMBER )
 
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
@@ -247,7 +231,7 @@ int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const ui
 	if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) { return -2; }  //  Quit if First Base Vector Table is not found.
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
 
-	//  Get size of new bootloader from the First Base Vector Table (same as the Application address).
+	//  Get size of new bootloader from the First Base Vector Table (same as the Application ROM start address).
 	uint32_t bootloader_size = (uint32_t) (begin_base_vector->application) - FLASH_BASE;
 	if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
 		>= FLASH_BASE + FLASH_SIZE_OVERRIDE) { return -3; }  //  Quit if bootloader size is too big.

@@ -35,7 +35,7 @@
 #define usb_assert          assert
 #define LOG(s)              debug_println(s)
 
-static volatile uint8_t connected = 0;  //  Non-zero if the serial interface is connected.
+static volatile uint8_t connected = 0;  //  Non-zero if the HF2 debug interface is connected.
 static connected_callback *connected_func = NULL;  //  Callback when connected.
 
 //  Large HF2 buffer for Bootloader Mode only.  Size should be 1090 bytes.
@@ -180,6 +180,27 @@ static void handle_command(HF2_Buffer *pkt) {
 
             //  TODO: If we are writing to a Bootloader page, write it to the Application space first.
             //  If there are changes in the Bootloader code, restart to let Baseloader replace the Bootloader code.
+
+            //  If this a Bootloader Page or Application Page?
+            //  Bootloader Page:  Flash address <  FLASH_ADDR(new base_vector_table.application)
+            //  Application Page: Flash address >= FLASH_ADDR(new base_vector_table.application)
+
+            //  Bootloader Page:
+            //  Start writing at FLASH_ADDR(old application_start)
+            //  When writing first Application Page, compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
+            //  If any diff, copy the new base_vector_table into current flash location, restart and let Baseloader update the Bootloader code.
+
+            /*
+            //  Get size of new bootloader from the First Base Vector Table (same as the Application address).
+            uint32_t bootloader_size = (uint32_t) (begin_base_vector->application) - FLASH_BASE;
+            if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
+                >= FLASH_BASE + FLASH_SIZE_OVERRIDE) { return -3; }  //  Quit if bootloader size is too big.
+
+            //  Second Base Vector Table is at start of application ROM + bootloader size.  Round up to the next flash page.
+            uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
+            if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) { return -4; }  //  Quit if Second Base Vector Table is not found.
+            base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
+            */
 
             //  Write the flash page if valid.
             checkDataSize(write_flash_page, HF2_PAGE_SIZE);
