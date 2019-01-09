@@ -105,10 +105,11 @@ void reset_handler(void) {
 		debug_printhex_unsigned((uint32_t) baseloader_addr); 
 		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
 		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
-		debug_print(", len "); debug_printhex_unsigned(byte_count);   
+		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
+		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
 	} else { debug_print_int(status); }; debug_println(""); debug_force_flush();
 	if (status == 0 && baseloader_addr) {
-		////status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
+		status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
 		debug_print("baseloader failed "); debug_print_int(status); debug_println("");  //  If it returned, it must have failed.
 	}
 
