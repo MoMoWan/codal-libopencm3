@@ -141,6 +141,21 @@ RECURSIVE_FIND_FILE(BLUEPILL_SRC "${BLUEPILL_DIR}" "*.cpp")
 add_library(bluepill ${BLUEPILL_SRC})
 
 ###############################################################################
+# stm32/baseloader
+
+set(BASELOADER_DIR "${STM32_DIR}/baseloader")
+message("BASELOADER_DIR: ${BASELOADER_DIR}")
+
+# find baseloader sources and headers.
+set(BASELOADER_INC
+    "${BASELOADER_DIR}" 
+)
+SOURCE_FILES(BASELOADER_SRC "${BASELOADER_DIR}" "*.c")
+
+# create baseloader library.
+add_library(baseloader ${BASELOADER_SRC})
+
+###############################################################################
 # stm32/bootloader
 
 set(BOOTLOADER_DIR "${STM32_DIR}/bootloader")
@@ -445,6 +460,7 @@ include_directories(
     ${STM32_INC}
     ${LOGGER_INC}
     ${BLUEPILL_INC}
+    ${BASELOADER_INC}
     ${BOOTLOADER_INC}
     ${HAL_INC}
     ${ADCINT_INC}
@@ -471,6 +487,7 @@ target_link_libraries(
     newlib
     logger
     bluepill
+    baseloader
     bootloader
     hal
     # hal_obj
@@ -490,6 +507,7 @@ set(
     MODEL_INCLUDE_DIRS 
     "${LOGGER_DIR}"
     "${BLUEPILL_DIR}"
+    "${BASELOADER_DIR}"
     "${HAL_DIR}"
     "${ADCINT_DIR}"
     "${I2CINT_DIR}"

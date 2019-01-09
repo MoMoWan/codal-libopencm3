@@ -88,7 +88,7 @@ int bootloader_start(void) {
         return 0; 
     }
 
-#define TEST_BASELOADER
+// #define TEST_BASELOADER
 #ifdef TEST_BASELOADER
 	test_copy_bootloader(); ////
 	test_copy_baseloader(); ////
