@@ -12,18 +12,6 @@ Archive member included to satisfy reference by file (symbol)
                               .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o (baseloader_start)
 .pioenvs/bluepill_f103c8/libd88/libnano-float.a(functions.o)
                               .pioenvs/bluepill_f103c8/src/aggregate.o (pow)
-.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
-                              .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o) (memcpy)
-.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
-                              .pioenvs/bluepill_f103c8/src/aggregate.o (strlen)
-.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
-                              .pioenvs/bluepill_f103c8/src/wisol.o (strncat)
-.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
-                              .pioenvs/bluepill_f103c8/src/aggregate.o (strncmp)
-.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
-                              .pioenvs/bluepill_f103c8/src/aggregate.o (strncpy)
-.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
-                              .pioenvs/bluepill_f103c8/src/wisol.o (strstr)
 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
                               .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o (os_cbkSleep)
 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
@@ -38,6 +26,18 @@ Archive member included to satisfy reference by file (symbol)
                               .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o) (os_task_init)
 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
                               .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o) (os_on_assert)
+.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+                              .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o) (memcpy)
+.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+                              .pioenvs/bluepill_f103c8/src/aggregate.o (strlen)
+.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+                              .pioenvs/bluepill_f103c8/src/wisol.o (strncat)
+.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+                              .pioenvs/bluepill_f103c8/src/aggregate.o (strncmp)
+.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+                              .pioenvs/bluepill_f103c8/src/aggregate.o (strncpy)
+.pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+                              .pioenvs/bluepill_f103c8/src/wisol.o (strstr)
 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
                               .pioenvs/bluepill_f103c8/src/main.o (codal::CodalComponent::removeComponent())
 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
@@ -1676,318 +1676,6 @@ Discarded input sections
  .debug_frame   0x0000000000000000      0x4e4 .pioenvs/bluepill_f103c8/libd88/libnano-float.a(functions.o)
  .ARM.attributes
                 0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/libd88/libnano-float.a(functions.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000000000       0x29 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .text.strncat  0x0000000000000000       0x32 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_info    0x0000000000000000      0x8f8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_abbrev  0x0000000000000000      0x1c0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_loc     0x0000000000000000       0xa7 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_aranges
-                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000      0x12c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_line    0x0000000000000000      0x32d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_str     0x0000000000000000     0x689b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .debug_frame   0x0000000000000000       0x30 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .ARM.attributes
-                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .text.strncmp  0x0000000000000000       0x38 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_info    0x0000000000000000      0x8e3 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_abbrev  0x0000000000000000      0x1aa .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_loc     0x0000000000000000       0xa2 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_aranges
-                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000      0x12c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_line    0x0000000000000000      0x33d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_str     0x0000000000000000     0x68bc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .debug_frame   0x0000000000000000       0x2c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .ARM.attributes
-                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .text.strncpy  0x0000000000000000       0x40 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_info    0x0000000000000000      0x90d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_abbrev  0x0000000000000000      0x1cf .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_loc     0x0000000000000000       0xf0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_aranges
-                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000      0x132 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_line    0x0000000000000000      0x333 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_str     0x0000000000000000     0x68ff .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .debug_frame   0x0000000000000000       0x2c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .ARM.attributes
-                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .text.strstr   0x0000000000000000       0x2e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_info    0x0000000000000000      0x8ee .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_abbrev  0x0000000000000000      0x1c8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_loc     0x0000000000000000       0x6c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_aranges
-                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000      0x120 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_line    0x0000000000000000      0x33d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_str     0x0000000000000000     0x6830 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .debug_frame   0x0000000000000000       0x30 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
- .ARM.attributes
-                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
  .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
  .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
  .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
@@ -2416,6 +2104,318 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
  .debug_macro   0x0000000000000000       0x16 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
  .debug_macro   0x0000000000000000       0x29 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000000000       0x29 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .text.strncat  0x0000000000000000       0x32 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_info    0x0000000000000000      0x8f8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_abbrev  0x0000000000000000      0x1c0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_loc     0x0000000000000000       0xa7 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_aranges
+                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000      0x12c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_line    0x0000000000000000      0x32d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_str     0x0000000000000000     0x689b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .debug_frame   0x0000000000000000       0x30 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .ARM.attributes
+                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncat.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .text.strncmp  0x0000000000000000       0x38 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_info    0x0000000000000000      0x8e3 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_abbrev  0x0000000000000000      0x1aa .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_loc     0x0000000000000000       0xa2 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_aranges
+                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000      0x12c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_line    0x0000000000000000      0x33d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_str     0x0000000000000000     0x68bc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .debug_frame   0x0000000000000000       0x2c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .ARM.attributes
+                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncmp.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .text.strncpy  0x0000000000000000       0x40 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_info    0x0000000000000000      0x90d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_abbrev  0x0000000000000000      0x1cf .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_loc     0x0000000000000000       0xf0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_aranges
+                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000      0x132 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_line    0x0000000000000000      0x333 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_str     0x0000000000000000     0x68ff .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .debug_frame   0x0000000000000000       0x2c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .ARM.attributes
+                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strncpy.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .text          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .data          0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .bss           0x0000000000000000        0x0 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .text.strstr   0x0000000000000000       0x2e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_info    0x0000000000000000      0x8ee .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_abbrev  0x0000000000000000      0x1c8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_loc     0x0000000000000000       0x6c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_aranges
+                0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_ranges  0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000      0x120 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x52 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x17 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x9c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000      0x174 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x57 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x1f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x43 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000      0x18e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000      0x330 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x35 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_macro   0x0000000000000000      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_line    0x0000000000000000      0x33d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_str     0x0000000000000000     0x6830 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .comment       0x0000000000000000       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .debug_frame   0x0000000000000000       0x30 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
+ .ARM.attributes
+                0x0000000000000000       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strstr.o)
  .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .group         0x0000000000000000        0xc .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
@@ -8091,466 +8091,469 @@ Linker script and memory map
  .text.test_copy_end
                 0x0000000008000640      0x120 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
                 0x0000000008000640                test_copy_end
+                0x0000000008000760                . = ALIGN (0x4)
+ *libbaseloader.a:(SORT_BY_ALIGNMENT(.rodata*))
+ .rodata.test_copy_bootloader.str1.4
+                0x0000000008000760       0x18 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+                                         0x1c (size before relaxing)
+ .rodata.test_copy_end.str1.4
+                0x0000000008000778       0x49 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+                                         0x4d (size before relaxing)
+                0x00000000080007c4                . = ALIGN (0x4)
+ *fill*         0x00000000080007c1        0x3 
+                0x00000000080007c4                _base_etext = .
  *(SORT_BY_ALIGNMENT(.text.blocking_handler*))
  .text.blocking_handler
-                0x0000000008000760        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
-                0x0000000008000760                exti0_isr
-                0x0000000008000760                tim7_isr
-                0x0000000008000760                adc1_2_isr
-                0x0000000008000760                tim1_trg_com_isr
-                0x0000000008000760                usb_hp_can_tx_isr
-                0x0000000008000760                tim6_isr
-                0x0000000008000760                usb_wakeup_isr
-                0x0000000008000760                blocking_handler
-                0x0000000008000760                tim5_isr
-                0x0000000008000760                otg_fs_isr
-                0x0000000008000760                spi1_isr
-                0x0000000008000760                exti2_isr
-                0x0000000008000760                dma1_channel6_isr
-                0x0000000008000760                can_rx1_isr
-                0x0000000008000760                dma1_channel5_isr
-                0x0000000008000760                dma2_channel5_isr
-                0x0000000008000760                usart1_isr
-                0x0000000008000760                usage_fault_handler
-                0x0000000008000760                tim8_trg_com_isr
-                0x0000000008000760                can2_rx0_isr
-                0x0000000008000760                tim1_brk_isr
-                0x0000000008000760                can2_rx1_isr
-                0x0000000008000760                tim1_cc_isr
-                0x0000000008000760                sdio_isr
-                0x0000000008000760                eth_isr
-                0x0000000008000760                dma1_channel4_isr
-                0x0000000008000760                tim8_brk_isr
-                0x0000000008000760                dma2_channel4_5_isr
-                0x0000000008000760                pvd_isr
-                0x0000000008000760                rcc_isr
-                0x0000000008000760                flash_isr
-                0x0000000008000760                uart4_isr
-                0x0000000008000760                exti15_10_isr
-                0x0000000008000760                hard_fault_handler
-                0x0000000008000760                exti1_isr
-                0x0000000008000760                i2c1_ev_isr
-                0x0000000008000760                dma2_channel1_isr
-                0x0000000008000760                spi2_isr
-                0x0000000008000760                tim8_up_isr
-                0x0000000008000760                dma2_channel2_isr
-                0x0000000008000760                exti3_isr
-                0x0000000008000760                adc3_isr
-                0x0000000008000760                tim3_isr
-                0x0000000008000760                usb_lp_can_rx0_isr
-                0x0000000008000760                i2c2_er_isr
-                0x0000000008000760                i2c2_ev_isr
-                0x0000000008000760                uart5_isr
-                0x0000000008000760                fsmc_isr
-                0x0000000008000760                dma1_channel1_isr
-                0x0000000008000760                exti4_isr
-                0x0000000008000760                mem_manage_handler
-                0x0000000008000760                can2_tx_isr
-                0x0000000008000760                exti9_5_isr
-                0x0000000008000760                dma2_channel3_isr
-                0x0000000008000760                dma1_channel7_isr
-                0x0000000008000760                tim1_up_isr
-                0x0000000008000760                can2_sce_isr
-                0x0000000008000760                tim4_isr
-                0x0000000008000760                dma1_channel2_isr
-                0x0000000008000760                i2c1_er_isr
-                0x0000000008000760                can_sce_isr
-                0x0000000008000760                tim8_cc_isr
-                0x0000000008000760                tamper_isr
-                0x0000000008000760                eth_wkup_isr
-                0x0000000008000760                bus_fault_handler
-                0x0000000008000760                wwdg_isr
-                0x0000000008000760                dma1_channel3_isr
-                0x0000000008000760                spi3_isr
-                0x0000000008000760                tim2_isr
-                0x0000000008000760                usart3_isr
+                0x00000000080007c4        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
+                0x00000000080007c4                exti0_isr
+                0x00000000080007c4                tim7_isr
+                0x00000000080007c4                adc1_2_isr
+                0x00000000080007c4                tim1_trg_com_isr
+                0x00000000080007c4                usb_hp_can_tx_isr
+                0x00000000080007c4                tim6_isr
+                0x00000000080007c4                usb_wakeup_isr
+                0x00000000080007c4                blocking_handler
+                0x00000000080007c4                tim5_isr
+                0x00000000080007c4                otg_fs_isr
+                0x00000000080007c4                spi1_isr
+                0x00000000080007c4                exti2_isr
+                0x00000000080007c4                dma1_channel6_isr
+                0x00000000080007c4                can_rx1_isr
+                0x00000000080007c4                dma1_channel5_isr
+                0x00000000080007c4                dma2_channel5_isr
+                0x00000000080007c4                usart1_isr
+                0x00000000080007c4                usage_fault_handler
+                0x00000000080007c4                tim8_trg_com_isr
+                0x00000000080007c4                can2_rx0_isr
+                0x00000000080007c4                tim1_brk_isr
+                0x00000000080007c4                can2_rx1_isr
+                0x00000000080007c4                tim1_cc_isr
+                0x00000000080007c4                sdio_isr
+                0x00000000080007c4                eth_isr
+                0x00000000080007c4                dma1_channel4_isr
+                0x00000000080007c4                tim8_brk_isr
+                0x00000000080007c4                dma2_channel4_5_isr
+                0x00000000080007c4                pvd_isr
+                0x00000000080007c4                rcc_isr
+                0x00000000080007c4                flash_isr
+                0x00000000080007c4                uart4_isr
+                0x00000000080007c4                exti15_10_isr
+                0x00000000080007c4                hard_fault_handler
+                0x00000000080007c4                exti1_isr
+                0x00000000080007c4                i2c1_ev_isr
+                0x00000000080007c4                dma2_channel1_isr
+                0x00000000080007c4                spi2_isr
+                0x00000000080007c4                tim8_up_isr
+                0x00000000080007c4                dma2_channel2_isr
+                0x00000000080007c4                exti3_isr
+                0x00000000080007c4                adc3_isr
+                0x00000000080007c4                tim3_isr
+                0x00000000080007c4                usb_lp_can_rx0_isr
+                0x00000000080007c4                i2c2_er_isr
+                0x00000000080007c4                i2c2_ev_isr
+                0x00000000080007c4                uart5_isr
+                0x00000000080007c4                fsmc_isr
+                0x00000000080007c4                dma1_channel1_isr
+                0x00000000080007c4                exti4_isr
+                0x00000000080007c4                mem_manage_handler
+                0x00000000080007c4                can2_tx_isr
+                0x00000000080007c4                exti9_5_isr
+                0x00000000080007c4                dma2_channel3_isr
+                0x00000000080007c4                dma1_channel7_isr
+                0x00000000080007c4                tim1_up_isr
+                0x00000000080007c4                can2_sce_isr
+                0x00000000080007c4                tim4_isr
+                0x00000000080007c4                dma1_channel2_isr
+                0x00000000080007c4                i2c1_er_isr
+                0x00000000080007c4                can_sce_isr
+                0x00000000080007c4                tim8_cc_isr
+                0x00000000080007c4                tamper_isr
+                0x00000000080007c4                eth_wkup_isr
+                0x00000000080007c4                bus_fault_handler
+                0x00000000080007c4                wwdg_isr
+                0x00000000080007c4                dma1_channel3_isr
+                0x00000000080007c4                spi3_isr
+                0x00000000080007c4                tim2_isr
+                0x00000000080007c4                usart3_isr
  *(SORT_BY_ALIGNMENT(.text.null_handler*))
  .text.null_handler
-                0x0000000008000762        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
-                0x0000000008000762                null_handler
-                0x0000000008000762                sv_call_handler
-                0x0000000008000762                pend_sv_handler
-                0x0000000008000762                debug_monitor_handler
-                0x0000000008000762                sys_tick_handler
-                0x0000000008000762                nmi_handler
+                0x00000000080007c6        0x2 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
+                0x00000000080007c6                null_handler
+                0x00000000080007c6                sv_call_handler
+                0x00000000080007c6                pend_sv_handler
+                0x00000000080007c6                debug_monitor_handler
+                0x00000000080007c6                sys_tick_handler
+                0x00000000080007c6                nmi_handler
  *(SORT_BY_ALIGNMENT(.text.*_isr))
- .text.rtc_isr  0x0000000008000764       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008000764                rtc_isr
+ .text.rtc_isr  0x00000000080007c8       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080007c8                rtc_isr
  .text.rtc_alarm_isr
-                0x0000000008000794       0x2c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008000794                rtc_alarm_isr
+                0x00000000080007f8       0x2c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x00000000080007f8                rtc_alarm_isr
  .text.usart2_isr
-                0x00000000080007c0       0x5c .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
-                0x00000000080007c0                usart2_isr
+                0x0000000008000824       0x5c .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
+                0x0000000008000824                usart2_isr
  :*reset_handler*(SORT_BY_ALIGNMENT(.text*))
  .text.pre_main
-                0x000000000800081c       0x50 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
+                0x0000000008000880       0x50 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  .text.reset_handler
-                0x000000000800086c       0x90 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
-                0x000000000800086c                reset_handler
+                0x00000000080008d0       0x90 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
+                0x00000000080008d0                reset_handler
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.text*))
  .text._ZL11timer_alarmv
-                0x00000000080008fc       0x24 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000960       0x24 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .text._ZL15poll_bootloaderv
-                0x0000000008000920       0x70 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000984       0x70 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .text._ZL10timer_tickv
-                0x0000000008000990       0x18 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x00000000080009f4       0x18 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .text._ZL11os_schedulev
-                0x00000000080009a8       0x2c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000a0c       0x2c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
  .text.target_init
-                0x00000000080009d4       0x30 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x00000000080009d4                target_init
+                0x0000000008000a38       0x30 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000a38                target_init
  .text.target_wait_for_event
-                0x0000000008000a04       0x10 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000a04                target_wait_for_event
+                0x0000000008000a68       0x10 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000a68                target_wait_for_event
  .text.target_wait
-                0x0000000008000a14       0x5c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000a14                target_wait
+                0x0000000008000a78       0x5c .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000a78                target_wait
  .text.target_wait_us
-                0x0000000008000a70       0x14 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000a70                target_wait_us
+                0x0000000008000ad4       0x14 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000ad4                target_wait_us
  .text.target_panic
-                0x0000000008000a84       0x20 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000a84                target_panic
+                0x0000000008000ae8       0x20 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000ae8                target_panic
  .text.fiber_initial_stack_base
-                0x0000000008000aa4        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000aa4                fiber_initial_stack_base
+                0x0000000008000b08        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000b08                fiber_initial_stack_base
  .text.test_codal
-                0x0000000008000aac       0x74 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000aac                test_codal
+                0x0000000008000b10       0x74 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000b10                test_codal
  .text.target_set_tick_callback
-                0x0000000008000b20        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b20                target_set_tick_callback
+                0x0000000008000b84        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000b84                target_set_tick_callback
  .text.target_set_alarm_callback
-                0x0000000008000b2c        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b2c                target_set_alarm_callback
+                0x0000000008000b90        0xc .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000b90                target_set_alarm_callback
  .text.target_enable_irq
-                0x0000000008000b38        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b38                target_enable_irq
+                0x0000000008000b9c        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000b9c                target_enable_irq
  .text.target_disable_irq
-                0x0000000008000b3c        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b3c                target_disable_irq
+                0x0000000008000ba0        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000ba0                target_disable_irq
  .text.tcb_allocate
-                0x0000000008000b40        0xa .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b40                tcb_allocate
+                0x0000000008000ba4        0xa .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000ba4                tcb_allocate
  .text.tcb_configure_lr
-                0x0000000008000b4a        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b4a                tcb_configure_lr
+                0x0000000008000bae        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bae                tcb_configure_lr
  .text.tcb_configure_sp
-                0x0000000008000b4e        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b4e                tcb_configure_sp
+                0x0000000008000bb2        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bb2                tcb_configure_sp
  .text.tcb_configure_stack_base
-                0x0000000008000b52        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b52                tcb_configure_stack_base
+                0x0000000008000bb6        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bb6                tcb_configure_stack_base
  .text.tcb_get_stack_base
-                0x0000000008000b56        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b56                tcb_get_stack_base
+                0x0000000008000bba        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bba                tcb_get_stack_base
  .text.get_current_sp
-                0x0000000008000b5a        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b5a                get_current_sp
+                0x0000000008000bbe        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bbe                get_current_sp
  .text.tcb_get_sp
-                0x0000000008000b5e        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b5e                tcb_get_sp
+                0x0000000008000bc2        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bc2                tcb_get_sp
  .text.tcb_configure_args
-                0x0000000008000b62        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b62                tcb_configure_args
- .text._fini    0x0000000008000b6a        0x2 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b6a                _fini
+                0x0000000008000bc6        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bc6                tcb_configure_args
+ .text._fini    0x0000000008000bce        0x2 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bce                _fini
  .text.__aeabi_atexit
-                0x0000000008000b6c        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b6c                __aeabi_atexit
+                0x0000000008000bd0        0x4 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bd0                __aeabi_atexit
  .text.target_enable_debug
-                0x0000000008000b70        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
-                0x0000000008000b70                target_enable_debug
+                0x0000000008000bd4        0x8 .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
+                0x0000000008000bd4                target_enable_debug
  *libhal.a:*codal_target_hal*(SORT_BY_ALIGNMENT(.text*))
  :*CortexContextSwitch*(SORT_BY_ALIGNMENT(.text*))
- .text          0x0000000008000b78      0x124 asm/CortexContextSwitch.s.o
-                0x0000000008000b78                swap_context
-                0x0000000008000bfa                save_context
-                0x0000000008000c3e                save_register_context
-                0x0000000008000c6e                restore_register_context
+ .text          0x0000000008000bdc      0x124 asm/CortexContextSwitch.s.o
+                0x0000000008000bdc                swap_context
+                0x0000000008000c5e                save_context
+                0x0000000008000ca2                save_register_context
+                0x0000000008000cd2                restore_register_context
  *libhal.a:(SORT_BY_ALIGNMENT(.text*))
  *liblibopencm3.a:(SORT_BY_ALIGNMENT(.text*))
  *libFrameworkLibOpenCM3.a:(SORT_BY_ALIGNMENT(.text*))
  .text.rcc_wait_for_osc_ready
-                0x0000000008000c9c       0x70 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000c9c                rcc_wait_for_osc_ready
+                0x0000000008000d00       0x70 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000d00                rcc_wait_for_osc_ready
  .text.rcc_osc_on
-                0x0000000008000d0c       0x70 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000d0c                rcc_osc_on
+                0x0000000008000d70       0x70 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000d70                rcc_osc_on
  .text.rcc_set_sysclk_source
-                0x0000000008000d7c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000d7c                rcc_set_sysclk_source
+                0x0000000008000de0       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000de0                rcc_set_sysclk_source
  .text.rcc_set_pll_multiplication_factor
-                0x0000000008000d90       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000d90                rcc_set_pll_multiplication_factor
+                0x0000000008000df4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000df4                rcc_set_pll_multiplication_factor
  .text.rcc_set_pll_source
-                0x0000000008000da4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000da4                rcc_set_pll_source
+                0x0000000008000e08       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000e08                rcc_set_pll_source
  .text.rcc_set_pllxtpre
-                0x0000000008000db8       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000db8                rcc_set_pllxtpre
+                0x0000000008000e1c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000e1c                rcc_set_pllxtpre
  .text.rcc_enable_rtc_clock
-                0x0000000008000dcc       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000dcc                rcc_enable_rtc_clock
+                0x0000000008000e30       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000e30                rcc_enable_rtc_clock
  .text.rcc_set_rtc_clock_source
-                0x0000000008000ddc       0xa0 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000ddc                rcc_set_rtc_clock_source
+                0x0000000008000e40       0xa0 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000e40                rcc_set_rtc_clock_source
  .text.rcc_set_adcpre
-                0x0000000008000e7c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000e7c                rcc_set_adcpre
+                0x0000000008000ee0       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000ee0                rcc_set_adcpre
  .text.rcc_set_ppre2
-                0x0000000008000e90       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000e90                rcc_set_ppre2
+                0x0000000008000ef4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000ef4                rcc_set_ppre2
  .text.rcc_set_ppre1
-                0x0000000008000ea4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000ea4                rcc_set_ppre1
+                0x0000000008000f08       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000f08                rcc_set_ppre1
  .text.rcc_set_hpre
-                0x0000000008000eb8       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000eb8                rcc_set_hpre
+                0x0000000008000f1c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000f1c                rcc_set_hpre
  .text.rcc_clock_setup_in_hse_8mhz_out_72mhz
-                0x0000000008000ecc       0x90 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
-                0x0000000008000ecc                rcc_clock_setup_in_hse_8mhz_out_72mhz
+                0x0000000008000f30       0x90 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+                0x0000000008000f30                rcc_clock_setup_in_hse_8mhz_out_72mhz
  .text.rtc_enter_config_mode
-                0x0000000008000f5c       0x24 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000f5c                rtc_enter_config_mode
+                0x0000000008000fc0       0x24 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000fc0                rtc_enter_config_mode
  .text.rtc_exit_config_mode
-                0x0000000008000f80       0x24 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000f80                rtc_exit_config_mode
+                0x0000000008000fe4       0x24 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008000fe4                rtc_exit_config_mode
  .text.rtc_set_alarm_time
-                0x0000000008000fa4       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000fa4                rtc_set_alarm_time
+                0x0000000008001008       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008001008                rtc_set_alarm_time
  .text.rtc_set_prescale_val
-                0x0000000008000fc4       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000fc4                rtc_set_prescale_val
+                0x0000000008001028       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008001028                rtc_set_prescale_val
  .text.rtc_get_counter_val
-                0x0000000008000fe4       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000fe4                rtc_get_counter_val
+                0x0000000008001048       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008001048                rtc_get_counter_val
  .text.rtc_set_counter_val
-                0x0000000008000ff8       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008000ff8                rtc_set_counter_val
+                0x000000000800105c       0x20 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x000000000800105c                rtc_set_counter_val
  .text.rtc_interrupt_enable
-                0x0000000008001018       0x40 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008001018                rtc_interrupt_enable
+                0x000000000800107c       0x40 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x000000000800107c                rtc_interrupt_enable
  .text.rtc_interrupt_disable
-                0x0000000008001058       0x40 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008001058                rtc_interrupt_disable
+                0x00000000080010bc       0x40 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x00000000080010bc                rtc_interrupt_disable
  .text.rtc_clear_flag
-                0x0000000008001098       0x34 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x0000000008001098                rtc_clear_flag
+                0x00000000080010fc       0x34 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x00000000080010fc                rtc_clear_flag
  .text.rtc_check_flag
-                0x00000000080010cc       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
-                0x00000000080010cc                rtc_check_flag
+                0x0000000008001130       0x30 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+                0x0000000008001130                rtc_check_flag
  .text.pwr_disable_backup_domain_write_protect
-                0x00000000080010fc       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
-                0x00000000080010fc                pwr_disable_backup_domain_write_protect
+                0x0000000008001160       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
+                0x0000000008001160                pwr_disable_backup_domain_write_protect
  .text.exti_set_trigger
-                0x000000000800110c       0x4c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x000000000800110c                exti_set_trigger
+                0x0000000008001170       0x4c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x0000000008001170                exti_set_trigger
  .text.exti_enable_request
-                0x0000000008001158       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0000000008001158                exti_enable_request
+                0x00000000080011bc       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x00000000080011bc                exti_enable_request
  .text.exti_reset_request
-                0x0000000008001170        0xc .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
-                0x0000000008001170                exti_reset_request
+                0x00000000080011d4        0xc .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+                0x00000000080011d4                exti_reset_request
  .text.flash_set_ws
-                0x000000000800117c       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
-                0x000000000800117c                flash_set_ws
+                0x00000000080011e0       0x14 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+                0x00000000080011e0                flash_set_ws
  .text.scb_reset_system
-                0x0000000008001190       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
-                0x0000000008001190                scb_reset_system
+                0x00000000080011f4       0x10 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
+                0x00000000080011f4                scb_reset_system
  .text.gpio_set_mode
-                0x00000000080011a0       0x6c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
-                0x00000000080011a0                gpio_set_mode
+                0x0000000008001204       0x6c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
+                0x0000000008001204                gpio_set_mode
  .text.gpio_set
-                0x000000000800120c        0x4 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
-                0x000000000800120c                gpio_set
+                0x0000000008001270        0x4 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
+                0x0000000008001270                gpio_set
  .text.gpio_clear
-                0x0000000008001210        0x6 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
-                0x0000000008001210                gpio_clear
+                0x0000000008001274        0x6 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
+                0x0000000008001274                gpio_clear
  .text.usart_recv
-                0x0000000008001216        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
-                0x0000000008001216                usart_recv
+                0x000000000800127a        0x8 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
+                0x000000000800127a                usart_recv
  .text.rcc_periph_clock_enable
-                0x000000000800121e       0x1c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
-                0x000000000800121e                rcc_periph_clock_enable
+                0x0000000008001282       0x1c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
+                0x0000000008001282                rcc_periph_clock_enable
  .text.nvic_enable_irq
-                0x000000000800123a       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
-                0x000000000800123a                nvic_enable_irq
+                0x000000000800129e       0x18 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
+                0x000000000800129e                nvic_enable_irq
  *libcocoos.a:(SORT_BY_ALIGNMENT(.text*))
  *libcocoOS_?.?.?.a:(SORT_BY_ALIGNMENT(.text*))
- *fill*         0x0000000008001252        0x2 
+ *fill*         0x00000000080012b6        0x2 
  .text.os_event_init
-                0x0000000008001254        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001254                os_event_init
+                0x00000000080012b8        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x00000000080012b8                os_event_init
  .text.os_signal_event
-                0x0000000008001260       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001260                os_signal_event
+                0x00000000080012c4       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x00000000080012c4                os_signal_event
  .text.os_event_set_signaling_tid
-                0x0000000008001270       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
-                0x0000000008001270                os_event_set_signaling_tid
- .text.os_init  0x0000000008001280       0x30 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x0000000008001280                os_init
+                0x00000000080012d4       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x00000000080012d4                os_event_set_signaling_tid
+ .text.os_init  0x00000000080012e4       0x30 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x00000000080012e4                os_init
  .text.os_running
-                0x00000000080012b0        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x00000000080012b0                os_running
+                0x0000000008001314        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x0000000008001314                os_running
  .text.os_msgQ_init
-                0x00000000080012bc       0x38 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x00000000080012bc                os_msgQ_init
+                0x0000000008001320       0x38 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x0000000008001320                os_msgQ_init
  .text.os_msgQ_tick
-                0x00000000080012f4       0x74 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
-                0x00000000080012f4                os_msgQ_tick
+                0x0000000008001358       0x74 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x0000000008001358                os_msgQ_tick
  .text.os_sem_init
-                0x0000000008001368        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
-                0x0000000008001368                os_sem_init
+                0x00000000080013cc        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x00000000080013cc                os_sem_init
  .text.os_task_wait_queue_empty
-                0x0000000008001374       0x1c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x00000000080013d8       0x1c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
  .text.task_ready_set
-                0x0000000008001390       0x14 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x00000000080013f4       0x14 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
  .text.os_task_init
-                0x00000000080013a4       0x74 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x00000000080013a4                os_task_init
+                0x0000000008001408       0x74 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001408                os_task_init
  .text.os_task_highest_prio_ready_task
-                0x0000000008001418       0x44 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001418                os_task_highest_prio_ready_task
+                0x000000000800147c       0x44 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x000000000800147c                os_task_highest_prio_ready_task
  .text.os_task_clear_wait_queue
-                0x000000000800145c       0x1c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x000000000800145c                os_task_clear_wait_queue
+                0x00000000080014c0       0x1c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x00000000080014c0                os_task_clear_wait_queue
  .text.os_task_tick
-                0x0000000008001478       0xac .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001478                os_task_tick
+                0x00000000080014dc       0xac .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x00000000080014dc                os_task_tick
  .text.os_task_signal_event
-                0x0000000008001524       0x98 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x0000000008001524                os_task_signal_event
+                0x0000000008001588       0x98 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001588                os_task_signal_event
  .text.os_task_run
-                0x00000000080015bc       0x38 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
-                0x00000000080015bc                os_task_run
+                0x0000000008001620       0x38 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000008001620                os_task_run
  .text.os_on_assert
-                0x00000000080015f4       0x28 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
-                0x00000000080015f4                os_on_assert
+                0x0000000008001658       0x28 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+                0x0000000008001658                os_on_assert
  .text.os_cbkSleep
-                0x000000000800161c        0x2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
-                0x000000000800161c                os_cbkSleep
- .text.os_tick  0x000000000800161e        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
-                0x000000000800161e                os_tick
+                0x0000000008001680        0x2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+                0x0000000008001680                os_cbkSleep
+ .text.os_tick  0x0000000008001682        0xc .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x0000000008001682                os_tick
  *libgcc.a:(SORT_BY_ALIGNMENT(.text*))
  *libqfplib.a:(SORT_BY_ALIGNMENT(.text*))
  *libnano-float.a:(SORT_BY_ALIGNMENT(.text*))
  *libnewlib.a:(SORT_BY_ALIGNMENT(.text*))
- .text.memcpy   0x000000000800162a       0x1a .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
-                0x000000000800162a                memcpy
- .text.strlen   0x0000000008001644       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
-                0x0000000008001644                strlen
- .text.memcmp   0x0000000008001654       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
-                0x0000000008001654                memcmp
- .text.memset   0x0000000008001674       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
-                0x0000000008001674                memset
+ .text.memcpy   0x000000000800168e       0x1a .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+                0x000000000800168e                memcpy
+ .text.strlen   0x00000000080016a8       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+                0x00000000080016a8                strlen
+ .text.memcmp   0x00000000080016b8       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
+                0x00000000080016b8                memcmp
+ .text.memset   0x00000000080016d8       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
+                0x00000000080016d8                memset
  *liblogger.a:(SORT_BY_ALIGNMENT(.text*))
- *fill*         0x000000000800168a        0x2 
+ *fill*         0x00000000080016ee        0x2 
  .text._ZL10__semihostiPv
-                0x000000000800168c       0x24 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080016f0       0x24 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .text._ZL16write_all_outputPKhtb
-                0x00000000080016b0       0x3c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001714       0x3c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .text._ZL12debug_appendPKcj
-                0x00000000080016ec       0x40 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001750       0x40 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .text.enable_log
-                0x000000000800172c        0xc .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x000000000800172c                enable_log
+                0x0000000008001790        0xc .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001790                enable_log
  .text._Z20debug_flush_internalb
-                0x0000000008001738       0x50 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008001738                debug_flush_internal(bool)
+                0x000000000800179c       0x50 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x000000000800179c                debug_flush_internal(bool)
  .text.debug_force_flush
-                0x0000000008001788       0x20 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008001788                debug_force_flush
+                0x00000000080017ec       0x20 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080017ec                debug_force_flush
  .text._Z11debug_printj
-                0x00000000080017a8       0x88 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080017a8                debug_print(unsigned int)
+                0x000000000800180c       0x88 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x000000000800180c                debug_print(unsigned int)
  .text._Z11debug_printi
-                0x0000000008001830       0x34 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008001830                debug_print(int)
+                0x0000000008001894       0x34 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001894                debug_print(int)
  .text.debug_println
-                0x0000000008001864       0x1c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008001864                debug_println
+                0x00000000080018c8       0x1c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080018c8                debug_println
  .text._Z13debug_printlni
-                0x0000000008001880       0x14 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x0000000008001880                debug_println(int)
+                0x00000000080018e4       0x14 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080018e4                debug_println(int)
  .text._ZL14semihost_writemPKhj
-                0x0000000008001894       0x1e .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080018f8       0x1e .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
  .text.debug_flush
-                0x00000000080018b2        0xa .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080018b2                debug_flush
+                0x0000000008001916        0xa .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001916                debug_flush
  .text.debug_print
-                0x00000000080018bc       0x18 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080018bc                debug_print
+                0x0000000008001920       0x18 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001920                debug_print
  .text.debug_print_unsigned
-                0x00000000080018d4        0x8 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080018d4                debug_print_unsigned
+                0x0000000008001938        0x8 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001938                debug_print_unsigned
  .text.debug_printhex
-                0x00000000080018dc       0x70 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x00000000080018dc                debug_printhex
+                0x0000000008001940       0x70 .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x0000000008001940                debug_printhex
  .text.debug_printhex_unsigned
-                0x000000000800194c       0x1c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
-                0x000000000800194c                debug_printhex_unsigned
+                0x00000000080019b0       0x1c .pioenvs/bluepill_f103c8/libd9b/liblogger.a(logger.o)
+                0x00000000080019b0                debug_printhex_unsigned
  *libbluepill.a:(SORT_BY_ALIGNMENT(.text*))
  .text.platform_setup
-                0x0000000008001968       0x4c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x0000000008001968                platform_setup
+                0x00000000080019cc       0x4c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x00000000080019cc                platform_setup
  .text.enable_debug
-                0x00000000080019b4       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x00000000080019b4                enable_debug
+                0x0000000008001a18       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008001a18                enable_debug
  .text.led_setup
-                0x00000000080019c8       0x20 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x00000000080019c8                led_setup
- .text.led_on   0x00000000080019e8       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x00000000080019e8                led_on
- .text.led_off  0x00000000080019fc       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x00000000080019fc                led_off
+                0x0000000008001a2c       0x20 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x0000000008001a2c                led_setup
+ .text.led_on   0x0000000008001a4c       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x0000000008001a4c                led_on
+ .text.led_off  0x0000000008001a60       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x0000000008001a60                led_off
  .text.led_wait
-                0x0000000008001a10       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
-                0x0000000008001a10                led_wait
+                0x0000000008001a74       0x14 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
+                0x0000000008001a74                led_wait
  .text._ZL25custom_rtc_awake_from_off7rcc_osc
-                0x0000000008001a24       0x74 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008001a88       0x74 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .text._ZL9rtc_setupv
-                0x0000000008001a98       0x90 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008001afc       0x90 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .text.platform_start_timer
-                0x0000000008001b28       0x34 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008001b28                platform_start_timer
+                0x0000000008001b8c       0x34 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008001b8c                platform_start_timer
  .text.platform_set_alarm
-                0x0000000008001b5c       0x34 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008001b5c                platform_set_alarm
+                0x0000000008001bc0       0x34 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008001bc0                platform_set_alarm
  .text.platform_alarm_count
-                0x0000000008001b90        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008001b90                platform_alarm_count
+                0x0000000008001bf4        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008001bf4                platform_alarm_count
  .text.__cxa_pure_virtual
-                0x0000000008001b9c        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x0000000008001b9c                __cxa_pure_virtual
- .text._Znwj    0x0000000008001ba8        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x0000000008001ba8                operator new(unsigned int)
- .text._ZdlPv   0x0000000008001bb0        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
-                0x0000000008001bb0                operator delete(void*)
- .text.millis   0x0000000008001bb8        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
-                0x0000000008001bb8                millis
+                0x0000000008001c00        0xc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008001c00                __cxa_pure_virtual
+ .text._Znwj    0x0000000008001c0c        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008001c0c                operator new(unsigned int)
+ .text._ZdlPv   0x0000000008001c14        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(bluepill.o)
+                0x0000000008001c14                operator delete(void*)
+ .text.millis   0x0000000008001c1c        0x8 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
+                0x0000000008001c1c                millis
  *libbootloader.a:(SORT_BY_ALIGNMENT(.text*))
  .text.boot_target_set_restart_callback
-                0x0000000008001bc0       0x20 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
-                0x0000000008001bc0                boot_target_set_restart_callback
+                0x0000000008001c24       0x20 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+                0x0000000008001c24                boot_target_set_restart_callback
  .text.bootloader_set_restart_callback
-                0x0000000008001be0        0xa .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
-                0x0000000008001be0                bootloader_set_restart_callback
-                0x0000000008001bec                . = ALIGN (0x4)
- *fill*         0x0000000008001bea        0x2 
- *libbaseloader.a:(SORT_BY_ALIGNMENT(.rodata*))
- .rodata.test_copy_bootloader.str1.4
-                0x0000000008001bec       0x18 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
-                                         0x1c (size before relaxing)
- .rodata.test_copy_end.str1.4
-                0x0000000008001c04       0x49 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
-                                         0x4d (size before relaxing)
+                0x0000000008001c44        0xa .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
+                0x0000000008001c44                bootloader_set_restart_callback
+                0x0000000008001c50                . = ALIGN (0x4)
+ *fill*         0x0000000008001c4e        0x2 
  *(SORT_BY_ALIGNMENT(.rodata.blocking_handler*))
  *(SORT_BY_ALIGNMENT(.rodata.null_handler*))
  *(SORT_BY_ALIGNMENT(.rodata.*_isr))
  :*reset_handler*(SORT_BY_ALIGNMENT(.rodata*))
- *fill*         0x0000000008001c4d        0x3 
  .rodata.pre_main.str1.4
                 0x0000000008001c50       0x37 .pioenvs/bluepill_f103c8/libccd/hal/reset_handler.o
  :*codal_target_hal*(SORT_BY_ALIGNMENT(.rodata*))
@@ -9819,8 +9822,8 @@ LOAD .pioenvs/bluepill_f103c8/libb45/libbootloader.a
 LOAD .pioenvs/bluepill_f103c8/libfdb/libunity.a
 LOAD .pioenvs/bluepill_f103c8/libf85/libqfplib.a
 LOAD .pioenvs/bluepill_f103c8/libd88/libnano-float.a
-LOAD .pioenvs/bluepill_f103c8/lib98a/libnewlib.a
 LOAD .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a
+LOAD .pioenvs/bluepill_f103c8/lib98a/libnewlib.a
 LOAD .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a
 LOAD .pioenvs/bluepill_f103c8/lib739/libcm.a
 LOAD .pioenvs/bluepill_f103c8/lib2eb/libmodel.a
@@ -9871,23 +9874,23 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .ARM.attributes
                 0x00000000000001b9       0x33 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
  .ARM.attributes
-                0x00000000000001ec       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+                0x00000000000001ec       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
  .ARM.attributes
-                0x000000000000021f       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+                0x000000000000021f       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
  .ARM.attributes
-                0x0000000000000252       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+                0x0000000000000252       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
  .ARM.attributes
-                0x0000000000000285       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x0000000000000285       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
  .ARM.attributes
-                0x00000000000002b8       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x00000000000002b8       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
  .ARM.attributes
-                0x00000000000002eb       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x00000000000002eb       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
  .ARM.attributes
-                0x000000000000031e       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x000000000000031e       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
  .ARM.attributes
-                0x0000000000000351       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x0000000000000351       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
  .ARM.attributes
-                0x0000000000000384       0x33 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+                0x0000000000000384       0x33 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .ARM.attributes
                 0x00000000000003b7       0x33 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .ARM.attributes
@@ -9984,8 +9987,6 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
@@ -9993,6 +9994,8 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .comment       0x000000000000007e       0x7f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
@@ -10047,15 +10050,15 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_line    0x0000000000003256      0x44e .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .debug_line    0x00000000000036a4      0x82c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .debug_line    0x0000000000003ed0      0x6eb .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_line    0x00000000000045bb      0x3e5 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_line    0x00000000000049a0      0x322 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_line    0x0000000000004cc2      0x2c6 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
- .debug_line    0x0000000000004f88      0x374 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_line    0x00000000000052fc      0x359 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_line    0x0000000000005655      0x421 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_line    0x0000000000005a76      0x33f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_line    0x0000000000005db5      0x7a2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_line    0x0000000000006557      0x37b .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_line    0x00000000000045bb      0x2c6 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_line    0x0000000000004881      0x374 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_line    0x0000000000004bf5      0x359 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_line    0x0000000000004f4e      0x421 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_line    0x000000000000536f      0x33f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_line    0x00000000000056ae      0x7a2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_line    0x0000000000005e50      0x37b .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_line    0x00000000000061cb      0x3e5 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_line    0x00000000000065b0      0x322 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_line    0x00000000000068d2      0x6c3 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_line    0x0000000000006f95      0x71e .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .debug_line    0x00000000000076b3      0xa4a .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
@@ -10110,15 +10113,15 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_info    0x0000000000009d4e      0x397 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .debug_info    0x000000000000a0e5     0x1620 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .debug_info    0x000000000000b705     0x112a .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_info    0x000000000000c82f      0xe24 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_info    0x000000000000d653      0x8d8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_info    0x000000000000df2b       0xb8 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
- .debug_info    0x000000000000dfe3      0x323 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_info    0x000000000000e306      0x28a .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_info    0x000000000000e590      0x661 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_info    0x000000000000ebf1      0x260 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_info    0x000000000000ee51     0x16e3 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_info    0x0000000000010534      0x97f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_info    0x000000000000c82f       0xb8 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_info    0x000000000000c8e7      0x323 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_info    0x000000000000cc0a      0x28a .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_info    0x000000000000ce94      0x661 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_info    0x000000000000d4f5      0x260 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_info    0x000000000000d755     0x16e3 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_info    0x000000000000ee38      0x97f .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_info    0x000000000000f7b7      0xe24 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_info    0x00000000000105db      0x8d8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_info    0x0000000000010eb3     0x1f54 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_info    0x0000000000012e07     0x1b93 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .debug_info    0x000000000001499a     0x2f00 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
@@ -10173,15 +10176,15 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_abbrev  0x0000000000001a63       0xdd .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .debug_abbrev  0x0000000000001b40      0x3d3 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .debug_abbrev  0x0000000000001f13      0x2c4 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_abbrev  0x00000000000021d7      0x1f4 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_abbrev  0x00000000000023cb      0x1b9 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_abbrev  0x0000000000002584       0x63 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
- .debug_abbrev  0x00000000000025e7      0x1a5 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_abbrev  0x000000000000278c      0x106 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_abbrev  0x0000000000002892      0x1f0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_abbrev  0x0000000000002a82      0x141 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_abbrev  0x0000000000002bc3      0x3a2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_abbrev  0x0000000000002f65      0x206 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_abbrev  0x00000000000021d7       0x63 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_abbrev  0x000000000000223a      0x1a5 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_abbrev  0x00000000000023df      0x106 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_abbrev  0x00000000000024e5      0x1f0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_abbrev  0x00000000000026d5      0x141 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_abbrev  0x0000000000002816      0x3a2 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_abbrev  0x0000000000002bb8      0x206 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_abbrev  0x0000000000002dbe      0x1f4 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_abbrev  0x0000000000002fb2      0x1b9 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_abbrev  0x000000000000316b      0x5d8 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_abbrev  0x0000000000003743      0x407 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .debug_abbrev  0x0000000000003b4a      0x711 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
@@ -10247,23 +10250,23 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_aranges
                 0x0000000000000458       0x58 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
  .debug_aranges
-                0x00000000000004b0       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+                0x00000000000004b0       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
  .debug_aranges
-                0x00000000000004d0       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+                0x00000000000004d0       0x58 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
  .debug_aranges
-                0x00000000000004f0       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+                0x0000000000000528       0x58 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
  .debug_aranges
-                0x0000000000000510       0x58 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+                0x0000000000000580       0x60 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
  .debug_aranges
-                0x0000000000000568       0x58 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+                0x00000000000005e0       0x50 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
  .debug_aranges
-                0x00000000000005c0       0x60 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+                0x0000000000000630      0x150 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
  .debug_aranges
-                0x0000000000000620       0x50 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+                0x0000000000000780       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
  .debug_aranges
-                0x0000000000000670      0x150 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+                0x00000000000007a0       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
  .debug_aranges
-                0x00000000000007c0       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+                0x00000000000007c0       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_aranges
                 0x00000000000007e0       0x30 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_aranges
@@ -10349,7 +10352,7 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_aranges
                 0x0000000000001b28       0x70 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(I2C.o)
 
-.debug_str      0x0000000000000000    0xbb38a
+.debug_str      0x0000000000000000    0xbb38b
  .debug_str     0x0000000000000000       0x8a asm/CortexContextSwitch.s.o
  .debug_str     0x000000000000008a     0xfc4d .pioenvs/bluepill_f103c8/libccd/hal/codal_target_hal.o
                                       0x10138 (size before relaxing)
@@ -10367,109 +10370,109 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
                                        0xb11f (size before relaxing)
  .debug_str     0x00000000000196b5      0xe5c .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
                                       0x10f6b (size before relaxing)
- .debug_str     0x000000000001a511     0x17f7 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
-                                       0xbf5a (size before relaxing)
- .debug_str     0x000000000001bd08      0xb59 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
-                                       0x70e8 (size before relaxing)
- .debug_str     0x000000000001c861       0xa3 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
-                                       0x68b2 (size before relaxing)
- .debug_str     0x000000000001c904       0x1e .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_str     0x000000000001a511     0x17e3 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
+                                       0xbf46 (size before relaxing)
+ .debug_str     0x000000000001bcf4       0xf5 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
                                        0x53f2 (size before relaxing)
- .debug_str     0x000000000001c922      0x124 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_str     0x000000000001bde9      0x124 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
                                        0x5573 (size before relaxing)
- .debug_str     0x000000000001ca46       0x7d .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_str     0x000000000001bf0d       0x7d .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
                                        0x54d9 (size before relaxing)
- .debug_str     0x000000000001cac3       0xf8 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_str     0x000000000001bf8a       0xf8 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
                                        0x564e (size before relaxing)
- .debug_str     0x000000000001cbbb       0xbf .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_str     0x000000000001c082       0xbf .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
                                        0x54a6 (size before relaxing)
- .debug_str     0x000000000001cc7a      0x35a .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_str     0x000000000001c141      0x35a .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
                                        0x8a7f (size before relaxing)
- .debug_str     0x000000000001cfd4       0x21 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_str     0x000000000001c49b       0x21 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
                                        0x8511 (size before relaxing)
- .debug_str     0x000000000001cff5      0x35b .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
+ .debug_str     0x000000000001c4bc      0xa82 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+                                       0x70e8 (size before relaxing)
+ .debug_str     0x000000000001cf3e       0xa3 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
+                                       0x68b2 (size before relaxing)
+ .debug_str     0x000000000001cfe1      0x35b .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
                                        0xac43 (size before relaxing)
- .debug_str     0x000000000001d350       0xd8 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
+ .debug_str     0x000000000001d33c       0xd8 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
                                        0xa77b (size before relaxing)
- .debug_str     0x000000000001d428      0x799 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
+ .debug_str     0x000000000001d414      0x799 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
                                        0xb26b (size before relaxing)
- .debug_str     0x000000000001dbc1      0x1cb .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalHeapAllocator.o)
+ .debug_str     0x000000000001dbad      0x1cb .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalHeapAllocator.o)
                                        0xa92d (size before relaxing)
- .debug_str     0x000000000001dd8c       0xa2 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalListener.o)
+ .debug_str     0x000000000001dd78       0xa2 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalListener.o)
                                        0xa125 (size before relaxing)
- .debug_str     0x000000000001de2e     0x124e .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Serial.o)
+ .debug_str     0x000000000001de1a     0x124e .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Serial.o)
                                        0xc621 (size before relaxing)
- .debug_str     0x000000000001f07c      0x579 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Timer.o)
+ .debug_str     0x000000000001f068      0x579 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Timer.o)
                                        0xa5c2 (size before relaxing)
- .debug_str     0x000000000001f5f5      0x914 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MessageBus.o)
+ .debug_str     0x000000000001f5e1      0x914 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MessageBus.o)
                                        0xb62a (size before relaxing)
- .debug_str     0x000000000001ff09       0xde .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Event.o)
+ .debug_str     0x000000000001fef5       0xde .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(Event.o)
                                        0xa702 (size before relaxing)
- .debug_str     0x000000000001ffe7      0x25f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
+ .debug_str     0x000000000001ffd3      0x25f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(ManagedString.o)
                                        0xb278 (size before relaxing)
- .debug_str     0x0000000000020246       0x3c .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCounted.o)
+ .debug_str     0x0000000000020232       0x3c .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCounted.o)
                                        0xa80d (size before relaxing)
- .debug_str     0x0000000000020282       0x2f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCountedInit.o)
+ .debug_str     0x000000000002026e       0x2f .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(RefCountedInit.o)
                                        0xa77f (size before relaxing)
- .debug_str     0x00000000000202b1       0x99 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalCompat.o)
+ .debug_str     0x000000000002029d       0x99 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalCompat.o)
                                        0x9dbb (size before relaxing)
- .debug_str     0x000000000002034a       0x36 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MemberFunctionCallback.o)
+ .debug_str     0x0000000000020336       0x36 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(MemberFunctionCallback.o)
                                        0x9dae (size before relaxing)
- .debug_str     0x0000000000020380      0xd73 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPin.o)
+ .debug_str     0x000000000002036c      0xd73 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPin.o)
                                       0x1284b (size before relaxing)
- .debug_str     0x00000000000210f3      0x6e8 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSerial.o)
+ .debug_str     0x00000000000210df      0x6e8 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSerial.o)
                                        0xcf33 (size before relaxing)
- .debug_str     0x00000000000217db      0x1b1 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmTimer.o)
+ .debug_str     0x00000000000217c7      0x1b1 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmTimer.o)
                                        0xbd4c (size before relaxing)
- .debug_str     0x000000000002198c       0xb8 .pioenvs/bluepill_f103c8/lib739/libcm.a(application.o)
+ .debug_str     0x0000000000021978       0xb8 .pioenvs/bluepill_f103c8/lib739/libcm.a(application.o)
                                        0x8ce6 (size before relaxing)
- .debug_str     0x0000000000021a44       0xbb .pioenvs/bluepill_f103c8/lib739/libcm.a(tasks.o)
+ .debug_str     0x0000000000021a30       0xbb .pioenvs/bluepill_f103c8/lib739/libcm.a(tasks.o)
                                        0xc238 (size before relaxing)
- .debug_str     0x0000000000021aff      0x41c .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePill.o)
+ .debug_str     0x0000000000021aeb      0x41c .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePill.o)
                                        0xc003 (size before relaxing)
- .debug_str     0x0000000000021f1b     0x41c3 .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePillIO.o)
+ .debug_str     0x0000000000021f07     0x41c3 .pioenvs/bluepill_f103c8/lib2eb/libmodel.a(STM32BluePillIO.o)
                                       0x185df (size before relaxing)
- .debug_str     0x00000000000260de    0x8f213 .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
+ .debug_str     0x00000000000260ca    0x8f213 .pioenvs/bluepill_f103c8/lib33e/libuartint.a(uartint.o)
                                       0xa1f43 (size before relaxing)
- .debug_str     0x00000000000b52f1       0xbd .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
+ .debug_str     0x00000000000b52dd       0xbd .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio.o)
                                        0x88b7 (size before relaxing)
- .debug_str     0x00000000000b53ae      0x4bf .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
+ .debug_str     0x00000000000b539a      0x4bf .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc.o)
                                        0x80d5 (size before relaxing)
- .debug_str     0x00000000000b586d       0xb5 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
+ .debug_str     0x00000000000b5859       0xb5 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rtc.o)
                                        0x7dd8 (size before relaxing)
- .debug_str     0x00000000000b5922       0x98 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
+ .debug_str     0x00000000000b590e       0x98 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(gpio_common_all.o)
                                        0x88c0 (size before relaxing)
- .debug_str     0x00000000000b59ba      0x16a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
+ .debug_str     0x00000000000b59a6      0x16a .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(pwr_common_all.o)
                                        0x54fa (size before relaxing)
- .debug_str     0x00000000000b5b24       0xc1 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
+ .debug_str     0x00000000000b5b10       0xc1 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(usart_common_f124.o)
                                        0x839f (size before relaxing)
- .debug_str     0x00000000000b5be5      0x36c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
+ .debug_str     0x00000000000b5bd1      0x36c .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(rcc_common_all.o)
                                        0x79fd (size before relaxing)
- .debug_str     0x00000000000b5f51       0xa7 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
+ .debug_str     0x00000000000b5f3d       0xa7 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(exti_common_all.o)
                                        0x8c82 (size before relaxing)
- .debug_str     0x00000000000b5ff8      0x19f .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
+ .debug_str     0x00000000000b5fe4      0x19f .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(flash_common_f01.o)
                                        0x5966 (size before relaxing)
- .debug_str     0x00000000000b6197      0xa5b .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
+ .debug_str     0x00000000000b6183      0xa70 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(vector.o)
                                        0x6a0c (size before relaxing)
- .debug_str     0x00000000000b6bf2       0x77 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
+ .debug_str     0x00000000000b6bf3       0x77 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(scb.o)
                                        0x8806 (size before relaxing)
- .debug_str     0x00000000000b6c69      0xa13 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
+ .debug_str     0x00000000000b6c6a      0xa13 .pioenvs/bluepill_f103c8/libFrameworkLibOpenCM3.a(nvic.o)
                                        0x5720 (size before relaxing)
- .debug_str     0x00000000000b767c     0x1d57 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
+ .debug_str     0x00000000000b767d     0x1d57 .pioenvs/bluepill_f103c8/libb45/libbootloader.a(bootloader.o)
                                        0xffa9 (size before relaxing)
- .debug_str     0x00000000000b93d3     0x179c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
+ .debug_str     0x00000000000b93d4     0x179c .pioenvs/bluepill_f103c8/libb45/libbootloader.a(target_stm32f103.o)
                                       0x11cb2 (size before relaxing)
- .debug_str     0x00000000000bab6f       0x4b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
+ .debug_str     0x00000000000bab70       0x4b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcmp.o)
                                        0x6507 (size before relaxing)
- .debug_str     0x00000000000babba       0x41 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
+ .debug_str     0x00000000000babbb       0x41 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memset.o)
                                        0x7081 (size before relaxing)
- .debug_str     0x00000000000babfb      0x152 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmI2C.o)
+ .debug_str     0x00000000000babfc      0x152 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmI2C.o)
                                        0xab41 (size before relaxing)
- .debug_str     0x00000000000bad4d      0x402 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSPI.o)
+ .debug_str     0x00000000000bad4e      0x402 .pioenvs/bluepill_f103c8/lib739/libcm.a(CmSPI.o)
                                        0xafa1 (size before relaxing)
- .debug_str     0x00000000000bb14f       0x7c .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPinMap.o)
+ .debug_str     0x00000000000bb150       0x7c .pioenvs/bluepill_f103c8/lib739/libcm.a(CmPinMap.o)
                                       0x11a60 (size before relaxing)
- .debug_str     0x00000000000bb1cb      0x1bf .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(I2C.o)
+ .debug_str     0x00000000000bb1cc      0x1bf .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(I2C.o)
                                        0xaa5c (size before relaxing)
 
 .debug_loc      0x0000000000000000     0xc347
@@ -10482,14 +10485,14 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_loc     0x0000000000001252       0x1f .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .debug_loc     0x0000000000001271       0xef .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .debug_loc     0x0000000000001360      0x2ab .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_loc     0x000000000000160b       0xb8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_loc     0x00000000000016c3       0x3f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_loc     0x0000000000001702      0x15e .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_loc     0x0000000000001860       0x63 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_loc     0x00000000000018c3      0x916 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_loc     0x00000000000021d9      0x13b .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_loc     0x0000000000002314      0xe07 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_loc     0x000000000000311b       0x21 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_loc     0x000000000000160b      0x15e .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_loc     0x0000000000001769       0x63 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_loc     0x00000000000017cc      0x916 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_loc     0x00000000000020e2      0x13b .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_loc     0x000000000000221d      0xe07 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_loc     0x0000000000003024       0x21 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_loc     0x0000000000003045       0xb8 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_loc     0x00000000000030fd       0x3f .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_loc     0x000000000000313c      0x1eb .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_loc     0x0000000000003327      0x28b .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .debug_loc     0x00000000000035b2      0xb11 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
@@ -10543,15 +10546,15 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_ranges  0x0000000000000420       0x30 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .debug_ranges  0x0000000000000450       0x58 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .debug_ranges  0x00000000000004a8       0x60 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_ranges  0x0000000000000508       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_ranges  0x0000000000000518       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_ranges  0x0000000000000528       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
- .debug_ranges  0x0000000000000538       0x48 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_ranges  0x0000000000000580       0x48 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_ranges  0x00000000000005c8       0x68 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_ranges  0x0000000000000630       0x40 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_ranges  0x0000000000000670      0x170 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_ranges  0x00000000000007e0       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_ranges  0x0000000000000508       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_ranges  0x0000000000000518       0x48 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_ranges  0x0000000000000560       0x48 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_ranges  0x00000000000005a8       0x68 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_ranges  0x0000000000000610       0x40 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_ranges  0x0000000000000650      0x170 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_ranges  0x00000000000007c0       0x10 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_ranges  0x00000000000007d0       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_ranges  0x00000000000007e0       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_ranges  0x00000000000007f0       0x38 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_ranges  0x0000000000000828       0x80 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .debug_ranges  0x00000000000008a8      0x168 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)
@@ -10709,27 +10712,27 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_macro   0x00000000000085e2       0xdc .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
  .debug_macro   0x00000000000086be       0x82 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
  .debug_macro   0x0000000000008740       0x22 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_macro   0x0000000000008762      0x1cb .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x000000000000892d      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x00000000000094b3       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000009540       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x000000000000956b      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000009683       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x00000000000096a5       0x3c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x00000000000096e1       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x00000000000096f1       0x4b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x000000000000973c       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x000000000000974c       0x5e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x00000000000097aa       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x00000000000097c0       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_macro   0x0000000000009818      0x132 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_macro   0x000000000000994a       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
- .debug_macro   0x0000000000009a27       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_macro   0x0000000000009b04       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_macro   0x0000000000009be1       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_macro   0x0000000000009cbe       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_macro   0x0000000000009d9b      0x1a1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_macro   0x0000000000009f3c      0x1ab .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_macro   0x0000000000008762       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_macro   0x000000000000883f       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_macro   0x000000000000891c       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_macro   0x00000000000089f9       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_macro   0x0000000000008ad6       0xdd .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_macro   0x0000000000008bb3      0x1a1 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_macro   0x0000000000008d54      0x1ab .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_macro   0x0000000000008eff      0x1cb .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x00000000000090ca      0xb86 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009c50       0x8d .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009cdd       0x2b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009d08      0x118 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009e20       0x22 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009e42       0x3c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009e7e       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009e8e       0x4b .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009ed9       0x10 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009ee9       0x5e .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009f47       0x16 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009f5d       0x58 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_macro   0x0000000000009fb5      0x132 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_macro   0x000000000000a0e7      0x27c .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_macro   0x000000000000a363      0x130 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_macro   0x000000000000a493      0x277 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
@@ -11134,15 +11137,15 @@ OUTPUT(.pioenvs/bluepill_f103c8/firmware.elf elf32-littlearm)
  .debug_frame   0x00000000000008f8       0x80 .pioenvs/bluepill_f103c8/lib271/libbluepill.a(led.o)
  .debug_frame   0x0000000000000978       0xfc .pioenvs/bluepill_f103c8/lib271/libbluepill.a(timer.o)
  .debug_frame   0x0000000000000a74       0xf0 .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a(baseloader.o)
- .debug_frame   0x0000000000000b64       0x2c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
- .debug_frame   0x0000000000000b90       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
- .debug_frame   0x0000000000000bb0       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
- .debug_frame   0x0000000000000bd0       0xd0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
- .debug_frame   0x0000000000000ca0       0xc0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
- .debug_frame   0x0000000000000d60      0x124 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
- .debug_frame   0x0000000000000e84       0x9c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
- .debug_frame   0x0000000000000f20      0x36c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
- .debug_frame   0x000000000000128c       0x28 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_frame   0x0000000000000b64       0x20 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_cbk.o)
+ .debug_frame   0x0000000000000b84       0xd0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_event.o)
+ .debug_frame   0x0000000000000c54       0xc0 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_kernel.o)
+ .debug_frame   0x0000000000000d14      0x124 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_msgqueue.o)
+ .debug_frame   0x0000000000000e38       0x9c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_sem.o)
+ .debug_frame   0x0000000000000ed4      0x36c .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_task.o)
+ .debug_frame   0x0000000000001240       0x28 .pioenvs/bluepill_f103c8/libea7/libcocoOS_5.0.3.a(os_assert.o)
+ .debug_frame   0x0000000000001268       0x2c .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(memcpy.o)
+ .debug_frame   0x0000000000001294       0x20 .pioenvs/bluepill_f103c8/lib98a/libnewlib.a(strlen.o)
  .debug_frame   0x00000000000012b4       0x6c .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalComponent.o)
  .debug_frame   0x0000000000001320      0x134 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalDmesg.o)
  .debug_frame   0x0000000000001454      0x314 .pioenvs/bluepill_f103c8/lib3e7/libcodal-core.a(CodalFiber.o)

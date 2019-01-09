@@ -69,10 +69,14 @@ SECTIONS
 	.boot_text : {  /* Bootloader ROM */
 		_boot_text = .;				/* We will use _boot_text to determine the start of the bootloader. */
 
-		/* Bootloader Code */
+		/* Vector Tables and Baseloader Code - Must appear before others */
 		*                           (.vectors) 		/* Vector Table by libopencm3.  Must appear first. */		
 		*                           (.base_vectors) /* Baseloader Vector table.  Must appear second. */
 		*libbaseloader.a:          	(.text*) 	   	/* Baseloader Code.  Must appear third. */
+		. = ALIGN(4);
+		*libbaseloader.a:          	(.rodata*) 		/* Data for Baseloader */
+		. = ALIGN(4);
+		_base_etext = .;							/* End of baseloader code. */
 
 		/* List all the Interrupt Service Routines. Ensure they are operational at all times (except when Baseloader is running) */
 		* 							(.text.blocking_handler*) /* Default interrupt service routines by libopencm3 */
@@ -100,7 +104,6 @@ SECTIONS
 
 		. = ALIGN(4);  /* Bootloader Read-only data e.g. literal strings */
 
-		*libbaseloader.a:          	(.rodata*) 		 			/* Data for Baseloader */
 		* 							(.rodata.blocking_handler*) /* Data for Default interrupt service routines by libopencm3 */
 		*		 					(.rodata.null_handler*) 	/* Data for Default interrupt service routines by libopencm3 */
 		*		 					(.rodata.*_isr)  /* Data for Custom interrupt service routines e.g. rtc_isr, rtc_alarm_isr */

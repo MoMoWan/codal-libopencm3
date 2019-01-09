@@ -229,7 +229,8 @@ int baseloader_start(void) {
 		base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
 
 		//  Jump to the baseloader in the Second Base Vector Table.
-		uint32_t baseloader_addr = (uint32_t) (end_base_vector->baseloader) - FLASH_BASE + flash_page_addr;
+		baseloader_func baseloader_addr = (baseloader_func) ((uint32_t) (end_base_vector->baseloader) - FLASH_BASE + flash_page_addr);
+		//  TODO: int status = baseloader_addr();
 	}
 	//  Disable interrupts because the vector table may be overwritten during flashing.
 	if (should_disable_interrupts) { disable_interrupts(); } // Only for baseloader.
@@ -302,11 +303,13 @@ void test_copy_end(void) {
 
 	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;  //  TODO: Compute based on new bootloader size.
 
+	//  Dump the first base vector.
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
 	debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
 	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
 	debug_force_flush();
 
+	//  Dump the second base vector.
 	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
 	debug_print("end_base_vector "); debug_printhex_unsigned((uint32_t) end_base_vector); debug_println("");
 	debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
