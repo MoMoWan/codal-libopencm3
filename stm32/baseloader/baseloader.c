@@ -169,7 +169,7 @@ the FLASH programming manual for details.
 #define debug_flash() { \
     debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
     debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
-    debug_print(" to "); debug_printhex_unsigned((size_t) flash_end);  \
+    /* debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); */ \
     debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
     debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
 }
@@ -203,7 +203,7 @@ static bool verified = true;
 static bool should_disable_interrupts = true;
 
 void baseloader_start(void) {
-    debug_println("baseloader_start"); debug_force_flush();
+    //  debug_println("baseloader_start"); debug_force_flush();
     static uint16_t* erase_start;
     static uint16_t* erase_end;
     static const uint16_t* flash_end;
@@ -215,6 +215,9 @@ void baseloader_start(void) {
     flash_end = base_get_flash_end();  /* Remember the bounds of erased data in the current page */
 
 	//  TODO: Validate dest, src, half_word_count before flashing.
+	if (dest == NULL && src == NULL) {
+		//  TODO: Check for Base Vector Tables and find the bootloader address.
+	}
 
 	debug_flash(); ////
 
@@ -277,7 +280,7 @@ static size_t test_half_word_count = 0;
 
 void test_copy_bootloader(void) {
 	//  Copy bootloader to application space.
-	uint32_t bootloader_size = application_start - ROM_START;
+	uint32_t bootloader_size = (uint32_t) application_start - ROM_START;
 	test_src =  (uint32_t *) (ROM_START);
 	test_dest = FLASH_ADDRESS(application_start);
 	test_half_word_count = bootloader_size / 2;
@@ -286,7 +289,7 @@ void test_copy_bootloader(void) {
 
 void test_copy_vector(void) {
 	//  Copy vector to end of bootloader.
-	uint32_t bootloader_size = application_start - ROM_START;
+	uint32_t bootloader_size = (uint32_t) application_start - ROM_START;
 	test_src =  (uint32_t *) (ROM_START);
 	test_dest = FLASH_ADDRESS(application_start + bootloader_size);
 	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
@@ -294,8 +297,9 @@ void test_copy_vector(void) {
 }
 
 void test_copy_end(void) {
-	debug_dump2(); ////
-	uint32_t bootloader_size = application_start - ROM_START;  //  TODO: Compute based on new bootloader size.
+	dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
+
+	uint32_t bootloader_size = (uint32_t) application_start - ROM_START;  //  TODO: Compute based on new bootloader size.
 
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
 	debug_print("begin_base_vector "); debug_printhex_unsigned(begin_base_vector); debug_println("");
@@ -325,12 +329,5 @@ void test_baseloader2(void) {
 }
 
 void test_baseloader_end(void) {
-	debug_dump2(); ////
-
-	base_vector_table_t *new_base_vector = BASE_VECTOR_TABLE(application_start);
-	debug_print("new_base_vector "); debug_printhex_unsigned(new_base_vector); debug_println("");
-	debug_print("magic "); debug_printhex_unsigned(new_base_vector->magic_number); debug_println("");
-	debug_force_flush();
-
-	for (;;) {} ////
+	dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
 }
