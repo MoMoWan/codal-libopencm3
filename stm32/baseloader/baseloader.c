@@ -259,7 +259,7 @@ int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const ui
 	//  Jump to the baseloader in the Second Base Vector Table.
 	*baseloader_addr = (baseloader_func) ((uint32_t) (end_base_vector->baseloader) - FLASH_BASE + flash_page_addr);
 	*dest = (uint32_t *) FLASH_BASE;  		 //  Overwrite the old bootloader...
-	*src  = (uint32_t *) application_start;  //  By the new bootloader from the Application space.
+	*src  = (uint32_t *) FLASH_ADDRESS(application_start);  //  By the new bootloader from the Application space.
 	*byte_count = bootloader_size;			 //  For this number of bytes.
 	return 0;
 }

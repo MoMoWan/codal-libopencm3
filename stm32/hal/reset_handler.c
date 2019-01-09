@@ -81,11 +81,11 @@ void reset_handler(void) {
 		(*fp)();
 	}
 
-// #define TEST_BASELOADER
+#define TEST_BASELOADER
 #ifdef TEST_BASELOADER
 	test_copy_bootloader(); ////
 	test_copy_baseloader(); ////
-	for (;;) {} ////
+	// for (;;) {} ////
 #endif  //  TEST_BASELOADER
 
 #ifdef NOTUSED
@@ -102,11 +102,11 @@ void reset_handler(void) {
 	baseloader_addr = NULL;
 	status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
 	debug_print("----baseloader "); if (status == 0) { 
-		debug_printhex_unsigned(baseloader_addr); 
-		debug_print(", dest "); debug_printhex_unsigned(dest);
-		debug_print(", src "); debug_printhex_unsigned(src);
+		debug_printhex_unsigned((uint32_t) baseloader_addr); 
+		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
+		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
 		debug_print(", len "); debug_printhex_unsigned(byte_count);   
-	} else { debug_print_int(status); }; debug_println("");
+	} else { debug_print_int(status); }; debug_println(""); debug_force_flush();
 	if (status == 0 && baseloader_addr) {
 		////status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
 		debug_print("baseloader failed "); debug_print_int(status); debug_println("");  //  If it returned, it must have failed.
