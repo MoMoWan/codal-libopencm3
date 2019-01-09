@@ -15,16 +15,18 @@ static size_t half_word_count = 0;
 static bool verified = false;
 static bool should_disable_interrupts = true;
 
+extern uint32_t _base_etext;  //  End of baseloader code and data, defined in the linker script.
 extern void application_start(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
 
 __attribute__ ((section(".base_vectors")))
 base_vector_table_t base_vector_table = {
-	.magic_number = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
-	.version      = BOOTLOADER_VERSION, //  Bootloader version number e.g. 0x 00 01 00 01 for 1.01.
-	.baseloader   = baseloader_start,   //  Address of the baseloader function.
-	.application  = application_start,  //  Address of application. Also where the bootloader ends.
+	.magic_number   = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
+	.version        = BOOTLOADER_VERSION, //  Bootloader version number e.g. 0x 00 01 00 01 for 1.01.
+	.baseloader     = baseloader_start,   //  Address of the baseloader function.
+	.baseloader_end = &_base_etext,       //  End of the baseloader code and data.
+	.application    = application_start,  //  Address of application. Also where the bootloader ends.
 };
 
 //  Given an address X, compute the base address of the flash memory page that contains X.

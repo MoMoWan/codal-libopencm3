@@ -77,6 +77,10 @@ void reset_handler(void) {
 	}
 
     //  Start the baseloader.  This function will not return if the baseloader restarts Blue Pill after flashing.
+	int status = baseloader_start();
+	debug_print("baseloader "); debug_print_int(status); debug_println("");
+
+#ifdef TEST_BASELOADER
 	test_copy_bootloader(); ////
 	baseloader_start();
 	test_copy_end();
@@ -86,6 +90,7 @@ void reset_handler(void) {
 	test_copy_end();
 
 	for (;;) {} ////
+#endif  //  TEST_BASELOADER
 
 #ifdef NOTUSED
 	test_baseloader1(); ////
