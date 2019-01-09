@@ -8,6 +8,13 @@
 #include "flash-config.h"
 #include "baseloader.h"
 
+//  These must be always at the beginning of the BSS so that different versions of the Baseloader can run.
+static uint16_t* dest = NULL;
+static uint16_t* src = NULL;
+static size_t half_word_count = 0;
+static bool verified = false;
+static bool should_disable_interrupts = true;
+
 extern void application_start(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
@@ -21,16 +28,19 @@ base_vector_table_t base_vector_table = {
 };
 
 //  Given an address X, compute the base address of the flash memory page that contains X.
-#define FLASH_ADDRESS(x) 		 (((uint32_t) x) & ~(FLASH_PAGE_SIZE - 1))
+#define FLASH_ADDRESS(x) 		 ( ((uint32_t) x) & ~(FLASH_PAGE_SIZE - 1) )
+
+//  Given an address X, compute the base address of the flash memory page that is >= X (ceiling).
+#define FLASH_CEIL_ADDRESS(x)    ( (FLASH_ADDRESS(x) >= (uint32_t) x) ? FLASH_ADDRESS(x) : (FLASH_PAGE_SIZE + FLASH_ADDRESS(x)) )
 
 //  Offset of Base Vector Table from the start of the flash page.
-#define BASE_VECTOR_TABLE_OFFSET (((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1))
+#define BASE_VECTOR_TABLE_OFFSET ( ((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1) )
 
 //  Given an address X, compute the location of the Base Vector Table of the flash memory page that contains X.
-#define BASE_VECTOR_TABLE(x) 	 ((base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET))
+#define BASE_VECTOR_TABLE(x) 	 ( (base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET) )
 
 //  Given an address X, is the Base Vector Table in that flash memory page valid (checks magic number)
-#define IS_VALID_BASE_VECTOR_TABLE(x)  (BASE_VECTOR_TABLE(x)->magic_number == BASE_MAGIC_NUMBER)
+#define IS_VALID_BASE_VECTOR_TABLE(x)  ( BASE_VECTOR_TABLE(x)->magic_number == BASE_MAGIC_NUMBER )
 
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
@@ -193,45 +203,41 @@ the FLASH programming manual for details.
 //  then the blocks between Old App Address and New App Address are the new Bootloader Blocks.
 //  Flash them to 0x800 0000 and restart.
 
-//  To perform flashing, jump to the New Baseloader Address in the New Base Vector Table,
-//  adjusted to the New Base Vector Table Address.
+//  To perform flashing, jump to the New Baseloader Address in the End Base Vector Table,
+//  adjusted to the End Base Vector Table Address.
 
-static uint16_t* dest = NULL;
-static uint16_t* src = NULL;
-static size_t half_word_count = 0;
-static bool verified = true;
-static bool should_disable_interrupts = true;
-
-void baseloader_start(void) {
+int baseloader_start(void) {
     //  debug_println("baseloader_start"); debug_force_flush();
-    static uint16_t* erase_start;
-    static uint16_t* erase_end;
-    static const uint16_t* flash_end;
-
-	//  Init manually in case BSS isn't initialised.
-    verified = true;
-    erase_start = NULL;
-    erase_end = NULL;
-    flash_end = base_get_flash_end();  /* Remember the bounds of erased data in the current page */
-
+    static uint16_t *erase_start, *erase_end, *flash_end;
+    verified = true; erase_start = NULL; erase_end = NULL;
+    flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
 	//  TODO: Validate dest, src, half_word_count before flashing.
 	if (dest == NULL && src == NULL) {
-		//  TODO: Check for Base Vector Tables and find the bootloader address.
-	}
+		//  Search for the First and Second Base Vector Tables and find the bootloader range.
+		//  First Base Vector Table is in the start of the application ROM.
+		if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) { return -1; }  //  Quit if First Base Vector Table is not found.
+		base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
 
-	debug_flash(); ////
+		//  Get size of new bootloader from the First Base Vector Table (same as the Application address).
+		uint32_t bootloader_size = (uint32_t) (begin_base_vector->application) - FLASH_BASE;
+		if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
+			>= FLASH_BASE + FLASH_SIZE_OVERRIDE) { return -2; }  //  Quit if bootloader size is too big.
+
+		//  Second Base Vector Table is at start of application ROM + bootloader size.  Round up to the next flash page.
+		uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
+		if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) { return -3; }  //  Quit if Second Base Vector Table is not found.
+		base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
+
+		//  Jump to the baseloader in the Second Base Vector Table.
+		uint32_t baseloader_addr = (uint32_t) (end_base_vector->baseloader) - FLASH_BASE + flash_page_addr;
+	}
+	//  Disable interrupts because the vector table may be overwritten during flashing.
+	if (should_disable_interrupts) { disable_interrupts(); } // Only for baseloader.
 
 	base_flash_unlock();  //  TODO: Check MakeCode flashing.
-
-	//  Disable interrupts because the vector table may be overwritten during flashing.
-	if (should_disable_interrupts) {
-		disable_interrupts(); // Only for baseloader.
-	}
-
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
-        if (dest >= flash_end) {
-            //  debug_println("dest >= flash_end"); debug_flush();
+        if (dest >= flash_end) {  //  debug_println("dest >= flash_end"); debug_flush();
             verified = false;
             break;
         }
@@ -242,8 +248,7 @@ void baseloader_start(void) {
         }
         base_flash_program_half_word((uint32_t)dest, *src);
         erase_start = dest + 1;
-        if (*dest != *src) {
-            //  debug_println("*dest != *src"); debug_flush();
+        if (*dest != *src) {  //  debug_println("*dest != *src"); debug_flush();
             verified = false;
             break;
         }
@@ -251,28 +256,24 @@ void baseloader_start(void) {
         src++;
         half_word_count--;
     }
-
 	base_flash_lock();  //  TODO: Check MakeCode flashing.
 
 	//  Vector table may be overwritten. Restart to use the new vector table.
     //  TODO: if (should_disable_interrupts) { scb_reset_system(); }
-	//  Should not return.
+	
+	return verified ? 1 : 0;
 }
 
 bool base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0) {
 	//  TODO: Validate dest, src, half_word_count before flashing.
 	//  Warning: Not reentrant.
 	dest = dest0;
-	src = src0;
+	src = (uint16_t*) src0;
 	half_word_count = half_word_count0;
 	should_disable_interrupts = false;
-	baseloader_start();
-	return verified;
+	int status = baseloader_start();
+	return (status == 1);
 }
-
-//  TODO
-#define ROM_START ((uint32_t) 0x08000000)
-#define ROM_SIZE  ((uint32_t) 0x10000)
 
 static uint32_t* test_dest = NULL;
 static uint32_t* test_src = NULL;
@@ -280,52 +281,52 @@ static size_t test_half_word_count = 0;
 
 void test_copy_bootloader(void) {
 	//  Copy bootloader to application space.
-	uint32_t bootloader_size = (uint32_t) application_start - ROM_START;
-	test_src =  (uint32_t *) (ROM_START);
-	test_dest = FLASH_ADDRESS(application_start);
+	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+	test_src =  (uint32_t *) (FLASH_BASE);
+	test_dest = (uint32_t *) FLASH_ADDRESS(application_start);
 	test_half_word_count = bootloader_size / 2;
-	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
 }
 
 void test_copy_vector(void) {
 	//  Copy vector to end of bootloader.
-	uint32_t bootloader_size = (uint32_t) application_start - ROM_START;
-	test_src =  (uint32_t *) (ROM_START);
-	test_dest = FLASH_ADDRESS(application_start + bootloader_size);
+	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+	test_src =  (uint32_t *) (FLASH_BASE);
+	test_dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
 	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
-	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
 }
 
 void test_copy_end(void) {
 	dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
 
-	uint32_t bootloader_size = (uint32_t) application_start - ROM_START;  //  TODO: Compute based on new bootloader size.
+	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;  //  TODO: Compute based on new bootloader size.
 
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
-	debug_print("begin_base_vector "); debug_printhex_unsigned(begin_base_vector); debug_println("");
+	debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
 	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
 	debug_force_flush();
 
-	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(application_start + bootloader_size);
-	debug_print("end_base_vector "); debug_printhex_unsigned(end_base_vector); debug_println("");
+	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
+	debug_print("end_base_vector "); debug_printhex_unsigned((uint32_t) end_base_vector); debug_println("");
 	debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
 	debug_force_flush();
 }
 
 void test_baseloader1(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	test_src =  (uint32_t *) (ROM_START);
-	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+	test_src =  (uint32_t *) (FLASH_BASE);
+	test_dest = (uint32_t *) (FLASH_BASE + FLASH_SIZE_OVERRIDE - FLASH_PAGE_SIZE);
 	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
-	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
 }
 
 void test_baseloader2(void) {
 	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	test_src =  (uint32_t *) (ROM_START + FLASH_PAGE_SIZE);
-	test_dest = (uint32_t *) (ROM_START + ROM_SIZE - FLASH_PAGE_SIZE);
+	test_src =  (uint32_t *) (FLASH_BASE + FLASH_PAGE_SIZE);
+	test_dest = (uint32_t *) (FLASH_BASE + FLASH_SIZE_OVERRIDE - FLASH_PAGE_SIZE);
 	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
-	src = test_src; dest = test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
 }
 
 void test_baseloader_end(void) {
