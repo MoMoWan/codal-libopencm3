@@ -188,8 +188,8 @@ static void handle_command(HF2_Buffer *pkt) {
             static uint32_t new_baseloader_size = 0;
             if (target_addr == FLASH_BASE) {
                 //  If this is the first packet (Bootloader), extract the Base Vector Table.
-                base_tbl = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
-                new_app_start = (uint32_t) FLASH_ADDR(base_vector->application);
+                base_vector = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
+                new_app_start = (uint32_t) FLASH_ADDRESS(base_vector->application);
                 new_bootloader_size = (uint32_t) (base_vector->application) - FLASH_BASE;
 	            new_baseloader_size = (uint32_t) (base_vector->baseloader_end) - FLASH_BASE;
                 debug_print("app "); debug_printhex_unsigned(new_app_start);

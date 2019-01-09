@@ -19,15 +19,6 @@ extern uint32_t _base_etext;  //  End of baseloader code and data, defined in th
 //  Given an address X, compute the base address of the flash memory page that is >= X (ceiling).
 #define FLASH_CEIL_ADDRESS(x)    ( (FLASH_ADDRESS(x) >= (uint32_t) x) ? FLASH_ADDRESS(x) : (FLASH_PAGE_SIZE + FLASH_ADDRESS(x)) )
 
-//  Offset of Base Vector Table from the start of the flash page.
-#define BASE_VECTOR_TABLE_OFFSET ( ((uint32_t) &base_vector_table) & (FLASH_PAGE_SIZE - 1) )
-
-//  Given an address X, compute the location of the Base Vector Table of the flash memory page that contains X.
-#define BASE_VECTOR_TABLE(x) 	 ( (base_vector_table_t *) ((uint32_t) FLASH_ADDRESS(x) + BASE_VECTOR_TABLE_OFFSET) )
-
-//  Given an address X, is the Base Vector Table in that flash memory page valid (checks magic number)
-#define IS_VALID_BASE_VECTOR_TABLE(x)  ( BASE_VECTOR_TABLE(x)->magic_number == BASE_MAGIC_NUMBER )
-
 #ifdef __cplusplus
 }  //  End of extern C scope.
 #endif
