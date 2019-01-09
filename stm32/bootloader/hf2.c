@@ -12,6 +12,7 @@
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/hid.h>
 #include <baseloader/flash-config.h>  //  For FLASH_SIZE_OVERRIDE
+#include <baseloader/baseloader.h>
 #include <bluepill/bluepill.h>
 #include <logger/logger.h>
 #include "usb_conf.h"
@@ -197,9 +198,9 @@ static void handle_command(HF2_Buffer *pkt) {
                 debug_println(""); debug_force_flush();
             }
 
-            //  If this a Bootloader Page or Application Page?
-            //  Bootloader Page:  Flash address <  FLASH_ADDR(new base_vector_table.application)
-            //  Application Page: Flash address >= FLASH_ADDR(new base_vector_table.application)
+            //  Is this a Bootloader Page or Application Page?
+            //  Bootloader Page:  Flash address <  new_app_start
+            //  Application Page: Flash address >= new_app_start
 
             //  Bootloader Page:
             //  Start writing at FLASH_ADDR(old application_start)
