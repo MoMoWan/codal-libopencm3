@@ -182,16 +182,22 @@ static void handle_command(HF2_Buffer *pkt) {
             //  TODO: If we are writing to a Bootloader page, write it to the Application space first.
             //  If there are changes in the Bootloader code, restart to let Baseloader replace the Bootloader code.
 
-            static base_vector_table_t *base_vector = NULL;
+            static base_vector_table_t *new_base_vector = NULL;
             static uint32_t new_app_start = 0;
             static uint32_t new_bootloader_size = 0;
             static uint32_t new_baseloader_size = 0;
+            if (new_app_start == 0) {
+                //  Assume app start address is same until we get the actual app start address.
+                new_app_start = (uint32_t) FLASH_ADDRESS(base_vector_table.application);
+                new_bootloader_size = (uint32_t) base_vector_table.application - FLASH_BASE;
+                new_baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
+            }
             if (target_addr == FLASH_BASE) {
                 //  If this is the first packet (Bootloader), extract the Base Vector Table.
-                base_vector = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
-                new_app_start = (uint32_t) FLASH_ADDRESS(base_vector->application);
-                new_bootloader_size = (uint32_t) (base_vector->application) - FLASH_BASE;
-	            new_baseloader_size = (uint32_t) (base_vector->baseloader_end) - FLASH_BASE;
+                new_base_vector = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
+                new_app_start = (uint32_t) FLASH_ADDRESS(new_base_vector->application);
+                new_bootloader_size = (uint32_t) (new_base_vector->application) - FLASH_BASE;
+	            new_baseloader_size = (uint32_t) (new_base_vector->baseloader_end) - FLASH_BASE;
                 debug_print("app "); debug_printhex_unsigned(new_app_start);
                 debug_print(", boot size "); debug_printhex_unsigned(new_bootloader_size);
                 debug_print(", base size "); debug_printhex_unsigned(new_baseloader_size);
@@ -202,8 +208,14 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Bootloader Page:  Flash address <  new_app_start
             //  Application Page: Flash address >= new_app_start
 
+            if (target_addr < new_app_start) {
+                //  Bootloader Page:  Flash address <  new_app_start
+            } else {
+                //  Application Page: Flash address >= new_app_start
+            }
+
             //  Bootloader Page:
-            //  Start writing at FLASH_ADDR(old application_start)
+            //  Start writing at FLASH_ADDRESS(old application_start)
             //  When writing first Application Page, compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
             //  If any diff, copy the new base_vector_table into current flash location, restart and let Baseloader update the Bootloader code.
 
