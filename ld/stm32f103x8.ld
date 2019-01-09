@@ -26,7 +26,7 @@ unit test */
 
 /* Define constants that may be changed to give more or less space to each region */
 
-_bootrom_size = 26K;  /* Size of Bootloader ROM (code + constant data) */
+_bootrom_size = 27K;  /* Size of Bootloader ROM (code + constant data) */
 
 _baseram_size =  2K;
 
