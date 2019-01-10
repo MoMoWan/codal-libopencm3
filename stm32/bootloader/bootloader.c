@@ -128,7 +128,12 @@ int bootloader_start(void) {
         }
     }; debug_println(""); debug_force_flush();
 	if (baseloader_status == 0 && baseloader_addr) {
-		baseloader_status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
+        base_dest = dest;
+        base_src = (uint32_t *) src;
+        base_len = byte_count;
+        base_disable_interrupts = 1;
+        baseloader_addr();  //  Call the baseloader.
+		baseloader_status = base_result;  
 		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
 	}
     //  If we are in Bootloader Mode, poll forever here.
@@ -138,8 +143,7 @@ int bootloader_start(void) {
 
 int bootloader_poll(void) {
     //  Run bootloader in background via polling.  Return 1 if there was USB activity within the last few seconds, 0 if none.
-    static uint32_t last_poll = 0;  // static uint32_t delay = 0;  if (last_poll > 0) { delay = millis() - last_poll; } 
-    last_poll = millis();
+    //  static uint32_t last_poll = 0;  static uint32_t delay = 0;  if (last_poll > 0) { delay = millis() - last_poll; }  last_poll = millis();
     if (!usbd_dev) { return -1; }
 
     //  Run any USB request processing.
@@ -236,44 +240,45 @@ static void poll_loop(void) {
 }
 #endif  //  DISABLE_DEBUG
 
-void test_copy_bootloader(void) {
-	//  Copy bootloader to application space.
-	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
-	uint32_t *src =  (uint32_t *) (FLASH_BASE);
-	uint32_t *dest = (uint32_t *) FLASH_ADDRESS(application_start);
-	size_t byte_count = bootloader_size;
-	debug_dump(); ////
-
-	int status = baseloader_start(dest, src, byte_count);
-	debug_dump2(); ////
-
-	//  Dump the first base vector.
-	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
-	debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
-	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
-	debug_force_flush();
-}
-
-void test_copy_baseloader(void) {
-	//  Copy baseloader to end of bootloader.
-	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
-	uint32_t baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
-	uint32_t *src =  (uint32_t *) (FLASH_BASE);
-	uint32_t *dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
-	size_t byte_count = baseloader_size;
-	debug_dump(); ////
-
-	int status = baseloader_start(dest, src, byte_count);
-	debug_dump2(); ////
-
-	//  Dump the second base vector.
-	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
-	debug_print("end_base_vector "); debug_printhex_unsigned((uint32_t) end_base_vector); debug_println("");
-	debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
-	debug_force_flush();
-}
-
 #ifdef NOTUSED
+
+    void test_copy_bootloader(void) {
+        //  Copy bootloader to application space.
+        uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+        uint32_t *src =  (uint32_t *) (FLASH_BASE);
+        uint32_t *dest = (uint32_t *) FLASH_ADDRESS(application_start);
+        size_t byte_count = bootloader_size;
+        debug_dump(); ////
+
+        int status = baseloader_start(dest, src, byte_count);
+        debug_dump2(); ////
+
+        //  Dump the first base vector.
+        base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
+        debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
+        debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
+        debug_force_flush();
+    }
+
+    void test_copy_baseloader(void) {
+        //  Copy baseloader to end of bootloader.
+        uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+        uint32_t baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
+        uint32_t *src =  (uint32_t *) (FLASH_BASE);
+        uint32_t *dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
+        size_t byte_count = baseloader_size;
+        debug_dump(); ////
+
+        int status = baseloader_start(dest, src, byte_count);
+        debug_dump2(); ////
+
+        //  Dump the second base vector.
+        base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
+        debug_print("end_base_vector "); debug_printhex_unsigned((uint32_t) end_base_vector); debug_println("");
+        debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
+        debug_force_flush();
+    }
+
     void test_baseloader1(void) {
         //  Test the baseloader: Copy a page from low flash memory to high flash memory.
         test_src =  (uint32_t *) (FLASH_BASE);

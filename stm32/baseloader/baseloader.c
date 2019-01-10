@@ -9,6 +9,14 @@
 #include "flash-config.h"
 #include "baseloader.h"
 
+//  These globals must appear in front of the BSS section so that the Baseloader code will not get confused.
+uint32_t *base_dest = NULL;
+uint32_t *base_src = NULL;
+uint32_t base_len = 0;
+uint32_t base_disable_interrupts = 0;
+int base_result = 0;
+
+//  Below are non-critical variables.
 extern void application_start(void);
 uint32_t baseloader_fail = 0;  //  Address that caused the Baseloader to fail.
 
@@ -163,29 +171,71 @@ the FLASH programming manual for details.
 //  To perform flashing, jump to the New Baseloader Address in the End Base Vector Table,
 //  adjusted to the End Base Vector Table Address.
 
+/* Warning: PlatformIO and CODAL Builds use different stack conventions. So we avoid using the stack for Baseloader.
+	PlatformIO Build:
+	08000168 <baseloader_start>:
+		static uint16_t *src;
+		static size_t half_word_count;
+		static int bytes_flashed;
+		static bool verified, should_disable_interrupts;
+
+		dest = (uint16_t *) dest0;
+	8000168:	4b8b      	ldr	r3, [pc, #556]	; (8000398 <baseloader_start+0x230>)
+	800016a:	6018      	str	r0, [r3, #0]
+		src =  (uint16_t *) src0;
+	800016c:	4b8b      	ldr	r3, [pc, #556]	; (800039c <baseloader_start+0x234>)
+	800016e:	6019      	str	r1, [r3, #0]
+
+	CODAL Build: 
+	int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
+	8000168:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+		half_word_count = byte_count / 2;
+		bytes_flashed = 0;
+		should_disable_interrupts = false;
+
+		static uint16_t *erase_start, *erase_end, *flash_end;
+		verified = true; erase_start = NULL; erase_end = NULL;
+	800016c:	2501      	movs	r5, #1
+		bytes_flashed = 0;
+	800016e:	2300      	movs	r3, #0
+		half_word_count = byte_count / 2;
+	8000170:	fa22 fc05 	lsr.w	ip, r2, r5
+		dest = (uint16_t *) dest0;
+	8000174:	4aa9      	ldr	r2, [pc, #676]	; (800041c <baseloader_start+0x2b4>)  */
+
 //  This must be the first function in the file.  Macros appearing before the function are OK.
-int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
+void baseloader_start(void) {
 	//  Return the number of bytes flashed.
-	//  TODO: Validate dest, src, half_word_count before flashing.
     //  debug_println("baseloader_start"); debug_force_flush();
+
+	//  Validate dest, src, half_word_count before flashing.
+    //  TODO: Support other memory sizes.
+    int valid = 
+        ((uint32_t) base_dest >= 0x08000000 && ((uint32_t) base_dest + base_len) < 0x8010000 &&
+        (
+            ((uint32_t) base_src >= 0x08000000 && ((uint32_t) base_src + base_len) < 0x08010000) ||
+            ((uint32_t) base_src >= 0x20000000 && ((uint32_t) base_src + base_len) < 0x20005000)
+        ));
+	if (!valid) { base_result = -1; return; }  //  Invalid parameters.
+
 	static uint16_t *dest;
 	static uint16_t *src;
 	static size_t half_word_count;
 	static int bytes_flashed;
 	static bool verified, should_disable_interrupts;
 
-	dest = (uint16_t *) dest0;
-	src =  (uint16_t *) src0;
-	half_word_count = byte_count / 2;
+	dest = (uint16_t *) base_dest;
+	src =  (uint16_t *) base_src;
+	half_word_count = base_len / 2;
+	should_disable_interrupts = base_disable_interrupts;
 	bytes_flashed = 0;
-	should_disable_interrupts = false;
 
     static uint16_t *erase_start, *erase_end, *flash_end;
     verified = true; erase_start = NULL; erase_end = NULL;
     flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
 
 	//  Disable interrupts when overwriting the vector table.
-	if ((uint32_t) dest == FLASH_BASE) { should_disable_interrupts = true; }
+	//  if ((uint32_t) dest == FLASH_BASE) { should_disable_interrupts = true; }
 	if (should_disable_interrupts) { disable_interrupts(); } // Only for baseloader.
 
 	base_flash_unlock();  //  TODO: Check MakeCode flashing.
@@ -219,7 +269,7 @@ int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
     if (should_disable_interrupts) { 
 		SCB_AIRCR = SCB_AIRCR_VECTKEY | SCB_AIRCR_SYSRESETREQ;  //  From scb_reset_system(); 
 	}	
-	return verified ? bytes_flashed : -1;
+	base_result = verified ? bytes_flashed : -2;  //  Returns -2 if verification failed.
 }
 
 int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count) {

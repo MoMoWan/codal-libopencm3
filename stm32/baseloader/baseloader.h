@@ -14,7 +14,7 @@ extern "C" {  //  Allows functions below to be called by C and C++ code.
 #define BASE_MAGIC_NUMBER  ((uint32_t) 0x22051969)
 #define BASE_MAGIC_NUMBER2 ((uint32_t) 0x19690522)
 
-typedef int (*baseloader_func)(uint32_t *dest, const uint32_t *src, size_t byte_count);
+typedef void (*baseloader_func)(void);
 typedef void (*application_func)(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
@@ -30,7 +30,14 @@ typedef struct {
 extern base_vector_table_t base_vector_table;
 extern uint32_t baseloader_fail;  //  Address that caused the Baseloader to fail.
 
-extern int baseloader_start(uint32_t *dest, const uint32_t *src, size_t byte_count);
+//  To support different calling conventions we don't allow stack parameters.  All parameters must be passed via globals in BSS.
+extern void baseloader_start(void);
+extern uint32_t *base_dest;
+extern uint32_t *base_src;
+extern uint32_t base_len;
+extern uint32_t base_disable_interrupts;
+extern int base_result;
+
 extern int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count);
 extern int base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
 
