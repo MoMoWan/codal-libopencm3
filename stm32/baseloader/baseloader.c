@@ -8,15 +8,6 @@
 #include "flash-config.h"
 #include "baseloader.h"
 
-#ifdef NOTUSED
-//  These must be always at the beginning of the BSS so that different versions of the Baseloader can run.
-static uint16_t* dest = NULL;
-static uint16_t* src = NULL;
-static size_t half_word_count = 0;
-static bool verified = false;
-static bool should_disable_interrupts = true;
-#endif  //  NOTUSED
-
 extern void application_start(void);
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
@@ -28,6 +19,7 @@ base_vector_table_t base_vector_table = {
 	.baseloader     = baseloader_start,   //  Address of the baseloader function.
 	.baseloader_end = &_base_etext,       //  End of the baseloader code and data.
 	.application    = application_start,  //  Address of application. Also where the bootloader ends.
+	.magic_number2  = BASE_MAGIC_NUMBER2, //  Second magic number to verify that the Baseloader Vector Table was not truncated.
 };
 
 #ifdef FLASH_SIZE_OVERRIDE

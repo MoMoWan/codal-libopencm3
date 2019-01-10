@@ -100,12 +100,12 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     const char *valid = VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) ? " " : " !!! ";
     static uint32_t cmdId = 0;
     static uint32_t prevCmdId = 0;
-    prevCmdId = cmdId; 
     cmdId = cmd->command_id;
     static uint8_t flush_count = 0;
     if (cmdId != prevCmdId) { debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }  ////
     else { debug_print(">> "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }
     if (flush_count++) { debug_flush(); }
+    prevCmdId = cmdId; 
 
     //  First send ACK and then start writing, while getting the next packet.
     send_hf2_response(pkt, 0);
