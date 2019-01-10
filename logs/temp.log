@@ -1,0 +1,1070 @@
+> Executing task in folder codal-libopencm3:  pkill openocd ; platformio debug && arm-none-eabi-objdump -t -S .pioenvs/bluepill_f103c8/firmware.elf >logs/firmware.dump && openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -f scripts/flash.ocd  <
+
+Processing bluepill_f103c8 (framework: libopencm3; platform: ststm32; board: bluepill_f103c8)
+----------------------------------------------------------------------------------------------------
+Warning! Library `{'requirements': None, 'name': 'bluepill'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'bluepill'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'baseloader'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'baseloader'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'bootloader'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'bootloader'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'hal'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'hal'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'unity'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'unity'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'qfplib'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'qfplib'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'nano-float'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'nano-float'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'newlib'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'newlib'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'model'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'model'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'cm'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'cm'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Warning! Library `{'requirements': None, 'name': 'unittest'}` has not been found in PlatformIO Registry.
+You can ignore this message, if `{'requirements': None, 'name': 'unittest'}` is a built-in library (included in framework, SDK). E.g., SPI, Wire, etc.
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/ststm32/bluepill_f103c8.html
+PLATFORM: ST STM32 > BluePill F103C8
+HARDWARE: STM32F103C8T6 72MHz 20KB RAM (64KB Flash)
+DEBUG: CURRENT(stlink) EXTERNAL(blackmagic, jlink, stlink)
+Library Dependency Finder -> http://bit.ly/configure-pio-ldf
+LDF MODES: FINDER(chain) COMPATIBILITY(off)
+Collected 37 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- <logger>
+|-- <bluepill>
+|   |-- <logger>
+|-- <baseloader>
+|-- <bootloader>
+|   |-- <logger>
+|-- <hal>
+|   |-- <cocoOS> 5.0.4
+|   |   |-- <logger>
+|   |-- <nano-float>
+|   |   |-- <logger>
+|   |   |-- <unity>
+|   |   |-- <qfplib>
+|   |-- <newlib>
+|   |-- <logger>
+|   |-- <bluepill>
+|   |   |-- <logger>
+|-- <unity>
+|-- <qfplib>
+|-- <nano-float>
+|   |-- <logger>
+|   |-- <unity>
+|   |-- <qfplib>
+|-- <newlib>
+|-- <model>
+|   |-- <cm>
+|   |   |-- <hal>
+|   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |-- <logger>
+|   |   |   |-- <nano-float>
+|   |   |   |   |-- <logger>
+|   |   |   |   |-- <unity>
+|   |   |   |   |-- <qfplib>
+|   |   |   |-- <newlib>
+|   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <logger>
+|   |   |-- <cocoOS> 5.0.4
+|   |   |   |-- <logger>
+|   |   |-- <codal-core>
+|   |   |   |-- <hal>
+|   |   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |   |-- <logger>
+|   |   |   |   |-- <nano-float>
+|   |   |   |   |   |-- <logger>
+|   |   |   |   |   |-- <unity>
+|   |   |   |   |   |-- <qfplib>
+|   |   |   |   |-- <newlib>
+|   |   |   |   |-- <logger>
+|   |   |   |   |-- <bluepill>
+|   |   |   |   |   |-- <logger>
+|   |   |   |-- <logger>
+|   |-- <bluepill>
+|   |   |-- <logger>
+|   |-- <codal-core>
+|   |   |-- <hal>
+|   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |-- <logger>
+|   |   |   |-- <nano-float>
+|   |   |   |   |-- <logger>
+|   |   |   |   |-- <unity>
+|   |   |   |   |-- <qfplib>
+|   |   |   |-- <newlib>
+|   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <logger>
+|   |-- <logger>
+|-- <cm>
+|   |-- <hal>
+|   |   |-- <cocoOS> 5.0.4
+|   |   |   |-- <logger>
+|   |   |-- <nano-float>
+|   |   |   |-- <logger>
+|   |   |   |-- <unity>
+|   |   |   |-- <qfplib>
+|   |   |-- <newlib>
+|   |   |-- <logger>
+|   |   |-- <bluepill>
+|   |   |   |-- <logger>
+|   |-- <logger>
+|   |-- <cocoOS> 5.0.4
+|   |   |-- <logger>
+|   |-- <codal-core>
+|   |   |-- <hal>
+|   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |-- <logger>
+|   |   |   |-- <nano-float>
+|   |   |   |   |-- <logger>
+|   |   |   |   |-- <unity>
+|   |   |   |   |-- <qfplib>
+|   |   |   |-- <newlib>
+|   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <logger>
+|-- <unittest>
+|   |-- <nano-float>
+|   |   |-- <logger>
+|   |   |-- <unity>
+|   |   |-- <qfplib>
+|-- <porting>
+|   |-- <spiint>
+|   |   |-- <simulator>
+|   |   |   |-- <logger>
+|   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <logger>
+|   |   |-- <cocoOS> 5.0.4
+|   |   |   |-- <logger>
+|   |   |-- <bluepill>
+|   |   |   |-- <logger>
+|   |-- <i2cint>
+|   |   |-- <logger>
+|   |   |-- <bluepill>
+|   |   |   |-- <logger>
+|   |-- <bluepill>
+|   |   |-- <logger>
+|-- <boost_lockfree>
+|   |-- <boost_type_traits>
+|   |   |-- <boost_static_assert>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_config>
+|   |-- <boost_predef>
+|   |-- <boost_iterator>
+|   |   |-- <boost_mpl>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_predef>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_utility>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |-- <boost_detail>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_config>
+|   |   |-- <boost_static_assert>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_type_traits>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_core>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_assert>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_utility>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |-- <boost_assert>
+|   |   |-- <boost_config>
+|   |-- <boost_parameter>
+|   |   |-- <boost_utility>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_mpl>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_predef>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_utility>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |-- <boost_type_traits>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_preprocessor>
+|   |   |-- <boost_detail>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_config>
+|   |   |-- <boost_core>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_assert>
+|   |   |   |   |-- <boost_config>
+|   |-- <boost_core>
+|   |   |-- <boost_config>
+|   |   |-- <boost_assert>
+|   |   |   |-- <boost_config>
+|   |-- <boost_mpl>
+|   |   |-- <boost_preprocessor>
+|   |   |-- <boost_config>
+|   |   |-- <boost_type_traits>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_static_assert>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_predef>
+|   |   |-- <boost_core>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_utility>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |-- <boost_config>
+|   |-- <boost_utility>
+|   |   |-- <boost_preprocessor>
+|   |   |-- <boost_type_traits>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_config>
+|   |   |-- <boost_core>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_static_assert>
+|   |   |   |-- <boost_config>
+|   |-- <boost_static_assert>
+|   |   |-- <boost_config>
+|-- <uartint>
+|   |-- <logger>
+|   |-- <bluepill>
+|   |   |-- <logger>
+|   |-- <boost_lockfree>
+|   |   |-- <boost_type_traits>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_predef>
+|   |   |-- <boost_iterator>
+|   |   |   |-- <boost_mpl>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_predef>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_utility>
+|   |   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_core>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_detail>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_utility>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |-- <boost_assert>
+|   |   |   |-- <boost_config>
+|   |   |-- <boost_parameter>
+|   |   |   |-- <boost_utility>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_mpl>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_predef>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_utility>
+|   |   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_core>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_detail>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |-- <boost_core>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_mpl>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_predef>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_utility>
+|   |   |   |   |-- <boost_preprocessor>
+|   |   |   |   |-- <boost_type_traits>
+|   |   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_core>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |-- <boost_config>
+|   |   |-- <boost_utility>
+|   |   |   |-- <boost_preprocessor>
+|   |   |   |-- <boost_type_traits>
+|   |   |   |   |-- <boost_static_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_config>
+|   |   |   |-- <boost_core>
+|   |   |   |   |-- <boost_config>
+|   |   |   |   |-- <boost_assert>
+|   |   |   |   |   |-- <boost_config>
+|   |   |   |-- <boost_static_assert>
+|   |   |   |   |-- <boost_config>
+|   |   |-- <boost_static_assert>
+|   |   |   |-- <boost_config>
+|-- <cocoOS> 5.0.4
+|   |-- <logger>
+|-- <spiint>
+|   |-- <simulator>
+|   |   |-- <logger>
+|   |   |-- <cocoOS> 5.0.4
+|   |   |   |-- <logger>
+|   |   |-- <bluepill>
+|   |   |   |-- <logger>
+|   |-- <logger>
+|   |-- <cocoOS> 5.0.4
+|   |   |-- <logger>
+|   |-- <bluepill>
+|   |   |-- <logger>
+|-- <BME280> 2.3.0
+|   |-- <codal-core>
+|   |   |-- <hal>
+|   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |-- <logger>
+|   |   |   |-- <nano-float>
+|   |   |   |   |-- <logger>
+|   |   |   |   |-- <unity>
+|   |   |   |   |-- <qfplib>
+|   |   |   |-- <newlib>
+|   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <logger>
+|   |-- <porting>
+|   |   |-- <spiint>
+|   |   |   |-- <simulator>
+|   |   |   |   |-- <logger>
+|   |   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |   |-- <logger>
+|   |   |   |   |-- <bluepill>
+|   |   |   |   |   |-- <logger>
+|   |   |   |-- <logger>
+|   |   |   |-- <cocoOS> 5.0.4
+|   |   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <i2cint>
+|   |   |   |-- <logger>
+|   |   |   |-- <bluepill>
+|   |   |   |   |-- <logger>
+|   |   |-- <bluepill>
+|   |   |   |-- <logger>
+|   |-- <logger>
+|-- <simulator>
+|   |-- <logger>
+|   |-- <cocoOS> 5.0.4
+|   |   |-- <logger>
+|   |-- <bluepill>
+|   |   |-- <logger>
+Compiling .pioenvs/bluepill_f103c8/lib6b9/baseloader/baseloader.o
+Compiling .pioenvs/bluepill_f103c8/libb45/bootloader/bootloader.o
+cc1: warning: command line option '-fno-rtti' is valid for C++/ObjC++ but not for C
+cc1: warning: command line option '-fno-threadsafe-statics' is valid for C++/ObjC++ but not for C
+Compiling .pioenvs/bluepill_f103c8/libb45/bootloader/hf2.o
+stm32/bootloader/bootloader.c: In function 'bootloader_poll':
+stm32/bootloader/bootloader.c:141:21: warning: variable 'last_poll' set but not used [-Wunused-but-set-variable]
+static uint32_t last_poll = 0;  // static uint32_t delay = 0;  if (last_poll > 0) { delay = millis() - last_poll; }
+^~~~~~~~~
+Archiving .pioenvs/bluepill_f103c8/libb45/libbootloader.a
+Archiving .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a
+Indexing .pioenvs/bluepill_f103c8/lib6b9/libbaseloader.a
+Indexing .pioenvs/bluepill_f103c8/libb45/libbootloader.a
+Linking .pioenvs/bluepill_f103c8/firmware.elf
+Memory region         Used Size  Region Size  %age Used
+bootrom:       21232 B        27 KB     76.79%
+rom:       15388 B        37 KB     40.61%
+bootram:        2204 B         4 KB     53.81%
+ram:        4632 B      14268 B     32.46%
+bootbuf:        2116 B       2116 B    100.00%
+Checking size .pioenvs/bluepill_f103c8/firmware.elf
+Building .pioenvs/bluepill_f103c8/firmware.bin
+Memory Usage -> http://bit.ly/pio-memory-usage
+DATA:    [==        ]  22.6% (used 4632 bytes from 20480 bytes)
+PROGRAM: [==        ]  23.4% (used 15368 bytes from 65536 bytes)
+=================================== [SUCCESS] Took 11.64 seconds ===================================
+Open On-Chip Debugger 0.10.0
+Licensed under GNU GPL v2
+For bug reports, read
+        http://openocd.org/doc/doxygen/bugs.html
+Info : auto-selecting first available session transport "hla_swd". To override use 'transport select <transport>'.
+Info : The selected transport took over low-level target control. The results might differ comparedto plain JTAG/SWD
+adapter speed: 1000 kHz
+adapter_nsrst_delay: 100
+none separate
+debug_level: 0
+semihosting is enabled
+NOTE: Trash this window before flashing the Blue Pill again
+Stopping the Blue Pill...
+target halted due to debug-request, current mode: Thread
+xPSR: 0x01000000 pc: 0x080006d0 msp: 0x20005000, semihosting
+#0 : stm32f1x.flash (stm32f1x) at 0x08000000, size 0x00000000, buswidth 0, chipwidth 0
+Flashing the Blue Pill...
+auto erase enabled
+auto unlock enabled
+target halted due to breakpoint, current mode: Thread
+xPSR: 0x61000000 pc: 0x2000003a msp: 0x20005000, semihosting
+target halted due to breakpoint, current mode: Thread
+xPSR: 0x61000000 pc: 0x2000003a msp: 0x20005000, semihosting
+wrote 44032 bytes from file .pioenvs/bluepill_f103c8/firmware.bin in 2.471458s (17.399 KiB/s)
+read 43036 bytes from file .pioenvs/bluepill_f103c8/firmware.bin and flash bank 0 at offset 0x00000000 in 0.913280s (46.018 KiB/s)
+contents match
+Restarting the Blue Pill...
+----platform_setup
+heap start: 20002218, end: 20004800, size: 9 KB, stack used: 0 KB
+platform_start_timer
+rtc awake...
+rtc awake ok
+----bootloader
+boot_target_get_serial_number
+usb_set_serial_number
+app exists
+----application mode
+usb_setup
+flash allow 08006c00 to 08010000
+sync! sync! spi mosi 105 miso 104 sclk 103 nss 102
+spi mosi 113 miso 112 sclk 111 nss 110
+sync! triggerIn b4 init!
+sync! sync! sync! sync! bluepill construct
+sync! bluepill init scheduler
+sync! sync! sync! sync! sync! sync! sync! bluepill init components
+timer init
+start bg tasks
+set restart callback 08008095
+bluepill init ok
+set led t 0, alm 0
+pin 0
+target wait t 0, alm 0
+wt <1.SET_ADR
+u{ ........bos typ 80, req 06, val 0f00, idx 0000, len 0005, GET_DES_BOS t 0f i 00
+bos typ 80, req 06, val 0f00, idx 0000, len 0039, GET_DES_BOS t 0f i 00
+...>>  typ 00, req 09, val 0001, idx 0000, len 0000, SET_CFG     t 00 i 01
+hf2 set config
+.......>>  typ 80, req 08, val 0000, idx 0000, len 0001, t 00 i 00
+.weburl typ c0, req 22, val 0001, idx 0002, len 00ff
+} > sleep t 7, alm 1
+flush task
+loop t 8, alm 1
+pin 1
+slp t 8, alm 1
+pin 0
+slp t 9, alm 1
+pin 1
+slp t 10, alm 1
+pin 0
+slp t 11, alm 1
+pin 1
+slp t 12, alm 1
+pin 0
+slp t 13, alm 1
+pin 1
+slp t 14, alm 1
+pin 0
+slp t 15, alm 1
+pin 1
+slp t 16, alm 1
+pin 0
+slp t 17, alm 1
+pin 1
+slp t 18, alm 1
+pin 0
+slp t 19, alm 1
+pin 1
+slp t 20, alm 1
+pin 0
+slp t 21, alm 1
+pin 1
+slp t 22, alm 1
+pin 0
+slp t 23, alm 1
+pin 1
+slp t 24, alm 1
+pin 0
+slp t 25, alm 1
+pin 1
+slp t 26, alm 1
+pin 0
+slp t 27, alm 1
+pin 1
+slp t 28, alm 1
+pin 0
+slp t 29, alm 1
+pin 1
+slp t 30, alm 1
+pin 0
+slp t 31, alm 1
+pin 1
+slp t 32, alm 1
+pin 0
+slp t 33, alm 1
+pin 1
+slp t 34, alm 1
+pin 0
+slp t 35, alm 1
+pin 1
+slp t 36, alm 1
+pin 0
+slp t 37, alm 1
+pin 1
+slp t 38, alm 1
+pin 0
+slp t 39, alm 1
+pin 1
+slp t 40, alm 1
+pin 0
+slp t 41, alm 1
+pin 1
+slp t 42, alm 1
+pin 0
+slp t 43, alm 1
+pin 1
+slp t 44, alm 1
+pin 0
+slp t 45, alm 1
+pin 1
+slp t 46, alm 1
+pin 0
+slp t 47, alm 1
+pin 1
+slp t 48, alm 1
+pin 0
+slp t 49, alm 1
+pin 1
+slp t 50, alm 1
+pin 0
+slp t 51, alm 1
+pin 1
+slp t 52, alm 1
+pin 0
+slp t 53, alm 1
+pin 1
+slp t 54, alm 1
+pin 0
+slp t 55, alm 1
+pin 1
+slp t 56, alm 1
+pin 0
+slp t 57, alm 1
+pin 1
+slp t 58, alm 1
+pin 0
+slp t 59, alm 1
+pin 1
+slp t 60, alm 1
+pin 0
+slp t 61, alm 1
+pin 1
+slp t 62, alm 1
+pin 0
+slp t 63, alm 1
+pin 1
+slp t 64, alm 1
+pin 0
+slp t 65, alm 1
+pin 1
+slp t 66, alm 1
+pin 0
+slp t 67, alm 1
+pin 1
+slp t 68, alm 1
+pin 0
+slp t 69, alm 1
+pin 1
+slp t 70, alm 1
+pin 0
+slp t 71, alm 1
+pin 1
+slp t 72, alm 1
+pin 0
+slp t 73, alm 1
+pin 1
+slp t 74, alm 1
+pin 0
+slp t 75, alm 1
+pin 1
+slp t 76, alm 1
+pin 0
+slp t 77, alm 1
+pin 1
+slp t 78, alm 1
+pin 0
+slp t 79, alm 1
+pin 1
+slp t 80, alm 1
+pin 0
+slp t 81, alm 1
+pin 1
+slp t 82, alm 1
+pin 0
+slp t 83, alm 1
+pin 1
+slp t 84, alm 1
+pin 0
+slp t 85, alm 1
+pin 1
+slp t 86, alm 1
+pin 0
+slp t 87, alm 1
+pin 1
+slp t 88, alm 1
+pin 0
+slp t 89, alm 1
+pin 1
+slp t 90, alm 1
+pin 0
+slp t 91, alm 1
+pin 1
+slp t 92, alm 1
+pin 0
+slp t 93, alm 1
+pin 1
+slp t 94, alm 1
+pin 0
+slp t 95, alm 1
+pin 1
+slp t 96, alm 1
+pin 0
+slp t 97, alm 1
+pin 1
+slp t 98, alm 1
+pin 0
+slp t 99, alm 1
+pin 1
+slp t 100, alm 1
+pin 0
+slp t 101, alm 1
+pin 1
+slp t 102, alm 1
+pin 0
+slp t 103, alm 1
+pin 1
+slp t 104, alm 1
+pin 0
+slp t 105, alm 1
+pin 1
+slp t 106, alm 1
+pin 0
+slp t 107, alm 1
+pin 1
+slp t 108, alm 1
+pin 0
+slp t 109, alm 1
+pin 1
+slp t 110, alm 1
+.>>  typ 02, req 01, val 0000, idx 0082, len 0000
+u{ } pin 0
+slp t 116, alm 2
+pin 1
+slp t 117, alm 2
+pin 0
+slp t 118, alm 2
+hf2 >> bininfo
+hf2 << 19
+hf2 >> info
+hf2 << 40
+hf2 << 1a
+hf2 << 1a
+hf2 >> bininfo
+hf2 << 19
+hf2 >> start
+hf2 << 05
+boot bootloader
+----platform_setup
+heap start: 20002218, end: 20004800, size: 9 KB, stack used: 0 KB
+platform_start_timer
+rtc awake...
+rtc awake ok
+----bootloader
+boot_target_get_serial_number
+usb_set_serial_number
+app exists
+----bootloader mode (forced)
+usb_setup
+flash allow 08006c00 to 08010000
+----baseloader not found -2 08006c00
+usbd polling...
+set restart callback 08002c09
+.SET_ADR
+........bos typ 80, req 06, val 0f00, idx 0000, len 0005, GET_DES_BOS t 0f i 00
+bos typ 80, req 06, val 0f00, idx 0000, len 0039, GET_DES_BOS t 0f i 00
+...>>  typ 00, req 09, val 0001, idx 0000, len 0000, SET_CFG     t 00 i 01
+hf2 set config
+.......>>  typ 80, req 08, val 0000, idx 0000, len 0001, t 00 i 00
+.weburl typ c0, req 22, val 0001, idx 0002, len 00ff
+hf2 >> bininfo
+hf2 << 19
+hf2 >> info
+hf2 << 40
+hf2 << 1a
+hf2 >> bininfo
+hf2 << 19
+hf2 >> bininfo
+hf2 << 19
+hf2 >> info
+hf2 << 40
+hf2 << 1a
+hf2 >> flash 08000000 hf2 << 05
+find vector...
+hf2 >> flash 08000100 hf2 << 05
+hf2 >> flash 08000200 hf2 << 05
+hf2 >> flash 08000300 hf2 << 05
+hf2 >> flash 08000400 hf2 << 05
+-> 08006c00 hf2 >> flash 08000500 hf2 << 05
+found vector, app 08006c00, boot size 00006c00, base size 000005c0
+hf2 >> flash 08000600 hf2 << 05
+hf2 >> flash 08000700 hf2 << 05
+hf2 >> flash 08000800 hf2 << 05
+-> 08007000 hf2 >> flash 08000900 hf2 << 05
+hf2 >> flash 08000a00 hf2 << 05
+hf2 >> flash 08000b00 hf2 << 05
+hf2 >> flash 08000c00 hf2 << 05
+-> 08007400 hf2 >> flash 08000d00 hf2 << 05
+hf2 >> flash 08000e00 hf2 << 05
+hf2 >> flash 08000f00 hf2 << 05
+hf2 >> flash 08001000 hf2 << 05
+-> 08007800 hf2 >> flash 08001100 hf2 << 05
+hf2 >> flash 08001200 hf2 << 05
+hf2 >> flash 08001300 hf2 << 05
+hf2 >> flash 08001400 hf2 << 05
+-> 08007c00 hf2 >> flash 08001500 hf2 << 05
+hf2 >> flash 08001600 hf2 << 05
+hf2 >> flash 08001700 hf2 << 05
+hf2 >> flash 08001800 hf2 << 05
+-> 08008000 hf2 >> flash 08001900 hf2 << 05
+hf2 >> flash 08001a00 hf2 << 05
+hf2 >> flash 08001b00 hf2 << 05
+hf2 >> flash 08001c00 hf2 << 05
+-> 08008400 hf2 >> flash 08001d00 hf2 << 05
+hf2 >> flash 08001e00 hf2 << 05
+hf2 >> flash 08001f00 hf2 << 05
+hf2 >> flash 08002000 hf2 << 05
+-> 08008800 hf2 >> flash 08002100 hf2 << 05
+hf2 >> flash 08002200 hf2 << 05
+hf2 >> flash 08002300 hf2 << 05
+hf2 >> flash 08002400 hf2 << 05
+-> 08008c00 hf2 >> flash 08002500 hf2 << 05
+hf2 >> flash 08002600 hf2 << 05
+hf2 >> flash 08002700 hf2 << 05
+hf2 >> flash 08002800 hf2 << 05
+-> 08009000 hf2 >> flash 08002900 hf2 << 05
+hf2 >> flash 08002a00 hf2 << 05
+hf2 >> flash 08002b00 hf2 << 05
+hf2 >> flash 08002c00 hf2 << 05
+-> 08009400 hf2 >> flash 08002d00 hf2 << 05
+hf2 >> flash 08002e00 hf2 << 05
+hf2 >> flash 08002f00 hf2 << 05
+hf2 >> flash 08003000 hf2 << 05
+-> 08009800 hf2 >> flash 08003100 hf2 << 05
+hf2 >> flash 08003200 hf2 << 05
+hf2 >> flash 08003300 hf2 << 05
+hf2 >> flash 08003400 hf2 << 05
+-> 08009c00 hf2 >> flash 08003500 hf2 << 05
+hf2 >> flash 08003600 hf2 << 05
+hf2 >> flash 08003700 hf2 << 05
+hf2 >> flash 08003800 hf2 << 05
+-> 0800a000 hf2 >> flash 08003900 hf2 << 05
+hf2 >> flash 08003a00 hf2 << 05
+hf2 >> flash 08003b00 hf2 << 05
+hf2 >> flash 08003c00 hf2 << 05
+-> 0800a400 hf2 >> flash 08003d00 hf2 << 05
+hf2 >> flash 08003e00 hf2 << 05
+hf2 >> flash 08003f00 hf2 << 05
+hf2 >> flash 08004000 hf2 << 05
+-> 0800a800 hf2 >> flash 08004100 hf2 << 05
+hf2 >> flash 08004200 hf2 << 05
+hf2 >> flash 08004300 hf2 << 05
+hf2 >> flash 08004400 hf2 << 05
+hf2 >> flash 08004500 hf2 << 05
+hf2 >> flash 08004600 hf2 << 05
+hf2 >> flash 08004700 hf2 << 05
+hf2 >> flash 08004800 hf2 << 05
+hf2 >> flash 08004900 hf2 << 05
+hf2 >> flash 08004a00 hf2 << 05
+hf2 >> flash 08004b00 hf2 << 05
+hf2 >> flash 08004c00 hf2 << 05
+hf2 >> flash 08004d00 hf2 << 05
+hf2 >> flash 08004e00 hf2 << 05
+hf2 >> flash 08004f00 hf2 << 05
+hf2 >> flash 08005000 hf2 << 05
+hf2 >> flash 08005100 hf2 << 05
+hf2 >> flash 08005200 hf2 << 05
+hf2 >> flash 08005300 hf2 << 05
+hf2 >> flash 08005400 hf2 << 05
+hf2 >> flash 08005500 hf2 << 05
+hf2 >> flash 08005600 hf2 << 05
+hf2 >> flash 08005700 hf2 << 05
+hf2 >> flash 08005800 hf2 << 05
+hf2 >> flash 08005900 hf2 << 05
+hf2 >> flash 08005a00 hf2 << 05
+hf2 >> flash 08005b00 hf2 << 05
+hf2 >> flash 08005c00 hf2 << 05
+hf2 >> flash 08005d00 hf2 << 05
+hf2 >> flash 08005e00 hf2 << 05
+hf2 >> flash 08005f00 hf2 << 05
+hf2 >> flash 08006000 hf2 << 05
+hf2 >> flash 08006100 hf2 << 05
+hf2 >> flash 08006200 hf2 << 05
+hf2 >> flash 08006300 hf2 << 05
+hf2 >> flash 08006400 hf2 << 05
+hf2 >> flash 08006500 hf2 << 05
+hf2 >> flash 08006600 hf2 << 05
+hf2 >> flash 08006700 hf2 << 05
+hf2 >> flash 08006800 hf2 << 05
+hf2 >> flash 08006900 hf2 << 05
+hf2 >> flash 08006c00 hf2 << 05
+wrote bootloader
+compare bootloader...
+bootloader changed
+copy baseloader to 0800d800, size 000005c0
+restart to baseloader 0800d800, baselen 000005c0, oldapp 08006c00, bootlen 00006c00
+boot bootloader
+----platform_setup
+heap start: 20002218, end: 20004800, size: 9 KB, stack used: 0 KB
+platform_start_timer
+rtc awake...
+rtc awake ok
+----bootloader
+boot_target_get_serial_number
+usb_set_serial_number
+app missing 08006c00 = 20005000
+----bootloader mode (forced)
+usb_setup
+flash allow 08006c00 to 08010000
+----baseloader not found -4 end 0800dc00, oldapp 08006c00, bootlen 00006c00
+usbd polling...
+set restart callback 08002c09
+.SET_ADR
+........bos typ 80, req 06, val 0f00, idx 0000, len 0005, GET_DES_BOS t 0f i 00
+bos typ 80, req 06, val 0f00, idx 0000, len 0039, GET_DES_BOS t 0f i 00
+...>>  typ 00, req 09, val 0001, idx 0000, len 0000, SET_CFG     t 00 i 01
+hf2 set config
+.......>>  typ 80, req 08, val 0000, idx 0000, len 0001, t 00 i 00
+.weburl typ c0, req 22, val 0001, idx 0002, len 00ff
