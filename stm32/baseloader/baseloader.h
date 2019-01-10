@@ -28,6 +28,7 @@ typedef struct {
 } __attribute__((packed)) base_vector_table_t;
 
 extern base_vector_table_t base_vector_table;
+extern uint32_t baseloader_fail;  //  Address that caused the Baseloader to fail.
 
 extern int baseloader_start(uint32_t *dest, const uint32_t *src, size_t byte_count);
 extern int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count);

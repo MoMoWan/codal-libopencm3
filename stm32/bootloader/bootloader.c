@@ -45,6 +45,7 @@ pxt.HF2.enableLog(); pxt.aiTrackEvent=console.log; pxt.options.debug=true
 static void poll_loop(void);
 static void get_serial_number(void);
 
+extern void application_start(void);
 extern uint32_t _boot_stack;  //  Bootloader stack address, provided by linker script.
 extern int msc_started;
 static volatile int status = 0;
@@ -109,17 +110,23 @@ int bootloader_start(void) {
 	baseloader_addr = NULL;
 	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
 	debug_print("----baseloader "); if (baseloader_status == 0) { 
-		debug_printhex_unsigned((uint32_t) baseloader_addr); 
+        debug_print(" found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
 		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
 		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
 		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
 		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
-	} else { debug_print_int(baseloader_status); }; debug_println(""); debug_force_flush();
+	} else { 
+        debug_print(" not found "); debug_print_int(baseloader_status); debug_print(" ");
+        debug_print(
+            (baseloader_status == -3) ? " too big " :
+            (baseloader_status == -4) ? " end " :
+            "");
+        debug_printhex_unsigned(baseloader_fail);
+    }; debug_println(""); debug_force_flush();
 	if (baseloader_status == 0 && baseloader_addr) {
 		baseloader_status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
 		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
 	}
-
     //  If we are in Bootloader Mode, poll forever here.
     poll_loop();
     return -1;  //  Never comes here.
@@ -199,13 +206,90 @@ static void poll_loop(void) {
     }    
 }
 
+#ifdef DISABLE_DEBUG
+#define debug_flash() {}
+#define debug_dump() {}
+#define debug_dump2() {}
+#else
+#define debug_flash() { \
+    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
+    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
+    /* debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); */ \
+    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
+    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
+}
+#define debug_dump() { \
+    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
+    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); \
+    debug_print("size "); debug_printhex_unsigned((size_t) byte_count); debug_println(""); debug_force_flush(); \
+    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
+}
+#define debug_dump2() { \
+    debug_print("after "); debug_printhex_unsigned(*dest); \
+    debug_print(" / "); debug_printhex(status); \
+	debug_print((*dest == *src) ? " OK " : " FAIL "); \
+	debug_println("\r\n"); debug_force_flush(); \
+}
+#endif  //  DISABLE_DEBUG
+
+void test_copy_bootloader(void) {
+	//  Copy bootloader to application space.
+	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+	uint32_t *src =  (uint32_t *) (FLASH_BASE);
+	uint32_t *dest = (uint32_t *) FLASH_ADDRESS(application_start);
+	size_t byte_count = bootloader_size;
+	debug_dump(); ////
+
+	int status = baseloader_start(dest, src, byte_count);
+	debug_dump2(); ////
+
+	//  Dump the first base vector.
+	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
+	debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
+	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
+	debug_force_flush();
+}
+
+void test_copy_baseloader(void) {
+	//  Copy baseloader to end of bootloader.
+	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
+	uint32_t baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
+	uint32_t *src =  (uint32_t *) (FLASH_BASE);
+	uint32_t *dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
+	size_t byte_count = baseloader_size;
+	debug_dump(); ////
+
+	int status = baseloader_start(dest, src, byte_count);
+	debug_dump2(); ////
+
+	//  Dump the second base vector.
+	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
+	debug_print("end_base_vector "); debug_printhex_unsigned((uint32_t) end_base_vector); debug_println("");
+	debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
+	debug_force_flush();
+}
+
 #ifdef NOTUSED
-    if (appValid && !msc_started && msTimer > 1000) {
-        //  If app is valid, jump to app.
-        debug_println("boot_target_manifest_app");  debug_flush();
-        boot_target_manifest_app();
+    void test_baseloader1(void) {
+        //  Test the baseloader: Copy a page from low flash memory to high flash memory.
+        test_src =  (uint32_t *) (FLASH_BASE);
+        test_dest = (uint32_t *) (FLASH_BASE + FLASH_SIZE_OVERRIDE - FLASH_PAGE_SIZE);
+        test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
+        src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
     }
-#endif // NOTUSED
+
+    void test_baseloader2(void) {
+        //  Test the baseloader: Copy a page from low flash memory to high flash memory.
+        test_src =  (uint32_t *) (FLASH_BASE + FLASH_PAGE_SIZE);
+        test_dest = (uint32_t *) (FLASH_BASE + FLASH_SIZE_OVERRIDE - FLASH_PAGE_SIZE);
+        test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
+        src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
+    }
+
+    void test_baseloader_end(void) {
+        dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
+    }
+#endif  //  NOTUSED
 
 static void get_serial_number(void) {
     char serial[USB_SERIAL_NUM_LENGTH+1];
@@ -218,18 +302,6 @@ static void get_serial_number(void) {
 }
 
 #ifdef NOTUSED
-    if (appValid && boot_target_get_force_app()) {
-         jump_to_application();
-         return 0;
-    }
-
-    if (boot_target_get_force_bootloader() || !appValid) {    
-        poll_loop();    
-    } else {
-        debug_println("jump_to_application");  debug_flush();
-        jump_to_application();
-    }    
-
     extern uint32_t hf2_buffer;
     extern const char infoUf2File[];
 
@@ -281,24 +353,5 @@ static void get_serial_number(void) {
         debug_print("test_backup write "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
         cmd = backup_read(reg);
         debug_print("test_backup read again "); debug_print_unsigned((size_t) cmd); debug_println(""); debug_flush();
-    }
-
-    static void jump_to_application(void) __attribute__ ((noreturn));
-
-    static void jump_to_application(void) {
-        //  Jump to the application main() function, which is always located at the fixed address _text according to the linker script.
-        debug_print("jump to app "); debug_printhex_unsigned(APP_BASE_ADDRESS); debug_println(""); debug_flush();
-
-        //  Fetch the application address.
-        int (*application_main)() = (int (*)()) APP_BASE_ADDRESS;
-
-        //  TODO: Initialize the application's stack pointer
-        //  In Application Mode, we have more stack/heap space available because we can free up the bootloader's flashing buffers.
-        //  __set_MSP((uint32_t)(app_vector_table->initial_sp_value));
-
-        //  Jump to the address.
-        //  int status = 
-        (*application_main)();
-        for (;;) {}  //  Should never return.
     }
 #endif  //  NOTUSED

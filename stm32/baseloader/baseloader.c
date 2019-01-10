@@ -2,6 +2,7 @@
 #include <logger/logger.h>
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/systick.h>  //  For STK_CSR
+#include <libopencm3/cm3/scb.h>
 #include <libopencm3/stm32/desig.h>  //  For DESIG_FLASH_SIZE
 #include <libopencm3/stm32/flash.h>
 #include <libopencm3/stm32/rcc.h>    //  For RCC_CIR
@@ -9,6 +10,7 @@
 #include "baseloader.h"
 
 extern void application_start(void);
+uint32_t baseloader_fail = 0;  //  Address that caused the Baseloader to fail.
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
 
@@ -211,128 +213,50 @@ int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
     }
 	base_flash_lock();  //  TODO: Check MakeCode flashing.
 
-	//  Vector table may have been overwritten. Restart to use the new vector table.
 	//  TODO: Erase the second vector table.
-    //  TODO: if (should_disable_interrupts) { scb_reset_system(); }
-	
+
+	//  Vector table may have been overwritten. Restart to use the new vector table.
+    if (should_disable_interrupts) { 
+		SCB_AIRCR = SCB_AIRCR_VECTKEY | SCB_AIRCR_SYSRESETREQ;  //  From scb_reset_system(); 
+	}	
 	return verified ? bytes_flashed : -1;
 }
 
 int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count) {
 	//  Return the address of the baseloader function, located in the Second Base Vector Table.
 	//  Also return the parameters to be passed to the baseloader function: dest, src, byte_count.
-	if (!baseloader_addr || !dest || !src || !byte_count) { return -1; }
+	if (!baseloader_addr || !dest || !src || !byte_count) { 
+		baseloader_fail = (uint32_t) baseloader_addr;
+		return -1; 
+	}
 	//  Search for the First and Second Base Vector Tables and find the bootloader range.
 	//  First Base Vector Table is in the start of the application ROM.
-	if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) { return -2; }  //  Quit if First Base Vector Table is not found.
+	if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) {  //  Quit if First Base Vector Table is not found.
+		baseloader_fail = (uint32_t) FLASH_ADDRESS(application_start);
+		return -2; 
+	}
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
 
 	//  Get size of new bootloader from the First Base Vector Table (same as the Application ROM start address).
-	uint32_t bootloader_size = (uint32_t) (begin_base_vector->application) - FLASH_BASE;
+	uint32_t bootloader_size = (uint32_t) FLASH_ADDRESS(begin_base_vector->application) - FLASH_BASE;
 	if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
-		>= FLASH_BASE + FLASH_SIZE_OVERRIDE) { return -3; }  //  Quit if bootloader size is too big.
+		>= FLASH_BASE + FLASH_SIZE_OVERRIDE) { //  Quit if bootloader size is too big.
+		baseloader_fail = bootloader_size;
+		return -3; 
+	} 
 
 	//  Second Base Vector Table is at start of application ROM + bootloader size.  Round up to the next flash page.
 	uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
-	if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) { return -4; }  //  Quit if Second Base Vector Table is not found.
+	if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) {  //  Quit if Second Base Vector Table is not found.
+		baseloader_fail = flash_page_addr;
+		return -4; 
+	}
 	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
 
-	//  Jump to the baseloader in the Second Base Vector Table.
+	//  Tell caller to jump to the baseloader in the Second Base Vector Table.
 	*baseloader_addr = (baseloader_func) ((uint32_t) (end_base_vector->baseloader) - FLASH_BASE + flash_page_addr);
 	*dest = (uint32_t *) FLASH_BASE;  		 //  Overwrite the old bootloader...
 	*src  = (uint32_t *) FLASH_ADDRESS(application_start);  //  By the new bootloader from the Application space.
 	*byte_count = bootloader_size;			 //  For this number of bytes.
 	return 0;
 }
-
-int base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
-	//  Return the number of half-words flashed.
-	//  TODO: Validate dest, src, half_word_count before flashing.
-	int bytes_flashed = baseloader_start((uint32_t *) dest0, (const uint32_t *) src0, half_word_count0 * 2);
-	return (bytes_flashed > 0) ? bytes_flashed / 2 : bytes_flashed;
-}
-
-#ifdef DISABLE_DEBUG
-#define debug_flash() {}
-#define debug_dump() {}
-#define debug_dump2() {}
-#else
-#define debug_flash() { \
-    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); \
-    debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
-    /* debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); */ \
-    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
-    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
-}
-#define debug_dump() { \
-    debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \
-    debug_print("dest "); debug_printhex_unsigned((size_t) dest); debug_println(""); \
-    debug_print("size "); debug_printhex_unsigned((size_t) byte_count); debug_println(""); debug_force_flush(); \
-    debug_print("before "); debug_printhex_unsigned(*dest); debug_println(""); debug_force_flush(); \
-}
-#define debug_dump2() { \
-    debug_print("after "); debug_printhex_unsigned(*dest); \
-    debug_print(" / "); debug_printhex(status); \
-	debug_print((*dest == *src) ? " OK " : " FAIL "); \
-	debug_println("\r\n"); debug_force_flush(); \
-}
-#endif  //  DISABLE_DEBUG
-
-void test_copy_bootloader(void) {
-	//  Copy bootloader to application space.
-	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
-	uint32_t *src =  (uint32_t *) (FLASH_BASE);
-	uint32_t *dest = (uint32_t *) FLASH_ADDRESS(application_start);
-	size_t byte_count = bootloader_size;
-	debug_dump(); ////
-
-	int status = baseloader_start(dest, src, byte_count);
-	debug_dump2(); ////
-
-	//  Dump the first base vector.
-	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
-	debug_print("begin_base_vector "); debug_printhex_unsigned((uint32_t) begin_base_vector); debug_println("");
-	debug_print("magic "); debug_printhex_unsigned(begin_base_vector->magic_number); debug_println("");
-	debug_force_flush();
-}
-
-void test_copy_baseloader(void) {
-	//  Copy baseloader to end of bootloader.
-	uint32_t bootloader_size = (uint32_t) application_start - FLASH_BASE;
-	uint32_t baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
-	uint32_t *src =  (uint32_t *) (FLASH_BASE);
-	uint32_t *dest = (uint32_t *) FLASH_CEIL_ADDRESS(application_start + bootloader_size);
-	size_t byte_count = baseloader_size;
-	debug_dump(); ////
-
-	int status = baseloader_start(dest, src, byte_count);
-	debug_dump2(); ////
-
-	//  Dump the second base vector.
-	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(FLASH_CEIL_ADDRESS(application_start + bootloader_size));
-	debug_print("end_base_vector "); debug_printhex_unsigned((uint32_t) end_base_vector); debug_println("");
-	debug_print("magic "); debug_printhex_unsigned(end_base_vector->magic_number); debug_println("");
-	debug_force_flush();
-}
-
-#ifdef NOTUSED
-void test_baseloader1(void) {
-	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	test_src =  (uint32_t *) (FLASH_BASE);
-	test_dest = (uint32_t *) (FLASH_BASE + FLASH_SIZE_OVERRIDE - FLASH_PAGE_SIZE);
-	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
-	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
-}
-
-void test_baseloader2(void) {
-	//  Test the baseloader: Copy a page from low flash memory to high flash memory.
-	test_src =  (uint32_t *) (FLASH_BASE + FLASH_PAGE_SIZE);
-	test_dest = (uint32_t *) (FLASH_BASE + FLASH_SIZE_OVERRIDE - FLASH_PAGE_SIZE);
-	test_half_word_count = FLASH_PAGE_HALF_WORD_COUNT;
-	src = (uint16_t *) test_src; dest = (uint16_t *) test_dest; half_word_count = test_half_word_count; debug_dump(); ////
-}
-
-void test_baseloader_end(void) {
-	dest = NULL; src = NULL; half_word_count = 0; debug_dump2(); ////
-}
-#endif  //  NOTUSED
