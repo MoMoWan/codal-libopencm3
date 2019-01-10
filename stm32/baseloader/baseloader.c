@@ -245,8 +245,8 @@ int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const ui
 		return -3; 
 	} 
 
-	//  Second Base Vector Table is at start of application ROM + bootloader size.  Round up to the next flash page.
-	uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
+	//  Second Base Vector Table is at start of application ROM + bootloader size.  TODO: Round up to the next flash page?
+	uint32_t flash_page_addr = (uint32_t) FLASH_ADDRESS(application_start) + bootloader_size;
 	if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) {  //  Quit if Second Base Vector Table is not found.
 		baseloader_fail = flash_page_addr;
 		*byte_count = bootloader_size;

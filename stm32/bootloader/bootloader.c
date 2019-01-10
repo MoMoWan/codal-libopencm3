@@ -119,7 +119,7 @@ int bootloader_start(void) {
         debug_print("not found "); debug_print_int(baseloader_status); debug_print(" ");
         debug_print(
             (baseloader_status == -3) ? "too big " :
-            (baseloader_status == -4) ? "end " :
+            (baseloader_status == -4) ? "at " :
             "");
         debug_printhex_unsigned(baseloader_fail);
         if (baseloader_status == -4) { 
