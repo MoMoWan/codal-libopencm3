@@ -121,7 +121,7 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     const uint32_t old_app_start_offset = old_app_start - FLASH_BASE;  //  When writing Bootloader, shift by this offset so we don't overwrite the existing Bootloader.
     if (new_app_start == 0 || target_addr == FLASH_BASE) {
         //  Init upon receiving the first packet.  Assume app start address is same until we get the actual app start address.
-        debug_println("init"); debug_force_flush();
+        debug_println("find vector..."); debug_force_flush();
         new_base_vector = NULL;
         new_app_start = (uint32_t) FLASH_ADDRESS(base_vector_table.application);
         new_bootloader_size = (uint32_t) base_vector_table.application - FLASH_BASE;
@@ -129,11 +129,11 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     }
     if (!new_base_vector && IS_VALID_BASE_VECTOR_TABLE(old_app_start)) {
         //  The first 4 packets of the Bootloader will eventually be flushed into the old Application start address.  When that's done, we extract the Base Vector Table.
-        new_base_vector = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
+        new_base_vector = BASE_VECTOR_TABLE(old_app_start);
         new_app_start = (uint32_t) FLASH_ADDRESS(new_base_vector->application);
-        new_bootloader_size = (uint32_t) (new_base_vector->application) - FLASH_BASE;
+        new_bootloader_size = new_app_start - FLASH_BASE;
         new_baseloader_size = (uint32_t) (new_base_vector->baseloader_end) - FLASH_BASE;
-        debug_print("found base vector, app "); debug_printhex_unsigned(new_app_start);
+        debug_print("found vector, app "); debug_printhex_unsigned(new_app_start);
         debug_print(", boot size "); debug_printhex_unsigned(new_bootloader_size);
         debug_print(", base size "); debug_printhex_unsigned(new_baseloader_size);
         debug_println(""); debug_force_flush();
@@ -146,14 +146,28 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     if (target_addr < new_app_start) {  //  If writing Bootloader Page...
         //  Start writing at old Application start address and continue writing consecutive pages.  We will use Baseloader to update Bootloader if there are changes.
         target_addr += old_app_start_offset;
-    }  else if (new_base_vector && target_addr == new_app_start) {  //  When we are finished writing the Bootloader and now writing first Application Page...
+        if (!VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) { debug_print("*** ERROR: Invalid addr "); debug_printhex_unsigned(target_addr); debug_println(""); debug_force_flush(); }
+        
+    }  else if (new_base_vector && (target_addr == new_app_start)) {  //  When we are finished writing the Bootloader and now writing first Application Page...
+        debug_println("wrote bootloader"); debug_force_flush();
         flash_flush();  //  Flush the last Bootloader page.
+        debug_println("compare bootloader..."); debug_force_flush();
+
         //  Compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
-        if (memcmp((void *) old_app_start, (void *) FLASH_BASE, new_bootloader_size) != 0) {
+        int bootloader_changed = memcmp((void *) old_app_start, (void *) FLASH_BASE, new_bootloader_size);
+
+        if (bootloader_changed) {
             //  If any diff, copy the new Base Vector Table with Baseloader into current flash location.
+            debug_println("bootloader changed"); debug_force_flush();
             uint32_t new_baseloader_addr = target_addr + old_app_start_offset;
+
+            debug_print("copy baseloader to "); debug_printhex_unsigned(new_baseloader_addr); 
+            debug_print(", size "); debug_printhex_unsigned(new_baseloader_size);
+            debug_println(""); debug_force_flush();
+
             flash_write(new_baseloader_addr, (const uint8_t *) old_app_start, new_baseloader_size);
             flash_flush();
+            
             //  Restart and let Baseloader update the Bootloader code.  Then continue flashing the Application.
             debug_print("restart to baseloader "); debug_printhex_unsigned(new_baseloader_addr);
             debug_print(", size "); debug_printhex_unsigned(new_baseloader_size);
@@ -462,7 +476,7 @@ void hf2_setup(usbd_device *usbd_dev, connected_callback *connected_func0) {
 
 static void assert(bool assertion, const char *msg) {
     if (assertion) { return; }
-    debug_print("*** ERROR: "); debug_println(msg);
+    debug_print("*** ERROR: "); debug_println(msg); debug_force_flush();
 }
 
 #define MURMUR3 0
