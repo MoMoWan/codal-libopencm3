@@ -11773,13 +11773,13 @@ void flash_flush(void) {
 void flash_write(uint32_t dst, const uint8_t *src, int byte_count) {
  80043ec:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
  80043f0:	4604      	mov	r4, r0
- 80043f2:	4615      	mov	r5, r2
+ 80043f2:	460e      	mov	r6, r1
+ 80043f4:	4615      	mov	r5, r2
     //  Write len bytes from src to ROM at address dst.  The writing is buffered in RAM until flash_flush() is called.    
     //  TODO: Support other memory sizes.
     if (dst < 0x8000000 || (dst + byte_count) >= 0x8010000 ||
- 80043f4:	f1b0 6f00 	cmp.w	r0, #134217728	; 0x8000000
- 80043f8:	d30f      	bcc.n	800441a <flash_write+0x2e>
- 80043fa:	460e      	mov	r6, r1
+ 80043f6:	f1b0 6f00 	cmp.w	r0, #134217728	; 0x8000000
+ 80043fa:	d30e      	bcc.n	800441a <flash_write+0x2e>
  80043fc:	4611      	mov	r1, r2
  80043fe:	4402      	add	r2, r0
  8004400:	4b26      	ldr	r3, [pc, #152]	; (800449c <flash_write+0xb0>)
@@ -11798,10 +11798,10 @@ void flash_write(uint32_t dst, const uint8_t *src, int byte_count) {
  800441c:	f7fe fa54 	bl	80028c8 <debug_print>
  8004420:	4620      	mov	r0, r4
  8004422:	f7fe fa9d 	bl	8002960 <debug_printhex_unsigned>
-        debug_print(", src "); debug_printhex_unsigned(dst);
+        debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
  8004426:	481f      	ldr	r0, [pc, #124]	; (80044a4 <flash_write+0xb8>)
  8004428:	f7fe fa4e 	bl	80028c8 <debug_print>
- 800442c:	4620      	mov	r0, r4
+ 800442c:	4630      	mov	r0, r6
  800442e:	f7fe fa97 	bl	8002960 <debug_printhex_unsigned>
         debug_print(", len "); debug_printhex_unsigned(byte_count); debug_println(""); debug_force_flush();
  8004432:	481d      	ldr	r0, [pc, #116]	; (80044a8 <flash_write+0xbc>)

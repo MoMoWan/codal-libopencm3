@@ -143,10 +143,15 @@ void flash_flush(void) {
 void flash_write(uint32_t dst, const uint8_t *src, int byte_count) {
     //  Write len bytes from src to ROM at address dst.  The writing is buffered in RAM until flash_flush() is called.    
     //  TODO: Support other memory sizes.
-    if (dst < 0x8000000 || (dst + byte_count) >= 0x8010000 ||
-        (uint32_t) src < 0x20000000 || ((uint32_t) src + byte_count) >= 0x20005000) {
+    int valid = 
+        (dst >= 0x08000000 && (dst + byte_count) < 0x8010000 &&
+        (
+            ((uint32_t) src >= 0x08000000 && ((uint32_t) src + byte_count) < 0x08010000) ||
+            ((uint32_t) src >= 0x20000000 && ((uint32_t) src + byte_count) < 0x20005000)
+        ));
+    if (!valid) {
         debug_print("**** ERROR: Invalid flash write, dst "); debug_printhex_unsigned(dst); 
-        debug_print(", src "); debug_printhex_unsigned(dst);
+        debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
         debug_print(", len "); debug_printhex_unsigned(byte_count); debug_println(""); debug_force_flush();
         return;
     }
