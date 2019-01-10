@@ -29,7 +29,7 @@
 #define CONTROL_CALLBACK_TYPE_CLASS (USB_REQ_TYPE_CLASS | USB_REQ_TYPE_INTERFACE)
 #define CONTROL_CALLBACK_MASK_CLASS (USB_REQ_TYPE_TYPE | USB_REQ_TYPE_RECIPIENT)
 
-#define VALID_FLASH_ADDR(addr, sz) (USER_FLASH_START <= (addr) && (addr) + (sz) <= USER_FLASH_END)
+#define VALID_FLASH_ADDR(addr, sz) (FLASH_BASE <= (addr) && (addr) + (sz) <= USER_FLASH_END)
 #define HF2_BUF_SIZE        (FLASH_PAGE_SIZE + 64)          //  Large buffer for Bootloader Mode.  Previously (1024 + 16).  Devices will typically limit it to the native flash page size + 64 bytes
 #define HF2_MINI_BUF_SIZE   (4 + sizeof(UF2_INFO_TEXT))     //  Smaller buffer for Application Mode.
 #define HF2_PAGE_SIZE       256                             //  MakeCode fails to flash if HF2_PAGE_SIZE is not the same as UF2 page size: U.assert(b.payloadSize == this.pageSize)
@@ -80,9 +80,10 @@ static usbd_device *_usbd_dev;
 static volatile uint32_t rx_time = 0;
 static uint8_t rx_buf[64];
 static uint8_t tx_buf[64];
+static uint32_t prevCmdId = 0;
 static const char bad_packet_message[] = "bad packet";
 
-//  Remaining data to be sent.
+//  Remaining data to be sent.  Used for sending multiple packets for a message.
 static const uint8_t *remDataToSend;
 static volatile uint32_t remDataToSendLength;
 static uint8_t remDataToSendFlag = 0;
@@ -90,7 +91,94 @@ static enum StartupMode restart_request = UNKNOWN_MODE;  //  Restart after last 
 
 #define checkDataSize(str, add) assert(sz == 8 + sizeof(cmd->str) + (add), "*** ERROR: checkDataSize failed")
 
+static void handle_flash_write(HF2_Buffer *pkt) {
+    //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
+    //  When all pages have been flashed, MakeCode sends HF2_CMD_RESET_INTO_APP to restart into Application Mode.
+    int sz = pkt->size;
+    HF2_Command *cmd = &(pkt->cmd);
+    uint32_t target_addr = cmd->write_flash_page.target_addr;
+    const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
+    const char *valid = VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) ? " " : " !!! ";
+    uint32_t cmdId = cmd->command_id;
+    if (cmdId != prevCmdId) { debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }  ////
+    else { debug_print(">> "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }
+
+    //  First send ACK and then start writing, while getting the next packet.
+    send_hf2_response(pkt, 0);
+
+    //  MakeCode will send Bootloader pages (low ROM address) then Application pages (high ROM address).
+    //  We will write Bootloader pages into the old Application ROM address first.
+    //  If there are changes in the Bootloader pages, restart to let Baseloader shift the Bootloader pages from high ROM to low ROM address.
+    static base_vector_table_t *new_base_vector = NULL;
+    static uint32_t new_app_start = 0;
+    static uint32_t new_bootloader_size = 0;
+    static uint32_t new_baseloader_size = 0;
+    const uint32_t old_app_start = (uint32_t) FLASH_ADDRESS(base_vector_table.application);  //  Bootloader will be staged here for Baseloader.
+    const uint32_t old_app_start_offset = old_app_start - FLASH_BASE;  //  When writing Bootloader, shift by this offset so we don't overwrite the existing Bootloader.
+    if (new_app_start == 0 || target_addr == FLASH_BASE) {
+        //  Init upon receiving the first packet.  Assume app start address is same until we get the actual app start address.
+        debug_println("init"); debug_force_flush();
+        new_base_vector = NULL;
+        new_app_start = (uint32_t) FLASH_ADDRESS(base_vector_table.application);
+        new_bootloader_size = (uint32_t) base_vector_table.application - FLASH_BASE;
+        new_baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
+    }
+    if (!new_base_vector && IS_VALID_BASE_VECTOR_TABLE(old_app_start)) {
+        //  The first 4 packets of the Bootloader will eventually be flushed into the old Application start address.  When that's done, we extract the Base Vector Table.
+        new_base_vector = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
+        new_app_start = (uint32_t) FLASH_ADDRESS(new_base_vector->application);
+        new_bootloader_size = (uint32_t) (new_base_vector->application) - FLASH_BASE;
+        new_baseloader_size = (uint32_t) (new_base_vector->baseloader_end) - FLASH_BASE;
+        debug_print("app "); debug_printhex_unsigned(new_app_start);
+        debug_print(", boot size "); debug_printhex_unsigned(new_bootloader_size);
+        debug_print(", base size "); debug_printhex_unsigned(new_baseloader_size);
+        debug_println(""); debug_force_flush();
+    }
+
+    //  Is this a Bootloader Page or Application Page?
+    //  Bootloader Page:  Flash address <  new_app_start
+    //  Application Page: Flash address >= new_app_start
+
+    if (target_addr < new_app_start) {  //  If writing Bootloader Page...
+        //  Start writing at old Application start address and continue writing consecutive pages.  We will use Baseloader to update Bootloader if there are changes.
+        target_addr += old_app_start_offset;
+    }  else if (target_addr == new_app_start) {  //  When we are finished writing the Bootloader and now writing first Application Page...
+        flash_flush();  //  Flush the last Bootloader page.
+        //  Compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
+        if (memcmp((void *) old_app_start, (void *) FLASH_BASE, new_bootloader_size) != 0) {
+            //  If any diff, copy the new Base Vector Table with Baseloader into current flash location.
+            uint32_t new_baseloader_addr = target_addr + old_app_start_offset;
+            flash_write(new_baseloader_addr, (const uint8_t *) old_app_start, new_baseloader_size);
+            flash_flush();
+            //  Restart and let Baseloader update the Bootloader code.  Then continue flashing the Application.
+            debug_print("restart to baseloader "); debug_printhex_unsigned(new_baseloader_addr);
+            debug_print(", size "); debug_printhex_unsigned(new_baseloader_size);
+            debug_println(""); debug_force_flush();
+            boot_target_manifest_bootloader();  //  Never returns.
+            return;
+        }
+        debug_print("bootloader identical "); debug_printhex_unsigned(old_app_start);
+        debug_print(", size "); debug_printhex_unsigned(new_bootloader_size);
+        debug_println(""); debug_force_flush();
+    }
+
+    //  Write the flash page if valid.
+    checkDataSize(write_flash_page, HF2_PAGE_SIZE);
+    if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
+#ifdef PLATFORMIO
+// #define FLASH_DISABLED
+#endif  //  PLATFORMIO
+#ifdef FLASH_DISABLED
+        #warning flash_write disabled
+#else
+        flash_write(target_addr, data, HF2_PAGE_SIZE);
+#endif  //  FLASH_DISABLED
+    }
+    return;
+}
+
 static void handle_command(HF2_Buffer *pkt) {
+    //  Handle the received HF2 command.
 	//  Must set connected flag before transmitting.
 	if (!connected) {
 		connected = 1;
@@ -99,15 +187,12 @@ static void handle_command(HF2_Buffer *pkt) {
     // one has to be careful dealing with these, as they share memory
     HF2_Command *cmd = &(pkt->cmd);
     HF2_Response *resp = &(pkt->resp);
-
-    static uint32_t prevCmdId = 0;
     static uint32_t cmdId = 0;
     prevCmdId = cmdId;    
     cmdId = cmd->command_id;
     int sz = pkt->size;
     resp->tag = cmd->tag;
     resp->status16 = HF2_STATUS_OK;  //  Default status is OK.
-
     switch (cmdId) {
         case HF2_CMD_BININFO: {
             //  MakeCode sends this command first to get the mode of the device (Bootloader vs Application Mode) and flashing parameters.
@@ -162,87 +247,15 @@ static void handle_command(HF2_Buffer *pkt) {
         case HF2_CMD_WRITE_FLASH_PAGE: {
             //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
             //  When all pages have been flashed, MakeCode sends HF2_CMD_RESET_INTO_APP to restart into Application Mode.
-            uint32_t target_addr = cmd->write_flash_page.target_addr;
-            const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
-            const char *valid = VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) ? " " : " !!! ";
-
-            if (cmdId != prevCmdId) { debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }  ////
-            else { debug_print(">> "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }
-
             //  Don't allow flashing in Application Mode.  After last packet has been sent, restart into Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
+                debug_println("hf2 >> flash");  debug_force_flush(); ////
                 restart_request = BOOTLOADER_MODE; 
                 send_hf2_response(pkt, 0);
                 return;
             }
-
-            //  First send ACK and then start writing, while getting the next packet.
-            send_hf2_response(pkt, 0);
-
-            //  TODO: If we are writing to a Bootloader page, write it to the Application space first.
-            //  If there are changes in the Bootloader code, restart to let Baseloader replace the Bootloader code.
-
-            static base_vector_table_t *new_base_vector = NULL;
-            static uint32_t new_app_start = 0;
-            static uint32_t new_bootloader_size = 0;
-            static uint32_t new_baseloader_size = 0;
-            if (new_app_start == 0) {
-                //  Assume app start address is same until we get the actual app start address.
-                new_app_start = (uint32_t) FLASH_ADDRESS(base_vector_table.application);
-                new_bootloader_size = (uint32_t) base_vector_table.application - FLASH_BASE;
-                new_baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
-            }
-            if (target_addr == FLASH_BASE) {
-                //  If this is the first packet (Bootloader), extract the Base Vector Table.
-                new_base_vector = ( (base_vector_table_t *) ((uint32_t) target_addr + BASE_VECTOR_TABLE_OFFSET) );
-                new_app_start = (uint32_t) FLASH_ADDRESS(new_base_vector->application);
-                new_bootloader_size = (uint32_t) (new_base_vector->application) - FLASH_BASE;
-	            new_baseloader_size = (uint32_t) (new_base_vector->baseloader_end) - FLASH_BASE;
-                debug_print("app "); debug_printhex_unsigned(new_app_start);
-                debug_print(", boot size "); debug_printhex_unsigned(new_bootloader_size);
-                debug_print(", base size "); debug_printhex_unsigned(new_baseloader_size);
-                debug_println(""); debug_force_flush();
-            }
-
-            //  Is this a Bootloader Page or Application Page?
-            //  Bootloader Page:  Flash address <  new_app_start
-            //  Application Page: Flash address >= new_app_start
-
-            if (target_addr < new_app_start) {
-                //  Bootloader Page:  Flash address <  new_app_start
-            } else {
-                //  Application Page: Flash address >= new_app_start
-            }
-
-            //  Bootloader Page:
-            //  Start writing at FLASH_ADDRESS(old application_start)
-            //  When writing first Application Page, compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
-            //  If any diff, copy the new base_vector_table into current flash location, restart and let Baseloader update the Bootloader code.
-
-            /*
-            //  Get size of new bootloader from the First Base Vector Table (same as the Application address).
-            uint32_t bootloader_size = (uint32_t) (begin_base_vector->application) - FLASH_BASE;
-            if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
-                >= FLASH_BASE + FLASH_SIZE_OVERRIDE) { return -3; }  //  Quit if bootloader size is too big.
-
-            //  Second Base Vector Table is at start of application ROM + bootloader size.  Round up to the next flash page.
-            uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
-            if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) { return -4; }  //  Quit if Second Base Vector Table is not found.
-            base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
-            */
-
-            //  Write the flash page if valid.
-            checkDataSize(write_flash_page, HF2_PAGE_SIZE);
-            if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
-#ifdef PLATFORMIO
-// #define FLASH_DISABLED
-#endif  //  PLATFORMIO
-#ifdef FLASH_DISABLED
-                #warning flash_write disabled
-#else
-                flash_write(target_addr, data, HF2_PAGE_SIZE);
-#endif  //  FLASH_DISABLED
-            }
+            //  Handle the command.
+            handle_flash_write(pkt);
             return;
         }
         case HF2_CMD_RESET_INTO_APP: {
@@ -317,10 +330,8 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
     // debug_print("hf2 << tag "); debug_printhex(rx_buf[0]); debug_println("");  // DMESG("HF2 read: %d", len);
     // dump_buffer(",", rx_buf, len);    
     if (len <= 0) return;
-
     uint8_t tag = rx_buf[0];
-    uint8_t cmd = rx_buf[1];  //  Only valid if pkt->size = 0 (first packet of message).
-
+    //  uint8_t cmd = rx_buf[1];  //  Only valid if pkt->size = 0 (first packet of message).
     //  Use the large buffer for Bootloader Mode, small buffer for Application Mode.
     //  static HF2_Buffer *pkt = (HF2_Buffer *) &hf2_buffer_mini;
     //  static HF2_Buffer *pkt = &hf2_buffer;
@@ -331,7 +342,6 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
             (HF2_Buffer *) &hf2_buffer_mini;
         //  debug_print("pkt "); debug_printhex_unsigned((size_t) pkt); debug_println("");
     }
-
     // serial packets not allowed when in middle of command packet
     usb_assert(pkt->size == 0 || !(tag & HF2_FLAG_SERIAL_OUT), bad_packet_message);
     int size = tag & HF2_SIZE_MASK;
@@ -345,7 +355,7 @@ static void hf2_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
         if (tag == HF2_FLAG_CMDPKT_LAST) {
             handle_command(pkt);
         } else {
-            // do something about serial?
+            // TODO: do something about serial?
         }
         pkt->size = 0;
     }
