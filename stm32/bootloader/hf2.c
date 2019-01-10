@@ -129,7 +129,7 @@ static void handle_flash_write(HF2_Buffer *pkt) {
         new_app_start = (uint32_t) FLASH_ADDRESS(new_base_vector->application);
         new_bootloader_size = (uint32_t) (new_base_vector->application) - FLASH_BASE;
         new_baseloader_size = (uint32_t) (new_base_vector->baseloader_end) - FLASH_BASE;
-        debug_print("app "); debug_printhex_unsigned(new_app_start);
+        debug_print("found base vector, app "); debug_printhex_unsigned(new_app_start);
         debug_print(", boot size "); debug_printhex_unsigned(new_bootloader_size);
         debug_print(", base size "); debug_printhex_unsigned(new_baseloader_size);
         debug_println(""); debug_force_flush();
@@ -142,7 +142,7 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     if (target_addr < new_app_start) {  //  If writing Bootloader Page...
         //  Start writing at old Application start address and continue writing consecutive pages.  We will use Baseloader to update Bootloader if there are changes.
         target_addr += old_app_start_offset;
-    }  else if (target_addr == new_app_start) {  //  When we are finished writing the Bootloader and now writing first Application Page...
+    }  else if (new_base_vector && target_addr == new_app_start) {  //  When we are finished writing the Bootloader and now writing first Application Page...
         flash_flush();  //  Flush the last Bootloader page.
         //  Compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
         if (memcmp((void *) old_app_start, (void *) FLASH_BASE, new_bootloader_size) != 0) {

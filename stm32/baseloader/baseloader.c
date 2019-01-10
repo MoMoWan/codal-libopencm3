@@ -171,16 +171,19 @@ the FLASH programming manual for details.
 
 //  This must be the first function in the file.  Macros appearing before the function are OK.
 int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
+	//  Return the number of bytes flashed.
 	//  TODO: Validate dest, src, half_word_count before flashing.
     //  debug_println("baseloader_start"); debug_force_flush();
 	static uint16_t *dest;
 	static uint16_t *src;
 	static size_t half_word_count;
+	static int bytes_flashed;
 	static bool verified, should_disable_interrupts;
 
 	dest = (uint16_t *) dest0;
 	src =  (uint16_t *) src0;
 	half_word_count = byte_count / 2;
+	bytes_flashed = 0;
 	should_disable_interrupts = false;
 
     static uint16_t *erase_start, *erase_end, *flash_end;
@@ -212,6 +215,7 @@ int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
         dest++;
         src++;
         half_word_count--;
+		bytes_flashed += 2;
     }
 	base_flash_lock();  //  TODO: Check MakeCode flashing.
 
@@ -219,7 +223,7 @@ int baseloader_start(uint32_t *dest0, const uint32_t *src0, size_t byte_count) {
 	//  TODO: Erase the second vector table.
     //  TODO: if (should_disable_interrupts) { scb_reset_system(); }
 	
-	return verified ? 1 : 0;
+	return verified ? bytes_flashed : -1;
 }
 
 int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count) {
@@ -249,10 +253,11 @@ int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const ui
 	return 0;
 }
 
-bool base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
+int base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
+	//  Return the number of half-words flashed.
 	//  TODO: Validate dest, src, half_word_count before flashing.
-	int status = baseloader_start((uint32_t *) dest0, (const uint32_t *) src0, half_word_count0 * 2);
-	return (status == 1);
+	int bytes_flashed = baseloader_start((uint32_t *) dest0, (const uint32_t *) src0, half_word_count0 * 2);
+	return (bytes_flashed > 0) ? bytes_flashed / 2 : bytes_flashed;
 }
 
 #ifdef DISABLE_DEBUG

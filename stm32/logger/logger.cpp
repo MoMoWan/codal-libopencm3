@@ -169,10 +169,10 @@ static void debug_append(const char *buffer, unsigned int length) {
     if (length >= DEBUG_BUFFER_SIZE) { return; }  //  Don't allow logging of very long messages.
     if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) {
         //  Erase the entire buffer.  Latest log is more important than old log.
-        debugBufferLength = 0;
-
-        //  Still can't fit after flushing.  Quit.
-        //  if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) { return; }
+        strcpy(debugBuffer, "[DROPPED]");
+        debugBufferLength = 9;
+        //  Still can't fit after clearing.  Quit.
+        if (debugBufferLength + length >= DEBUG_BUFFER_SIZE) { return; }
     }
     //  Else append to the buffer.
     memcpy(&debugBuffer[debugBufferLength], buffer, length);

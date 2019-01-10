@@ -221,188 +221,99 @@ void boot_target_manifest_app(void) {
     debug_force_flush(); ////
     backup_write(BKP0, CMD_APP);
     
-#ifdef NOTUSED
-    //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
-    if (restart_callback_func) { 
-        restart_callback_func(); 
-        return;
-    }
-#endif  //  NOTUSED
+    #ifdef NOTUSED
+        //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
+        if (restart_callback_func) { 
+            restart_callback_func(); 
+            return;
+        }
+    #endif  //  NOTUSED
     scb_reset_system();  //  Otherwise restart now.
 }
-
-extern void st_usbfs_endpoints_reset(usbd_device *dev); ////
 
 void boot_target_manifest_bootloader(void) {
     //  Restart into Bootloader Mode to run the bootloader.
     debug_println("boot bootloader"); 
     debug_force_flush(); ////
     backup_write(BKP0, CMD_BOOT);
-
-#ifdef NOTUSED
-    //  Disconnect the USB port.
-    //  boot_target_usb_init(); ////
-
-    // st_usbfs_endpoints_reset(&st_usbfs_v1_usb_driver); ////
-    // sleep_us(20000); ////
-
-    // #define USB_CNTR_PWDN		0x0002 /* Power down */
-    // #define USB_CNTR_FRES		0x0001 /* Force reset */
-	// *USB_CNTR_REG |= USB_CNTR_PWDN; /* Power down */
-	// *USB_CNTR_REG |= USB_CNTR_FRES; /* Force reset */
-
-    //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
-    if (restart_callback_func) { 
-        restart_callback_func(); 
-        return;
-    }
-#endif  //  NOTUSED
     scb_reset_system();  //  Otherwise restart now.
 }
-
-#ifdef NOTUSED
-bool boot_target_get_force_app(void) {
-    //  Return true if we should run the application at startup.
-    //  Note: Should not be called twice because it changes the backup registers.
-    if (backup_read(BKP0) == CMD_APP) {
-        backup_write(BKP0, 0);
-        return true;        
-    }
-    return false;
-}
-
-bool boot_target_get_force_bootloader(void) {
-    //  Return true if we should run the bootloader at startup.
-    //  Note: Should not be called twice because it changes the backup registers.
-    bool force = false;
-    /* Check the RTC backup register */
-    uint32_t cmd = backup_read(BKP0);
-    if (cmd == CMD_BOOT) {
-        // asked to go into bootloader?
-        backup_write(BKP0, 0);
-        return true;
-    }
-    if (cmd == CMD_APP) {        
-        // we were told to reset into app
-        backup_write(BKP0, 0);
-        return false;
-    }
-
-    // a reset now should go into app
-    backup_write(BKP0, CMD_APP);
-
-#if HAVE_BUTTON
-    /* Check if the user button is held down */
-    if (BUTTON_ACTIVE_HIGH) {
-        if (gpio_get(BUTTON_GPIO_PORT, BUTTON_GPIO_PIN)) {
-            force = true;
-        }
-    } else {
-        if (!gpio_get(BUTTON_GPIO_PORT, BUTTON_GPIO_PIN)) {
-            force = true;
-        }
-    }
-#endif
-
-    return force;
-}
-#endif  //  NOTUSED
 
 void boot_target_get_serial_number(char* dest, size_t max_chars) {
     desig_get_unique_id_as_string(dest, max_chars+1);
 }
 
-static uint16_t* get_flash_end(void) {
-#ifdef FLASH_SIZE_OVERRIDE
-    /* Allow access to the flash size we define */
-    return (uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE);
-#else
-    /* Only allow access to the chip's self-reported flash size */
-    return (uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE);
-#endif
-}
-
-size_t boot_target_get_max_firmware_size(void) {
-    uint8_t* flash_end = (uint8_t*)get_flash_end();
-    uint8_t* flash_start = (uint8_t*)(APP_BASE_ADDRESS);
-
-    return (flash_end >= flash_start) ? (size_t)(flash_end - flash_start) : 0;
-}
-
-void boot_target_flash_unlock(void) {
-    flash_unlock();
-}
-
-void boot_target_flash_lock(void) {
-    flash_lock();
-}
-
-static inline uint16_t* get_flash_page_address(uint16_t* dest) {
-    return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
-}
-
-bool boot_target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
-    bool verified = true;
-
-    /* Remember the bounds of erased data in the current page */
-    static uint16_t* erase_start;
-    static uint16_t* erase_end;
-
-    const uint16_t* flash_end = get_flash_end();
-    debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); ////
-    //  debug_print(", data "); debug_printhex_unsigned((size_t) data); 
-    debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); 
-    debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count); 
-    debug_println(""); ////
-    while (half_word_count > 0) {
-        /* Avoid writing past the end of flash */
-        if (dest >= flash_end) {
-            //  TODO: Fails here
-            debug_println("dest >= flash_end"); debug_flush();
-            verified = false;
-            break;
-        }
-
-        if (dest >= erase_end || dest < erase_start) {
-            erase_start = get_flash_page_address(dest);
-            erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
-            flash_erase_page((uint32_t)erase_start);
-        }
-        flash_program_half_word((uint32_t)dest, *data);
-        erase_start = dest + 1;
-        if (*dest != *data) {
-            debug_println("*dest != *data"); debug_flush();
-            verified = false;
-            break;
-        }
-        dest++;
-        data++;
-        half_word_count--;
-    }
-
-    return verified;
-}
-
 #ifdef NOTUSED
+    //  TODO: Switch to flash functions in Baseloader.
+
+    static uint16_t* get_flash_end(void) {
     #ifdef FLASH_SIZE_OVERRIDE
-    _Static_assert((FLASH_BASE + FLASH_SIZE_OVERRIDE >= APP_BASE_ADDRESS),
-                "Incompatible flash size");
-    #endif  //  FLASH_SIZE_OVERRIDE
-    
-    //  #define USE_HSI 1
-    void boot_target_clock_setup(void) {
-    #ifdef USE_HSI
-        /* Set the system clock to 48MHz from the internal RC oscillator.
-        The clock tolerance doesn't meet the official USB spec, but
-        it's better than nothing. */
-        rcc_clock_setup_in_hsi_out_48mhz();
+        /* Allow access to the flash size we define */
+        return (uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE);
     #else
-        /* Set system clock to 72 MHz from an external crystal */
-        rcc_clock_setup_in_hse_8mhz_out_72mhz();
+        /* Only allow access to the chip's self-reported flash size */
+        return (uint16_t*)(FLASH_BASE + (size_t)DESIG_FLASH_SIZE*FLASH_PAGE_SIZE);
     #endif
     }
 
-    void boot_target_relocate_vector_table(void) {
-        SCB_VTOR = APP_BASE_ADDRESS & 0xFFFF;
+    size_t boot_target_get_max_firmware_size(void) {
+        uint8_t* flash_end = (uint8_t*)get_flash_end();
+        uint8_t* flash_start = (uint8_t*)(APP_BASE_ADDRESS);
+
+        return (flash_end >= flash_start) ? (size_t)(flash_end - flash_start) : 0;
+    }
+
+    void boot_target_flash_unlock(void) {
+        flash_unlock();
+    }
+
+    void boot_target_flash_lock(void) {
+        flash_lock();
+    }
+
+    static inline uint16_t* get_flash_page_address(uint16_t* dest) {
+        return (uint16_t*)(((uint32_t)dest / FLASH_PAGE_SIZE) * FLASH_PAGE_SIZE);
+    }
+
+    bool boot_target_flash_program_array(uint16_t* dest, const uint16_t* data, size_t half_word_count) {
+        bool verified = true;
+
+        /* Remember the bounds of erased data in the current page */
+        static uint16_t* erase_start;
+        static uint16_t* erase_end;
+
+        const uint16_t* flash_end = get_flash_end();
+        debug_print("target_flash "); debug_printhex_unsigned((size_t) dest); ////
+        //  debug_print(", data "); debug_printhex_unsigned((size_t) data); 
+        //  debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); 
+        debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count); 
+        debug_println(""); ////
+        while (half_word_count > 0) {
+            /* Avoid writing past the end of flash */
+            if (dest >= flash_end) {
+                //  TODO: Fails here
+                debug_println("dest >= flash_end"); debug_flush();
+                verified = false;
+                break;
+            }
+
+            if (dest >= erase_end || dest < erase_start) {
+                erase_start = get_flash_page_address(dest);
+                erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
+                flash_erase_page((uint32_t)erase_start);
+            }
+            flash_program_half_word((uint32_t)dest, *data);
+            erase_start = dest + 1;
+            if (*dest != *data) {
+                debug_println("*dest != *data"); debug_flush();
+                verified = false;
+                break;
+            }
+            dest++;
+            data++;
+            half_word_count--;
+        }
+
+        return verified;
     }
 #endif  //  NOTUSED

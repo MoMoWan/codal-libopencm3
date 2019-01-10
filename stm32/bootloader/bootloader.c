@@ -127,22 +127,17 @@ int bootloader_start(void) {
 
 int bootloader_poll(void) {
     //  Run bootloader in background via polling.  Return 1 if there was USB activity within the last few seconds, 0 if none.
-    static uint32_t last_poll = 0;
-    static uint32_t delay = 0;
-    if (last_poll > 0) { delay = millis() - last_poll; } 
+    static uint32_t last_poll = 0;  // static uint32_t delay = 0;  if (last_poll > 0) { delay = millis() - last_poll; } 
     last_poll = millis();
-
     if (!usbd_dev) { return -1; }
 
     //  Run any USB request processing.
 	usbd_poll(usbd_dev);
 
     //  Get the status - should we continue polling?
-    status = get_usb_status();
-    //  if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
+    status = get_usb_status();  //  if (status != last_status) { debug_print("@"); debug_print_unsigned(status); debug_print(" "); } ////
     last_status = status;
-    return status;
-    // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
+    return status;  // if (delay > 0) { debug_print("p"); debug_print_unsigned(delay); debug_print(" / "); }
 }
 
 volatile int bootloader_status(void) {

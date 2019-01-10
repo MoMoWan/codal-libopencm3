@@ -1,5 +1,7 @@
+//  Functions for flashing to ROM and writing UF2 files.
 #include <string.h>
-#include <logger.h>
+#include <logger/logger.h>
+#include <baseloader/baseloader.h>
 #include "uf2.h"
 #include "target.h"
 
@@ -124,28 +126,22 @@ static uint32_t resetTime;
 static uint32_t lastFlush;
 
 void flash_flush(void) {
-    //  TODO: Don't overwrite the bootloader.
+    //  Flush the page of cached flashing data to ROM.
     lastFlush = ms;
-    if (flashAddr == NO_CACHE)
-        return;
-    if (firstFlush) {
-        firstFlush = false;
-        // disable bootloader or something
-    }
+    if (flashAddr == NO_CACHE) { return; }
+    if (firstFlush) { firstFlush = false; }  //  TODO: disable bootloader or something
     DBG("Flush at %x", flashAddr);
     if (memcmp(flashBuf, (void *)flashAddr, FLASH_PAGE_SIZE) != 0) {
-        debug_print("-> "); debug_printhex_unsigned((size_t) flashAddr); debug_print(" "); ////
-        DBG("Write flush at %x", flashAddr);
-
-        boot_target_flash_unlock();
-        bool ok = boot_target_flash_program_array((void *)flashAddr, (void*)flashBuf, FLASH_PAGE_SIZE / 2);
-        boot_target_flash_lock();
-        (void)ok;
+        //  If the page contents are different, write to ROM.
+        debug_print("-> "); debug_printhex_unsigned((size_t) flashAddr); debug_print(" "); //// DBG("Write flush at %x", flashAddr);
+        int words_flashed = base_flash_program_array((void *)flashAddr, (void*)flashBuf, FLASH_PAGE_SIZE / 2);
+        if (words_flashed != FLASH_PAGE_SIZE / 2) { debug_print("*** ERROR: Flash failed "); debug_print_int(words_flashed); debug_println(""); debug_force_flush(); }
     }
     flashAddr = NO_CACHE;
 }
 
 void flash_write(uint32_t dst, const uint8_t *src, int len) {
+    //  Write len bytes from src to ROM at address dst.
     uint32_t newAddr = dst & ~(FLASH_PAGE_SIZE - 1);
     // debug_print("flash "); debug_printhex_unsigned(dst); debug_println("");
     hadWrite = true;
@@ -161,17 +157,15 @@ static void uf2_timer_start(int delay) {
     resetTime = ms + delay;
 }
 
-// called roughly every 1ms
 void ghostfat_1ms() {
+    // called roughly every 1ms
     ms++;
-
     if (resetTime && ms >= resetTime) {
         debug_println("ghostfat_1ms boot_target_manifest_app");  debug_flush();  ////
         flash_flush();
         boot_target_manifest_app();
         while (1);
     }
-
     if (lastFlush && ms - lastFlush > 100) {
         flash_flush();
     }
