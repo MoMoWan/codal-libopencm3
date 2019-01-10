@@ -194,9 +194,8 @@ static void handle_command(HF2_Buffer *pkt) {
     resp->tag = cmd->tag;
     resp->status16 = HF2_STATUS_OK;  //  Default status is OK.
     switch (cmdId) {
-        case HF2_CMD_BININFO: {
-            //  MakeCode sends this command first to get the mode of the device (Bootloader vs Application Mode) and flashing parameters.
-            debug_println("hf2 >> bininfo");
+        case HF2_CMD_BININFO: {  debug_println("hf2 >> bininfo");
+            //  MakeCode sends this command first to get the mode of the device (Bootloader vs Application Mode) and flashing parameters.            
             assert(sizeof(resp->bininfo) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
             resp->bininfo.mode = (boot_target_get_startup_mode() == BOOTLOADER_MODE) ?                        
                 HF2_MODE_BOOTLOADER :
@@ -205,42 +204,26 @@ static void handle_command(HF2_Buffer *pkt) {
             resp->bininfo.flash_num_pages = FLASH_SIZE_OVERRIDE / HF2_PAGE_SIZE;
             resp->bininfo.max_message_size = HF2_BUF_SIZE;  //  Previously sizeof(pkt->buf);
             resp->bininfo.uf2_family = UF2_FAMILY;
-            send_hf2_response(pkt, sizeof(resp->bininfo));
-            debug_force_flush(); ////
+            send_hf2_response(pkt, sizeof(resp->bininfo)); debug_force_flush(); ////
             return;
         }
-        case HF2_CMD_INFO: {
+        case HF2_CMD_INFO: { debug_println("hf2 >> info");
             //  MakeCode sends this command next to identify the device. We return the INFO_UF2.TXT file. 
-            //  If device is in Application Mode, we restart to Bootloader Mode.  MakeCode sends HF2_CMD_START_FLASH before flashing.
-            //  If device is in Bootloader Mode, MakeCode sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
-            debug_println("hf2 >> info");
-
-#ifdef NOTUSED
-            //  After last info packet has been sent, restart into Bootloader Mode to handle HF2_CMD_START_FLASH, which doesn't wait for restart.
-            if (boot_target_get_startup_mode() == APPLICATION_MODE && 
-                boot_target_get_forced_startup_mode() == UNKNOWN_MODE) {  //  If we were just forced by bootloader to restart in Application Mode, don't restart because we have just completed flashing.
-                restart_request = BOOTLOADER_MODE;  //  Will restart in the tx callback after the last packet has been sent.
-            }
-#endif  //  NOTUSED
-
+            //  MakeCode sends HF2_CMD_START_FLASH next before flashing.  Then it sends HF2_CMD_WRITE_FLASH_PAGE to flash the first page.
             int info_size = strlen(infoUf2File);
             assert(info_size > 0, "empty hf2 info");
             assert((info_size + 4) < (int) HF2_MINI_BUF_SIZE, "hf2 buf too small");
             memcpy(pkt->resp.data8, infoUf2File, info_size);
             //  This will send first of 2 packets because info size is over 64 bytes.  The second packet will be sent by the tx callback.
-            send_hf2_response(pkt, info_size);
-            debug_force_flush(); ////
+            send_hf2_response(pkt, info_size); debug_force_flush(); ////
             return;
         }
-        case HF2_CMD_START_FLASH: {
-            //  Sent by MakeCode to begin flashing if we are in Bootloader Mode.
-            debug_println("hf2 >> start");
-            send_hf2_response(pkt, 0);
-            debug_force_flush(); ////
-            //  Don't allow flashing in Application Mode.  Restart now into Bootloader Mode.
+        case HF2_CMD_START_FLASH: { debug_println("hf2 >> start");
+            //  Sent by MakeCode to begin flashing if we are in Bootloader Mode.  If we are in Application Mode, restart to Bootloader Mode.            
+            send_hf2_response(pkt, 0); debug_force_flush(); ////            
+            //  Restart now into Bootloader Mode.  MakeCode will reconnect.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
                 boot_target_manifest_bootloader();  //  Never returns.
-                return;
             }
             return;
         }
@@ -248,24 +231,20 @@ static void handle_command(HF2_Buffer *pkt) {
             //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
             //  When all pages have been flashed, MakeCode sends HF2_CMD_RESET_INTO_APP to restart into Application Mode.
             //  Don't allow flashing in Application Mode.  After last packet has been sent, restart into Bootloader Mode.
-            if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
-                debug_println("hf2 >> flash");  debug_force_flush(); ////
+            if (boot_target_get_startup_mode() == APPLICATION_MODE) { debug_println("hf2 >> flash");  debug_force_flush(); ////
                 restart_request = BOOTLOADER_MODE; 
                 send_hf2_response(pkt, 0);
                 return;
             }
-            //  Handle the command.
+            //  Handle the flash command.
             handle_flash_write(pkt);
             return;
         }
-        case HF2_CMD_RESET_INTO_APP: {
-            //  Sent by MakeCode to restart into Application Mode after flashing.
-            debug_println("hf2 >> app");
+        case HF2_CMD_RESET_INTO_APP: { debug_println("hf2 >> app");
+            //  Sent by MakeCode to restart into Application Mode after flashing.            
             flash_flush();  //  Flush any pending flash writes.
             restart_request = APPLICATION_MODE;
-
-            send_hf2_response(pkt, 0);
-            debug_force_flush(); ////
+            send_hf2_response(pkt, 0); debug_force_flush(); ////
             return;
         }
         case HF2_CMD_RESET_INTO_BOOTLOADER: {
@@ -277,32 +256,26 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_force_flush(); ////
             return;
         }
-        case HF2_CMD_READ_WORDS: {
-            //  Sent by MakeCode to fetch the flash memory contents.
-            debug_println("hf2 >> read");
-
+        case HF2_CMD_READ_WORDS: { debug_println("hf2 >> read"); debug_force_flush(); ////
+            //  Sent by MakeCode to fetch the flash memory contents.            
             //  Don't allow reading in Application Mode.  After last packet has been sent, restart into Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
                 restart_request = BOOTLOADER_MODE; 
                 send_hf2_response(pkt, 0);
                 return;
             }
-
             checkDataSize(read_words, 0);
             int num_words = cmd->read_words.num_words;
             memcpy(resp->data32, (void *)cmd->read_words.target_addr, num_words << 2);
             send_hf2_response(pkt, num_words << 2);
             return;
         }
-
         /* TODO: Handle DMESG (0x0010)
             Return internal log buffer if any. The result is a character array.
-
             // no arguments
             struct HF2_DMESG_Result {
                 uint8_t logs[...];
             }; */
-
         #if MURMUR3
             case HF2_CMD_MURMUR3:
                 debug_println("hf2 >> murmur");
@@ -311,11 +284,11 @@ static void handle_command(HF2_Buffer *pkt) {
                 send_hf2_response(pkt, 8);
                 return;
         #endif
-        default:
-            // command not understood
-            debug_print("hf2 >> unknown "); debug_print_unsigned(cmdId); debug_println("");
+        default: { debug_print("hf2 >> unknown "); debug_print_unsigned(cmdId); debug_println(""); debug_force_flush(); ////
+            //  Command not understood.
             resp->status16 = HF2_STATUS_INVALID_CMD;
             break;
+        }
     }
     //  By default send a status response with 0 data bytes.
     send_hf2_response(pkt, 0);
@@ -521,65 +494,65 @@ static void assert(bool assertion, const char *msg) {
 
 #ifdef NOTUSED
 
-static void test_hf2(void) {
-    debug_print("sizeof(UF2_INFO_TEXT) ");
-    debug_printhex(sizeof(UF2_INFO_TEXT));
-    debug_println("");
+    static void test_hf2(void) {
+        debug_print("sizeof(UF2_INFO_TEXT) ");
+        debug_printhex(sizeof(UF2_INFO_TEXT));
+        debug_println("");
 
-    debug_print("infoUf2File ");
-    debug_printhex_unsigned((size_t) &infoUf2File);
-    debug_println("");
+        debug_print("infoUf2File ");
+        debug_printhex_unsigned((size_t) &infoUf2File);
+        debug_println("");
 
-    debug_print("infoUf2File len ");
-    debug_printhex(strlen(infoUf2File));
-    debug_println("");
+        debug_print("infoUf2File len ");
+        debug_printhex(strlen(infoUf2File));
+        debug_println("");
 
-    if (boot_target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
+        if (boot_target_get_startup_mode() == APPLICATION_MODE) { return; }  //  hf2_buffer only used in Bootloader Mode.
 
-    debug_print("hf2_buffer ");
-    debug_printhex_unsigned((size_t) &hf2_buffer);
-    debug_println("");
+        debug_print("hf2_buffer ");
+        debug_printhex_unsigned((size_t) &hf2_buffer);
+        debug_println("");
 
-    debug_print("*hf2_buffer before ");
-    debug_printhex_unsigned(hf2_buffer.size);
-    debug_println("");
+        debug_print("*hf2_buffer before ");
+        debug_printhex_unsigned(hf2_buffer.size);
+        debug_println("");
 
-    hf2_buffer.size = 0x1234;
+        hf2_buffer.size = 0x1234;
 
-    debug_print("*hf2_buffer after ");
-    debug_printhex_unsigned(hf2_buffer.size);
-    debug_println("");
+        debug_print("*hf2_buffer after ");
+        debug_printhex_unsigned(hf2_buffer.size);
+        debug_println("");
 
-    hf2_buffer.size = 0;
-}
+        hf2_buffer.size = 0;
+    }
 
-hf2 << len 64, tag 48, 64 / 48 01 00 00 00 5c a4 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    hf2 << len 64, tag 48, 64 / 48 01 00 00 00 5c a4 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-48 - len 8
-01 00 00 00 - cmd
-5c a4 - tag
-00 00 
+    48 - len 8
+    01 00 00 00 - cmd
+    5c a4 - tag
+    00 00 
 
-hf2 bininfo
-hf2 >> 64 / 58 5c a4 00 00 01 00 00 00 00 04 00 00 00 01 00 00 10 04 00 00 72 10 e2 5e 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    hf2 bininfo
+    hf2 >> 64 / 58 5c a4 00 00 01 00 00 00 00 04 00 00 00 01 00 00 10 04 00 00 72 10 e2 5e 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-58 - len 24
-5c a4 - tag
-00 - status
-00 - statusinfo
-01 00 00 00 - mode: bootloader
-00 04 00 00 - flash_page_size: 1024 bytes
-00 01 00 00 - flash_num_pages: 256
-40 04 00 00 - max_message_size: 1024 + 64 = 1088
-72 10 e2 5e - UF2_FAMILY 0x5ee21072
+    58 - len 24
+    5c a4 - tag
+    00 - status
+    00 - statusinfo
+    01 00 00 00 - mode: bootloader
+    00 04 00 00 - flash_page_size: 1024 bytes
+    00 01 00 00 - flash_num_pages: 256
+    40 04 00 00 - max_message_size: 1024 + 64 = 1088
+    72 10 e2 5e - UF2_FAMILY 0x5ee21072
 
-struct HF2_BININFO_Result {
-    uint32_t mode;
-    uint32_t flash_page_size;
-    uint32_t flash_num_pages;
-    uint32_t max_message_size;
-    uint32_t uf2_family;
-};
+    struct HF2_BININFO_Result {
+        uint32_t mode;
+        uint32_t flash_page_size;
+        uint32_t flash_num_pages;
+        uint32_t max_message_size;
+        uint32_t uf2_family;
+    };
 
 #endif  //  NOTUSED
