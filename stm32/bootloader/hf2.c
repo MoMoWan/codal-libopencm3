@@ -167,10 +167,12 @@ static void handle_flash_write(HF2_Buffer *pkt) {
 
             flash_write(new_baseloader_addr, (const uint8_t *) old_app_start, new_baseloader_size);
             flash_flush();
-            
+
             //  Restart and let Baseloader update the Bootloader code.  Then continue flashing the Application.
             debug_print("restart to baseloader "); debug_printhex_unsigned(new_baseloader_addr);
-            debug_print(", size "); debug_printhex_unsigned(new_baseloader_size);
+            debug_print(", baselen "); debug_printhex_unsigned(new_baseloader_size);
+            debug_print(", oldapp "); debug_printhex_unsigned(old_app_start);
+            debug_print(", bootlen "); debug_printhex_unsigned(new_bootloader_size);
             debug_println(""); debug_force_flush();
             boot_target_manifest_bootloader();  //  Never returns.
             return;

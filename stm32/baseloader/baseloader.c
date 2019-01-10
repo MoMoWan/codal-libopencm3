@@ -249,7 +249,8 @@ int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const ui
 	uint32_t flash_page_addr = FLASH_CEIL_ADDRESS((uint32_t) application_start + bootloader_size);
 	if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) {  //  Quit if Second Base Vector Table is not found.
 		baseloader_fail = flash_page_addr;
-		return -4; 
+		*byte_count = bootloader_size;
+		return -4;
 	}
 	base_vector_table_t *end_base_vector = BASE_VECTOR_TABLE(flash_page_addr);
 

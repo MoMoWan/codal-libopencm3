@@ -116,12 +116,16 @@ int bootloader_start(void) {
 		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
 		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
 	} else { 
-        debug_print(" not found "); debug_print_int(baseloader_status); debug_print(" ");
+        debug_print("not found "); debug_print_int(baseloader_status); debug_print(" ");
         debug_print(
-            (baseloader_status == -3) ? " too big " :
-            (baseloader_status == -4) ? " end " :
+            (baseloader_status == -3) ? "too big " :
+            (baseloader_status == -4) ? "end " :
             "");
         debug_printhex_unsigned(baseloader_fail);
+        if (baseloader_status == -4) { 
+            debug_print(", oldapp "); debug_printhex_unsigned((uint32_t) FLASH_ADDRESS(application_start)); 
+            debug_print(", bootlen "); debug_printhex_unsigned(byte_count); 
+        }
     }; debug_println(""); debug_force_flush();
 	if (baseloader_status == 0 && baseloader_addr) {
 		baseloader_status = baseloader_addr(dest, src, byte_count);  //  Call the baseloader.
