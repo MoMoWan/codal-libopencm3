@@ -225,7 +225,7 @@ static void handle_command(HF2_Buffer *pkt) {
 
             int info_size = strlen(infoUf2File);
             assert(info_size > 0, "empty hf2 info");
-            assert((info_size + 4) < HF2_MINI_BUF_SIZE, "hf2 buf too small");
+            assert((info_size + 4) < (int) HF2_MINI_BUF_SIZE, "hf2 buf too small");
             memcpy(pkt->resp.data8, infoUf2File, info_size);
             //  This will send first of 2 packets because info size is over 64 bytes.  The second packet will be sent by the tx callback.
             send_hf2_response(pkt, info_size);
@@ -237,12 +237,12 @@ static void handle_command(HF2_Buffer *pkt) {
             debug_println("hf2 >> start");
             send_hf2_response(pkt, 0);
             debug_force_flush(); ////
-
             //  Don't allow flashing in Application Mode.  Restart now into Bootloader Mode.
             if (boot_target_get_startup_mode() == APPLICATION_MODE) { 
                 boot_target_manifest_bootloader();  //  Never returns.
                 return;
             }
+            return;
         }
         case HF2_CMD_WRITE_FLASH_PAGE: {
             //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
@@ -407,7 +407,7 @@ int hf2_transmit(
     cm_disable_interrupts();
     int flag = dataToSendFlag;
     int s = sizeof(tx_buf) - 1;  //  63
-    if (dataToSendLength < s) { s = dataToSendLength; }
+    if ((int) dataToSendLength < s) { s = dataToSendLength; }
     tx_buf[0] = flag | s;
     memcpy(tx_buf + 1, dataToSend, s);
     cm_enable_interrupts();
@@ -431,7 +431,7 @@ static void pokeSend(
     int s = sizeof(tx_buf) - 1;  //  63
     if (dataToSendLength) {
         int flag = dataToSendFlag;
-        if (dataToSendLength < s) {
+        if ((int) dataToSendLength < s) {
             s = dataToSendLength;
         } else {
             if (flag == HF2_FLAG_CMDPKT_LAST)
