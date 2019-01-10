@@ -80,7 +80,6 @@ static usbd_device *_usbd_dev;
 static volatile uint32_t rx_time = 0;
 static uint8_t rx_buf[64];
 static uint8_t tx_buf[64];
-static uint32_t prevCmdId = 0;
 static const char bad_packet_message[] = "bad packet";
 
 //  Remaining data to be sent.  Used for sending multiple packets for a message.
@@ -99,11 +98,14 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     uint32_t target_addr = cmd->write_flash_page.target_addr;
     const uint8_t *data = (const uint8_t *) cmd->write_flash_page.data;
     const char *valid = VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) ? " " : " !!! ";
-    uint32_t cmdId = cmd->command_id;
+    static uint32_t cmdId = 0;
+    static uint32_t prevCmdId = 0;
+    prevCmdId = cmdId; 
+    cmdId = cmd->command_id;
     static uint8_t flush_count = 0;
     if (cmdId != prevCmdId) { debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }  ////
     else { debug_print(">> "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }
-    if (flush_count++ % 10 == 0) { debug_flush(); }
+    if (flush_count++) { debug_flush(); }
 
     //  First send ACK and then start writing, while getting the next packet.
     send_hf2_response(pkt, 0);
@@ -189,9 +191,7 @@ static void handle_command(HF2_Buffer *pkt) {
     // one has to be careful dealing with these, as they share memory
     HF2_Command *cmd = &(pkt->cmd);
     HF2_Response *resp = &(pkt->resp);
-    static uint32_t cmdId = 0;
-    prevCmdId = cmdId;    
-    cmdId = cmd->command_id;
+    uint32_t cmdId = cmd->command_id;
     int sz = pkt->size;
     resp->tag = cmd->tag;
     resp->status16 = HF2_STATUS_OK;  //  Default status is OK.
@@ -433,7 +433,7 @@ static void pokeSend(
         } else {
             remDataToSendLength = 0;  //  No more data to send.
         }
-        if (s < 30) { dump_buffer("hf2 <<", tx_buf, s + 1); }
+        if (s < 3) { dump_buffer("hf2 <<", tx_buf, s + 1); }
         else { debug_print("hf2 << "); debug_printhex(s + 1); debug_println(""); }
     }
 }
