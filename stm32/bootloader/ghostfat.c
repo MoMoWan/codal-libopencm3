@@ -140,17 +140,34 @@ void flash_flush(void) {
     flashAddr = NO_CACHE;
 }
 
-void flash_write(uint32_t dst, const uint8_t *src, int len) {
-    //  Write len bytes from src to ROM at address dst.
-    uint32_t newAddr = dst & ~(FLASH_PAGE_SIZE - 1);
-    // debug_print("flash "); debug_printhex_unsigned(dst); debug_println("");
-    hadWrite = true;
-    if (newAddr != flashAddr) {
-        flash_flush();
-        flashAddr = newAddr;
-        memcpy(flashBuf, (void *)newAddr, FLASH_PAGE_SIZE);
+void flash_write(uint32_t dst, const uint8_t *src, int byte_count) {
+    //  Write len bytes from src to ROM at address dst.  The writing is buffered in RAM until flash_flush() is called.    
+    //  TODO: Support other memory sizes.
+    if (dst < 0x8000000 || (dst + byte_count) >= 0x8010000 ||
+        (uint32_t) src < 0x20000000 || ((uint32_t) src + byte_count) >= 0x20005000) {
+        debug_print("**** ERROR: Invalid flash write, dst "); debug_printhex_unsigned(dst); 
+        debug_print(", src "); debug_printhex_unsigned(dst);
+        debug_print(", len "); debug_printhex_unsigned(byte_count); debug_println(""); debug_force_flush();
+        return;
     }
-    memcpy(flashBuf + (dst & (FLASH_PAGE_SIZE - 1)), src, len);
+    while (byte_count > 0) {
+        //  Copy one page at a time.
+        int len = (byte_count > FLASH_PAGE_SIZE) ? FLASH_PAGE_SIZE : byte_count;
+        uint32_t newAddr = dst & ~(FLASH_PAGE_SIZE - 1);
+        hadWrite = true;
+        if (newAddr != flashAddr) {  //  If the cache has a different page...
+            flash_flush();           //  Flush the previous cached page.
+            flashAddr = newAddr;
+            memcpy(flashBuf, (void *)newAddr, FLASH_PAGE_SIZE);  //  Copy the current ROM page into the buffer.
+        }
+        //  Copy the new contents into the buffer, which may be a part of the buffer.
+        uint32_t offset = dst & (FLASH_PAGE_SIZE - 1);
+        memcpy(flashBuf + offset, src, len);
+        //  Copy next page.
+        dst += len;
+        src += len;
+        byte_count -= len;
+    }
 }
 
 static void uf2_timer_start(int delay) {
