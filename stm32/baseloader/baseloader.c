@@ -25,19 +25,13 @@ base_vector_table_t base_vector_table = {
 //  To support different calling conventions for Baseloader we don't allow stack parameters.  All parameters must be passed via base_para at a fixed address (start of RAM).
 __attribute__ ((section(".base_para")))
 base_para_t base_para = {
-	.dest = NULL,
-	.src = NULL,
+	.dest = 0,
+	.src = 0,
 	.byte_count = 0,
 	.restart = 0,
 	.result = 0,
 	.fail = 0,
 };
-
-static uint16_t *dest;
-static uint16_t *src;
-static size_t half_word_count;
-static int bytes_flashed;
-static int verified, restart;
 
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
@@ -160,12 +154,17 @@ the FLASH programming manual for details.
 	} \
 }
 
-//  Disable interrupts for baseloader only because the vector table may be overwritten during flashing.
-#define disable_interrupts() { \
+//  Disable interrupts while flashing Bootloader because the System Vector Table may have been overwritten during flashing.
+#define base_disable_interrupts() { \
 	__asm__("CPSID I\n");  /*  Was: cm_disable_interrupts();  */ \
 	/* From https://github.com/cnoviello/mastering-stm32 */ \
 	STK_CSR = 0;  /* Disables SysTick timer and its related interrupt */ \
 	RCC_CIR = 0;  /* Disable all interrupts related to clock */ \
+}
+
+//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.  From scb_reset_system()
+#define base_scb_reset_system() { \
+	SCB_AIRCR = SCB_AIRCR_VECTKEY | SCB_AIRCR_SYSRESETREQ; \
 }
 
 //  Get Old Base Vector Table at 0x800 0000.  Get Old Application Address from Old Base Vector Table, truncate to block of 1024 bytes.
@@ -221,40 +220,11 @@ void baseloader_start(void) {
 	//  int result;				//  Number of bytes copied, or negative for error.
 	//  uint32_t fail;  		//  Address that caused the Baseloader to fail.
 
-    //  debug_println("baseloader_start"); debug_force_flush();
-	//  Validate dest, src, byte_count before flashing.
-    //  TODO: Support other memory sizes.
-	if ((uint32_t) base_para.dest < 0x08000000) { 
-		base_para.result = -2;
-		base_para.fail = (uint32_t) base_para.dest;
-		return;
-	}
-	if (((uint32_t) base_para.dest) + base_para.byte_count > 0x08010000) {
-		base_para.result = -3;
-		base_para.fail = ((uint32_t) base_para.dest) + base_para.byte_count;
-		return;
-	}
-	if ((uint32_t) base_para.src >= 0x08000000 &&
-		(uint32_t) base_para.src < 0x08010000) {
-
-		if (((uint32_t) base_para.src) + base_para.byte_count > 0x08010000) {
-			base_para.result = -4;
-			base_para.fail = ((uint32_t) base_para.src) + base_para.byte_count;
-			return;
-		}
-	} else if ((uint32_t) base_para.src >= 0x20000000 &&
-		(uint32_t) base_para.src < 0x20005000) {
-
-		if (((uint32_t) base_para.src) + base_para.byte_count > 0x20005000) {
-			base_para.result = -5;
-			base_para.fail = ((uint32_t) base_para.src) + base_para.byte_count;
-			return;
-		}
-	} else {
-		base_para.result = -6;
-		base_para.fail = (uint32_t) base_para.src;
-		return;
-	}
+	//  Must be placed on stack and not BSS since BSS may be allocated differently in the Bootloader.
+	uint16_t *dest, *src;
+	size_t half_word_count;
+	int bytes_flashed, verified, restart;
+    uint16_t *erase_start, *erase_end, *flash_end;
 
 	dest = (uint16_t *) base_para.dest;
 	src  = (uint16_t *) base_para.src;
@@ -263,18 +233,50 @@ void baseloader_start(void) {
 	base_para.result = 0;
 	base_para.fail = 0;
 	bytes_flashed = 0;
-
-    static uint16_t *erase_start, *erase_end, *flash_end;
     verified = true; erase_start = NULL; erase_end = NULL;
     flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
 
-	//  Disable interrupts when overwriting the vector table.
-	if (restart) { disable_interrupts(); } // Only for baseloader.
+	//  Validate dest, src, byte_count before flashing.
+    //  TODO: Support other memory sizes.
+	if ((uint32_t) base_para.dest < 0x08000000) {  //  Dest ROM address too low.
+		base_para.result = -2;
+		base_para.fail = (uint32_t) base_para.dest;
+		return;
+	}
+	if (((uint32_t) base_para.dest) + base_para.byte_count > 0x08010000) {  //  Dest ROM address too high.
+		base_para.result = -3;
+		base_para.fail = ((uint32_t) base_para.dest) + base_para.byte_count;
+		return;
+	}
+	if ((uint32_t) base_para.src >= 0x08000000 &&
+		(uint32_t) base_para.src < 0x08010000) {  //  If src is in ROM...
+
+		if (((uint32_t) base_para.src) + base_para.byte_count > 0x08010000) {  //  Too many ROM bytes to copy.
+			base_para.result = -4;
+			base_para.fail = ((uint32_t) base_para.src) + base_para.byte_count;
+			return;
+		}
+	} else if ((uint32_t) base_para.src >= 0x20000000 &&
+		(uint32_t) base_para.src < 0x20005000) {  //  If src is in RAM...
+
+		if (((uint32_t) base_para.src) + base_para.byte_count > 0x20005000) {  //  Too many RAM bytes to copy.
+			base_para.result = -5;
+			base_para.fail = ((uint32_t) base_para.src) + base_para.byte_count;
+			return;
+		}
+	} else {  //  Src is in neither RAM or ROM.
+		base_para.result = -6;
+		base_para.fail = (uint32_t) base_para.src;
+		return;
+	}
+
+	//  Disable interrupts while flashing Bootloader because the System Vector Table may have been overwritten during flashing.
+	if (restart) { base_disable_interrupts(); }
 
 	base_flash_unlock();
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
-        if (dest >= flash_end) {  //  debug_println("dest >= flash_end"); debug_flush();
+        if (dest >= flash_end) {
             verified = false;
             break;
         }
@@ -285,7 +287,7 @@ void baseloader_start(void) {
         }
         base_flash_program_half_word((uint32_t)dest, *src);
         erase_start = dest + 1;
-        if (*dest != *src) {  //  debug_println("*dest != *src"); debug_flush();
+        if (*dest != *src) {
             verified = false;
             break;
         }
@@ -298,10 +300,9 @@ void baseloader_start(void) {
 
 	//  TODO: Erase the second vector table.
 
-	//  Vector table may have been overwritten. Restart to use the new vector table.
-    if (restart) { 
-		SCB_AIRCR = SCB_AIRCR_VECTKEY | SCB_AIRCR_SYSRESETREQ;  //  From scb_reset_system(); 
-	}	
+	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
+    if (restart) { base_scb_reset_system(); }
+	
 	base_para.result = verified ? bytes_flashed : -1;  //  Returns -1 if verification failed.
 }
 
