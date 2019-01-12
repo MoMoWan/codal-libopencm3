@@ -121,19 +121,19 @@ int bootloader_start(void) {
             (baseloader_status == -3) ? "too big " :
             (baseloader_status == -4) ? "at " :
             "");
-        debug_printhex_unsigned(baseloader_fail);
+        debug_printhex_unsigned(base_para.fail);
         if (baseloader_status == -4) { 
             debug_print(", oldapp "); debug_printhex_unsigned((uint32_t) FLASH_ADDRESS(application_start)); 
             debug_print(", bootlen "); debug_printhex_unsigned(byte_count); 
         }
     }; debug_println(""); debug_force_flush();
 	if (baseloader_status == 0 && baseloader_addr) {
-        base_dest = dest;
-        base_src = (uint32_t *) src;
-        base_len = byte_count;
-        base_disable_interrupts = 1;
-        baseloader_addr();  //  Call the baseloader.
-		baseloader_status = base_result;  
+        base_para.dest = dest;
+        base_para.src = (uint32_t *) src;
+        base_para.byte_count = byte_count;
+        base_para.restart = 1;
+        baseloader_addr();  //  Call the baseloader to copy the bootloader.  Should not return unless error.
+		baseloader_status = base_para.result;  
 		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
 	}
     //  If we are in Bootloader Mode, poll forever here.
@@ -224,7 +224,7 @@ static void poll_loop(void) {
     debug_print(", src "); debug_printhex_unsigned((size_t) src);  \
     /* debug_print(" to "); debug_printhex_unsigned((size_t) flash_end); */ \
     debug_print(", hlen "); debug_printhex_unsigned((size_t) half_word_count);  \
-    debug_println(should_disable_interrupts ? " DISABLE INTERRUPTS " : " enable interrupts "); \
+    debug_println(restart ? " DISABLE INTERRUPTS " : " enable interrupts "); \
 }
 #define debug_dump() { \
     debug_print("src  "); debug_printhex_unsigned((size_t) src); debug_println(""); \

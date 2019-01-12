@@ -1,41 +1,40 @@
 /* Linker script for STM32 Blue Pill Bootloader + Application: STM32F103x8, 64k flash, 20k RAM. 
-Bootloader resides in low memory (always accessible) and consists of these modules:
-baseloader
-libopencm3
-cocoos
-qfplib
-nano-float
-newlib
-logger
-bluepill
-bootloader
-hal
+	Bootloader resides in low memory (always accessible) and consists of these modules:
+	baseloader
+	libopencm3
+	cocoos
+	qfplib
+	nano-float
+	newlib
+	logger
+	bluepill
+	bootloader
+	hal
 
-Application resides in high memory and consists of these modules:
-adcint
-i2cint
-porting
-simulator
-spiint
-uartint
-cm
-model
-main
-unity
-unit test */
+	Application resides in high memory and consists of these modules:
+	adcint
+	i2cint
+	porting
+	simulator
+	spiint
+	uartint
+	cm
+	model
+	main
+	unity
+	unit test 
+*/
 
 /* Define constants that may be changed to give more or less space to each region */
 
-_bootrom_size = 28K;  /* Size of Bootloader ROM (code + constant data) */
+_bootrom_size = 28K;  		/* Size of Bootloader ROM (code + constant data) */
 
-_baseram_size =  2K;
+_bootram_size =  4K;  		/* Size of Bootloader RAM */
 
-_bootram_size =  4K;  /* Size of Bootloader RAM */
-
-_bootbuf_size = /* Size of the Bootloader buffers... */
-	1090 + 		/* flashBuf from stm32/bootloader/ghostfat.c */
-	1024 + 		/* hf2_buffer from stm32/bootloader/hf2.c */
-	   2;  		/* Align to 4 bytes */
+_bootbuf_size = 			/* Size of the Bootloader buffers... */
+	1090 + 					/* flashBuf from stm32/bootloader/ghostfat.c */
+	1024 + 					/* hf2_buffer from stm32/bootloader/hf2.c */
+	   2;  					/* Align to 4 bytes */
 
 /* Define memory regions. */
 MEMORY
@@ -66,7 +65,7 @@ ENTRY(reset_handler)
 	`:file' matches file but not one in an archive */
 SECTIONS
 {
-	.boot_text : {  /* Bootloader ROM */
+	.boot_text : {  		/* Bootloader ROM */
 		_boot_text = .;				/* We will use _boot_text to determine the start of the bootloader. */
 
 		/* Vector Tables and Baseloader Code - Must appear before others */
@@ -131,7 +130,7 @@ SECTIONS
 		_boot_etext = .;			/* End of bootloader code. */
 	} >bootrom
 
-	.text : {       /* Application ROM */
+	.text : {       		/* Application ROM */
 		. = ALIGN(4);
 		_text = .;					/* We will use _text to determine where to jump to start the application. */
 		* 							(.text.application_start)  /* application_start() must appear first. reset_handler() will jump here. */
@@ -170,14 +169,14 @@ SECTIONS
 		__boot_preinit_array_end = .;
 	} >bootrom
 
-	.preinit_array : { /* Application Constructors */
+	.preinit_array : { 		/* Application Constructors */
 		. = ALIGN(4);
 		__preinit_array_start = .;
 		KEEP (*								(.preinit_array)) /* Application Constructors */
 		__preinit_array_end = .;
 	} >rom
 
-	.boot_init_array : { /* Bootloader Constructors */
+	.boot_init_array : { 	/* Bootloader Constructors */
 		. = ALIGN(4);
 		__boot_init_array_start = .; 
 		/* TODO: Should not allow constructors for our low-level bootloader functions, otherwise it may cause a loop */
@@ -225,7 +224,7 @@ SECTIONS
 		_boot_etext = .;
 	} >bootrom
 
-	.init_array : { /* Application Constructors */
+	.init_array : { 		/* Application Constructors */
 		. = ALIGN(4);
 		__init_array_start = .;
 		KEEP (*					(SORT_BY_NAME (.init_array.*))) /* Application Constructors. */
@@ -236,7 +235,7 @@ SECTIONS
 		_etext = .;
 	} >rom
 
-	.boot_fini_array : { /* Bootloader Destructors. There should be no destructors in Bootloader. */
+	.boot_fini_array : { 	/* Bootloader Destructors. There should be no destructors in Bootloader. */
 		. = ALIGN(4);
 		__boot_fini_array_start = .;
 		KEEP (:*reset_handler*				(.fini_array)) /* Reset Handler (CODAL build) */
@@ -281,7 +280,7 @@ SECTIONS
 		__boot_fini_array_end = .;
 	} >bootrom
 
-	.fini_array : { /* Application Destructors. */
+	.fini_array : { 		/* Application Destructors. */
 		. = ALIGN(4);
 		__fini_array_start = .;
 		KEEP (*					(.fini_array))         /* Application Destructors. */
@@ -307,6 +306,7 @@ SECTIONS
 		_boot_data = .;
 
 		/* Bootloader read-write initialized data */
+		*                           (.base_para) /* Baseloader Parameters.  Must appear first. */
 		*libbaseloader.a:          	(.data*) /* Baseloader */
 		:*reset_handler*			(.data*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.data*) /* Reset Handler */
@@ -333,18 +333,18 @@ SECTIONS
 	} >bootram AT >bootrom  /* Stored in bootrom but copied to bootram at startup by reset_handler()  */
 	_boot_data_loadaddr = LOADADDR(.boot_data);
 
-	.data : {        /* Application Data  */
+	.data : {        		/* Application Data  */
 		_data = .;
 		*							(.data*) /* Application read-write initialized data */
 		. = ALIGN(4);
 		_edata = .;
-	} >ram AT >rom   /* Stored in rom but copied to ram at startup by application_start()  */
+	} >ram AT >rom   		/* Stored in rom but copied to ram at startup by application_start()  */
 	_data_loadaddr = LOADADDR(.data);
 
-	.boot_bss : {   /*  Bootloader Variables */
+	.boot_bss : {   		/*  Bootloader Variables */
 
 		/*  Bootloader Variables Init With 0 (BSS)  */
-		*libbaseloader.a:          	(.bss*) /* Baseloader.  Must appear first. */
+		*libbaseloader.a:          	(.bss*) /* Baseloader */
 		:*reset_handler*			(.bss*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.bss*) /* Reset Handler */
 		:*codal_target_hal*			(.bss*) /* CODAL HAL */
@@ -435,8 +435,7 @@ PROVIDE(_stack = ORIGIN(bootbuf) + LENGTH(bootbuf));  /*  Application Stack, whi
 
 PROVIDE(_boot_stack = ORIGIN(ram) + LENGTH(ram));     /*  Bootloader Stack, which excludes the bootbuf  */
 
-/* Check for cross references between Bootloader and Application code/data */
-
+/* TODO: Check for cross references between Bootloader and Application code/data
 NOCROSSREFS_TO(bootrom rom bootdata data bootbuf)
-
 NOCROSSREFS_TO(bootdata bootrom rom data bootbuf)
+*/

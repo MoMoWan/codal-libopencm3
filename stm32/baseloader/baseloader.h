@@ -28,16 +28,20 @@ typedef struct {
 } __attribute__((packed)) base_vector_table_t;
 
 extern base_vector_table_t base_vector_table;
-extern uint32_t baseloader_fail;  //  Address that caused the Baseloader to fail.
 
-//  To support different calling conventions we don't allow stack parameters.  All parameters must be passed via globals in BSS.
+//  To support different calling conventions for Baseloader we don't allow stack parameters.  All parameters must be passed via base_para at a fixed address (start of RAM).
+typedef struct {
+	uint32_t dest;  		//  Destination address for new Bootloader.
+	uint32_t src;  			//  Source address for new Bootloader.
+	uint32_t byte_count;	//  Byte size of new Bootloader.
+	uint32_t restart;  		//  Set to 1 if we should restart the device after copying Bootloader.
+	int result;				//  Number of bytes copied, or negative for error.
+	uint32_t fail;  		//  Address that caused the Baseloader to fail.
+} __attribute__((packed)) base_para_t;
+
+extern base_para_t base_para;
+
 extern void baseloader_start(void);
-extern uint32_t *base_dest;
-extern uint32_t *base_src;
-extern uint32_t base_len;
-extern uint32_t base_disable_interrupts;
-extern int base_result;
-
 extern int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count);
 extern int base_flash_program_array(uint16_t* dest0, const uint16_t* src0, size_t half_word_count0);
 

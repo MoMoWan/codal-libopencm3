@@ -127,12 +127,12 @@ static uint32_t lastFlush;
 
 int base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
 	//  Return the number of half-words flashed.
-    base_dest = dest0;
-    base_src = src0;
-    base_len = half_word_count0 * 2;
-    base_disable_interrupts = 0;
+    base_para.dest = (uint32_t *) dest0;
+    base_para.src = (uint32_t *) src0;
+    base_para.byte_count = half_word_count0 * 2;
+    base_para.restart = 0;
     baseloader_start();
-	int bytes_flashed = base_result;
+	int bytes_flashed = base_para.result;
 	return (bytes_flashed > 0) ? bytes_flashed / 2 : bytes_flashed;
 }
 

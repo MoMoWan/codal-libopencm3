@@ -9,19 +9,9 @@
 #include "flash-config.h"
 #include "baseloader.h"
 
-//  These globals must appear in front of the BSS section so that the Baseloader code will not get confused.
-uint32_t *base_dest = NULL;
-uint32_t *base_src = NULL;
-uint32_t base_len = 0;
-uint32_t base_disable_interrupts = 0;
-int base_result = 0;
-
-//  Below are non-critical variables.
 extern void application_start(void);
-uint32_t baseloader_fail = 0;  //  Address that caused the Baseloader to fail.
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
-
 __attribute__ ((section(".base_vectors")))
 base_vector_table_t base_vector_table = {
 	.magic_number   = BASE_MAGIC_NUMBER,  //  Magic number to verify this as a Baseloader Vector Table.
@@ -31,6 +21,23 @@ base_vector_table_t base_vector_table = {
 	.application    = application_start,  //  Address of application. Also where the bootloader ends.
 	.magic_number2  = BASE_MAGIC_NUMBER2, //  Second magic number to verify that the Baseloader Vector Table was not truncated.
 };
+
+//  To support different calling conventions for Baseloader we don't allow stack parameters.  All parameters must be passed via base_para at a fixed address (start of RAM).
+__attribute__ ((section(".base_para")))
+base_para_t base_para = {
+	.dest = NULL,
+	.src = NULL,
+	.byte_count = 0,
+	.restart = 0,
+	.result = 0,
+	.fail = 0,
+};
+
+static uint16_t *dest;
+static uint16_t *src;
+static size_t half_word_count;
+static int bytes_flashed;
+static int verified, restart;
 
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
@@ -177,7 +184,7 @@ the FLASH programming manual for details.
 		static uint16_t *src;
 		static size_t half_word_count;
 		static int bytes_flashed;
-		static bool verified, should_disable_interrupts;
+		static bool verified, restart;
 
 		dest = (uint16_t *) dest0;
 	8000168:	4b8b      	ldr	r3, [pc, #556]	; (8000398 <baseloader_start+0x230>)
@@ -191,7 +198,7 @@ the FLASH programming manual for details.
 	8000168:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
 		half_word_count = byte_count / 2;
 		bytes_flashed = 0;
-		should_disable_interrupts = false;
+		restart = false;
 
 		static uint16_t *erase_start, *erase_end, *flash_end;
 		verified = true; erase_start = NULL; erase_end = NULL;
@@ -205,29 +212,56 @@ the FLASH programming manual for details.
 
 //  This must be the first function in the file.  Macros appearing before the function are OK.
 void baseloader_start(void) {
-	//  Return the number of bytes flashed.
+	//  Copy the Bootloader from src to dest for byte_count bytes.  Return the number of bytes flashed in result.  
+	//  To support different calling conventions for Baseloader we don't allow stack parameters.  All parameters must be passed via base_para at a fixed address.
+	//  uint32_t dest;  		//  Destination address for new Bootloader.
+	//  uint32_t src;  			//  Source address for new Bootloader.
+	//  uint32_t byte_count;	//  Byte size of new Bootloader.
+	//  uint32_t restart;  		//  Set to 1 if we should restart the device after copying Bootloader.
+	//  int result;				//  Number of bytes copied, or negative for error.
+	//  uint32_t fail;  		//  Address that caused the Baseloader to fail.
+
     //  debug_println("baseloader_start"); debug_force_flush();
-
-	//  Validate dest, src, half_word_count before flashing.
+	//  Validate dest, src, byte_count before flashing.
     //  TODO: Support other memory sizes.
-    int valid = 
-        ((uint32_t) base_dest >= 0x08000000 && ((uint32_t) base_dest + base_len) < 0x8010000 &&
-        (
-            ((uint32_t) base_src >= 0x08000000 && ((uint32_t) base_src + base_len) < 0x08010000) ||
-            ((uint32_t) base_src >= 0x20000000 && ((uint32_t) base_src + base_len) < 0x20005000)
-        ));
-	if (!valid) { base_result = -1; return; }  //  Invalid parameters.
+	if ((uint32_t) base_para.dest < 0x08000000) { 
+		base_para.result = -2;
+		base_para.fail = (uint32_t) base_para.dest;
+		return;
+	}
+	if (((uint32_t) base_para.dest) + base_para.byte_count > 0x08010000) {
+		base_para.result = -3;
+		base_para.fail = ((uint32_t) base_para.dest) + base_para.byte_count;
+		return;
+	}
+	if ((uint32_t) base_para.src >= 0x08000000 &&
+		(uint32_t) base_para.src < 0x08010000) {
 
-	static uint16_t *dest;
-	static uint16_t *src;
-	static size_t half_word_count;
-	static int bytes_flashed;
-	static bool verified, should_disable_interrupts;
+		if (((uint32_t) base_para.src) + base_para.byte_count > 0x08010000) {
+			base_para.result = -4;
+			base_para.fail = ((uint32_t) base_para.src) + base_para.byte_count;
+			return;
+		}
+	} else if ((uint32_t) base_para.src >= 0x20000000 &&
+		(uint32_t) base_para.src < 0x20005000) {
 
-	dest = (uint16_t *) base_dest;
-	src =  (uint16_t *) base_src;
-	half_word_count = base_len / 2;
-	should_disable_interrupts = base_disable_interrupts;
+		if (((uint32_t) base_para.src) + base_para.byte_count > 0x20005000) {
+			base_para.result = -5;
+			base_para.fail = ((uint32_t) base_para.src) + base_para.byte_count;
+			return;
+		}
+	} else {
+		base_para.result = -6;
+		base_para.fail = (uint32_t) base_para.src;
+		return;
+	}
+
+	dest = (uint16_t *) base_para.dest;
+	src  = (uint16_t *) base_para.src;
+	half_word_count = base_para.byte_count / 2;
+	restart = base_para.restart;
+	base_para.result = 0;
+	base_para.fail = 0;
 	bytes_flashed = 0;
 
     static uint16_t *erase_start, *erase_end, *flash_end;
@@ -235,10 +269,9 @@ void baseloader_start(void) {
     flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
 
 	//  Disable interrupts when overwriting the vector table.
-	//  if ((uint32_t) dest == FLASH_BASE) { should_disable_interrupts = true; }
-	if (should_disable_interrupts) { disable_interrupts(); } // Only for baseloader.
+	if (restart) { disable_interrupts(); } // Only for baseloader.
 
-	base_flash_unlock();  //  TODO: Check MakeCode flashing.
+	base_flash_unlock();
     while (half_word_count > 0) {
         /* Avoid writing past the end of flash */
         if (dest >= flash_end) {  //  debug_println("dest >= flash_end"); debug_flush();
@@ -261,28 +294,28 @@ void baseloader_start(void) {
         half_word_count--;
 		bytes_flashed += 2;
     }
-	base_flash_lock();  //  TODO: Check MakeCode flashing.
+	base_flash_lock();
 
 	//  TODO: Erase the second vector table.
 
 	//  Vector table may have been overwritten. Restart to use the new vector table.
-    if (should_disable_interrupts) { 
+    if (restart) { 
 		SCB_AIRCR = SCB_AIRCR_VECTKEY | SCB_AIRCR_SYSRESETREQ;  //  From scb_reset_system(); 
 	}	
-	base_result = verified ? bytes_flashed : -2;  //  Returns -2 if verification failed.
+	base_para.result = verified ? bytes_flashed : -1;  //  Returns -1 if verification failed.
 }
 
 int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count) {
 	//  Return the address of the baseloader function, located in the Second Base Vector Table.
 	//  Also return the parameters to be passed to the baseloader function: dest, src, byte_count.
 	if (!baseloader_addr || !dest || !src || !byte_count) { 
-		baseloader_fail = (uint32_t) baseloader_addr;
+		base_para.fail = (uint32_t) baseloader_addr;
 		return -1; 
 	}
 	//  Search for the First and Second Base Vector Tables and find the bootloader range.
 	//  First Base Vector Table is in the start of the application ROM.
 	if (!IS_VALID_BASE_VECTOR_TABLE(application_start)) {  //  Quit if First Base Vector Table is not found.
-		baseloader_fail = (uint32_t) FLASH_ADDRESS(application_start);
+		base_para.fail = (uint32_t) FLASH_ADDRESS(application_start);
 		return -2; 
 	}
 	base_vector_table_t *begin_base_vector = BASE_VECTOR_TABLE(application_start);
@@ -291,14 +324,14 @@ int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const ui
 	uint32_t bootloader_size = (uint32_t) FLASH_ADDRESS(begin_base_vector->application) - FLASH_BASE;
 	if ((uint32_t) application_start + bootloader_size + FLASH_PAGE_SIZE 
 		>= FLASH_BASE + FLASH_SIZE_OVERRIDE) { //  Quit if bootloader size is too big.
-		baseloader_fail = bootloader_size;
+		base_para.fail = bootloader_size;
 		return -3; 
 	} 
 
 	//  Second Base Vector Table is at start of application ROM + bootloader size.  TODO: Round up to the next flash page?
 	uint32_t flash_page_addr = (uint32_t) FLASH_ADDRESS(application_start) + bootloader_size;
 	if (!IS_VALID_BASE_VECTOR_TABLE(flash_page_addr)) {  //  Quit if Second Base Vector Table is not found.
-		baseloader_fail = flash_page_addr;
+		base_para.fail = flash_page_addr;
 		*byte_count = bootloader_size;
 		return -4;
 	}
