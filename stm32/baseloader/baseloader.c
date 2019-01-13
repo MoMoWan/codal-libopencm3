@@ -338,8 +338,7 @@ void baseloader_start(void) {
 	//  TODO: Erase the second vector table.
 
 	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
-    if (base_para.restart) { base_scb_reset_system(); } ////
-    ////if (!base_para.preview && base_para.restart) { base_scb_reset_system(); }
+    if (!base_para.preview && base_para.restart) { base_scb_reset_system(); }
 	
 	base_para.result = base_tmp.verified ? base_tmp.bytes_flashed : -1;  //  Returns -1 if verification failed.
 }
