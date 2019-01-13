@@ -8896,9 +8896,9 @@ void prepare_baseloader(void) {
         if (baseloader_status > 0) {
  8002f52:	2b00      	cmp	r3, #0
  8002f54:	dd5a      	ble.n	800300c <prepare_baseloader+0x174>
-            debug_println("baseloader preview ok "); debug_printhex_unsigned(baseloader_status); 
+            debug_print("baseloader preview ok "); debug_printhex_unsigned(baseloader_status); 
  8002f56:	4844      	ldr	r0, [pc, #272]	; (8003068 <prepare_baseloader+0x1d0>)
- 8002f58:	f7ff fd44 	bl	80029e4 <debug_println>
+ 8002f58:	f7ff fd70 	bl	8002a3c <debug_print>
  8002f5c:	4d39      	ldr	r5, [pc, #228]	; (8003044 <prepare_baseloader+0x1ac>)
  8002f5e:	6828      	ldr	r0, [r5, #0]
  8002f60:	f7ff fdb8 	bl	8002ad4 <debug_printhex_unsigned>
