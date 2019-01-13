@@ -98,8 +98,9 @@ void prepare_baseloader(void) {
         base_para.preview = 1;
         baseloader_addr();
 		baseloader_status = base_para.result;  
-        if (baseloader_status == 0) {
-            debug_println("baseloader preview ok, call actual baseloader..."); debug_force_flush();
+        if (baseloader_status > 0) {
+            debug_print("baseloader preview ok "); debug_printhex_unsigned(baseloader_status); 
+            debug_println(", call actual baseloader..."); debug_force_flush();
         } else {
             debug_print("baseloader preview failed "); debug_print_int(baseloader_status);
             debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
