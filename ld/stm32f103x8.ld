@@ -25,7 +25,8 @@
 	unit test 
 */
 
-/* Define constants that may be changed to give more or less space to each region */
+/* Define constants that may be changed to give more or less space to each region.
+   TODO: Sync with ../target.json, ../target-locked.json  */
 
 _bootrom_size = 28K;  		/* Size of Bootloader ROM (code + constant data) */
 
