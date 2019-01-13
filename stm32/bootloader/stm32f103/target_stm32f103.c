@@ -86,7 +86,7 @@ enum StartupMode boot_target_get_startup_mode(void) {
         //  Go to Baseloader Mode if we were requested by Bootloader to update Bootloader ROM.
         debug_println("----baseloader mode (forced)");
         startup_mode = BASELOADER_MODE;
-    else if (cmd == CMD_BOOT) {
+    } else if (cmd == CMD_BOOT) {
         //  Go to Bootloader Mode if we were requested by MakeCode to run as bootloader.
         debug_println("----bootloader mode (forced)");
         startup_mode = BOOTLOADER_MODE;

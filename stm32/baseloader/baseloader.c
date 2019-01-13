@@ -119,7 +119,7 @@ error, bit 5: end of operation.
 	base_para.fail = 0; \
 	base_tmp.flags = 0; \
 	base_flash_get_status_flags(base_tmp.flags); \
-	while ((flags & FLASH_SR_BSY) == FLASH_SR_BSY) { \
+	while ((base_tmp.flags & FLASH_SR_BSY) == FLASH_SR_BSY) { \
 		if (base_para.fail++ >= base_timeout) { base_para.result = error_result; break; } \
 		base_tmp.flags = 0; \
 		base_flash_get_status_flags(base_tmp.flags); \
@@ -168,7 +168,7 @@ the FLASH programming manual for details.
 
 #define base_flash_erase_page(/* uint32_t */ page_address) { \
 	base_flash_wait_for_last_operation(-12); \
-	if (base_para.result == 0) { \ 
+	if (base_para.result == 0) { \
 		if ((DESIG_FLASH_SIZE > 512) \
 			&& (page_address >= (FLASH_BASE+0x00080000))) { \
 			FLASH_CR2 |= FLASH_CR_PER; \
@@ -180,7 +180,7 @@ the FLASH programming manual for details.
 			FLASH_CR |= FLASH_CR_STRT; \
 		} \
 		base_flash_wait_for_last_operation(-13); \
-		if (base_para.result == 0) { \ 
+		if (base_para.result == 0) { \
 			if ((DESIG_FLASH_SIZE > 512) \
 				&& (page_address >= (FLASH_BASE+0x00080000))) { \
 				FLASH_CR2 &= ~FLASH_CR_PER; \
