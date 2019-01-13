@@ -66,9 +66,53 @@ static inline void __set_MSP(uint32_t topOfMainStack) {
     asm("msr msp, %0" : : "r" (topOfMainStack));
 }
 
+void prepare_baseloader(void) {
+    //  Start the baseloader.  The baseloader will not return if the baseloader restarts Blue Pill after flashing.
+	baseloader_addr = NULL;
+	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
+	debug_print("----baseloader "); if (baseloader_status == 0) { 
+        debug_print(" found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
+		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
+		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
+		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
+		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
+	} else { 
+        debug_print("not found "); debug_print_int(baseloader_status); debug_print(" ");
+        debug_print(
+            (baseloader_status == -3) ? "too big " :
+            (baseloader_status == -4) ? "at " :
+            "");
+        debug_printhex_unsigned(base_para.fail);
+        if (baseloader_status == -4) { 
+            debug_print(", oldapp "); debug_printhex_unsigned((uint32_t) FLASH_ADDRESS(application_start)); 
+            debug_print(", bootlen "); debug_printhex_unsigned(byte_count); 
+        }
+    }; debug_println(""); debug_force_flush();
+	if (baseloader_status == 0 && baseloader_addr) {
+        base_para.dest = dest;
+        base_para.src = (uint32_t *) src;
+        base_para.byte_count = byte_count;
+        base_para.restart = 1;
+        base_para.preview = 0;
+        baseloader_addr();  //  Call the baseloader in preview mode to check the bootloader.
+		baseloader_status = base_para.result;  
+		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");
+
+        base_para.preview = 1;
+        baseloader_addr();  //  Call the baseloader to copy the bootloader.  Should not return unless error.
+		baseloader_status = base_para.result;  
+		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
+	}    
+}
+
 int bootloader_start(void) {
     //  Start the bootloader and jump to the loaded application.
     if (usbd_dev) { return 1; }  // Already started, quit.
+
+    //  If we are in Baseloader Mode, start the baseloader.
+    if (boot_target_get_startup_mode() == BASELOADER_MODE) { 
+        prepare_baseloader();
+    }
 
     debug_println("----bootloader");  // debug_flush();    
     boot_target_gpio_setup();  //  Initialize GPIO/LEDs if needed
@@ -106,36 +150,6 @@ int bootloader_start(void) {
 	test_baseloader_end(); ////
 #endif  //  NOTUSED
 
-    //  Start the baseloader.  The baseloader will not return if the baseloader restarts Blue Pill after flashing.
-	baseloader_addr = NULL;
-	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
-	debug_print("----baseloader "); if (baseloader_status == 0) { 
-        debug_print(" found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
-		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
-		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
-		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
-		debug_print(", *func "); debug_printhex_unsigned(*(uint32_t *) baseloader_addr); debug_force_flush();  
-	} else { 
-        debug_print("not found "); debug_print_int(baseloader_status); debug_print(" ");
-        debug_print(
-            (baseloader_status == -3) ? "too big " :
-            (baseloader_status == -4) ? "at " :
-            "");
-        debug_printhex_unsigned(base_para.fail);
-        if (baseloader_status == -4) { 
-            debug_print(", oldapp "); debug_printhex_unsigned((uint32_t) FLASH_ADDRESS(application_start)); 
-            debug_print(", bootlen "); debug_printhex_unsigned(byte_count); 
-        }
-    }; debug_println(""); debug_force_flush();
-	if (baseloader_status == 0 && baseloader_addr) {
-        base_para.dest = dest;
-        base_para.src = (uint32_t *) src;
-        base_para.byte_count = byte_count;
-        base_para.restart = 1;
-        baseloader_addr();  //  Call the baseloader to copy the bootloader.  Should not return unless error.
-		baseloader_status = base_para.result;  
-		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
-	}
     //  If we are in Bootloader Mode, poll forever here.
     poll_loop();
     return -1;  //  Never comes here.

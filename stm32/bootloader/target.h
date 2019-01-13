@@ -25,8 +25,10 @@
 
 enum StartupMode {
     UNKNOWN_MODE = 0,
-    APPLICATION_MODE,
-    BOOTLOADER_MODE,
+    BASELOADER_MODE,  //  In Baseloader Mode, the Baseloader code overwrites the Bootloader ROM with the new version and restarts.
+    BOOTLOADER_MODE,  //  In Bootloader Mode, the Bootloader code reads the Application ROM from MakeCode, overwrites Application ROM and restarts into Application Mode.
+                      //  If the Bootloader ROM needs to be updated, the Bootloader writes the ROM into a temporary area and restarts in Baseloader Mode to overwrite the Bootloader ROM.
+    APPLICATION_MODE, //  In Application Mode, no ROM flashing is allowed.  If MakeCode sends a command to flash the ROM, the device restarts in Bootloader Mode.
 };
 
 typedef int restart_callback_type(void);
@@ -34,10 +36,11 @@ extern void boot_target_clock_setup(void);
 extern void boot_target_gpio_setup(void);
 extern void boot_target_set_led(int on);
 extern const usbd_driver* boot_target_usb_init(void);
-extern enum StartupMode boot_target_get_startup_mode(void);         //  Get the startup mode: Bootloader or Application.
-extern enum StartupMode boot_target_get_forced_startup_mode(void);  //  Get the forced startup mode: Bootloader or Application or Unknown.
+extern enum StartupMode boot_target_get_startup_mode(void);         //  Get the startup mode: Basloader, Bootloader or Application.
+extern enum StartupMode boot_target_get_forced_startup_mode(void);  //  Get the forced startup mode: Baseloader, Bootloader or Application or Unknown.
 extern void boot_target_set_restart_callback(restart_callback_type *func);
 extern void boot_target_manifest_app(void);
+extern void boot_target_manifest_baseloader(void);
 extern void boot_target_manifest_bootloader(void);
 extern void boot_target_flash_unlock(void);
 extern void boot_target_flash_lock(void);

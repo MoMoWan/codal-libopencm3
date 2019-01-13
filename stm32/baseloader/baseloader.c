@@ -29,6 +29,7 @@ base_para_t base_para = {
 	.src = 0,
 	.byte_count = 0,
 	.restart = 0,
+	.preview = 0,
 	.result = 0,
 	.fail = 0,
 };
@@ -39,6 +40,7 @@ typedef struct {
 	size_t half_word_count;
 	int bytes_flashed, verified;
     uint16_t *erase_start, *erase_end, *flash_end;
+	volatile uint32_t flags;
 } __attribute__((packed)) base_tmp_t;
 
 __attribute__ ((section(".base_tmp")))
@@ -51,6 +53,7 @@ base_tmp_t base_tmp = {
     .erase_start = NULL,
 	.erase_end = NULL,
 	.flash_end = NULL,
+	.flags = 0,
 };
 
 #ifdef FLASH_SIZE_OVERRIDE
@@ -107,13 +110,19 @@ error, bit 5: end of operation.
 	} \
 }
 
+#define base_timeout (0x1000ul)
+
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/common/flash_common_f01.c
 
-#define base_flash_wait_for_last_operation() { \
-	uint32_t flags; \
-	base_flash_get_status_flags(flags); \
+#define base_flash_wait_for_last_operation(error_result) { \
+	base_para.result = 0; \
+	base_para.fail = 0; \
+	base_tmp.flags = 0; \
+	base_flash_get_status_flags(base_tmp.flags); \
 	while ((flags & FLASH_SR_BSY) == FLASH_SR_BSY) { \
-		base_flash_get_status_flags(flags); \
+		if (base_para.fail++ >= base_timeout) { base_para.result = error_result; break; } \
+		base_tmp.flags = 0; \
+		base_flash_get_status_flags(base_tmp.flags); \
 	} \
 }
 
@@ -128,18 +137,22 @@ Status bit polling is used to detect end of operation.
 */
 
 #define base_flash_program_half_word(/* uint32_t */ address, /* uint16_t */ data) { \
-	base_flash_wait_for_last_operation(); \
-	if ((DESIG_FLASH_SIZE > 512) && (address >= FLASH_BASE+0x00080000)) { \
-		FLASH_CR2 |= FLASH_CR_PG; \
-	} else { \
-		FLASH_CR |= FLASH_CR_PG; \
-	} \
-	MMIO16(address) = data; \
-	base_flash_wait_for_last_operation(); \
-	if ((DESIG_FLASH_SIZE > 512) && (address >= FLASH_BASE+0x00080000)) { \
-		FLASH_CR2 &= ~FLASH_CR_PG; \
-	} else { \
-		FLASH_CR &= ~FLASH_CR_PG; \
+	base_flash_wait_for_last_operation(-10); \
+	if (base_para.result == 0) { \
+		if ((DESIG_FLASH_SIZE > 512) && (address >= (FLASH_BASE+0x00080000))) { \
+			FLASH_CR2 |= FLASH_CR_PG; \
+		} else { \
+			FLASH_CR |= FLASH_CR_PG; \
+		} \
+		MMIO16(address) = data; \
+		base_flash_wait_for_last_operation(-11); \
+		if (base_para.result == 0) { \
+			if ((DESIG_FLASH_SIZE > 512) && (address >= (FLASH_BASE+0x00080000))) { \
+				FLASH_CR2 &= ~FLASH_CR_PG; \
+			} else { \
+				FLASH_CR &= ~FLASH_CR_PG; \
+			} \
+		} \
 	} \
 }
 
@@ -154,23 +167,27 @@ the FLASH programming manual for details.
 */
 
 #define base_flash_erase_page(/* uint32_t */ page_address) { \
-	base_flash_wait_for_last_operation(); \
-	if ((DESIG_FLASH_SIZE > 512) \
-	    && (page_address >= FLASH_BASE+0x00080000)) { \
-		FLASH_CR2 |= FLASH_CR_PER; \
-		FLASH_AR2 = page_address; \
-		FLASH_CR2 |= FLASH_CR_STRT; \
-	} else  { \
-		FLASH_CR |= FLASH_CR_PER; \
-		FLASH_AR = page_address; \
-		FLASH_CR |= FLASH_CR_STRT; \
-	} \
-	base_flash_wait_for_last_operation(); \
-	if ((DESIG_FLASH_SIZE > 512) \
-	    && (page_address >= FLASH_BASE+0x00080000)) { \
-		FLASH_CR2 &= ~FLASH_CR_PER; \
-	} else { \
-		FLASH_CR &= ~FLASH_CR_PER; \
+	base_flash_wait_for_last_operation(-12); \
+	if (base_para.result == 0) { \ 
+		if ((DESIG_FLASH_SIZE > 512) \
+			&& (page_address >= (FLASH_BASE+0x00080000))) { \
+			FLASH_CR2 |= FLASH_CR_PER; \
+			FLASH_AR2 = page_address; \
+			FLASH_CR2 |= FLASH_CR_STRT; \
+		} else  { \
+			FLASH_CR |= FLASH_CR_PER; \
+			FLASH_AR = page_address; \
+			FLASH_CR |= FLASH_CR_STRT; \
+		} \
+		base_flash_wait_for_last_operation(-13); \
+		if (base_para.result == 0) { \ 
+			if ((DESIG_FLASH_SIZE > 512) \
+				&& (page_address >= (FLASH_BASE+0x00080000))) { \
+				FLASH_CR2 &= ~FLASH_CR_PER; \
+			} else { \
+				FLASH_CR &= ~FLASH_CR_PER; \
+			} \
+		} \
 	} \
 }
 
@@ -287,7 +304,7 @@ void baseloader_start(void) {
 	//  Disable interrupts while flashing Bootloader because the System Vector Table may have been overwritten during flashing.
 	if (base_para.restart) { base_disable_interrupts(); }
 
-	base_flash_unlock();
+	base_flash_unlock();  if (base_para.result < 0) { return; }  //  Quit if error.
     while (base_tmp.half_word_count > 0) {        
         if (base_tmp.dest_hw >= base_tmp.flash_end) {  /* Avoid writing past the end of flash */
             base_tmp.verified = false;
@@ -295,12 +312,18 @@ void baseloader_start(void) {
         }
         if (base_tmp.dest_hw >= base_tmp.erase_end || base_tmp.dest_hw < base_tmp.erase_start) {
             base_tmp.erase_start = base_get_flash_page_address(base_tmp.dest_hw);
-            base_tmp.erase_end = base_tmp.erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
-            base_flash_erase_page((uint32_t)base_tmp.erase_start);
+            base_tmp.erase_end = base_tmp.erase_start + ((FLASH_PAGE_SIZE) / sizeof(uint16_t));
+			if (!base_para.preview) {  //  Erase the ROM page.
+            	base_flash_erase_page((uint32_t) base_tmp.erase_start);
+				if (base_para.result < 0) { return; }  //  Quit if error.
+			}
         }
-        base_flash_program_half_word((uint32_t)base_tmp.dest_hw, *base_tmp.src_hw);
+		if (!base_para.preview) {  //  Write the ROM half-word.
+        	base_flash_program_half_word((uint32_t) base_tmp.dest_hw, *base_tmp.src_hw);
+			if (base_para.result < 0) { return; }  //  Quit if error.
+		}
         base_tmp.erase_start = base_tmp.dest_hw + 1;
-        if (*base_tmp.dest_hw != *base_tmp.src_hw) {
+        if (!base_para.preview && *base_tmp.dest_hw != *base_tmp.src_hw) {
             base_tmp.verified = false;
             break;
         }
@@ -309,12 +332,12 @@ void baseloader_start(void) {
         base_tmp.half_word_count--;
 		base_tmp.bytes_flashed += 2;
     }
-	base_flash_lock();
+	base_flash_lock();  if (base_para.result < 0) { return; }  //  Quit if error.
 
 	//  TODO: Erase the second vector table.
 
 	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
-    if (base_para.restart) { base_scb_reset_system(); }
+    if (!base_para.preview && base_para.restart) { base_scb_reset_system(); }
 	
 	base_para.result = base_tmp.verified ? base_tmp.bytes_flashed : -1;  //  Returns -1 if verification failed.
 }

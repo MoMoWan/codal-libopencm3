@@ -131,6 +131,7 @@ int base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_
     base_para.src = (uint32_t *) src0;
     base_para.byte_count = half_word_count0 * 2;
     base_para.restart = 0;
+    base_para.preview = 0;
     baseloader_start();
 	int bytes_flashed = base_para.result;
 	return (bytes_flashed > 0) ? bytes_flashed / 2 : bytes_flashed;

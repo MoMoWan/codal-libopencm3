@@ -35,6 +35,7 @@ typedef struct {
 	uint32_t src;  			//  Source address for new Bootloader.
 	uint32_t byte_count;	//  Byte size of new Bootloader.
 	uint32_t restart;  		//  Set to 1 if we should restart the device after copying Bootloader.
+	uint32_t preview;       //  Set to 1 if this is a preview, i.e. don't change flash ROM.
 	int result;				//  Number of bytes copied, or negative for error.
 	uint32_t fail;  		//  Address that caused the Baseloader to fail.
 } __attribute__((packed)) base_para_t;

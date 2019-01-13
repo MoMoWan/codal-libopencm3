@@ -46,6 +46,7 @@
 #define USES_GPIOC 0
 #endif
 
+static const uint32_t CMD_BASE = 0x45534142UL;  //  Forced startup into Baseloader Mode.
 static const uint32_t CMD_BOOT = 0x544F4F42UL;  //  Forced startup into Bootloader Mode.
 static const uint32_t CMD_APP  = 0x3f82722aUL;  //  Forced startup into Application Mode.
 static enum StartupMode startup_mode        = UNKNOWN_MODE;  //  Current startup mode.
@@ -75,12 +76,17 @@ enum StartupMode boot_target_get_startup_mode(void) {
 
     //  Remember the forced startup mode if we were forced before restarting.
     switch(cmd) {
+        case (int) CMD_BASE: forced_startup_mode = BASELOADER_MODE; backup_write(BKP0, CMD_BOOT); break;  //  Reboot as bootloader to complete.
         case (int) CMD_BOOT: forced_startup_mode = BOOTLOADER_MODE; break;
         case (int) CMD_APP:  forced_startup_mode = APPLICATION_MODE; break;
         default:             forced_startup_mode = UNKNOWN_MODE; break;
     }
 
-    if (cmd == CMD_BOOT) {
+    if (cmd == CMD_BASE) {
+        //  Go to Baseloader Mode if we were requested by Bootloader to update Bootloader ROM.
+        debug_println("----baseloader mode (forced)");
+        startup_mode = BASELOADER_MODE;
+    else if (cmd == CMD_BOOT) {
         //  Go to Bootloader Mode if we were requested by MakeCode to run as bootloader.
         debug_println("----bootloader mode (forced)");
         startup_mode = BOOTLOADER_MODE;
@@ -220,15 +226,15 @@ void boot_target_manifest_app(void) {
     debug_println("boot app");
     debug_force_flush(); ////
     backup_write(BKP0, CMD_APP);
-    
-    #ifdef NOTUSED
-        //  In Application Mode, send a restart request so that we may flush the debug log and allow the response message to be delivered to MakeCode.
-        if (restart_callback_func) { 
-            restart_callback_func(); 
-            return;
-        }
-    #endif  //  NOTUSED
-    scb_reset_system();  //  Otherwise restart now.
+    scb_reset_system();  //  Restart now.
+}
+
+void boot_target_manifest_baseloader(void) {
+    //  Restart into Baseloader Mode to update the bootloader ROM.
+    debug_println("boot baseloader"); 
+    debug_force_flush(); ////
+    backup_write(BKP0, CMD_BASE);
+    scb_reset_system();  //  Restart now.
 }
 
 void boot_target_manifest_bootloader(void) {
@@ -236,7 +242,7 @@ void boot_target_manifest_bootloader(void) {
     debug_println("boot bootloader"); 
     debug_force_flush(); ////
     backup_write(BKP0, CMD_BOOT);
-    scb_reset_system();  //  Otherwise restart now.
+    scb_reset_system();  //  Restart now.
 }
 
 void boot_target_get_serial_number(char* dest, size_t max_chars) {

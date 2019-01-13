@@ -174,7 +174,7 @@ static void handle_flash_write(HF2_Buffer *pkt) {
             debug_print(", oldapp "); debug_printhex_unsigned(old_app_start);
             debug_print(", bootlen "); debug_printhex_unsigned(new_bootloader_size);
             debug_println(""); debug_force_flush();
-            boot_target_manifest_bootloader();  //  Never returns.
+            boot_target_manifest_baseloader();  //  Never returns.
             return;
         }
         debug_print("bootloader identical "); debug_printhex_unsigned(old_app_start);
