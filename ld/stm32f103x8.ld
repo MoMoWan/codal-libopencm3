@@ -307,6 +307,7 @@ SECTIONS
 
 		/* Bootloader read-write initialized data */
 		*                           (.base_para) /* Baseloader Parameters.  Must appear first. */
+		*                           (.base_tmp) /* Baseloader Temporary Vars.  Must appear next. */
 		*libbaseloader.a:          	(.data*) /* Baseloader */
 		:*reset_handler*			(.data*) /* Reset Handler */
 		*libhal.a:*reset_handler*	(.data*) /* Reset Handler */

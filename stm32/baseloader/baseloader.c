@@ -33,6 +33,26 @@ base_para_t base_para = {
 	.fail = 0,
 };
 
+//  Temporary variables placed in base_tmp at a fixed address.
+typedef struct {
+	uint16_t *dest_hw, *src_hw;
+	size_t half_word_count;
+	int bytes_flashed, verified;
+    uint16_t *erase_start, *erase_end, *flash_end;
+} __attribute__((packed)) base_tmp_t;
+
+__attribute__ ((section(".base_tmp")))
+base_tmp_t base_tmp = {
+	.dest_hw = NULL,
+	.src_hw = NULL,
+	.half_word_count = 0,
+	.bytes_flashed = 0,
+	.verified = 0,
+    .erase_start = NULL,
+	.erase_end = NULL,
+	.flash_end = NULL,
+};
+
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
     #define base_get_flash_end() ((uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE))
@@ -165,6 +185,7 @@ the FLASH programming manual for details.
 //  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.  From scb_reset_system()
 #define base_scb_reset_system() { \
 	SCB_AIRCR = SCB_AIRCR_VECTKEY | SCB_AIRCR_SYSRESETREQ; \
+	for (;;) {}  \
 }
 
 //  Get Old Base Vector Table at 0x800 0000.  Get Old Application Address from Old Base Vector Table, truncate to block of 1024 bytes.
@@ -220,21 +241,14 @@ void baseloader_start(void) {
 	//  int result;				//  Number of bytes copied, or negative for error.
 	//  uint32_t fail;  		//  Address that caused the Baseloader to fail.
 
-	//  Must be placed on stack and not BSS since BSS may be allocated differently in the Bootloader.
-	uint16_t *dest, *src;
-	size_t half_word_count;
-	int bytes_flashed, verified, restart;
-    uint16_t *erase_start, *erase_end, *flash_end;
-
-	dest = (uint16_t *) base_para.dest;
-	src  = (uint16_t *) base_para.src;
-	half_word_count = base_para.byte_count / 2;
-	restart = base_para.restart;
+	base_tmp.dest_hw = (uint16_t *) base_para.dest;
+	base_tmp.src_hw  = (uint16_t *) base_para.src;
+	base_tmp.half_word_count = base_para.byte_count / 2;
 	base_para.result = 0;
 	base_para.fail = 0;
-	bytes_flashed = 0;
-    verified = true; erase_start = NULL; erase_end = NULL;
-    flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
+	base_tmp.bytes_flashed = 0;
+    base_tmp.verified = true; base_tmp.erase_start = NULL; base_tmp.erase_end = NULL;
+    base_tmp.flash_end = base_get_flash_end();  //  Remember the bounds of erased data in the current page
 
 	//  Validate dest, src, byte_count before flashing.
     //  TODO: Support other memory sizes.
@@ -271,39 +285,38 @@ void baseloader_start(void) {
 	}
 
 	//  Disable interrupts while flashing Bootloader because the System Vector Table may have been overwritten during flashing.
-	if (restart) { base_disable_interrupts(); }
+	if (base_para.restart) { base_disable_interrupts(); }
 
 	base_flash_unlock();
-    while (half_word_count > 0) {
-        /* Avoid writing past the end of flash */
-        if (dest >= flash_end) {
-            verified = false;
+    while (base_tmp.half_word_count > 0) {        
+        if (base_tmp.dest_hw >= base_tmp.flash_end) {  /* Avoid writing past the end of flash */
+            base_tmp.verified = false;
             break;
         }
-        if (dest >= erase_end || dest < erase_start) {
-            erase_start = base_get_flash_page_address(dest);
-            erase_end = erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
-            base_flash_erase_page((uint32_t)erase_start);
+        if (base_tmp.dest_hw >= base_tmp.erase_end || base_tmp.dest_hw < base_tmp.erase_start) {
+            base_tmp.erase_start = base_get_flash_page_address(base_tmp.dest_hw);
+            base_tmp.erase_end = base_tmp.erase_start + (FLASH_PAGE_SIZE)/sizeof(uint16_t);
+            base_flash_erase_page((uint32_t)base_tmp.erase_start);
         }
-        base_flash_program_half_word((uint32_t)dest, *src);
-        erase_start = dest + 1;
-        if (*dest != *src) {
-            verified = false;
+        base_flash_program_half_word((uint32_t)base_tmp.dest_hw, *base_tmp.src_hw);
+        base_tmp.erase_start = base_tmp.dest_hw + 1;
+        if (*base_tmp.dest_hw != *base_tmp.src_hw) {
+            base_tmp.verified = false;
             break;
         }
-        dest++;
-        src++;
-        half_word_count--;
-		bytes_flashed += 2;
+        base_tmp.dest_hw++;
+        base_tmp.src_hw++;
+        base_tmp.half_word_count--;
+		base_tmp.bytes_flashed += 2;
     }
 	base_flash_lock();
 
 	//  TODO: Erase the second vector table.
 
 	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
-    if (restart) { base_scb_reset_system(); }
+    if (base_para.restart) { base_scb_reset_system(); }
 	
-	base_para.result = verified ? bytes_flashed : -1;  //  Returns -1 if verification failed.
+	base_para.result = base_tmp.verified ? base_tmp.bytes_flashed : -1;  //  Returns -1 if verification failed.
 }
 
 int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count) {
