@@ -71,7 +71,7 @@ void prepare_baseloader(void) {
 	baseloader_addr = NULL;
 	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
 	debug_print("----baseloader "); if (baseloader_status == 0) { 
-        debug_print(" found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
+        debug_print("found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
 		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
 		debug_print(", src "); debug_printhex_unsigned((uint32_t) src);
 		debug_print(", len "); debug_printhex_unsigned(byte_count); debug_force_flush();  
@@ -89,19 +89,32 @@ void prepare_baseloader(void) {
         }
     }; debug_println(""); debug_force_flush();
 	if (baseloader_status == 0 && baseloader_addr) {
-        base_para.dest = dest;
-        base_para.src = (uint32_t *) src;
+        base_para.dest = (uint32_t) dest;
+        base_para.src = (uint32_t) src;
         base_para.byte_count = byte_count;
         base_para.restart = 1;
-        base_para.preview = 0;
-        baseloader_addr();  //  Call the baseloader in preview mode to check the bootloader.
-		baseloader_status = base_para.result;  
-		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");
 
+        //  Call the baseloader in preview mode to check the bootloader copying.
         base_para.preview = 1;
-        baseloader_addr();  //  Call the baseloader to copy the bootloader.  Should not return unless error.
+        baseloader_addr();
 		baseloader_status = base_para.result;  
-		debug_print("baseloader failed "); debug_print_int(baseloader_status); debug_println("");  //  If it returned, it must have failed.
+        if (baseloader_status == 0) {
+            debug_println("baseloader preview ok, call actual baseloader..."); debug_force_flush();
+        } else {
+            debug_print("baseloader preview failed "); debug_print_int(baseloader_status);
+            debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
+            debug_println(""); debug_force_flush();
+            return;
+        }
+        //  Call the baseloader to copy the bootloader.  Should not return unless error.
+        base_para.preview = 0;
+        baseloader_addr();  
+
+        //  If it returned, it must have failed.
+		baseloader_status = base_para.result;  
+		debug_print("baseloader failed "); debug_print_int(baseloader_status); 
+        debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
+        debug_println(""); debug_force_flush();
 	}    
 }
 

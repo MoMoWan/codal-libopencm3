@@ -56,6 +56,9 @@ base_tmp_t base_tmp = {
 	.flags = 0,
 };
 
+//  Timeout when waiting for flash operation.
+#define base_timeout (0x100ul)
+
 #ifdef FLASH_SIZE_OVERRIDE
     /* Allow access to the flash size we define */
     #define base_get_flash_end() ((uint16_t*)(FLASH_BASE + FLASH_SIZE_OVERRIDE))
@@ -109,8 +112,6 @@ error, bit 5: end of operation.
 			FLASH_SR_BSY)); \
 	} \
 }
-
-#define base_timeout (0x1000ul)
 
 //  Based on https://github.com/libopencm3/libopencm3/blob/master/lib/stm32/common/flash_common_f01.c
 
