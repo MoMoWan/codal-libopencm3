@@ -44,6 +44,7 @@
 		}
 	],
 	"settings": {
+		"cortex-debug.openocdPath": "c:\\openocd\\bin\\openocd.exe",
 		"files.associations": {
 			"limits": "cpp",
 			"random": "cpp",
