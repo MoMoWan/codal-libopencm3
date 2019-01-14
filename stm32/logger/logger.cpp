@@ -113,8 +113,11 @@ static uint16_t write_all_output(
     //  Write the buffer to all outputs: Arm Semihosting, USB Serial, HF2, ...
     //  We must flush as quickly as possible and USB Serial can only handle 64 bytes, so we just flush the next 60 bytes.
     //  Return the number of bytes flushed.
+    if (!logEnabled) { return 0; }  //  Skip if log not enabled.
+#ifdef NOTUSED
     ////if (!forced && target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine, unless it's forced.
     //  if (target_in_isr()) { return 0; }      //  Can't write when called by interrupt routine
+#endif  //  NOTUSD
     uint16_t outlen = (len > MAX_OUTPUT_LENGTH) ? MAX_OUTPUT_LENGTH : len;
 
 #ifdef PLATFORMIO
@@ -138,6 +141,7 @@ static uint16_t write_all_output(
 
 void debug_flush_internal(bool forced) {
     //  Flush one chunk of the debug buffer to the debugger log.  This will be slow.
+    if (!logEnabled) { debugBufferLength = 0; return; }  //  Skip if log not enabled.
     if (debugBufferLength == 0) { return; }  //  Debug buffer is empty, nothing to write.
 	uint16_t outlen = write_all_output((const uint8_t *) debugBuffer, debugBufferLength, forced);
     if (outlen == 0) {

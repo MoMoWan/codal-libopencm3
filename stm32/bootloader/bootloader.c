@@ -111,15 +111,6 @@ void prepare_baseloader(void) {
     //  If Base Vector Table not found, quit.
     if (baseloader_status != 0 || baseloader_addr == NULL) { return; }
 
-    //  Swap to the Temp Vector Table so that the Interrupt Service Routines will not be called.  DMB and DSB may not be necessary for some processors.
-    //  See http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHHDGBC.html
-    asm("dmb");
-    SCB_VTOR = (uint32_t) tmp_vector_table;
-    asm("dsb");
-    debug_print("system vector table "); debug_printhex_unsigned(SCB_VTOR); 
-    debug_print(", len "); debug_printhex_unsigned(sizeof(vector_table_t)); 
-    debug_println(""); debug_force_flush();
-
     //  Set the Baseloader parameters to copy the Bootloader ROM from high ROM to low ROM.
     base_para.dest = (uint32_t) dest;
     base_para.src = (uint32_t) src;
@@ -142,15 +133,27 @@ void prepare_baseloader(void) {
         return;
     }
 
+    //  Swap to the Temp Vector Table so that the Interrupt Service Routines will not be called.  DMB and DSB may not be necessary for some processors.
+    //  See http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHHDGBC.html
+    debug_print("switch system vector table "); debug_printhex_unsigned((uint32_t) tmp_vector_table); 
+    debug_print(", len "); debug_printhex_unsigned(sizeof(vector_table_t)); 
+    debug_println(""); debug_force_flush();
+    disable_log();  //  Do not call Arm Semihosting to do logging from this point onwards.  It will hang.
+    asm("dmb");
+    SCB_VTOR = (uint32_t) tmp_vector_table;
+    asm("dsb");
+
     //  Call the Baseloader in Non-Preview Mode to copy the Bootloader ROM from high ROM to low ROM.  Should not return unless error.
     base_para.preview = 0;
     baseloader_addr();  
 
     //  If it returned, it must have failed.
     baseloader_status = base_para.result;  
+#ifdef NOTUSED
     debug_print("baseloader failed "); debug_print_int(baseloader_status); 
     debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
     debug_println(""); debug_force_flush();
+#endif  //  NOTUSED
 }
 
 int bootloader_start(void) {
