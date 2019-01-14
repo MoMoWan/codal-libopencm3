@@ -1,10 +1,13 @@
 //  Bootloader Functions
 #ifndef BOOTLOADER_H_INCLUDED
 #define BOOTLOADER_H_INCLUDED
+#include <baseloader/flash-config.h>  //  For FLASH_PAGE_SIZE
 
 #ifdef __cplusplus
 extern "C" {  //  Allows functions below to be called by C and C++ code.
 #endif
+
+extern uint8_t flashBuf[FLASH_PAGE_SIZE];  //  Used by bootloader.c and ghostfat.c.
 
 typedef int restart_callback_type(void);
 

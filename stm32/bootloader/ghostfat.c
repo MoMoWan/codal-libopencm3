@@ -116,7 +116,7 @@ static const FAT_BootBlock BootBlock = {
 #define NO_CACHE 0xffffffff
 
 __attribute__ ((section(".boot_buf")))  //  Place this flash buffer in high memory so it can be reused in Application Mode.
-uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));  //  Should be static
+uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));  //  Used by bootloader.c and ghostfat.c.
 
 static uint32_t flashAddr = NO_CACHE;
 static bool firstFlush = true;
@@ -127,8 +127,8 @@ static uint32_t lastFlush;
 
 int base_flash_program_array(uint16_t *dest0, const uint16_t *src0, size_t half_word_count0) {
 	//  Return the number of half-words flashed.
-    base_para.dest = (uint32_t *) dest0;
-    base_para.src = (uint32_t *) src0;
+    base_para.dest = (uint32_t) dest0;
+    base_para.src = (uint32_t) src0;
     base_para.byte_count = half_word_count0 * 2;
     base_para.restart = 0;
     base_para.preview = 0;

@@ -104,7 +104,7 @@ static void handle_flash_write(HF2_Buffer *pkt) {
     static uint8_t flush_count = 0;
     if (cmdId != prevCmdId) { debug_print("hf2 >> flash "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }  ////
     else { debug_print(">> "); debug_printhex_unsigned((size_t) target_addr); debug_print(valid); }
-    if (flush_count++) { debug_flush(); }
+    if (flush_count++ % 4 == 0) { debug_flush(); }
     prevCmdId = cmdId; 
 
     //  First send ACK and then start writing, while getting the next packet.

@@ -46,14 +46,17 @@ static void poll_loop(void);
 static void get_serial_number(void);
 
 extern void application_start(void);
+extern vector_table_t vector_table;
 extern uint32_t _boot_stack;  //  Bootloader stack address, provided by linker script.
 extern int msc_started;
+
 static volatile int status = 0;
 static volatile int last_status = 0;
 static uint32_t cycleCount = 0;        
 static uint32_t flushCount = 1;
 static uint32_t msTimer = 0;
 static usbd_device* usbd_dev = NULL;
+static vector_table_t *tmp_vector_table = NULL;
 
 static int baseloader_status;
 static baseloader_func baseloader_addr;
@@ -73,7 +76,11 @@ void prepare_baseloader(void) {
 	debug_print("----baseloader "); if (baseloader_status == 0) { 
 #ifdef PLATFORMIO
         ////  Test overwriting of bootloader.
-        byte_count = 0x150;  //  Size of vector table.
+        ////  byte_count = 0x150;  //  Size of vector table.
+        ////  dest = (uint32_t *) (((uint32_t) dest) + byte_count);
+
+        byte_count = 4; dest = (uint32_t *) 0x08001000ul;  //  OK
+        
 #endif  //  PLATFORMIO
         debug_print("found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
 		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
@@ -97,6 +104,20 @@ void prepare_baseloader(void) {
         base_para.src = (uint32_t) src;
         base_para.byte_count = byte_count;
         base_para.restart = 1;
+
+        //  In Baseloader Mode, lower the stack pointer so that we can use the flash buffer (flashBuf) in bootbuf (high RAM).
+        __set_MSP((uint32_t) &_boot_stack);
+        //  Create a temporary Vector Table in flashBuf (in bootbuf / high RAM).  
+        //  It will have NULL instead of pointing to Interrupt Service Routines, because we won't want to be interrupted while copying the Bootloader ROM.
+        tmp_vector_table = (vector_table_t *) flashBuf;
+        //  TODO: Assume vector table size is less than page size.    
+        int i = 0;
+        for (i = 0; i < sizeof(vector_table_t); i++) { flashBuf[i] = 0; }   //  Zero the temp vector table. Don't use any library functions here.
+        //  Start stack pointer and start program entry point should be the same.
+        tmp_vector_table->initial_sp_value = vector_table.initial_sp_value;
+        tmp_vector_table->reset = vector_table.reset;
+        //  Swap to the temp vector table.
+        SCB_VTOR = (uint32_t) tmp_vector_table;
 
         //  Call the baseloader in preview mode to check the bootloader copying.
         base_para.preview = 1;

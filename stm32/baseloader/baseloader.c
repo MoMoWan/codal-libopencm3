@@ -3,6 +3,7 @@
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/systick.h>  //  For STK_CSR
 #include <libopencm3/cm3/scb.h>
+#include <libopencm3/cm3/vector.h>   //  For vector_table_t  
 #include <libopencm3/stm32/desig.h>  //  For DESIG_FLASH_SIZE
 #include <libopencm3/stm32/flash.h>
 #include <libopencm3/stm32/rcc.h>    //  For RCC_CIR
@@ -10,6 +11,7 @@
 #include "baseloader.h"
 
 extern void application_start(void);
+extern vector_table_t vector_table;
 
 //  Baseloader Vector Table. Located just after STM32 Vector Table.
 __attribute__ ((section(".base_vectors")))
@@ -338,7 +340,10 @@ void baseloader_start(void) {
 	//  TODO: Erase the second vector table.
 
 	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
-    if (!base_para.preview && base_para.restart) { base_scb_reset_system(); }
+    if (!base_para.preview && base_para.restart) { 
+		SCB_VTOR = (uint32_t) &vector_table;  //  Swap back to the original System Vector Table.
+		base_scb_reset_system();  //  Restart.
+	}
 	
 	base_para.result = base_tmp.verified ? base_tmp.bytes_flashed : -1;  //  Returns -1 if verification failed.
 }
