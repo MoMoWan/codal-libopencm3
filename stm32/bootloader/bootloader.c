@@ -75,12 +75,8 @@ void prepare_baseloader(void) {
 	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
 	debug_print("----baseloader "); if (baseloader_status == 0) { 
 #ifdef PLATFORMIO
-        ////  Test overwriting of bootloader.
-        ////  byte_count = 0x150;  //  Size of vector table.
-        ////  dest = (uint32_t *) (((uint32_t) dest) + byte_count);
-
-        byte_count = 4; dest = (uint32_t *) 0x08001000ul;  //  OK
-        
+        //  Test overwriting of bootloader.
+        //  byte_count = 4; dest = (uint32_t *) 0x08001000ul;  //  OK        
 #endif  //  PLATFORMIO
         debug_print("found "); debug_printhex_unsigned((uint32_t) baseloader_addr); 
 		debug_print(", dest "); debug_printhex_unsigned((uint32_t) dest);
