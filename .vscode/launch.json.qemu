@@ -86,6 +86,7 @@
             "cwd": "${workspaceRoot}",
             "executable": ".pioenvs/bluepill_f103c8/firmware.elf",
             "device": "STM32F103C8",
+            "svdFile": "${workspaceRoot}/../.platformio/platforms/ststm32/misc/svd/STM32F103xx.svd",
             "configFiles": [ 
                 "interface/stlink-v2.cfg",
                 "target/stm32f1x.cfg",

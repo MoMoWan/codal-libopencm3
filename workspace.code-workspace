@@ -41,6 +41,9 @@
 		},
 		{
 			"path": "stm32/baseloader"
+		},
+		{
+			"path": "/Users/Luppy/.platformio/platforms"
 		}
 	],
 	"settings": {
