@@ -85,8 +85,8 @@
             "servertype": "openocd",
             "cwd": "${workspaceRoot}",
             "executable": ".pioenvs/bluepill_f103c8/firmware.elf",
-            //  "device": "STM32F103C8",
-            "svdFile": "scripts/en.stm32f1_svd/STM32F1_svd_V1.2/STM32F103.svd",
+            "device": "STM32F103C8",
+            //  "svdFile": "scripts/en.stm32f1_svd/STM32F1_svd_V1.2/STM32F103.svd",
             "configFiles": [ 
                 "interface/stlink-v2.cfg",
                 "target/stm32f1x.cfg",
