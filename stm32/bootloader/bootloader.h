@@ -7,7 +7,7 @@
 extern "C" {  //  Allows functions below to be called by C and C++ code.
 #endif
 
-extern uint8_t flashBuf[FLASH_PAGE_SIZE];  //  Used by bootloader.c and ghostfat.c.
+extern uint8_t flashBuf[FLASH_PAGE_SIZE] __attribute__((aligned(4)));  //  Used by bootloader.c and ghostfat.c.
 
 typedef int restart_callback_type(void);
 
