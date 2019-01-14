@@ -71,7 +71,19 @@ static inline void __set_MSP(uint32_t topOfMainStack) {
 
 void prepare_baseloader(void) {
     //  Start the baseloader.  The baseloader will not return if the baseloader restarts Blue Pill after flashing.
-	baseloader_addr = NULL;
+    //  In Baseloader Mode, lower the stack pointer so that we can use the flash buffer (flashBuf) in bootbuf (high RAM).
+    __set_MSP((uint32_t) &_boot_stack);
+    //  Create a temporary Vector Table in flashBuf (in bootbuf / high RAM).  
+    //  It will have NULL instead of pointing to Interrupt Service Routines, because we won't want to be interrupted while copying the Bootloader ROM.
+    tmp_vector_table = (vector_table_t *) flashBuf;
+    //  TODO: Assume vector table size is less than page size.    
+    int i = 0;
+    for (i = 0; i < sizeof(vector_table_t); i++) { flashBuf[i] = 0; }   //  Zero the temp vector table. Don't use any library functions here.
+    //  Start stack pointer and start program entry point should be the same.
+    tmp_vector_table->initial_sp_value = vector_table.initial_sp_value;
+    tmp_vector_table->reset = vector_table.reset;
+        
+    baseloader_addr = NULL;
 	baseloader_status = baseloader_fetch(&baseloader_addr, &dest, &src, &byte_count);  //  Fetch the baseloader address, which will be at a temporary location.
 	debug_print("----baseloader "); if (baseloader_status == 0) { 
 #ifdef PLATFORMIO
@@ -95,49 +107,50 @@ void prepare_baseloader(void) {
             debug_print(", bootlen "); debug_printhex_unsigned(byte_count); 
         }
     }; debug_println(""); debug_force_flush();
-	if (baseloader_status == 0 && baseloader_addr) {
-        base_para.dest = (uint32_t) dest;
-        base_para.src = (uint32_t) src;
-        base_para.byte_count = byte_count;
-        base_para.restart = 1;
 
-        //  In Baseloader Mode, lower the stack pointer so that we can use the flash buffer (flashBuf) in bootbuf (high RAM).
-        __set_MSP((uint32_t) &_boot_stack);
-        //  Create a temporary Vector Table in flashBuf (in bootbuf / high RAM).  
-        //  It will have NULL instead of pointing to Interrupt Service Routines, because we won't want to be interrupted while copying the Bootloader ROM.
-        tmp_vector_table = (vector_table_t *) flashBuf;
-        //  TODO: Assume vector table size is less than page size.    
-        int i = 0;
-        for (i = 0; i < sizeof(vector_table_t); i++) { flashBuf[i] = 0; }   //  Zero the temp vector table. Don't use any library functions here.
-        //  Start stack pointer and start program entry point should be the same.
-        tmp_vector_table->initial_sp_value = vector_table.initial_sp_value;
-        tmp_vector_table->reset = vector_table.reset;
-        //  Swap to the temp vector table.
-        SCB_VTOR = (uint32_t) tmp_vector_table;
+    //  If Base Vector Table not found, quit.
+    if (baseloader_status != 0 || baseloader_addr == NULL) { return; }
 
-        //  Call the baseloader in preview mode to check the bootloader copying.
-        base_para.preview = 1;
-        baseloader_addr();
-		baseloader_status = base_para.result;  
-        if (baseloader_status > 0) {
-            debug_print("baseloader preview ok "); debug_printhex_unsigned(baseloader_status); 
-            debug_println(", call actual baseloader..."); debug_force_flush();
-        } else {
-            debug_print("baseloader preview failed "); debug_print_int(baseloader_status);
-            debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
-            debug_println(""); debug_force_flush();
-            return;
-        }
-        //  Call the baseloader to copy the bootloader.  Should not return unless error.
-        base_para.preview = 0;
-        baseloader_addr();  
+    //  Swap to the Temp Vector Table so that the Interrupt Service Routines will not be called.  DMB and DSB may not be necessary for some processors.
+    //  See http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHHDGBC.html
+    asm("dmb");
+    SCB_VTOR = (uint32_t) tmp_vector_table;
+    asm("dsb");
+    debug_print("system vector table "); debug_printhex_unsigned(SCB_VTOR); 
+    debug_print(", len "); debug_printhex_unsigned(sizeof(vector_table_t)); 
+    debug_println(""); debug_force_flush();
 
-        //  If it returned, it must have failed.
-		baseloader_status = base_para.result;  
-		debug_print("baseloader failed "); debug_print_int(baseloader_status); 
+    //  Set the Baseloader parameters to copy the Bootloader ROM from high ROM to low ROM.
+    base_para.dest = (uint32_t) dest;
+    base_para.src = (uint32_t) src;
+    base_para.byte_count = byte_count;
+    base_para.restart = 1;
+
+    //  Call the Baseloader in Preview Mode to verify the copying of Bootloader ROM from high ROM to low ROM.
+    base_para.preview = 1;
+    baseloader_addr();
+
+    //  Check the result.
+    baseloader_status = base_para.result;  
+    if (baseloader_status > 0) {
+        debug_print("baseloader preview ok "); debug_printhex_unsigned(baseloader_status); 
+        debug_println(", call actual baseloader..."); debug_force_flush();
+    } else {
+        debug_print("baseloader preview failed "); debug_print_int(baseloader_status);
         debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
         debug_println(""); debug_force_flush();
-	}    
+        return;
+    }
+
+    //  Call the Baseloader in Non-Preview Mode to copy the Bootloader ROM from high ROM to low ROM.  Should not return unless error.
+    base_para.preview = 0;
+    baseloader_addr();  
+
+    //  If it returned, it must have failed.
+    baseloader_status = base_para.result;  
+    debug_print("baseloader failed "); debug_print_int(baseloader_status); 
+    debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
+    debug_println(""); debug_force_flush();
 }
 
 int bootloader_start(void) {

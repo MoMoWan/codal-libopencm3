@@ -341,7 +341,11 @@ void baseloader_start(void) {
 
 	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
     if (!base_para.preview && base_para.restart) { 
-		SCB_VTOR = (uint32_t) &vector_table;  //  Swap back to the original System Vector Table.
+		//  Swap back to the original System Vector Table.  DMB and DSB may not be necessary for some processors.
+        //  See http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHHDGBC.html
+        asm("dmb");
+		SCB_VTOR = (uint32_t) &vector_table;  
+        asm("dsb");
 		base_scb_reset_system();  //  Restart.
 	}
 	
