@@ -86,11 +86,10 @@
             "cwd": "${workspaceRoot}",
             "executable": ".pioenvs/bluepill_f103c8/firmware.elf",
             "device": "STM32F103C8",
-            // "device": "STM32F103RB",
             "configFiles": [ 
                 "interface/stlink-v2.cfg",
                 "target/stm32f1x.cfg",
-                // "scripts/flash-codal.ocd" 
+                "scripts/debug.ocd" 
             ]
         }
     ]
