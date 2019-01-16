@@ -4,17 +4,4 @@
 $_TARGETNAME configure -event reset-init {
     echo "Enable ARM Semihosting to show debug output"
     arm semihosting enable
-
-    # This indicates that an unrecognized breakpoint location should automatically result in a pending breakpoint being created.
-    set breakpoint pending on
-
-    # Display Baseloader Parameters and Temp Variables after stepping
-    display/x base_para
-    display/x base_tmp
-
-    # Display the instruction
-    display/i $pc
-
-    # break ???
-    echo "si 10"
 }

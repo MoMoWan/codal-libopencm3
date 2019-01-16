@@ -9,6 +9,42 @@
     "version": "0.2.0",
     "configurations": [
         {
+            //  Cortex Debug: https://marcelball.ca/projects/cortex-debug/cortex-debug-launch-configurations/
+            "name": "Cortex Debug (OpenOCD)",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "cwd": "${workspaceRoot}",
+            "executable": ".pioenvs/bluepill_f103c8/firmware.elf",
+            "device": "STM32F103C8",
+            "configFiles": [ 
+                "interface/stlink-v2.cfg",
+                "target/stm32f1x.cfg",
+                "scripts/debug.ocd" 
+            ],
+            "preLaunchCommands": [
+                //  This indicates that an unrecognized breakpoint location should automatically result in a pending breakpoint being created.
+                "set breakpoint pending on",
+            
+                //  Display Baseloader Parameters and Temp Variables after stepping
+                "display/x base_para",
+                "display/x base_tmp",
+            
+                //  Display the instruction
+                "display/i $pc",
+            
+                "watch base_para.restart",
+            
+                //  break ???
+                "echo \"si 10\""
+            ]
+            // postLaunchCommands: string[];
+            // preAttachCommands: string[];
+            // postAttachCommands: string[];
+            // preRestartCommands: string[];
+            // postRestartCommands: string[];        
+        },
+        {
             //  Debug the STM32 Blue Pill program.
             "name": "Debug (STM32 Blue Pill Emulator)",
             "type": "gdb",
@@ -76,22 +112,6 @@
             //  Enable debug output.
             "printCalls": false,
             "showDevDebugOutput": false,
-        },
-        {
-            //  Cortex Debug: https://marcelball.ca/projects/cortex-debug/cortex-debug-launch-configurations/
-            "name": "Cortex Debug (OpenOCD)",
-            "type": "cortex-debug",
-            "request": "launch",
-            "servertype": "openocd",
-            "cwd": "${workspaceRoot}",
-            "executable": ".pioenvs/bluepill_f103c8/firmware.elf",
-            "device": "STM32F103C8",
-            //  "svdFile": "scripts/en.stm32f1_svd/STM32F1_svd_V1.2/STM32F103.svd",
-            "configFiles": [ 
-                "interface/stlink-v2.cfg",
-                "target/stm32f1x.cfg",
-                "scripts/debug.ocd" 
-            ]
         }
     ]
 }
