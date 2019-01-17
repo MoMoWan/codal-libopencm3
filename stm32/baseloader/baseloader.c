@@ -312,6 +312,11 @@ void baseloader_start(void) {
 
 	base_flash_unlock();  if (base_para.result < 0) { return; }  //  Quit if error.
     while (base_tmp.half_word_count > 0) {        
+		if (!base_para.preview && base_para.restart) { 
+			if (base_tmp.bytes_flashed % 100 == 0) {
+				debug_base_result = base_tmp.bytes_flashed;  //  Trigger a watchpoint break.
+			}
+		}
         if (base_tmp.dest_hw >= base_tmp.flash_end) {  /* Avoid writing past the end of flash */
             base_tmp.verified = false;
             break;
@@ -342,6 +347,8 @@ void baseloader_start(void) {
 
 	//  TODO: Erase the second vector table.
 
+	base_para.result = base_tmp.verified ? base_tmp.bytes_flashed : -1;  //  Returns -1 if verification failed.
+
 	//  Restart the device after flashing Bootloader because the System Vector Table may have been overwritten during flashing.
     if (!base_para.preview && base_para.restart) { 
 		//  Swap back to the original System Vector Table.  DMB and DSB may not be necessary for some processors.
@@ -351,9 +358,7 @@ void baseloader_start(void) {
         asm("dsb");
 		debug_base_result = base_para.result;  //  Trigger a watchpoint break after flashing.
 		base_scb_reset_system();  //  Restart.
-	}
-	
-	base_para.result = base_tmp.verified ? base_tmp.bytes_flashed : -1;  //  Returns -1 if verification failed.
+	}	
 }
 
 int baseloader_fetch(baseloader_func *baseloader_addr, uint32_t **dest, const uint32_t **src, size_t *byte_count) {
