@@ -1,11 +1,6 @@
-// AUTOMATICALLY GENERATED FILE. PLEASE DO NOT MODIFY IT MANUALLY
-
-// PIO Unified Debugger
-//
-// Documentation: https://docs.platformio.org/page/plus/debugging.html
-// Configuration: https://docs.platformio.org/page/projectconf/section_env_debug.html
-
 {
+    //  VSCode Debugger Config for Cortex Debug Extension and for QEMU Blue Pill Emulator.
+    //  Manually overwrite launch.json by this file.
     "version": "0.2.0",
     "configurations": [
         {
@@ -32,11 +27,12 @@
             
                 //  Display the instruction
                 "display/i $pc",
+
+                //  Break when debug_base_result changes, i.e. after baseloader has completed flashing.
+                "watch debug_base_result",
             
-                "watch base_para.restart",
-            
-                //  break ???
-                "echo \"si 10\""
+                //  TODO: break ???
+                "echo To step 10 assembly instructions at a time: si 10",
             ]
             // postLaunchCommands: string[];
             // preAttachCommands: string[];

@@ -58,6 +58,9 @@ base_tmp_t base_tmp = {
 	.flags = 0,
 };
 
+//  We will set a watchpoint so that the debugger will stop when the bootloader has been flashed.
+int debug_base_result;
+
 //  Timeout when waiting for flash operation.
 #define base_timeout (0x100ul)
 
@@ -346,6 +349,7 @@ void baseloader_start(void) {
         asm("dmb");
 		SCB_VTOR = (uint32_t) &vector_table;  
         asm("dsb");
+		debug_base_result = base_para.result;  //  Trigger a watchpoint break after flashing.
 		base_scb_reset_system();  //  Restart.
 	}
 	
