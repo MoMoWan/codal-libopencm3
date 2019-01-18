@@ -149,11 +149,9 @@ void prepare_baseloader(void) {
 
     //  If it returned, it must have failed.
     baseloader_status = base_para.result;  
-#ifdef NOTUSED
     debug_print("baseloader failed "); debug_print_int(baseloader_status); 
     debug_println(", fail "); debug_printhex_unsigned(base_para.fail); 
     debug_println(""); debug_force_flush();
-#endif  //  NOTUSED
 }
 
 int bootloader_start(void) {
