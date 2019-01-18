@@ -120,9 +120,9 @@ static uint16_t write_all_output(
 #endif  //  NOTUSD
     uint16_t outlen = (len > MAX_OUTPUT_LENGTH) ? MAX_OUTPUT_LENGTH : len;
 
-#ifdef PLATFORMIO
+////#ifdef PLATFORMIO
 #define ENABLE_SEMIHOSTING 
-#endif  //  PLATFORMIO
+////#endif  //  PLATFORMIO
 
 #ifdef ENABLE_SEMIHOSTING
     #warning Semihosting ENABLED
