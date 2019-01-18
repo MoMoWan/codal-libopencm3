@@ -138,7 +138,7 @@ void prepare_baseloader(void) {
     debug_print("switch system vector table "); debug_printhex_unsigned((uint32_t) tmp_vector_table); 
     debug_print(", len "); debug_printhex_unsigned(sizeof(vector_table_t)); 
     debug_println(""); debug_force_flush();
-    disable_log();  //  Do not call Arm Semihosting to do logging from this point onwards.  It will hang.
+    ////disable_log();  //  Do not call Arm Semihosting to do logging from this point onwards.  It will hang.
     asm("dmb");
     SCB_VTOR = (uint32_t) tmp_vector_table;
     asm("dsb");
