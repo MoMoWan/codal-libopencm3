@@ -81,6 +81,7 @@ static volatile uint32_t rx_time = 0;
 static uint8_t rx_buf[64];
 static uint8_t tx_buf[64];
 static const char bad_packet_message[] = "bad packet";
+static int bootloader_changed = 0;
 
 //  Remaining data to be sent.  Used for sending multiple packets for a message.
 static const uint8_t *remDataToSend;
@@ -89,6 +90,38 @@ static uint8_t remDataToSendFlag = 0;
 static enum StartupMode restart_request = UNKNOWN_MODE;  //  Restart after last packet has been sent.
 
 #define checkDataSize(str, add) assert(sz == 8 + sizeof(cmd->str) + (add), "*** ERROR: checkDataSize failed")
+
+static int handle_bootloader_update(void) {
+    debug_println("compare bootloader..."); debug_force_flush();
+    //  Compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
+    int bootloader_changed = memcmp((void *) old_app_start, (void *) FLASH_BASE, new_bootloader_size);
+    if (!bootloader_changed) {
+        debug_print("bootloader identical "); debug_printhex_unsigned(old_app_start);
+        debug_print(", size "); debug_printhex_unsigned(new_bootloader_size);
+        debug_println(""); debug_force_flush();
+        return 0;
+    }
+
+    //  If any diff, copy the new Base Vector Table with Baseloader into current flash location.
+    debug_println("bootloader changed"); debug_force_flush();
+    uint32_t new_baseloader_addr = target_addr + old_app_start_offset;
+
+    debug_print("copy baseloader to "); debug_printhex_unsigned(new_baseloader_addr); 
+    debug_print(", size "); debug_printhex_unsigned(new_baseloader_size);
+    debug_println(""); debug_force_flush();
+
+    flash_write(new_baseloader_addr, (const uint8_t *) old_app_start, new_baseloader_size);
+    flash_flush();
+
+    //  Restart and let Baseloader update the Bootloader code.  Then continue flashing the Application.
+    debug_print("restart to baseloader "); debug_printhex_unsigned(new_baseloader_addr);
+    debug_print(", baselen "); debug_printhex_unsigned(new_baseloader_size);
+    debug_print(", oldapp "); debug_printhex_unsigned(old_app_start);
+    debug_print(", bootlen "); debug_printhex_unsigned(new_bootloader_size);
+    debug_println(""); debug_force_flush();
+    boot_target_manifest_baseloader();  //  Never returns.
+    return 1;
+}
 
 static void handle_flash_write(HF2_Buffer *pkt) {
     //  Sent by MakeCode to flash a single page if we are in Bootloader Mode.  We flash the page if valid.
@@ -126,6 +159,7 @@ static void handle_flash_write(HF2_Buffer *pkt) {
         new_app_start = (uint32_t) FLASH_ADDRESS(base_vector_table.application);
         new_bootloader_size = (uint32_t) base_vector_table.application - FLASH_BASE;
         new_baseloader_size = (uint32_t) base_vector_table.baseloader_end - FLASH_BASE;
+        bootloader_changed = 0;
     }
     if (!new_base_vector && IS_VALID_BASE_VECTOR_TABLE(old_app_start)) {
         //  The first 4 packets of the Bootloader will eventually be flushed into the old Application start address.  When that's done, we extract the Base Vector Table.
@@ -148,43 +182,15 @@ static void handle_flash_write(HF2_Buffer *pkt) {
         target_addr += old_app_start_offset;
         if (!VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) { debug_print("*** ERROR: Invalid addr "); debug_printhex_unsigned(target_addr); debug_println(""); debug_force_flush(); }
         
-    }  else if (new_base_vector && (target_addr == new_app_start)) {  //  When we are finished writing the Bootloader and now writing first Application Page...
+    } else if (new_base_vector && (target_addr == new_app_start)) {  //  When we are finished writing the Bootloader and now writing first Application Page...
         debug_println("wrote bootloader"); debug_force_flush();
         flash_flush();  //  Flush the last Bootloader page.
-        debug_println("compare bootloader..."); debug_force_flush();
-
-        //  Compare contents of old application_start with FLASH_BASE (0x800 0000) for up to new bootloader length bytes.
-        int bootloader_changed = memcmp((void *) old_app_start, (void *) FLASH_BASE, new_bootloader_size);
-
-        if (bootloader_changed) {
-            //  If any diff, copy the new Base Vector Table with Baseloader into current flash location.
-            debug_println("bootloader changed"); debug_force_flush();
-            uint32_t new_baseloader_addr = target_addr + old_app_start_offset;
-
-            debug_print("copy baseloader to "); debug_printhex_unsigned(new_baseloader_addr); 
-            debug_print(", size "); debug_printhex_unsigned(new_baseloader_size);
-            debug_println(""); debug_force_flush();
-
-            flash_write(new_baseloader_addr, (const uint8_t *) old_app_start, new_baseloader_size);
-            flash_flush();
-
-            //  Restart and let Baseloader update the Bootloader code.  Then continue flashing the Application.
-            debug_print("restart to baseloader "); debug_printhex_unsigned(new_baseloader_addr);
-            debug_print(", baselen "); debug_printhex_unsigned(new_baseloader_size);
-            debug_print(", oldapp "); debug_printhex_unsigned(old_app_start);
-            debug_print(", bootlen "); debug_printhex_unsigned(new_bootloader_size);
-            debug_println(""); debug_force_flush();
-            boot_target_manifest_baseloader();  //  Never returns.
-            return;
-        }
-        debug_print("bootloader identical "); debug_printhex_unsigned(old_app_start);
-        debug_print(", size "); debug_printhex_unsigned(new_bootloader_size);
-        debug_println(""); debug_force_flush();
+        bootloader_changed = handle_bootloader_update();
     }
 
-    //  Write the flash page if valid.
+    //  Write the flash page if valid.  If Bootloader needs to be updated, don't write the Application yet. Restart into Baseloader Mode to update the Bootloader.
     checkDataSize(write_flash_page, HF2_PAGE_SIZE);
-    if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE)) {
+    if (VALID_FLASH_ADDR(target_addr, HF2_PAGE_SIZE) && !bootloader_changed) {
 #ifdef PLATFORMIO
 // #define FLASH_DISABLED
 #endif  //  PLATFORMIO
@@ -259,16 +265,17 @@ static void handle_command(HF2_Buffer *pkt) {
             return;
         }
         case HF2_CMD_RESET_INTO_APP: { debug_println("hf2 >> app");
-            //  Sent by MakeCode to restart into Application Mode after flashing.            
+            //  Sent by MakeCode to restart into Application Mode after flashing.  If Bootloader needs to be updated, restart into Baseloader Mode.            
             flash_flush();  //  Flush any pending flash writes.
-            restart_request = APPLICATION_MODE;
+            restart_request = bootloader_changed ? BASELOADER_MODE : APPLICATION_MODE;
+
             send_hf2_response(pkt, 0); debug_force_flush(); ////
             return;
         }
         case HF2_CMD_RESET_INTO_BOOTLOADER: {
-            //  Sent by MakeCode to restart into Bootloader Mode.
+            //  Sent by MakeCode to restart into Bootloader Mode.  If Bootloader needs to be updated, restart into Baseloader Mode.
             debug_println("hf2 >> boot");
-            restart_request = BOOTLOADER_MODE;
+            restart_request = bootloader_changed ? BASELOADER_MODE : BOOTLOADER_MODE;
 
             send_hf2_response(pkt, 0);
             debug_force_flush(); ////
