@@ -484,8 +484,6 @@ static void pokeSend(
 static void hf2_set_config(usbd_device *usbd_dev, uint16_t wValue) {  (void)wValue;
     //  Setup the endpoints to be bulk & register the callbacks.
     LOG("hf2 set config");
-    debug_force_flush(); ////
-
     usbd_ep_setup(usbd_dev, HF2_IN, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_tx_cb);
     usbd_ep_setup(usbd_dev, HF2_OUT, USB_ENDPOINT_ATTR_BULK, MAX_USB_PACKET_SIZE, hf2_data_rx_cb);
 }
